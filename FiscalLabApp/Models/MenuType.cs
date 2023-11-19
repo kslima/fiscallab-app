@@ -76,4 +76,24 @@ public enum MenuType
     PressRefractometerRefractometerCleaning,
     PressRefractometerInternalTemperature,
     PressRefractometerObservations8,
+    
+    //clarification saccharimeter
+    ClarificationSaccharimeterBottle,
+    ClarificationSaccharimeterAgitation,
+    ClarificationSaccharimeterHasDilution,
+    ClarificationSaccharimeterClarifier,
+    ClarificationSaccharimeterPressure,
+    ClarificationSaccharimeterClarifierAmount,
+    ClarificationSaccharimeterBottleClarifiedVolume,
+    ClarificationSaccharimeterBottleAfterClarifiedVolume,
+    ClarificationSaccharimeterObservations9,
+    ClarificationSaccharimeterStabilization,
+    ClarificationSaccharimeterBenchmarking,
+    ClarificationSaccharimeterQuartzPattern,
+    ClarificationSaccharimeterQuartzResult,
+    ClarificationSaccharimeterQuartzReading,
+    ClarificationSaccharimeterCalibrationCertificate,
+    ClarificationSaccharimeterTubeCleaning,
+    ClarificationSaccharimeterClearCollingCooler,
+    ClarificationSaccharimeterObservations10
 }

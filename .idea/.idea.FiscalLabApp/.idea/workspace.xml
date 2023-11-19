@@ -10,13 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc972cb8-3bf3-4249-b93b-8dceb8111db5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/PressRefractometer.razor" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/ClarificationSaccharimeter.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/AnalyticalBalance.razor" beforeDir="false" afterPath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/AnalyticalBalance.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/Visit4.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/Visit5.razor" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/FiscalLabApp/Models/MenuType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FiscalLabApp/Models/MenuType.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FiscalLabApp/Models/Visit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FiscalLabApp/Models/Visit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FiscalLabApp/wwwroot/sample-data/visit-pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/FiscalLabApp/wwwroot/sample-data/visit-pages.json" afterDir="false" />

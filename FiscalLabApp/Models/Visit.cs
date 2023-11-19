@@ -82,4 +82,24 @@ public class Visit
     public string RefractometerCleaning { get; set; } = string.Empty;
     public string InternalTemperature { get; set; } = string.Empty;
     public string Observations8 { get; set; } = string.Empty;
+    
+    //clarification saccharimeter
+    public string ClarificationSaccharimeterBottle { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterAgitation { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterHasDilution { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterClarifier { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterPressure { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterClarifierAmount { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterBottleClarifiedVolume { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterBottleAfterClarifiedVolume { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterObservations9 { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterStabilization { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterBenchmarking { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterQuartzPattern { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterQuartzResult { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterQuartzReading { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterCalibrationCertificate { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterTubeCleaning { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterClearCollingCooler { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterObservations10 { get; set; } = string.Empty;
 }

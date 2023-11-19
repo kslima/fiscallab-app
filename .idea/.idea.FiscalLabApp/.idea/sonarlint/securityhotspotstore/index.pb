@@ -33,3 +33,5 @@ f
 6FiscalLabApp/Components/Pages/PressRefractometer.razor,7\5\75fa1f762739c00162056194941342ea3af5588e
 Y
 )FiscalLabApp/Components/Pages/Utils.razor,b\9\b92e6bd0508854f2dc34ddcb213a59eae981c60e
+n
+>FiscalLabApp/Components/Pages/ClarificationSaccharimeter.razor,4\0\40097e36db41b9d296ce79a1f418d6c0fda3404a
