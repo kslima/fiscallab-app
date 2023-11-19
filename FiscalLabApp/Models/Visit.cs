@@ -102,4 +102,34 @@ public class Visit
     public string ClarificationSaccharimeterTubeCleaning { get; set; } = string.Empty;
     public string ClarificationSaccharimeterClearCollingCooler { get; set; } = string.Empty;
     public string ClarificationSaccharimeterObservations10 { get; set; } = string.Empty;
+    
+    //benchmarking equipment
+    public string BenchmarkingEquipmentLoadCell { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentThermometer { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentTachometer { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentPachymeter { get; set; } = string.Empty;
+    public string BenchmarkingEquipment500Gm { get; set; } = string.Empty;
+    public string BenchmarkingEquipment100Gm { get; set; } = string.Empty;
+    public string BenchmarkingEquipment1Gm { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentSucroseTest { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentRange10 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentRange20 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentRange30 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ25 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ50 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ75 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ100 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentObservations11 { get; set; } = string.Empty;
+    public decimal BenchmarkingEquipmentExpectedCrop { get; set; }
+    public decimal BenchmarkingEquipmentAccomplishedCrop { get; set; }
+    public decimal BenchmarkingEquipmentPreviousCrop { get; set; }
+    public decimal BenchmarkingEquipmentPercentageRealized { get; set; }
+    public decimal BenchmarkingEquipmentVariationBetweenCrops  { get; set; }
+    public decimal BenchmarkingEquipmentCurrentFiber { get; set; }
+    public decimal BenchmarkingEquipmentPreviousFiber { get; set; }
+    public decimal BenchmarkingEquipmentFiberVariation { get; set; }
+    public decimal BenchmarkingEquipmentCurrentAtr { get; set; }
+    public decimal BenchmarkingEquipmentPreviousAtr { get; set; }
+    public decimal BenchmarkingEquipmentAtrVariation { get; set; }
+    public string BenchmarkingEquipmentObservations12 { get; set; } = string.Empty;
 }

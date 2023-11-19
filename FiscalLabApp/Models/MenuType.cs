@@ -25,7 +25,7 @@ public enum MenuType
     CaneScalePagePlantFarmPercentage,
     CaneScalePageFarmProviderPercentage,
     CaneScalePageObservations2,
-    
+
     //desintegrator probe page
     DesintegratorProbePageProbeTYpe,
     DesintegratorProbePageTubeInserted,
@@ -50,7 +50,7 @@ public enum MenuType
     DesintegratorProbePageLastHammerChange,
     DesintegratorProbePageLastAgainstKnifeChange,
     DesintegratorProbePageObservations4,
-    
+
     //analytical balance
     AnalyticalBalanceHomogeneousWeight,
     AnalyticalBalanceFinalWeight,
@@ -60,7 +60,7 @@ public enum MenuType
     AnalyticalBalanceObservations5,
     AnalyticalBalanceAverageAmbientTemperature,
     AnalyticalBalanceObservations6,
-    
+
     //press refractometer
     PressRefractometerPressureGaugeCertificated,
     PressRefractometerDiscardCup,
@@ -76,7 +76,7 @@ public enum MenuType
     PressRefractometerRefractometerCleaning,
     PressRefractometerInternalTemperature,
     PressRefractometerObservations8,
-    
+
     //clarification saccharimeter
     ClarificationSaccharimeterBottle,
     ClarificationSaccharimeterAgitation,
@@ -95,5 +95,24 @@ public enum MenuType
     ClarificationSaccharimeterCalibrationCertificate,
     ClarificationSaccharimeterTubeCleaning,
     ClarificationSaccharimeterClearCollingCooler,
-    ClarificationSaccharimeterObservations10
+    ClarificationSaccharimeterObservations10,
+
+    //benchmarking equipment
+    BenchmarkingEquipmentLoadCell,
+    BenchmarkingEquipmentThermometer,
+    BenchmarkingEquipmentTachometer,
+    BenchmarkingEquipmentPachymeter,
+    BenchmarkingEquipment500Gm,
+    BenchmarkingEquipment100Gm,
+    BenchmarkingEquipment1Gm,
+    BenchmarkingEquipmentSucroseTest,
+    BenchmarkingEquipmentRange10,
+    BenchmarkingEquipmentRange20,
+    BenchmarkingEquipmentRange30,
+    BenchmarkingEquipmentZ25,
+    BenchmarkingEquipmentZ50,
+    BenchmarkingEquipmentZ75,
+    BenchmarkingEquipmentZ100,
+    BenchmarkingEquipmentObservations11,
+    BenchmarkingEquipmentObservations12,
 }

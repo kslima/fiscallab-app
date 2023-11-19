@@ -12,8 +12,6 @@ f
 ]
 -FiscalLabApp/Components/Pages/MainVisit.razor,f\4\f4d4007e0175b729729f190796c88f7ccd3a1465
 ]
--FiscalLabApp/Components/Pages/CaneScale.razor,3\f\3f954154ce948437e4dde8368c8ce756f84987f7
-]
 -FiscalLabApp/wwwroot/sample-data/options.json,0\5\050ed4270e164b54ed7f6758b765a0638bdf250e
 \
 ,FiscalLabApp/Components/Layout/NavMenu.razor,9\b\9b3fe5fcc824654a889449af604e6dc32627282c
@@ -35,3 +33,7 @@ Y
 )FiscalLabApp/Components/Pages/Utils.razor,b\9\b92e6bd0508854f2dc34ddcb213a59eae981c60e
 n
 >FiscalLabApp/Components/Pages/ClarificationSaccharimeter.razor,4\0\40097e36db41b9d296ce79a1f418d6c0fda3404a
+i
+9FiscalLabApp/Components/Pages/BenchmarkingEquipment.razor,c\3\c38ecd89c5e28260403afab9f5d5fffc4dfaf98e
+d
+4FiscalLabApp/Components/Pages/VisitNumberInput.razor,7\6\76a0ff67fa8fd867285d7387a101685a77d17748
