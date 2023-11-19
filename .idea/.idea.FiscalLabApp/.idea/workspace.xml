@@ -10,11 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc972cb8-3bf3-4249-b93b-8dceb8111db5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/DesintegratorProbe.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FiscalLabApp/Components/Pages/Visit3.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FiscalLabApp/Models/MenuType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FiscalLabApp/Models/MenuType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FiscalLabApp/Models/Visit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FiscalLabApp/Models/Visit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FiscalLabApp/wwwroot/sample-data/visit-pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/FiscalLabApp/wwwroot/sample-data/visit-pages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FiscalLabApp/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +160,7 @@
       <workItem from="1700314541028" duration="6067000" />
       <workItem from="1700324644089" duration="5406000" />
       <workItem from="1700389449026" duration="9423000" />
-      <workItem from="1700399209520" duration="324000" />
+      <workItem from="1700399209520" duration="611000" />
     </task>
     <servers />
   </component>
