@@ -1,0 +1,41 @@
+﻿@page "/visits"
+@layout VisitLayout
+
+@inject IVisitService VisitService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Visitas</PageTitle>
+
+@foreach (var visit in _visits)
+{
+    <div class="card mb-3">
+        <div class="card-header bg-success bg-opacity-75 border-0 border text-light">
+            <h6 class="card-title fw-bold">@visit.Plant</h6>
+        </div>
+        <div class="card-body">
+            <p class="card-text fw-bold text-muted">@visit.Association</p>
+            <p class="card-text">
+                <small class="text-muted"> @($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small>
+            </p>
+            <div class="row justify-content-start">
+                <button class="btn btn-outline-secondary col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Editar</button>
+                <button class="btn btn-outline-danger col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Excluir</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<Visit> _visits = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _visits = await VisitService.GetAllAsync();
+    }
+
+    private void EditVisit(string visitId)
+    {
+        NavigationManager.NavigateTo($"/main-visit/{visitId}");
+    }
+
+}

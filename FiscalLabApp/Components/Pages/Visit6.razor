@@ -1,0 +1,32 @@
+﻿@page "/visit-6"
+@layout EditVisitLayout
+
+@inject IMenuService MenuService
+
+<h3>Visit 6</h3>
+
+<div class="mb-3">
+        @for (var i = 0; i < Constants.Loop; i++)
+        {
+    
+            <label for="exampleDataList" class="form-label">Datalist example</label>
+            <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+            <datalist id="datalistOptions">
+                @foreach (var opt in _menus.SelectMany(m => m.Options))
+                {
+                    <option value="@opt.Description"/>
+                }
+            </datalist>
+            <br/>
+        }
+    
+    </div>
+
+@code {
+
+    private Menu[] _menus = Array.Empty<Menu>();
+    protected override async Task OnInitializedAsync()
+    {
+        _menus = await MenuService.GetAllAsync();
+    }
+}

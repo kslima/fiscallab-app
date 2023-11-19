@@ -1,0 +1,38 @@
+﻿[
+  {
+    "Description": "Principal",
+    "Route": "main-visit"
+  },
+  {
+    "Description": "Balança de Cana",
+    "Route": "visit-2"
+  },
+  {
+    "Description": "Sonda/Desintegrador",
+    "Route": "visit-3"
+  },
+  {
+    "Description": "Balança Analítica",
+    "Route": "visit-4"
+  },
+  {
+    "Description": "Prensa/Refratômetro",
+    "Route": "visit-5"
+  },
+  {
+    "Description": "Clarificação/Sacarímetro",
+    "Route": "visit-6"
+  },
+  {
+    "Description": "Equipamentos de Aferição/Medias",
+    "Route": "visit-6"
+  },
+  {
+    "Description": "Consistência do Sistema",
+    "Route": "visit-6"
+  },
+  {
+    "Description": "Conclusão",
+    "Route": "visit-6"
+  }
+]

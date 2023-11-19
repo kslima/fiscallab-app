@@ -1,0 +1,2 @@
+C:\Users\kleuder.lima\Documents\development\grupoesdra\FiscalLabApp\FiscalLabApp\bin\Release\net8.0\publish\e_sqlite3.a
+C:\Users\kleuder.lima\Documents\development\grupoesdra\FiscalLabApp\FiscalLabApp\bin\Release\net8.0\publish\web.config
