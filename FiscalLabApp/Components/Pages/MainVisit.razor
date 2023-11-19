@@ -1,61 +1,65 @@
 ﻿@page "/main-visit"
 @page "/main-visit/{VisitId}"
+@using FiscalLabApp.Extensions
 
 @layout EditVisitLayout
 @inject IMenuService MenuService
 @inject IVisitService VisitService
 
-<div class="row">
-    <div class="col">
-        <div class="form-floating mb-3">
-            <input class="form-control" id="createdAtDateInput" type="date" @bind-value="Visit.VisitDate"/>
-            <label for="createdAtDateInput">Data</label>
-        </div >
+<VisitDataSeparator Title="Dados Básicos">
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="Visit.VisitDate"/>
+                <label for="createdAtDateInput">Data</label>
+            </div >
 
+        </div>
+        <div class="col">
+            <div class="form-floating mb-3">
+                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="Visit.VisitTime"/>
+                <label for="createdAtTimeInput">Hora</label>
+            </div >
+        </div>
     </div>
-    <div class="col">
-        <div class="form-floating mb-3">
-            <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="Visit.VisitTime"/>
-            <label for="createdAtTimeInput">Hora</label>
-        </div >
-    </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <VisitTextInput Title="Consultor" Option="@GetOption(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="Visit.Consultant"/>
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Consultor" Option="@_options.GetOption(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="Visit.Consultant"/>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <VisitTextInput Title="Associação/Fornecedor" Option="@GetOption(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="Visit.Association"/>
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Associação/Fornecedor" Option="@_options.GetOption(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="Visit.Association"/>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <VisitTextInput Title="Unidade Industrial" Option="@GetOption(MenuType.MainPagePlant)" Id="plantInput" @bind-Value="Visit.Plant"/>
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Unidade Industrial" Option="@_options.GetOption(MenuType.MainPagePlant)" Id="plantInput" @bind-Value="Visit.Plant"/>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <VisitTextInput Title="Fiscal de Turno" Option="@GetOption(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="Visit.Inspector"/>
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Fiscal de Turno" Option="@_options.GetOption(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="Visit.Inspector"/>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <VisitTextInput Title="Líder de Turno" Option="@GetOption(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="Visit.Leader"/>
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Líder de Turno" Option="@_options.GetOption(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="Visit.Leader"/>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Option="@GetOption(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="Visit.LaboratoryLeader"/>
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Option="@_options.GetOption(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="Visit.LaboratoryLeader"/>
+        </div>
     </div>
-</div>
+</VisitDataSeparator>
+
 
 @code {
 
@@ -75,13 +79,6 @@
 
         Layout.SelectedVisit ??= await VisitService.GetByIdAsync(VisitId);
         Visit = Layout.SelectedVisit;
-    }
-
-    private MenuOption? GetOption(MenuType menuType)
-    {
-        var options = _options.SingleOrDefault(o => o.Menu.Equals(menuType.ToString()));
-
-        return options;
     }
 
 }
