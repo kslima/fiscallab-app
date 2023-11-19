@@ -1,4 +1,6 @@
-﻿namespace FiscalLabApp.Models;
+﻿using FiscalLabApp.Enums;
+
+namespace FiscalLabApp.Models;
 
 public class Visit
 {
@@ -66,4 +68,104 @@ public class Visit
     public string Observations5 { get; set; } = string.Empty;
     public string AverageAmbientTemperature { get; set; } = string.Empty;
     public string Observations6 { get; set; } = string.Empty;
+    
+    //press refractometer
+    public string PressureGaugeCertificated { get; set; } = string.Empty;
+    public string DiscardCup { get; set; } = string.Empty;
+    public string CollectorBottle { get; set; } = string.Empty;
+    public string Pressure { get; set; } = string.Empty;
+    public string Timer { get; set; } = string.Empty;
+    public string PressCleaning { get; set; } = string.Empty;
+    public string Observations7 { get; set; } = string.Empty;
+    public string BrothHomogenization { get; set; } = string.Empty;
+    public string RefractometerCalibrationCertificate { get; set; } = string.Empty;
+    public string PrecisionReading { get; set; } = string.Empty;
+    public string RefractometerBenchmarking { get; set; } = string.Empty;
+    public string RefractometerCleaning { get; set; } = string.Empty;
+    public string InternalTemperature { get; set; } = string.Empty;
+    public string Observations8 { get; set; } = string.Empty;
+    
+    //clarification saccharimeter
+    public string ClarificationSaccharimeterBottle { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterAgitation { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterHasDilution { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterClarifier { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterPressure { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterClarifierAmount { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterBottleClarifiedVolume { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterBottleAfterClarifiedVolume { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterObservations9 { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterStabilization { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterBenchmarking { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterQuartzPattern { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterQuartzResult { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterQuartzReading { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterCalibrationCertificate { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterTubeCleaning { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterClearCollingCooler { get; set; } = string.Empty;
+    public string ClarificationSaccharimeterObservations10 { get; set; } = string.Empty;
+    
+    //benchmarking equipment
+    public string BenchmarkingEquipmentLoadCell { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentThermometer { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentTachometer { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentPachymeter { get; set; } = string.Empty;
+    public string BenchmarkingEquipment500Gm { get; set; } = string.Empty;
+    public string BenchmarkingEquipment100Gm { get; set; } = string.Empty;
+    public string BenchmarkingEquipment1Gm { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentSucroseTest { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentRange10 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentRange20 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentRange30 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ25 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ50 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ75 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentZ100 { get; set; } = string.Empty;
+    public string BenchmarkingEquipmentObservations11 { get; set; } = string.Empty;
+    public decimal BenchmarkingEquipmentExpectedCrop { get; set; }
+    public decimal BenchmarkingEquipmentAccomplishedCrop { get; set; }
+    public decimal BenchmarkingEquipmentPreviousCrop { get; set; }
+    public decimal BenchmarkingEquipmentPercentageRealized { get; set; }
+    public decimal BenchmarkingEquipmentVariationBetweenCrops  { get; set; }
+    public decimal BenchmarkingEquipmentCurrentFiber { get; set; }
+    public decimal BenchmarkingEquipmentPreviousFiber { get; set; }
+    public decimal BenchmarkingEquipmentFiberVariation { get; set; }
+    public decimal BenchmarkingEquipmentCurrentAtr { get; set; }
+    public decimal BenchmarkingEquipmentPreviousAtr { get; set; }
+    public decimal BenchmarkingEquipmentAtrVariation { get; set; }
+    public string BenchmarkingEquipmentObservations12 { get; set; } = string.Empty;
+    
+    //system-consistency
+    public string SystemConsistencyOc { get; set; } = string.Empty;
+    public string SystemConsistencyFarm { get; set; } = string.Empty;
+    public string SystemConsistencyOwner { get; set; } = string.Empty;
+    public Clarify SystemConsistencyClarifier { get; set; }
+    public decimal SystemConsistencyPlantPbu { get; set; }
+    public decimal SystemConsistencyConsecanaPbu { get; set; }
+    public decimal SystemConsistencyDifferencePbu { get; set; }
+    public decimal SystemConsistencyPlantPurity { get; set; }
+    public decimal SystemConsistencyConsecanaPurity { get; set; }
+    public decimal SystemConsistencyDifferencePurity { get; set; }
+    public decimal SystemConsistencyPlantPol { get; set; }
+    public decimal SystemConsistencyConsecanaPol { get; set; }
+    public decimal SystemConsistencyDifferencePol { get; set; }
+    public decimal SystemConsistencyPlantFiber { get; set; }
+    public decimal SystemConsistencyConsecanaFiber { get; set; }
+    public decimal SystemConsistencyDifferenceFiber { get; set; }
+    public decimal SystemConsistencyPlantPcc { get; set; }
+    public decimal SystemConsistencyConsecanaPcc { get; set; }
+    public decimal SystemConsistencyDifferencePcc { get; set; }
+    public decimal SystemConsistencyPlantAr { get; set; }
+    public decimal SystemConsistencyConsecanaAr { get; set; }
+    public decimal SystemConsistencyDifferenceAr { get; set; }
+    public decimal SystemConsistencyPlantAtr { get; set; }
+    public decimal SystemConsistencyConsecanaAtr { get; set; }
+    public decimal SystemConsistencyDifferenceAtr { get; set; }
+    public string SystemConsistencyObservations { get; set; } = string.Empty;
+    
+    //conclusion
+    public string ConclusionInspectorPerformance { get; set; } = string.Empty;
+    public string ConclusionLaboratoryReceptivity { get; set; } = string.Empty;
+    public string ConclusionPendencies { get; set; } = string.Empty;
+    public string ConclusionObservations { get; set; } = string.Empty;
 }
