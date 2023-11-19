@@ -31,6 +31,12 @@
     
     <div class="row">
             <div class="col">
+                <VisitTextInput Title="Balança Com Certificado de Calibragem" Option="@_options.GetOption(MenuType.AnalyticalBalanceCalibrationCertificateBalance)" Id="calibrationCertificateBalance" @bind-value="Visit.CalibrationCertificateBalance"/>
+            </div>
+        </div>
+    
+    <div class="row">
+            <div class="col">
                 <VisitTextInput Title="Observações 5" Option="@_options.GetOption(MenuType.AnalyticalBalanceObservations5)" Id="observations5" @bind-value="Visit.Observations5"/>
             </div>
         </div>

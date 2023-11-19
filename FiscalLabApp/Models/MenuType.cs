@@ -59,5 +59,21 @@ public enum MenuType
     AnalyticalBalanceCalibrationCertificateBalance,
     AnalyticalBalanceObservations5,
     AnalyticalBalanceAverageAmbientTemperature,
-    AnalyticalBalanceObservations6
+    AnalyticalBalanceObservations6,
+    
+    //press refractometer
+    PressRefractometerPressureGaugeCertificated,
+    PressRefractometerDiscardCup,
+    PressRefractometerCollectorBottle,
+    PressRefractometerPressure,
+    PressRefractometerTimer,
+    PressRefractometerPressCleaning,
+    PressRefractometerObservations7,
+    PressRefractometerBrothHomogenization,
+    PressRefractometerRefractometerCalibrationCertificate,
+    PressRefractometerPrecisionReading,
+    PressRefractometerRefractometerBenchmarking,
+    PressRefractometerRefractometerCleaning,
+    PressRefractometerInternalTemperature,
+    PressRefractometerObservations8,
 }

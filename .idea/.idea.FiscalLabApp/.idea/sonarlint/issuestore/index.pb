@@ -29,3 +29,7 @@ e
 5FiscalLabApp/Components/Pages/AnalyticalBalance.razor,b\d\bdf924d3aab8e28e5503b825a185352ec0fcc1ed
 _
 /FiscalLabApp/Components/Pages/CaneBalance.razor,6\1\616cc70def43984f32728bb69957982c3a4b9fc0
+f
+6FiscalLabApp/Components/Pages/PressRefractometer.razor,7\5\75fa1f762739c00162056194941342ea3af5588e
+Y
+)FiscalLabApp/Components/Pages/Utils.razor,b\9\b92e6bd0508854f2dc34ddcb213a59eae981c60e
