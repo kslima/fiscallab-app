@@ -25,3 +25,7 @@ L
 FiscalLabApp/Models/Visit.cs,e\4\e4564006d36936865b6a9f28a0d9e4a885359e3a
 f
 6FiscalLabApp/Components/Pages/DesintegratorProbe.razor,a\4\a4cf3acff2590ca950495ff2cf39205e8303096b
+e
+5FiscalLabApp/Components/Pages/AnalyticalBalance.razor,b\d\bdf924d3aab8e28e5503b825a185352ec0fcc1ed
+_
+/FiscalLabApp/Components/Pages/CaneBalance.razor,6\1\616cc70def43984f32728bb69957982c3a4b9fc0
