@@ -115,4 +115,10 @@ public enum MenuType
     BenchmarkingEquipmentZ100,
     BenchmarkingEquipmentObservations11,
     BenchmarkingEquipmentObservations12,
+    
+    //conclusion
+    ConclusionInspectorPerformance,
+    ConclusionLaboratoryReceptivity,
+    ConclusionPendencies,
+    ConclusionObservations
 }

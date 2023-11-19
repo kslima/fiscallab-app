@@ -1,4 +1,6 @@
-﻿namespace FiscalLabApp.Models;
+﻿using FiscalLabApp.Enums;
+
+namespace FiscalLabApp.Models;
 
 public class Visit
 {
@@ -132,4 +134,38 @@ public class Visit
     public decimal BenchmarkingEquipmentPreviousAtr { get; set; }
     public decimal BenchmarkingEquipmentAtrVariation { get; set; }
     public string BenchmarkingEquipmentObservations12 { get; set; } = string.Empty;
+    
+    //system-consistency
+    public string SystemConsistencyOc { get; set; } = string.Empty;
+    public string SystemConsistencyFarm { get; set; } = string.Empty;
+    public string SystemConsistencyOwner { get; set; } = string.Empty;
+    public Clarify SystemConsistencyClarifier { get; set; }
+    public decimal SystemConsistencyPlantPbu { get; set; }
+    public decimal SystemConsistencyConsecanaPbu { get; set; }
+    public decimal SystemConsistencyDifferencePbu { get; set; }
+    public decimal SystemConsistencyPlantPurity { get; set; }
+    public decimal SystemConsistencyConsecanaPurity { get; set; }
+    public decimal SystemConsistencyDifferencePurity { get; set; }
+    public decimal SystemConsistencyPlantPol { get; set; }
+    public decimal SystemConsistencyConsecanaPol { get; set; }
+    public decimal SystemConsistencyDifferencePol { get; set; }
+    public decimal SystemConsistencyPlantFiber { get; set; }
+    public decimal SystemConsistencyConsecanaFiber { get; set; }
+    public decimal SystemConsistencyDifferenceFiber { get; set; }
+    public decimal SystemConsistencyPlantPcc { get; set; }
+    public decimal SystemConsistencyConsecanaPcc { get; set; }
+    public decimal SystemConsistencyDifferencePcc { get; set; }
+    public decimal SystemConsistencyPlantAr { get; set; }
+    public decimal SystemConsistencyConsecanaAr { get; set; }
+    public decimal SystemConsistencyDifferenceAr { get; set; }
+    public decimal SystemConsistencyPlantAtr { get; set; }
+    public decimal SystemConsistencyConsecanaAtr { get; set; }
+    public decimal SystemConsistencyDifferenceAtr { get; set; }
+    public string SystemConsistencyObservations { get; set; } = string.Empty;
+    
+    //conclusion
+    public string ConclusionInspectorPerformance { get; set; } = string.Empty;
+    public string ConclusionLaboratoryReceptivity { get; set; } = string.Empty;
+    public string ConclusionPendencies { get; set; } = string.Empty;
+    public string ConclusionObservations { get; set; } = string.Empty;
 }

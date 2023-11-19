@@ -37,3 +37,11 @@ i
 9FiscalLabApp/Components/Pages/BenchmarkingEquipment.razor,c\3\c38ecd89c5e28260403afab9f5d5fffc4dfaf98e
 d
 4FiscalLabApp/Components/Pages/VisitNumberInput.razor,7\6\76a0ff67fa8fd867285d7387a101685a77d17748
+e
+5FiscalLabApp/Components/Pages/SystemConsistency.razor,4\8\48be0d8cbfc821b86a1e0e66163561d81c730df5
+M
+FiscalLabApp/Enums/Clarify.cs,d\7\d72c4066a7c3991a81f586d754881fa8d30aaa12
+f
+6FiscalLabApp/Components/Layout/VisitPageSelector.razor,b\e\becb8a2dfde6676e9a033409ef4b8bbd7f066585
+^
+.FiscalLabApp/Components/Pages/Conclusion.razor,6\f\6f97f53d63c6c4523c8478e97d7695e90c48e421

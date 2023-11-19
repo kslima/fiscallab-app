@@ -1,0 +1,76 @@
+﻿@page "/system-consistency"
+@using FiscalLabApp.Extensions
+@using FiscalLabApp.Enums
+@layout EditVisitLayout
+
+@inject IMenuService MenuService
+
+<VisitDataSeparator Title="Prensa">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="O.C" Id="pressureGaugeCertificated" @bind-value="Visit.PressureGaugeCertificated"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Fazenda" Id="systemConsistencyFarm" @bind-value="Visit.SystemConsistencyFarm"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Propietário" Id="systemConsistencyOwner" @bind-value="Visit.SystemConsistencyOwner"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <select class="form-select form-select-lg mb-3" @onchange="OnClarifySelected">
+                @foreach (var clarify in Enum.GetValues(typeof(Clarify))
+                    .Cast<Clarify>()
+                    .Select(v => v.ToString())
+                    .ToList())
+                {
+                    <option value="@clarify">@clarify</option>
+                }
+            </select>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+
+@code {
+
+    [CascadingParameter]
+    public EditVisitLayout Layout { get; set; } = new();
+
+    private MenuOption[] _options = Array.Empty<MenuOption>();
+
+    public Visit Visit { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _options = await MenuService.GetOptions(PageType.SugarcaneScale);
+
+        if (Layout.SelectedVisit is not null)
+        {
+            Visit = Layout.SelectedVisit;
+        }
+    }
+
+    private void OnClarifySelected(ChangeEventArgs e)
+    {
+    // if (EditVisitLayout.SelectedVisit is not null)
+    // {
+    //     var visit = EditVisitLayout.SelectedVisit;
+    //     EditVisitLayout.SelectedVisit = await VisitService.UpdateAsync(visit);
+    // }
+    //
+    // var route = e.Value?.ToString();
+    // if (route is null) return;
+    //
+    // NavigationManager.NavigateTo($"{route}");
+    }
+
+}

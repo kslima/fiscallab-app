@@ -29,10 +29,10 @@
   },
   {
     "Description": "Consistência do Sistema",
-    "Route": "visit-6"
+    "Route": "system-consistency"
   },
   {
     "Description": "Conclusão",
-    "Route": "visit-6"
+    "Route": "conclusion"
   }
 ]
