@@ -50,4 +50,14 @@ public enum MenuType
     DesintegratorProbePageLastHammerChange,
     DesintegratorProbePageLastAgainstKnifeChange,
     DesintegratorProbePageObservations4,
+    
+    //analytical balance
+    AnalyticalBalanceHomogeneousWeight,
+    AnalyticalBalanceFinalWeight,
+    AnalyticalBalanceCalibratedBalance,
+    AnalyticalBalanceLeveledBalance,
+    AnalyticalBalanceCalibrationCertificateBalance,
+    AnalyticalBalanceObservations5,
+    AnalyticalBalanceAverageAmbientTemperature,
+    AnalyticalBalanceObservations6
 }

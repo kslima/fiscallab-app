@@ -5,15 +5,15 @@
   },
   {
     "Description": "Balança de Cana",
-    "Route": "cane-scale"
+    "Route": "cane-balance"
   },
   {
     "Description": "Sonda/Desintegrador",
     "Route": "desintegrator-probe"
   },
   {
-    "Description": "Balança Analítica",
-    "Route": "visit-4"
+    "Description": "Balança Analítica/Temperatura",
+    "Route": "analytical-balance"
   },
   {
     "Description": "Prensa/Refratômetro",
