@@ -1,11 +1,10 @@
 ﻿@page "/system-consistency"
-@using FiscalLabApp.Extensions
 @using FiscalLabApp.Enums
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
 
-<VisitDataSeparator Title="Prensa">
+<VisitDataSeparator Title="Amostra">
     <div class="row">
         <div class="col">
             <VisitTextInput Title="O.C" Id="pressureGaugeCertificated" @bind-value="Visit.PressureGaugeCertificated"/>
@@ -26,6 +25,14 @@
 
     <div class="row">
         <div class="col">
+            <VisitTextInput Title="Observações" Id="systemConsistencyObservations" @bind-value="Visit.SystemConsistencyObservations"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Dados Para Cálculo ATR">
+    <div class="row">
+        <div class="col">
             <select class="form-select form-select-lg mb-3" @onchange="OnClarifySelected">
                 @foreach (var clarify in Enum.GetValues(typeof(Clarify))
                     .Cast<Clarify>()
@@ -37,8 +44,145 @@
             </select>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Pbu" Id="benchmarkingEquipmentExpectedCrop" @bind-value="Visit.BenchmarkingEquipmentExpectedCrop" ValueUpdated="CalculateAtr"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Brix" Id="benchmarkingEquipmentAccomplishedCrop" @bind-value="Visit.BenchmarkingEquipmentAccomplishedCrop" ValueUpdated="CalculateAtr"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Leitura Sacarimétrica" Id="benchmarkingEquipmentPreviousCrop" @bind-value="Visit.BenchmarkingEquipmentPreviousCrop" ValueUpdated="CalculateAtr"/>
+        </div>
+    </div>
 </VisitDataSeparator>
 
+<VisitDataSeparator Title="Resultados Atr">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAtr" @bind-value="Visit.SystemConsistencyPlantAtr" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAtr" @bind-value="Visit.SystemConsistencyConsecanaAtr"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAtr" @bind-value="Visit.SystemConsistencyDifferenceAtr" Readonly="true"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Resultados Pureza">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPurity" @bind-value="Visit.SystemConsistencyPlantPurity" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPurity" @bind-value="Visit.SystemConsistencyConsecanaPurity"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePurity" @bind-value="Visit.SystemConsistencyDifferencePurity" Readonly="true"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Resultados Pol">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPol" @bind-value="Visit.SystemConsistencyPlantPol" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPol" @bind-value="Visit.SystemConsistencyConsecanaPol"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePol" @bind-value="Visit.SystemConsistencyDifferencePol" Readonly="true"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Resultados Fibra">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantFiber" @bind-value="Visit.SystemConsistencyPlantFiber" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaFiber" @bind-value="Visit.SystemConsistencyConsecanaFiber"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceFiber" @bind-value="Visit.SystemConsistencyDifferenceFiber" Readonly="true"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Resultados Pcc">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPcc" @bind-value="Visit.SystemConsistencyPlantPcc" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPcc" @bind-value="Visit.SystemConsistencyConsecanaPcc"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Pcc()" Id="systemConsistencyDifferencePcc" @bind-value="Visit.SystemConsistencyDifferencePcc" Readonly="true"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+
+<VisitDataSeparator Title="Resultados Ar">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAr" @bind-value="Visit.SystemConsistencyPlantAr" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAr" @bind-value="Visit.SystemConsistencyConsecanaAr"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAr" @bind-value="Visit.SystemConsistencyDifferenceAr" Readonly="true"/>
+        </div>
+    </div>
+</VisitDataSeparator>
 
 @code {
 
@@ -71,6 +215,10 @@
     // if (route is null) return;
     //
     // NavigationManager.NavigateTo($"{route}");
+    }
+
+    private void CalculateAtr()
+    {
     }
 
 }

@@ -45,3 +45,5 @@ f
 6FiscalLabApp/Components/Layout/VisitPageSelector.razor,b\e\becb8a2dfde6676e9a033409ef4b8bbd7f066585
 ^
 .FiscalLabApp/Components/Pages/Conclusion.razor,6\f\6f97f53d63c6c4523c8478e97d7695e90c48e421
+\
+,FiscalLabApp/Components/Pages/NewVIsit.razor,9\a\9acb28a05f28fa219dc68ea797db1b354f4f2652
