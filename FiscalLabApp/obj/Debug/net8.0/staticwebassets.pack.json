@@ -1,71 +1,71 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\obj\\Debug\\net8.0\\compressed\\naua19nyfx.gz",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\obj\\Debug\\net8.0\\compressed\\naua19nyfx.gz",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\obj\\Debug\\net8.0\\scopedcss\\bundle\\FiscalLabApp.styles.css",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\obj\\Debug\\net8.0\\scopedcss\\bundle\\FiscalLabApp.styles.css",
       "PackagePath": "staticwebassets\\FiscalLabApp.styles.css"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\obj\\Debug\\net8.0\\service-worker-assets.js",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\obj\\Debug\\net8.0\\service-worker-assets.js",
       "PackagePath": "staticwebassets\\service-worker-assets.js"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\obj\\Debug\\net8.0\\service-worker\\service-worker.published.js",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\obj\\Debug\\net8.0\\service-worker\\service-worker.published.js",
       "PackagePath": "staticwebassets\\service-worker.js"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\css\\app.css",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\favicon.png",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\icon-192.png",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\icon-192.png",
       "PackagePath": "staticwebassets\\icon-192.png"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\index.html",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\js\\IndexedDbAccessor.js",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\js\\IndexedDbAccessor.js",
       "PackagePath": "staticwebassets\\js\\IndexedDbAccessor.js"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\manifest.json",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\manifest.json",
       "PackagePath": "staticwebassets\\manifest.json"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\sample-data\\menus.json",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\sample-data\\menus.json",
       "PackagePath": "staticwebassets\\sample-data\\menus.json"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\sample-data\\options.json",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\sample-data\\options.json",
       "PackagePath": "staticwebassets\\sample-data\\options.json"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\sample-data\\visit-pages.json",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\sample-data\\visit-pages.json",
       "PackagePath": "staticwebassets\\sample-data\\visit-pages.json"
     },
     {
-      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\wwwroot\\sample-data\\weather.json",
+      "Id": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\wwwroot\\sample-data\\weather.json",
       "PackagePath": "staticwebassets\\sample-data\\weather.json"
     },
     {

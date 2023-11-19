@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "FiscalLabApp",
   "resources": {
-    "hash": "sha256-DkR1uOytB74ff/2q4FDxZZwu6XTeAH3k1zC22fZxAyM=",
+    "hash": "sha256-/8Eur4U4WNSuQLQXG965SLwLAz7YE/Ynm70H1eMl9q8=",
     "jsModuleNative": {
       "dotnet.native.8.0.0-rc.2.23479.6.yt7kqgn6i6.js": "sha256-9prN/5lb3WIsk2ApeMfArAoTBSsUab3y9MBUmgxjV38="
     },
@@ -222,10 +222,10 @@
       "mscorlib.wasm": "sha256-1t2W3Wyx12dAofkbaubFwjkpFLkAtkKmg+L85yxssZM=",
       "netstandard.wasm": "sha256-3Vgqa/y0nswELYRwVqyttac0Od0d+0XeDQYIcIdj1cw=",
       "System.Private.CoreLib.wasm": "sha256-Oo7gdGvy97AkixYhgHIRAFpMHJ7rzafq9+fG/tXuoTg=",
-      "FiscalLabApp.wasm": "sha256-DhZ6R9NsXcV11mtdgWGcQR28N/y74CKn/BFNikImY4o="
+      "FiscalLabApp.wasm": "sha256-BAi5+t/EF/DQCkfnGsDvXS4vCoL2ISDbFV4pO1CCf04="
     },
     "pdb": {
-      "FiscalLabApp.pdb": "sha256-3pxIee3sQECofZc4s9Z5Fcw346TterdGXdZlx672L3s="
+      "FiscalLabApp.pdb": "sha256-SzipScCymXgZmnq4RpB8jiZNcrXf6I3KlP2AxNdJLik="
     },
     "libraryInitializers": {
       "_content/Microsoft.Fast.Components.FluentUI/Microsoft.Fast.Components.FluentUI.lib.module.js": "sha256-3XHeOS1KEF+mCRTW+X7FBxNoAPFK6FEkTBL6F3xxlFg="

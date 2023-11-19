@@ -21,7 +21,7 @@
       "url": "icon-192.png"
     },
     {
-      "hash": "sha256-K8vzIJ1dlnIkuQgx+Kocz1w96C4mDouElYSBPEMD6dg=",
+      "hash": "sha256-sM2k3zpcR8id0ew0msheNf3N0qlX7HLq+OMMZK1SEf8=",
       "url": "index.html"
     },
     {
@@ -41,7 +41,7 @@
       "url": "sample-data\/options.json"
     },
     {
-      "hash": "sha256-Fd4wFqGahTbLrhPRhKKn4PatEBKFTbMwS5Cww8swdU4=",
+      "hash": "sha256-3zO6DL0Chz0oLPucgAB0uSQBygjRrPjDGiXRWr9uysw=",
       "url": "sample-data\/visit-pages.json"
     },
     {
@@ -53,7 +53,7 @@
       "url": "_framework\/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-xAdeWYiS+r1orNuXvReuwgzEnFY3wZz+tcHExV0Mbcg=",
+      "hash": "sha256-7CvCdXVwkek3bmjLglyT2RP2VQGvTx0PXFUMP5Mxz2E=",
       "url": "FiscalLabApp.styles.css"
     },
     {
@@ -917,15 +917,15 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-DhZ6R9NsXcV11mtdgWGcQR28N\/y74CKn\/BFNikImY4o=",
+      "hash": "sha256-vJMhf7IaZYf+gWO9jEowMNZ2bfeiBQY1uy1NZ8gnQI8=",
       "url": "_framework\/FiscalLabApp.wasm"
     },
     {
-      "hash": "sha256-3pxIee3sQECofZc4s9Z5Fcw346TterdGXdZlx672L3s=",
+      "hash": "sha256-HclMEavpdYYESbw7cSHclZOZGCxUfFzNxF5e5oGkCa4=",
       "url": "_framework\/FiscalLabApp.pdb"
     },
     {
-      "hash": "sha256-VYwXKXKhGfVxsHyL71NoklVrBk1toCw3FngzsuC6Yls=",
+      "hash": "sha256-vLDRPHRXa4ofhX4u128dD4L+9G1UO\/9VHo+bQjIuEoI=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -1993,5 +1993,5 @@
       "url": "_content\/Microsoft.Fast.Components.FluentUI\/Microsoft.Fast.Components.FluentUI.bundle.scp.css"
     }
   ],
-  "version": "gaQK8wwy"
+  "version": "5X9qL\/Z1"
 };

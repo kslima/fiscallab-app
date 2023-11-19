@@ -3385,11 +3385,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\FiscalLabApp.csproj",
+      "projectUniqueName": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\FiscalLabApp.csproj",
       "projectName": "FiscalLabApp",
-      "projectPath": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\FiscalLabApp.csproj",
+      "projectPath": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\FiscalLabApp.csproj",
       "packagesPath": "C:\\Users\\kleuder.lima\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\FiscalLabApp\\FiscalLabApp\\obj\\",
+      "outputPath": "C:\\Users\\kleuder.lima\\Documents\\development\\grupoesdra\\fiscallab-app\\FiscalLabApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kleuder.lima\\AppData\\Roaming\\NuGet\\NuGet.Config",

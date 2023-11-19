@@ -103,3 +103,11 @@ d
 ,FiscalLabApp/Components/Pages/NewVIsit.razor,9\a\9acb28a05f28fa219dc68ea797db1b354f4f2652
 d
 4FiscalLabApp/Components/Layout/EditVisitLayout.razor,e\e\ee7b445b7f389352a471cf3a4a561c62c29dad01
+]
+-FiscalLabApp/Components/Pages/CaneScale.razor,3\f\3f954154ce948437e4dde8368c8ce756f84987f7
+_
+/FiscalLabApp/Extensions/MenuOptionExtensions.cs,a\c\acc8b2e44fdead5cc492692742f142443a36052e
+_
+/FiscalLabApp/Components/Pages/TitleHeader.razor,4\e\4e88c8bd8208ffb0f5c3da8e7f5074fff22ed618
+f
+6FiscalLabApp/Components/Pages/VisitDataSeparator.razor,2\7\274b67b15a77de05d747adb3d39928ec1433c0ee
