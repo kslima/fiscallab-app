@@ -9,7 +9,7 @@
   },
   {
     "Description": "Sonda/Desintegrador",
-    "Route": "visit-3"
+    "Route": "desintegrator-probe"
   },
   {
     "Description": "Balança Analítica",
