@@ -1,22 +1,13 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+<NavMenu />
 
-    <main>
-        <div class="top-row px-4">
-            <div class="col-auto">
-                <button type="button" class="btn btn-success bg-opacity-75" @onclick="NewVisit">Nova Visita</button>
-            </div>
-        </div>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<button type="button" class="btn btn-success bg-opacity-75" @onclick="NewVisit">Nova Visita</button>
+<main class="container" style="background-color: #f9f9f9;">
+    @Body
+</main>
+
 @code {
     private void NewVisit()
     {

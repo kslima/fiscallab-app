@@ -1,37 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
 @inject IVisitService VisitService
-@inject NavigationManager NavigationManager
 
 <CascadingValue Value="this">
-    <div class="page">
-        <div class="sidebar">
-            <NavMenu/>
-        </div>
-
-        <main>
-            <div class="top-row px-4">
-                <div class="col-auto">
-                    <button type="button" class="btn btn-success bg-opacity-75" @onclick="NewVisit">Salvar</button>
-                </div>
-            </div>
-            <VisitPageSelector/>
-            <article class="content px-4">
-                @Body
-            </article>
-        </main>
-    </div>
+    <NavMenu/>
+    <VisitPageSelector/>
+    <main class="container" style="background-color: #f9f9f9;">
+        @Body
+    </main>
 </CascadingValue>
 
 @code
 {
     public Visit? SelectedVisit { get; set; }
 
-    private async Task NewVisit()
+    public void SaveChanges()
     {
-        if (SelectedVisit is null) return;
-        await VisitService.UpdateAsync(SelectedVisit);
-        
-        NavigationManager.NavigateTo("/visits");
+        if (SelectedVisit is null)
+            return;
+        VisitService.UpdateAsync(SelectedVisit);
     }
 }

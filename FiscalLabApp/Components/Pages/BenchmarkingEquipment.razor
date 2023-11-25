@@ -1,4 +1,5 @@
 ﻿@page "/benchmarking-equipment"
+@implements IDisposable
 @using FiscalLabApp.Extensions
 @layout EditVisitLayout
 
@@ -223,4 +224,10 @@
     {
         Visit.BenchmarkingEquipmentVariationBetweenCrops = Visit.BenchmarkingEquipmentAccomplishedCrop - Visit.BenchmarkingEquipmentPreviousCrop;
     }
+
+    public void Dispose()
+    {
+        Layout.SaveChanges();
+    }
+
 }

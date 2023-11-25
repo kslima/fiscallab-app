@@ -1,4 +1,5 @@
 ﻿@page "/system-consistency"
+@implements IDisposable
 @using FiscalLabApp.Enums
 @layout EditVisitLayout
 
@@ -219,6 +220,11 @@
 
     private void CalculateAtr()
     {
+    }
+
+    public void Dispose()
+    {
+        Layout.SaveChanges();
     }
 
 }

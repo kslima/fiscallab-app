@@ -1,4 +1,6 @@
 ﻿@page "/cane-balance"
+@implements IDisposable
+
 @using FiscalLabApp.Extensions
 @layout EditVisitLayout
 
@@ -114,6 +116,11 @@
         {
             Visit = Layout.SelectedVisit;
         }
+    }
+
+    public void Dispose()
+    {
+        Layout.SaveChanges();
     }
 
 }
