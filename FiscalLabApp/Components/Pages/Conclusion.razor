@@ -1,4 +1,5 @@
 ﻿@page "/conclusion"
+@implements IDisposable
 @using FiscalLabApp.Extensions
 
 @layout EditVisitLayout
@@ -50,6 +51,11 @@
 
         Layout.SelectedVisit ??= await VisitService.GetByIdAsync(VisitId);
         Visit = Layout.SelectedVisit;
+    }
+
+    public void Dispose()
+    {
+        Layout.SaveChanges();
     }
 
 }

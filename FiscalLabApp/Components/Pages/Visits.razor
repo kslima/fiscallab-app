@@ -1,19 +1,17 @@
-﻿@page "/visits"
-@layout VisitLayout
+﻿@page "/"
+@page "/visits"
 
 @inject IVisitService VisitService
 @inject NavigationManager NavigationManager
 
 <PageTitle>Visitas</PageTitle>
-
+<div class="mb-5">
 @foreach (var visit in _visits)
 {
-    <div class="card mb-3">
-        <div class="card-header bg-success bg-opacity-75 border-0 border text-light">
-            <h6 class="card-title fw-bold">@visit.Plant</h6>
-        </div>
+    <div class="card mb-3 border border-white" style="background-color: #d4e9e2;border-radius: 15px;">
         <div class="card-body">
-            <p class="card-text fw-bold text-muted">@visit.Association</p>
+            <h6 class="card-title fw-bold">@visit.Plant</h6>
+            <p class="card-text">@visit.Association</p>
             <p class="card-text">
                 <small class="text-muted"> @($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small>
             </p>
@@ -24,6 +22,14 @@
         </div>
     </div>
 }
+</div>
+<footer class="fixed-bottom pt-3 w-50 rounded-pill mb-1 ms-2"
+        style="background-color: #00754a;">
+    <div class="container text-center">
+        <p class="fw-bold text-white" @onclick="NewVisit">Nova Visita</p>
+    </div>
+</footer>
+
 
 @code {
     private List<Visit> _visits = new();
@@ -33,9 +39,13 @@
         _visits = await VisitService.GetAllAsync();
     }
 
+    private void NewVisit()
+    {
+        NavigationManager.NavigateTo("/new-visit");
+    }
+    
     private void EditVisit(string visitId)
     {
         NavigationManager.NavigateTo($"/main-visit/{visitId}");
     }
-
 }

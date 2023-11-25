@@ -1,6 +1,7 @@
 ﻿@page "/main-visit"
 @page "/main-visit/{VisitId}"
 @using FiscalLabApp.Extensions
+@implements IDisposable
 
 @layout EditVisitLayout
 @inject IMenuService MenuService
@@ -81,4 +82,8 @@
         Visit = Layout.SelectedVisit;
     }
 
+    public void Dispose()
+    {
+        Layout.SaveChanges();
+    }
 }
