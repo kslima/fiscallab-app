@@ -47,3 +47,11 @@ f
 .FiscalLabApp/Components/Pages/Conclusion.razor,6\f\6f97f53d63c6c4523c8478e97d7695e90c48e421
 \
 ,FiscalLabApp/Components/Pages/NewVIsit.razor,9\a\9acb28a05f28fa219dc68ea797db1b354f4f2652
+\
+,FiscalLabApp/wwwroot/js/IndexedDbAccessor.js,b\a\ba4b695114a8338db89528aedde063681da81ea3
+\
+,FiscalLabApp/Repositories/DatabaseService.cs,1\e\1e9b2afef538e87484535f8e901fd35edc365d2b
+a
+1FiscalLabApp/Repositories/ApplicationDbContext.cs,7\1\710b14445239f3efc6b7a543c26ea6fd788104e5
+\
+,FiscalLabApp/Repositories/VisitRepository.cs,a\e\aee584546c277156752f55220e43a81b6e3256d3
