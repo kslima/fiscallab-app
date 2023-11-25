@@ -25,11 +25,9 @@ jobs:
       - name: Publish
         run: dotnet publish ./FiscalLabApp.sln --configuration Release -o release --nologo --no-build
 
-      - name: Commit wwwroot to GitHub Pages
+      - name: Deploy wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          ACCESS_TOKEN: $
-          BASE_BRANCH: devel
-          BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
           FOLDER: release/wwwroot
-          SINGLE_COMMIT: true
