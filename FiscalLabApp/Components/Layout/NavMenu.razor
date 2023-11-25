@@ -1,7 +1,9 @@
-﻿<nav class="navbar navbar-expand-md mb-4 shadow" style="background-color: #f9f9f9;">
+﻿@inject NavigationManager NavigationManager
+
+<nav class="navbar navbar-expand-md mb-4 shadow" style="background-color: #f9f9f9;">
     <div class="container-fluid">
         <a href="#" class="rounded float-start mb-2">
-            <img src="icon-192.png" alt="logo" style="width:25%">
+            <img src="icon-192.png" alt="logo" style="width:25%" >
         </a>
         <div>
             <a class="navbar-brand  fw-bold text-black" href="">Fiscal Lab</a>
@@ -30,5 +32,4 @@
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
-
 }

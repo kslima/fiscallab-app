@@ -1,34 +1,32 @@
 ﻿@page "/"
-@page "/visits"
 
 @inject IVisitService VisitService
 @inject NavigationManager NavigationManager
 
 <PageTitle>Visitas</PageTitle>
 <div class="mb-5">
-@foreach (var visit in _visits)
-{
-    <div class="card mb-3 border border-white" style="background-color: #d4e9e2;border-radius: 15px;">
-        <div class="card-body">
-            <h6 class="card-title fw-bold">@visit.Plant</h6>
-            <p class="card-text">@visit.Association</p>
-            <p class="card-text">
-                <small class="text-muted"> @($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small>
-            </p>
-            <div class="row justify-content-start">
-                <button class="btn btn-outline-secondary col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Editar</button>
-                <button class="btn btn-outline-danger col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Excluir</button>
+    <div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
+        <button class="btn  rounded-pill text-white btn-lg fw-bolder" style="background-color: #00754a;"  @onclick="NewVisit">
+          Nova Visita
+        </button>
+      </div>
+    @foreach (var visit in _visits)
+    {
+        <div class="card mb-3 border border-white" style="background-color: #d4e9e2;border-radius: 15px;">
+            <div class="card-body">
+                <h6 class="card-title fw-bold">@visit.Plant</h6>
+                <p class="card-text">@visit.Association</p>
+                <p class="card-text">
+                    <small class="text-muted"> @($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small>
+                </p>
+                <div class="row justify-content-start">
+                    <button class="btn btn-outline-secondary col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Editar</button>
+                    <button class="btn btn-outline-danger col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Excluir</button>
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
 </div>
-<footer class="fixed-bottom pt-3 w-50 rounded-pill mb-1 ms-2"
-        style="background-color: #00754a;">
-    <div class="container text-center">
-        <p class="fw-bold text-white" @onclick="NewVisit">Nova Visita</p>
-    </div>
-</footer>
 
 
 @code {
