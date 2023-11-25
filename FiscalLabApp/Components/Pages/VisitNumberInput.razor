@@ -1,0 +1,33 @@
+﻿<div class="form-floating mb-3">
+    <InputNumber class="form-control" id="@Id" @oninput="UpdateParent" @bind-Value="Value" readonly="@Readonly"/>
+  <label for="@Id">@Title</label>
+</div >
+
+@code {
+    
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+    [Parameter]
+    public decimal Value { get; set; }
+    [Parameter]
+    public EventCallback<decimal> ValueChanged { get; set; }
+    [Parameter]
+    public EventCallback<decimal> ValueUpdated { get; set; }
+    [Parameter]
+    public bool Readonly { get; set; }
+    
+    private async Task UpdateParent(ChangeEventArgs e)
+    {
+        if (e.Value is null || string.IsNullOrWhiteSpace(e.Value.ToString()))
+        {
+            await ValueChanged.InvokeAsync(0);
+            await ValueUpdated.InvokeAsync(0);
+            return;
+        }
+        
+        await ValueChanged.InvokeAsync(decimal.Parse(e.Value.ToString()!));
+        await ValueUpdated.InvokeAsync(decimal.Parse(e.Value.ToString()!));
+    }
+}
