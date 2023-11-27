@@ -23,4 +23,5 @@ if (indexedDb is not null)
     await indexedDb.InitializeAsync();
 }
 
+await host.InitializeAsync();
 await host.RunAsync();

@@ -1,15 +1,23 @@
 ﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using FiscalLabApp.Repositories.SqLite
 
 @inject IVisitService VisitService
 @inject NavigationManager NavigationManager
+@inject IDbContextFactory<ApplicationDbContext> DbContextFactory
 
 <PageTitle>Visitas</PageTitle>
+@foreach (var email in _emails)
+{
+    <p class="card-text">@($"{email.Id} : {email.Address}")</p>
+}
+
 <div class="mb-5">
     <div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
-        <button class="btn  rounded-pill text-white btn-lg fw-bolder" style="background-color: #00754a;"  @onclick="NewVisit">
-          Nova Visita
+        <button class="btn  rounded-pill text-white btn-lg fw-bolder" style="background-color: #00754a;" @onclick="NewVisit">
+            Nova Visita
         </button>
-      </div>
+    </div>
     @foreach (var visit in _visits)
     {
         <div class="card mb-3 border border-white" style="background-color: #d4e9e2;border-radius: 15px;">
@@ -31,19 +39,36 @@
 
 @code {
     private List<Visit> _visits = new();
+    private List<Email> _emails = new();
 
     protected override async Task OnInitializedAsync()
     {
         _visits = await VisitService.GetAllAsync();
+        //_emails = await GetEmails();
     }
 
     private void NewVisit()
     {
         NavigationManager.NavigateTo("/new-visit");
     }
-    
+
     private void EditVisit(string visitId)
     {
         NavigationManager.NavigateTo($"/main-visit/{visitId}");
     }
+
+    public async Task<List<Email>> GetEmails()
+    {
+        await using var context = await DbContextFactory.CreateDbContextAsync();
+        
+        await context.Emails.AddAsync(new Email { Address = "kleuder.lima@gmail.com" });
+        await context.Emails.AddAsync(new Email { Address = "kleuder.lima@cedrotech.com" });
+        await context.SaveChangesAsync();
+
+
+        return await context.Emails
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
 }

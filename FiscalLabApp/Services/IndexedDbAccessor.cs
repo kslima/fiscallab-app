@@ -1,19 +1,26 @@
 ﻿using System.Net.Http.Json;
 using FiscalLabApp.Models;
+using FiscalLabApp.Repositories.SqLite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Services;
 
-public class IndexedDbAccessor : IAsyncDisposable
+public class IndexedDbAccessor : IAsyncDisposable, IDisposable
 {
     private Lazy<IJSObjectReference> _accessorJsRef = new();
     private readonly IJSRuntime _jsRuntime;
     private readonly HttpClient _httpClient;
+    private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
 
-    public IndexedDbAccessor(IJSRuntime jsRuntime, HttpClient httpClient)
+    public IndexedDbAccessor(
+        IJSRuntime jsRuntime,
+        HttpClient httpClient,
+        IDbContextFactory<ApplicationDbContext> dbContextFactory)
     {
         _jsRuntime = jsRuntime;
         _httpClient = httpClient;
+        _dbContextFactory = dbContextFactory;
     }
 
     public async Task InitializeAsync()
@@ -56,7 +63,7 @@ public class IndexedDbAccessor : IAsyncDisposable
 
         return result;
     }
-    
+
     public async Task<T> GetValueByKeyAsync<T>(string collectionName, string key)
     {
         await WaitForReference();
@@ -70,10 +77,18 @@ public class IndexedDbAccessor : IAsyncDisposable
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("set", collectionName, value);
     }
-    
+
     public async Task DeleteDatabaseAsync()
     {
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("deleteDatabase");
+    }
+
+    public void Dispose()
+    {
+        // if (_accessorJsRef.IsValueCreated)
+        // {
+        //     _accessorJsRef.Value.
+        // }
     }
 }
