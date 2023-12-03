@@ -2,11 +2,21 @@
 
 @inject IVisitService VisitService
 @inject IMenuService MenuService
+@inject IPlantRepository PlantRepository
 @inject NavigationManager NavigationManager
 
 <div class="row">
     <div class="col">
-        <VisitTextInput Title="Unidade Industrial" Option="@GetOption(MenuType.MainPagePlant)" Id="plantInput" @bind-value="_plantName"/>
+        <div class="form-floating mb-3">
+            <InputSelect @bind-Value="_plantId" class="form-control" id="plantInput">
+                <option value="" selected>Selecione uma usina..</option>
+                @foreach (var plant in _plants)
+                {
+                    <option value="@plant.Id">@plant.Name</option>
+                }
+            </InputSelect>
+        </div >
+
     </div>
 </div>
 
@@ -14,7 +24,6 @@
     <div class="col">
         <div class="form-floating mb-3">
             <input class="form-control" id="createdAtDateInput" type="date" @bind-value="_date"/>
-            <label for="createdAtDateInput">Data</label>
         </div >
 
     </div>
@@ -32,14 +41,16 @@
 
 @code {
 
-    private string _plantName = string.Empty;
+    private string _plantId = string.Empty;
     private DateOnly _date = DateOnly.FromDateTime(DateTime.Now);
     private TimeOnly _time = TimeOnly.FromDateTime(DateTime.Now);
     private MenuOption[] _options = Array.Empty<MenuOption>();
+    private List<PlantModel> _plants = new();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetOptions(PageType.Main);
+        _plants = await PlantRepository.GetAllAsync();
     }
 
     private MenuOption? GetOption(MenuType menuType)
@@ -53,7 +64,7 @@
     {
         var visit = new Visit
         {
-            Plant = _plantName,
+            Plant = _plants.Single(p => p.Id.Equals(_plantId)),
             VisitDate = _date,
             VisitTime = _time,
             CreatedAt = DateTime.UtcNow

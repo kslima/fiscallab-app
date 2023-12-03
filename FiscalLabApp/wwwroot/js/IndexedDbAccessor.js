@@ -6,6 +6,7 @@
         let db = applicationDb.result;
         db.createObjectStore("options", { keyPath: "menu" });
         db.createObjectStore("visits", { keyPath: "id" });
+        db.createObjectStore("plants", { keyPath: "id" });
     }
 }
 

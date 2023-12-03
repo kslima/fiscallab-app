@@ -2,23 +2,27 @@
 
 <nav class="navbar navbar-expand-md mb-4 shadow" style="background-color: #f9f9f9;">
     <div class="container-fluid">
-        <a href="" class="rounded float-start mb-2">
-            <img src="icon-192.png" alt="logo" style="width:25%" >
-        </a>
         <div>
             <a class="navbar-brand  fw-bold text-black" href="">Fiscal Lab</a>
             <p class="card-text">
                 <small class="text-muted">Sistema de Fiscalizacao de Laboratorio de Sacarose</small>
             </p>
+            <button class="navbar-toggler @NavButtonCssClass" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-label="Toggle navigation" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
         <div class="collapse navbar-collapse @NavBarCssClass" id="navbarCollapse" @onclick="ToggleNavMenu">
-            @* <ul class="navbar-nav me-auto mb-2 mb-md-0"> *@
-            @*     <li class="nav-item"> *@
-            @*         <NavLink class="nav-link" href="new-visit"> *@
-            @*             <span class="bi bi-list-nested" aria-hidden="true"></span> Nova Visita *@
-            @*         </NavLink> *@
-            @*     </li> *@
-            @* </ul> *@
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="visits">
+                        <span class="bi bi-list-nested" aria-hidden="true"></span> Visitas
+                    </NavLink>
+                    <NavLink class="nav-link" href="plants">
+                        <span class="bi bi-list-nested" aria-hidden="true"></span> Usinas
+                    </NavLink>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -32,4 +36,5 @@
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
+
 }

@@ -1,0 +1,49 @@
+﻿@page "/plant"
+@page "/plant/{PlantId}"
+
+@inject NavigationManager NavigationManager
+@inject IPlantRepository PlantRepository
+
+<div class="form-floating mb-3">
+    <InputText  class="form-control" id="nameInput" @bind-Value="PlantModel.Name" />
+    <label for="nameInput">Nome</label>
+</div >
+
+<div class="form-floating mb-3">
+    <InputTextArea class="form-control" id="emailInput" @bind-Value="PlantModel.Emails" />
+    <label for="emailInput">Emails</label>
+</div >
+
+<div class="d-grid gap-2">
+    <button type="button" class="btn btn-success mb-3" @onclick="SaveOrUpdatePlant">Salvar</button>
+</div>
+
+@code {
+
+    [Parameter]
+    public string PlantId { get; set; } = string.Empty;
+    public PlantModel PlantModel = new();
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(PlantId))
+        {
+            PlantModel = await PlantRepository.GetAsync(PlantId);
+        }
+    }
+
+    private async Task SaveOrUpdatePlant()
+    {
+        if (string.IsNullOrWhiteSpace(PlantId))
+        {
+            PlantModel.Id = Guid.NewGuid().ToString();
+            await PlantRepository.CreateAsync(PlantModel);
+        }
+        else
+        {
+            await PlantRepository.UpdateAsync(PlantModel);
+        }
+
+        NavigationManager.NavigateTo("/plants");
+    }
+}

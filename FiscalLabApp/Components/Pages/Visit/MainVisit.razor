@@ -6,8 +6,33 @@
 @layout EditVisitLayout
 @inject IMenuService MenuService
 @inject IVisitService VisitService
+@inject IPlantRepository PlantRepository
 
 <VisitDataSeparator Title="Dados Básicos">
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputSelect @bind-Value="_selectedPlantId" class="form-control" id="plantInput">
+                    <option value="" selected hidden>Selecione uma usina..</option>
+                    @foreach (var plant in _plants)
+                    {
+                        if (Layout.SelectedVisit!.Plant.Id.Equals(plant.Id))
+                        {
+                            <option value="@plant.Id" selected>@plant.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@plant.Id">@plant.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <label for="plantInput">Usina</label>
+            </div >
+
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
@@ -33,12 +58,6 @@
     <div class="row">
         <div class="col">
             <VisitTextInput Title="Associação/Fornecedor" Option="@_options.GetOption(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="Visit.Association"/>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Unidade Industrial" Option="@_options.GetOption(MenuType.MainPagePlant)" Id="plantInput" @bind-Value="Visit.Plant"/>
         </div>
     </div>
 
@@ -71,8 +90,11 @@
     public string VisitId { get; set; } = string.Empty;
 
     public Visit Visit { get; set; } = new();
+    public PlantModel SelectedPlant { get; set; } = new();
 
     private MenuOption[] _options = Array.Empty<MenuOption>();
+    private string _selectedPlantId = string.Empty;
+    private List<PlantModel> _plants = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,10 +102,17 @@
 
         Layout.SelectedVisit ??= await VisitService.GetByIdAsync(VisitId);
         Visit = Layout.SelectedVisit;
+        _plants = await PlantRepository.GetAllAsync();
     }
 
     public void Dispose()
     {
+        if (Layout.SelectedVisit is not null && !string.IsNullOrWhiteSpace(_selectedPlantId))
+        {
+            Layout.SelectedVisit.Plant = _plants.Single(p => p.Id.Equals(_selectedPlantId));
+        }
+
         Layout.SaveChanges();
     }
+
 }

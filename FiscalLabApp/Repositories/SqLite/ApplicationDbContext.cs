@@ -6,7 +6,7 @@ namespace FiscalLabApp.Repositories.SqLite;
 
 public class ApplicationDbContext : DbContext
 {
-    public DbSet<Email> Emails { get; set; }
+    public DbSet<PlantModel> Plants { get; set; }
     
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
     
@@ -20,19 +20,20 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .Entity<Email>()
+            .Entity<PlantModel>()
             .HasKey(e => e.Id);
         
         modelBuilder
-            .Entity<Email>()
+            .Entity<PlantModel>()
             .Property(e => e.Id)
             .ValueGeneratedOnAdd();
         base.OnModelCreating(modelBuilder);
     }
     
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        options.LogTo(Console.WriteLine, LogLevel.Error)
+        optionsBuilder
+            .LogTo(Console.WriteLine, LogLevel.Error)
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging(false);
     }
@@ -50,7 +51,7 @@ public class ApplicationDbContext : DbContext
     {
         Console.WriteLine("Start saving database");
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("syncDatabase", false, cancellationToken);
+        await module.InvokeVoidAsync("syncDatabase", cancellationToken, false, cancellationToken);
         Console.WriteLine("Finish save database");
     }
 } 

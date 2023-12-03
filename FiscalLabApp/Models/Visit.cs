@@ -6,7 +6,7 @@ public class Visit
 {
     //Main
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Plant { get; set; } = string.Empty;
+    public PlantModel Plant { get; set; } = new();
     public string Consultant { get; set; } = string.Empty;
     public string Association { get; set; } = string.Empty;
     public string Inspector { get; set; } = string.Empty;

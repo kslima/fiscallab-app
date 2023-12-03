@@ -13,6 +13,7 @@ public static class DependencyInjection
     public static void AddDependencies(this IServiceCollection services)
     {
 #if DEBUG
+        Console.WriteLine("debugging....");
         services.AddDbContextFactory<ApplicationDbContext>(
             options =>
             {
@@ -20,11 +21,13 @@ public static class DependencyInjection
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
 #else
-            services.AddDbContextFactory<ContributionDbContext>(
+            Console.WriteLine("not debugging....");
+            services.AddDbContextFactory<ApplicationDbContext>(
                     options => options.UseSqlite($"Filename={DatabaseService<ApplicationDbContext>.FileName}"));
 #endif
         
         services.AddScoped<IndexedDbAccessor>();
+        services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<IVisitRepository, VisitRepository>();
         services.AddScoped<IVisitService, VisitService>();

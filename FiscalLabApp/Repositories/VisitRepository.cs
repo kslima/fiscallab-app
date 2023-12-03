@@ -16,8 +16,7 @@ public class VisitRepository(IndexedDbAccessor indexedDbAccessor) : IVisitReposi
 
     public async Task<Visit> UpdateAsync(Visit visit)
     {
-        await indexedDbAccessor.SetValueAsync(VisitCollectionName, visit);
-        return visit;
+        return await CreateAsync(visit);
     }
 
     public async Task<Visit> GetByIdAsync(string id)
