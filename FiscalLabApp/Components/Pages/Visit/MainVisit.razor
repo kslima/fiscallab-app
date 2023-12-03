@@ -17,7 +17,7 @@
                     <option value="" selected hidden>Selecione uma usina..</option>
                     @foreach (var plant in _plants)
                     {
-                        if (Layout.SelectedVisit!.Plant.Id.Equals(plant.Id))
+                        if (Layout.SelectedVisit is not null && Layout.SelectedVisit.Plant.Id.Equals(plant.Id))
                         {
                             <option value="@plant.Id" selected>@plant.Name</option>
                         }
@@ -36,14 +36,14 @@
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="Visit.VisitDate"/>
+                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="Layout.SelectedVisit.VisitDate"/>
                 <label for="createdAtDateInput">Data</label>
             </div >
 
         </div>
         <div class="col">
             <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="Visit.VisitTime"/>
+                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="Layout.SelectedVisit.VisitTime"/>
                 <label for="createdAtTimeInput">Hora</label>
             </div >
         </div>
@@ -51,31 +51,31 @@
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Consultor" Option="@_options.GetOption(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="Visit.Consultant"/>
+            <VisitTextInput Title="Consultor" Option="@_options.GetOption(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="Layout.SelectedVisit.Consultant"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Associação/Fornecedor" Option="@_options.GetOption(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="Visit.Association"/>
+            <VisitTextInput Title="Associação/Fornecedor" Option="@_options.GetOption(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="Layout.SelectedVisit.Association"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Fiscal de Turno" Option="@_options.GetOption(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="Visit.Inspector"/>
+            <VisitTextInput Title="Fiscal de Turno" Option="@_options.GetOption(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="Layout.SelectedVisit.Inspector"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Líder de Turno" Option="@_options.GetOption(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="Visit.Leader"/>
+            <VisitTextInput Title="Líder de Turno" Option="@_options.GetOption(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="Layout.SelectedVisit.Leader"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Option="@_options.GetOption(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="Visit.LaboratoryLeader"/>
+            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Option="@_options.GetOption(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="Layout.SelectedVisit.LaboratoryLeader"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -85,13 +85,9 @@
 
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
-
     [Parameter]
     public string VisitId { get; set; } = string.Empty;
-
-    public Visit Visit { get; set; } = new();
     public PlantModel SelectedPlant { get; set; } = new();
-
     private MenuOption[] _options = Array.Empty<MenuOption>();
     private string _selectedPlantId = string.Empty;
     private List<PlantModel> _plants = new();
@@ -99,20 +95,23 @@
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetOptions(PageType.Main);
-
-        Layout.SelectedVisit ??= await VisitService.GetByIdAsync(VisitId);
-        Visit = Layout.SelectedVisit;
         _plants = await PlantRepository.GetAllAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            Layout.SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+        }
     }
 
     public void Dispose()
     {
-        if (Layout.SelectedVisit is not null && !string.IsNullOrWhiteSpace(_selectedPlantId))
+        if (!string.IsNullOrWhiteSpace(_selectedPlantId))
         {
             Layout.SelectedVisit.Plant = _plants.Single(p => p.Id.Equals(_selectedPlantId));
         }
-
         Layout.SaveChanges();
     }
-
 }

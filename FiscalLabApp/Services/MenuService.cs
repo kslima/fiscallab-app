@@ -5,9 +5,9 @@ namespace FiscalLabApp.Services;
 
 public class MenuService(IndexedDbAccessor indexedDbAccessor) : IMenuService
 {
-    public async Task<Menu[]> GetAllAsync()
+    public Task<Menu[]> GetAllAsync()
     {
-        return Array.Empty<Menu>();
+        return Task.FromResult(Array.Empty<Menu>());
     }
 
     public async Task<MenuOption[]> GetOptions(PageType pageType)

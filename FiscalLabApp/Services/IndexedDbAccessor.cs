@@ -1,34 +1,20 @@
 ﻿using System.Net.Http.Json;
 using FiscalLabApp.Models;
-using FiscalLabApp.Repositories.SqLite;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Services;
 
-public class IndexedDbAccessor : IAsyncDisposable, IDisposable
+public class IndexedDbAccessor(IJSRuntime jsRuntime,
+    HttpClient httpClient) : IAsyncDisposable, IDisposable
 {
     private Lazy<IJSObjectReference> _accessorJsRef = new();
-    private readonly IJSRuntime _jsRuntime;
-    private readonly HttpClient _httpClient;
-    private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
-
-    public IndexedDbAccessor(
-        IJSRuntime jsRuntime,
-        HttpClient httpClient,
-        IDbContextFactory<ApplicationDbContext> dbContextFactory)
-    {
-        _jsRuntime = jsRuntime;
-        _httpClient = httpClient;
-        _dbContextFactory = dbContextFactory;
-    }
 
     public async Task InitializeAsync()
     {
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("initialize");
 
-        var result = await _httpClient.GetFromJsonAsync<MenuOption[]>("/sample-data/options.json");
+        var result = await httpClient.GetFromJsonAsync<MenuOption[]>("/sample-data/options.json");
         if (result != null)
         {
             foreach (var menu in result)
@@ -44,7 +30,7 @@ public class IndexedDbAccessor : IAsyncDisposable, IDisposable
         {
             _accessorJsRef =
                 new Lazy<IJSObjectReference>(
-                    await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/IndexedDbAccessor.js"));
+                    await jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/IndexedDbAccessor.js"));
         }
     }
 

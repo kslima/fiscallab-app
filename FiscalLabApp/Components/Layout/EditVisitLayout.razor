@@ -12,12 +12,11 @@
 
 @code
 {
-    public Visit? SelectedVisit { get; set; }
+    public Visit SelectedVisit { get; set; } = new();
 
     public void SaveChanges()
     {
-        if (SelectedVisit is null)
-            return;
+        if (string.IsNullOrWhiteSpace(SelectedVisit.Id)) return;
         VisitService.UpdateAsync(SelectedVisit);
     }
 }
