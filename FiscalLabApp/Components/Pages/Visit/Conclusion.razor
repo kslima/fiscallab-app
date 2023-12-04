@@ -47,7 +47,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetOptions(PageType.Main);
+        _options = await MenuService.GetMenuOptions(PageType.Main);
 
         Layout.SelectedVisit ??= await VisitService.GetByIdAsync(VisitId);
         Visit = Layout.SelectedVisit;

@@ -7,6 +7,7 @@ namespace FiscalLabApp.Services;
 public class IndexedDbAccessor(IJSRuntime jsRuntime,
     HttpClient httpClient) : IAsyncDisposable, IDisposable
 {
+    public const string OptionsCollectionName = "options";
     private Lazy<IJSObjectReference> _accessorJsRef = new();
 
     public async Task InitializeAsync()
@@ -14,6 +15,13 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("initialize");
 
+        await InitializeOptionsAsync();
+    }
+    
+    public async Task InitializeOptionsAsync()
+    {
+        var options = await GetValueAsync<MenuOption[]>(OptionsCollectionName);
+        if (options.Any()) return;
         var result = await httpClient.GetFromJsonAsync<MenuOption[]>("/sample-data/options.json");
         if (result != null)
         {

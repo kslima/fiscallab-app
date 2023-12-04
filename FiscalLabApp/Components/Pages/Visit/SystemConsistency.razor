@@ -196,7 +196,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetOptions(PageType.SugarcaneScale);
+        _options = await MenuService.GetMenuOptions(PageType.SugarcaneScale);
 
         if (Layout.SelectedVisit is not null)
         {

@@ -49,7 +49,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetOptions(PageType.Main);
+        _options = await MenuService.GetMenuOptions(PageType.Main);
         _plants = await PlantRepository.GetAllAsync();
     }
 

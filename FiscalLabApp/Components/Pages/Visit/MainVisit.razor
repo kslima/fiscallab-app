@@ -51,7 +51,7 @@
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Consultor" Option="@_options.GetOption(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="Layout.SelectedVisit.Consultant"/>
+            <VisitTextInput Title="Consultor" PageType="PageType.Main" MenuType="MenuType.MainPageConsultant" Id="consultantInput" @bind-value="Layout.SelectedVisit.Consultant"/>
         </div>
     </div>
 
@@ -94,7 +94,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetOptions(PageType.Main);
+        _options = await MenuService.GetMenuOptions(PageType.Main);
         _plants = await PlantRepository.GetAllAsync();
     }
 

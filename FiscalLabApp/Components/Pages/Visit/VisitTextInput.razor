@@ -1,4 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
+@inject IMenuService MenuService
+@inject IJSRuntime JsRuntime
 
 <div class="form-floating input-group mb-3">
     <InputText class="form-control" list="@($"list-{Id}")" id="@Id" @oninput="UpdateParent" @bind-Value="@Value"/>
@@ -11,8 +13,18 @@
             }
         </datalist>
     }
-    <label for="@Id" >@Title</label>
-    <button class="btn btn-outline-secondary" type="button">+</button>
+    else
+    {
+        <datalist id="@($"list-{Id}")">
+            @foreach (var opt in _options)
+            {
+                <option value="@opt"/>
+            }
+        </datalist>
+    }
+    <label for="@Id">@Title</label>
+    <button class="btn btn-outline-secondary" type="button" @onclick="AddOptionAsync">+</button>
+    <button class="btn btn-outline-danger" type="button" @onclick="RemoveOptionAsync">-</button>
 </div >
 
 @code {
@@ -30,14 +42,51 @@
     public string Value { get; set; } = string.Empty;
 
     [Parameter]
+    public PageType? PageType { get; set; }
+
+    [Parameter]
+    public MenuType? MenuType { get; set; }
+
+    [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
+
+    private string[] _options = Array.Empty<string>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (PageType is not null && MenuType is not null)
+        {
+            _options = await MenuService.GetOptions(PageType.Value, MenuType.Value);
+        }
+    }
 
     private async Task UpdateParent(ChangeEventArgs e)
     {
         await ValueChanged.InvokeAsync(e.Value?.ToString());
     }
     
-    private void AddOption() {
-        NavigationManager.NavigateTo("/option");
+    private async Task AddOptionAsync()
+    {
+        if (PageType is null || MenuType is null) return;
+        
+        if (_options.Contains(Value))
+        {
+            await JsRuntime.InvokeAsync<string>("alert", "Opção já cadastrada!!"); 
+            return;
+        }
+        await MenuService.AddOptionAsync(PageType.Value, MenuType.Value, Value);
+        await JsRuntime.InvokeAsync<string>("alert", "Nova opção adicionado com sucesso!!"); 
+    }
+    
+    private async Task RemoveOptionAsync()
+    {
+        if (PageType is null || MenuType is null) return;
+        
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Remover opção ?");
+        if (!confirmed) return;
+        
+        await MenuService.RemoveOptionAsync(PageType.Value, MenuType.Value, Value);
+        await ValueChanged.InvokeAsync(string.Empty);
+        await JsRuntime.InvokeAsync<string>("alert", "Opção removida com sucesso!!"); 
     }
 }

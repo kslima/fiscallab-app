@@ -1,5 +1,4 @@
-﻿@using FiscalLabApp.Models
-@inject HttpClient HttpClient;
+﻿@inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager
 @inject IVisitService VisitService
 
@@ -26,11 +25,8 @@
 
     private async Task CallVisitPage(ChangeEventArgs e)
     {
-        if (EditVisitLayout.SelectedVisit is not null)
-        {
-            var visit = EditVisitLayout.SelectedVisit;
-            EditVisitLayout.SelectedVisit = await VisitService.UpdateAsync(visit);
-        }
+        var visit = EditVisitLayout.SelectedVisit;
+        EditVisitLayout.SelectedVisit = await VisitService.UpdateAsync(visit);
         
         var route = e.Value?.ToString();
         if (route is null) return;
