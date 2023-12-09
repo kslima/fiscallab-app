@@ -21,7 +21,7 @@ public class VisitRepository(IndexedDbAccessor indexedDbAccessor) : IVisitReposi
 
     public async Task<Visit> GetByIdAsync(string id)
     {
-        return await indexedDbAccessor.GetValueByKeyAsync<Visit>(VisitCollectionName, id);
+        return await indexedDbAccessor.GetValueByIdAsync<Visit>(VisitCollectionName, id);
     }
 
     public async Task<List<Visit>> GetAllAsync()

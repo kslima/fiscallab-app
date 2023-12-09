@@ -8,25 +8,25 @@
 <VisitDataSeparator Title="Prensa/Desintegrador/Temperatura">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Célula Carga" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentLoadCell)" Id="benchmarkingEquipmentLoadCell" @bind-value="Visit.BenchmarkingEquipmentLoadCell"/>
+            <VisitTextInput Title="Célula Carga" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentLoadCell)" Id="benchmarkingEquipmentLoadCell" @bind-value="Visit.BenchmarkingEquipmentLoadCell"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Termômetro" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentThermometer)" Id="=benchmarkingEquipmentThermometer" @bind-value="Visit.BenchmarkingEquipmentThermometer"/>
+            <VisitTextInput Title="Termômetro" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentThermometer)" Id="=benchmarkingEquipmentThermometer" @bind-value="Visit.BenchmarkingEquipmentThermometer"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Tacômetro" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentTachometer)" Id="benchmarkingEquipmentTachometer" @bind-value="Visit.BenchmarkingEquipmentTachometer"/>
+            <VisitTextInput Title="Tacômetro" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentTachometer)" Id="benchmarkingEquipmentTachometer" @bind-value="Visit.BenchmarkingEquipmentTachometer"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Paquímetro" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentPachymeter)" Id="benchmarkingEquipmentPachymeter" @bind-value="Visit.BenchmarkingEquipmentPachymeter"/>
+            <VisitTextInput Title="Paquímetro" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentPachymeter)" Id="benchmarkingEquipmentPachymeter" @bind-value="Visit.BenchmarkingEquipmentPachymeter"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -34,19 +34,19 @@
 <VisitDataSeparator Title="Pesos Padrões">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="500gm" Option="@_options.GetOption(MenuType.BenchmarkingEquipment500Gm)" Id="benchmarkingEquipment500Gm" @bind-value="Visit.BenchmarkingEquipment500Gm"/>
+            <VisitTextInput Title="500gm" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipment500Gm)" Id="benchmarkingEquipment500Gm" @bind-value="Visit.BenchmarkingEquipment500Gm"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="100gm" Option="@_options.GetOption(MenuType.BenchmarkingEquipment100Gm)" Id="=cenchmarkingEquipment100Gm" @bind-value="Visit.BenchmarkingEquipment100Gm"/>
+            <VisitTextInput Title="100gm" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipment100Gm)" Id="=cenchmarkingEquipment100Gm" @bind-value="Visit.BenchmarkingEquipment100Gm"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="1gm" Option="@_options.GetOption(MenuType.BenchmarkingEquipment1Gm)" Id="benchmarkingEquipment1Gm" @bind-value="Visit.BenchmarkingEquipment1Gm"/>
+            <VisitTextInput Title="1gm" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipment1Gm)" Id="benchmarkingEquipment1Gm" @bind-value="Visit.BenchmarkingEquipment1Gm"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -54,7 +54,7 @@
 <VisitDataSeparator Title="Linearidade/Repetitividade-Sacarose(PA)">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Teste de Sacarose" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentSucroseTest)" Id="benchmarkingEquipmentSucroseTest" @bind-value="Visit.BenchmarkingEquipmentSucroseTest"/>
+            <VisitTextInput Title="Teste de Sacarose" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentSucroseTest)" Id="benchmarkingEquipmentSucroseTest" @bind-value="Visit.BenchmarkingEquipmentSucroseTest"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -62,19 +62,19 @@
 <VisitDataSeparator Title="Refratômetro(Faixa)">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="10º" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentRange10)" Id="benchmarkingEquipmentRange10" @bind-value="Visit.BenchmarkingEquipmentRange10"/>
+            <VisitTextInput Title="10º" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentRange10)" Id="benchmarkingEquipmentRange10" @bind-value="Visit.BenchmarkingEquipmentRange10"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="20º" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentRange20)" Id="=benchmarkingEquipmentRange20" @bind-value="Visit.BenchmarkingEquipmentRange20"/>
+            <VisitTextInput Title="20º" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentRange20)" Id="=benchmarkingEquipmentRange20" @bind-value="Visit.BenchmarkingEquipmentRange20"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="30º" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentRange30)" Id="benchmarkingEquipmentRange30" @bind-value="Visit.BenchmarkingEquipmentRange30"/>
+            <VisitTextInput Title="30º" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentRange30)" Id="benchmarkingEquipmentRange30" @bind-value="Visit.BenchmarkingEquipmentRange30"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -82,31 +82,31 @@
 <VisitDataSeparator Title="Sacarímetro(Solução)">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="25ºZ" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentZ25)" Id="benchmarkingEquipmentZ25" @bind-value="Visit.BenchmarkingEquipmentZ25"/>
+            <VisitTextInput Title="25ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ25)" Id="benchmarkingEquipmentZ25" @bind-value="Visit.BenchmarkingEquipmentZ25"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="50ºZ" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentZ50)" Id="=benchmarkingEquipmentZ50" @bind-value="Visit.BenchmarkingEquipmentZ50"/>
+            <VisitTextInput Title="50ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ50)" Id="=benchmarkingEquipmentZ50" @bind-value="Visit.BenchmarkingEquipmentZ50"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="75ºZ" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentZ75)" Id="benchmarkingEquipmentZ75" @bind-value="Visit.BenchmarkingEquipmentZ75"/>
+            <VisitTextInput Title="75ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ75)" Id="benchmarkingEquipmentZ75" @bind-value="Visit.BenchmarkingEquipmentZ75"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="100ºZ" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentZ100)" Id="benchmarkingEquipmentZ100" @bind-value="Visit.BenchmarkingEquipmentZ100"/>
+            <VisitTextInput Title="100ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ100)" Id="benchmarkingEquipmentZ100" @bind-value="Visit.BenchmarkingEquipmentZ100"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 11" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentObservations11)" Id="benchmarkingEquipmentObservations11" @bind-value="Visit.BenchmarkingEquipmentObservations11"/>
+            <VisitTextInput Title="Observações 11" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentObservations11)" Id="benchmarkingEquipmentObservations11" @bind-value="Visit.BenchmarkingEquipmentObservations11"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -183,7 +183,7 @@
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 12" Option="@_options.GetOption(MenuType.BenchmarkingEquipmentObservations12)" Id="benchmarkingEquipmentObservations12" @bind-value="Visit.BenchmarkingEquipmentObservations12"/>
+            <VisitTextInput Title="Observações 12" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentObservations12)" Id="benchmarkingEquipmentObservations12" @bind-value="Visit.BenchmarkingEquipmentObservations12"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -193,7 +193,7 @@
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
 
-    private MenuOption[] _options = Array.Empty<MenuOption>();
+    private Menu[] _options = Array.Empty<Menu>();
 
     public Visit Visit { get; set; } = new();
 
@@ -201,10 +201,7 @@
     {
         _options = await MenuService.GetMenuOptions(PageType.SugarcaneScale);
 
-        if (Layout.SelectedVisit is not null)
-        {
-            Visit = Layout.SelectedVisit;
-        }
+        Visit = Layout.SelectedVisit;
     }
     
     public void ExpectedCropChanged(decimal value)

@@ -1,22 +1,11 @@
 ﻿@page "/new-visit"
 
 @inject IVisitService VisitService
-@inject IMenuService MenuService
-@inject IPlantRepository PlantRepository
 @inject NavigationManager NavigationManager
 
 <div class="row">
     <div class="col">
-        <div class="form-floating mb-3">
-            <InputSelect @bind-Value="_plantId" class="form-control" id="plantInput">
-                <option value="" selected>Selecione uma usina..</option>
-                @foreach (var plant in _plants)
-                {
-                    <option value="@plant.Id">@plant.Name</option>
-                }
-            </InputSelect>
-        </div >
-
+        <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="/new-visit"/>
     </div>
 </div>
 
@@ -40,37 +29,29 @@
 </div>
 
 @code {
-
-    private string _plantId = string.Empty;
+    
     private DateOnly _date = DateOnly.FromDateTime(DateTime.Now);
     private TimeOnly _time = TimeOnly.FromDateTime(DateTime.Now);
-    private MenuOption[] _options = Array.Empty<MenuOption>();
-    private List<PlantModel> _plants = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        _options = await MenuService.GetMenuOptions(PageType.Main);
-        _plants = await PlantRepository.GetAllAsync();
-    }
-
-    private MenuOption? GetOption(MenuType menuType)
-    {
-        var options = _options.SingleOrDefault(o => o.Menu.Equals(menuType.ToString()));
-
-        return options;
-    }
-
+    private PlantModel? SelectedPlant { get; set; }
+    
     private async Task CreateNewVisit()
     {
         var visit = new Visit
         {
-            Plant = _plants.Single(p => p.Id.Equals(_plantId)),
+            Plant = SelectedPlant!,
             VisitDate = _date,
             VisitTime = _time,
             CreatedAt = DateTime.UtcNow
         };
+        
         visit = await VisitService.CreateAsync(visit);
         NavigationManager.NavigateTo("/visits");
+    }
+
+    private Task OnPlantChanged(PlantModel plant)
+    {
+        SelectedPlant = plant;
+        return Task.CompletedTask;
     }
 
 }

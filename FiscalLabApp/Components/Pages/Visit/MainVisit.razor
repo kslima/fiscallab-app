@@ -6,108 +6,75 @@
 @layout EditVisitLayout
 @inject IMenuService MenuService
 @inject IVisitService VisitService
-@inject IPlantRepository PlantRepository
-@inject NavigationManager NavigationManager
 
-<VisitDataSeparator Title="Dados Básicos">
+<CascadingValue Value="@($"/main-visit/{VisitId}")">
+    <VisitDataSeparator Title="Dados Básicos">
 
-    <div class="row">
-        <div class="col">
-            <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="Layout.SelectedVisit.VisitDate"/>
-                <label for="createdAtDateInput">Data</label>
-            </div >
+        <div class="row">
+            <div class="col">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="createdAtDateInput" type="date" @bind-value="Layout.SelectedVisit.VisitDate"/>
+                    <label for="createdAtDateInput">Data</label>
+                </div >
 
-        </div>
-        <div class="col">
-            <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="Layout.SelectedVisit.VisitTime"/>
-                <label for="createdAtTimeInput">Hora</label>
-            </div >
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div class="form-floating input-group mb-3">
-                <InputSelect @bind-Value="_selectedPlantId" class="form-control" id="plantInput" @bind-Value:after="OnChangePlant">
-                    <option value="" selected hidden>Selecione uma usina..</option>
-                    @foreach (var plant in _plants)
-                    {
-                        if (Layout.SelectedVisit is not null && Layout.SelectedVisit.Plant.Id.Equals(plant.Id))
-                        {
-                            <option value="@plant.Id" selected>@plant.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@plant.Id">@plant.Name</option>
-                        }
-                    }
-                </InputSelect>
-                <label for="plantInput">Usina <strong class="text-danger">*</strong></label>
-                <button class="btn btn-outline-secondary" type="button" @onclick="AddPlant">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                    </svg>
-                </button>
-                <button class="btn btn-outline-secondary" type="button" @onclick="EditPlant">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
-                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
-                    </svg>
-                </button>
             </div>
-
+            <div class="col">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="Layout.SelectedVisit.VisitTime"/>
+                    <label for="createdAtTimeInput">Hora</label>
+                </div >
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Consultor" PageType="PageType.Main" MenuType="MenuType.MainPageConsultant" Id="consultantInput" @bind-value="Layout.SelectedVisit.Consultant" Required="true"/>
+        <div class="row">
+            <div class="col">
+                <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@($"/main-visit/{VisitId}")" CurrentPlant="Layout.SelectedVisit.Plant"/>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Associação/Fornecedor" Option="@_options.GetOption(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="Layout.SelectedVisit.Association" Required="true"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="Layout.SelectedVisit.Consultant" Required="true"/>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Fiscal de Turno" Option="@_options.GetOption(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="Layout.SelectedVisit.Inspector"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Associação/Fornecedor" Menu="@_menus.GetMenu(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="Layout.SelectedVisit.Association" Required="true"/>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Líder de Turno" Option="@_options.GetOption(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="Layout.SelectedVisit.Leader"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Fiscal de Turno" Menu="@_menus.GetMenu(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="Layout.SelectedVisit.Inspector"/>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Option="@_options.GetOption(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="Layout.SelectedVisit.LaboratoryLeader"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Líder de Turno" Menu="@_menus.GetMenu(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="Layout.SelectedVisit.Leader"/>
+            </div>
         </div>
-    </div>
-</VisitDataSeparator>
 
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Menu="@_menus.GetMenu(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="Layout.SelectedVisit.LaboratoryLeader"/>
+            </div>
+        </div>
+    </VisitDataSeparator>
+</CascadingValue>
 
 @code {
 
-    [CascadingParameter] 
-    EditVisitLayout Layout { get; set; } = new();
-    [Parameter] 
-    public string VisitId { get; set; } = string.Empty;
-    private MenuOption[] _options = Array.Empty<MenuOption>();
-    private string _selectedPlantId = string.Empty;
-    private List<PlantModel> _plants = [];
+    [CascadingParameter] EditVisitLayout Layout { get; set; } = new();
+
+    [Parameter] public string VisitId { get; set; } = string.Empty;
+
+    private Menu[] _menus = Array.Empty<Menu>();
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetMenuOptions(PageType.Main);
-        _plants = await PlantRepository.GetAllAsync();
+        _menus = await MenuService.GetMenuOptions(PageType.Main);
     }
 
     protected override async Task OnParametersSetAsync()
@@ -115,33 +82,17 @@
         if (!string.IsNullOrWhiteSpace(VisitId))
         {
             Layout.SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            _selectedPlantId = Layout.SelectedVisit.Plant.Id;
         }
     }
 
     public void Dispose()
     {
-        if (!string.IsNullOrWhiteSpace(_selectedPlantId))
-        {
-            Layout.SelectedVisit.Plant = _plants.Single(p => p.Id.Equals(_selectedPlantId));
-        }
-
         Layout.SaveChanges();
     }
 
-    private void EditPlant()
+    private void OnPlantChanged(PlantModel plant)
     {
-        NavigationManager.NavigateTo($"/plant/{Layout.SelectedVisit.Id}/{_selectedPlantId}");
-    }
-    
-    private void AddPlant()
-    {
-        NavigationManager.NavigateTo($"/plant/{Layout.SelectedVisit.Id}");
-    }
-
-    private void OnChangePlant()
-    {
-        Layout.SelectedVisit.Plant = _plants.Single(p => p.Id.Equals(_selectedPlantId));
+        Layout.SelectedVisit.Plant = plant;
         Layout.SaveChanges();
     }
 

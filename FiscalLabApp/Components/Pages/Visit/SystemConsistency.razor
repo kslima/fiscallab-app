@@ -190,18 +190,14 @@
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
 
-    private MenuOption[] _options = Array.Empty<MenuOption>();
+    private Menu[] _options = Array.Empty<Menu>();
 
     public Visit Visit { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.SugarcaneScale);
-
-        if (Layout.SelectedVisit is not null)
-        {
-            Visit = Layout.SelectedVisit;
-        }
+        Visit = Layout.SelectedVisit;
     }
 
     private void OnClarifySelected(ChangeEventArgs e)

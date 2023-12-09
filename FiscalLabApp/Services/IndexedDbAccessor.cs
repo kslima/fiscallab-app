@@ -7,7 +7,7 @@ namespace FiscalLabApp.Services;
 public class IndexedDbAccessor(IJSRuntime jsRuntime,
     HttpClient httpClient) : IAsyncDisposable, IDisposable
 {
-    public const string OptionsCollectionName = "options";
+    public const string OptionsCollectionName = "menus";
     private Lazy<IJSObjectReference> _accessorJsRef = new();
 
     public async Task InitializeAsync()
@@ -20,14 +20,15 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
     
     public async Task InitializeOptionsAsync()
     {
-        var options = await GetValueAsync<MenuOption[]>(OptionsCollectionName);
-        if (options.Any()) return;
-        var result = await httpClient.GetFromJsonAsync<MenuOption[]>("/sample-data/options.json");
+        var menus = await GetValueAsync<Menu[]>(OptionsCollectionName);
+        if (menus.Length > 0) return;
+        
+        var result = await httpClient.GetFromJsonAsync<Menu[]>("/sample-data/menus.json");
         if (result != null)
         {
             foreach (var menu in result)
             {
-                await SetValueAsync("options", menu);
+                await SetValueAsync(OptionsCollectionName, menu);
             }
         }
     }
@@ -58,10 +59,10 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
         return result;
     }
 
-    public async Task<T> GetValueByKeyAsync<T>(string collectionName, string key)
+    public async Task<T> GetValueByIdAsync<T>(string collectionName, string key)
     {
         await WaitForReference();
-        var result = await _accessorJsRef.Value.InvokeAsync<T>("getByKey", collectionName, key);
+        var result = await _accessorJsRef.Value.InvokeAsync<T>("getById", collectionName, key);
 
         return result;
     }

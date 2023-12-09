@@ -9,25 +9,25 @@
 <VisitDataSeparator Title="Conclusao">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Atuação do fiscal" Option="@_options.GetOption(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="Visit.ConclusionInspectorPerformance"/>
+            <VisitTextInput Title="Atuação do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="Visit.ConclusionInspectorPerformance"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Receptividade Laboratório" Option="@_options.GetOption(MenuType.ConclusionLaboratoryReceptivity)" Id="conclusionLaboratoryReceptivity" @bind-value="Visit.ConclusionLaboratoryReceptivity"/>
+            <VisitTextInput Title="Receptividade Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryReceptivity)" Id="conclusionLaboratoryReceptivity" @bind-value="Visit.ConclusionLaboratoryReceptivity"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Pendências" Option="@_options.GetOption(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="Visit.ConclusionPendencies"/>
+            <VisitTextInput Title="Pendências" Menu="@_options.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="Visit.ConclusionPendencies"/>
         </div>
     </div>
     
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações sobre a visita" Option="@_options.GetOption(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="Visit.ConclusionObservations"/>
+            <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="Visit.ConclusionObservations"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -43,13 +43,11 @@
 
     public Visit Visit { get; set; } = new();
 
-    private MenuOption[] _options = Array.Empty<MenuOption>();
+    private Menu[] _options = Array.Empty<Menu>();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.Main);
-
-        Layout.SelectedVisit ??= await VisitService.GetByIdAsync(VisitId);
         Visit = Layout.SelectedVisit;
     }
 

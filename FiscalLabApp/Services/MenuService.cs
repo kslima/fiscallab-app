@@ -5,53 +5,45 @@ namespace FiscalLabApp.Services;
 
 public class MenuService(IndexedDbAccessor indexedDbAccessor) : IMenuService
 {
-    public Task<Menu[]> GetAllAsync()
+    public Task<Menu> GetByCode(string id)
     {
-        return Task.FromResult(Array.Empty<Menu>());
+        return indexedDbAccessor.GetValueByIdAsync<Menu>(IndexedDbAccessor.OptionsCollectionName, id);
     }
 
-    public async Task<MenuOption[]> GetMenuOptions(PageType pageType)
+    public async Task<Menu[]> GetMenuOptions(PageType pageType)
     {
-        var options = await indexedDbAccessor.GetValueAsync<MenuOption[]>(IndexedDbAccessor.OptionsCollectionName);
+        var options = await indexedDbAccessor.GetValueAsync<Menu[]>(IndexedDbAccessor.OptionsCollectionName);
         return options
             .Where(p => p.Page.Equals(pageType.ToString()))
             .ToArray();
     }
 
-    public async Task<string[]> GetOptions(PageType pageType, MenuType menuType)
+    private async Task<string[]> GetOptions(PageType pageType, MenuType menuType)
     {
-        var options = await indexedDbAccessor.GetValueAsync<MenuOption[]>(IndexedDbAccessor.OptionsCollectionName);
+        var options = await indexedDbAccessor.GetValueAsync<Menu[]>(IndexedDbAccessor.OptionsCollectionName);
         return options
             .Where(p => p.Page.Equals(pageType.ToString()))
-            .Where(p => p.Menu.Equals(menuType.ToString()))
+            .Where(p => p.Code.Equals(menuType.ToString()))
             .SelectMany(p => p.Options)
             .ToArray();
     }
 
     public async Task<string[]> AddOptionAsync(PageType pageType, MenuType menuType, string option)
     {
-        var options = await indexedDbAccessor.GetValueAsync<MenuOption[]>(IndexedDbAccessor.OptionsCollectionName);
+        var options = await indexedDbAccessor.GetValueAsync<Menu[]>(IndexedDbAccessor.OptionsCollectionName);
         var menu = options
             .Where(p => p.Page.Equals(pageType.ToString()))
-            .Single(p => p.Menu.Equals(menuType.ToString()));
+            .Single(p => p.Code.Equals(menuType.ToString()));
         
         menu.Options.Add(option);
         await indexedDbAccessor.SetValueAsync(IndexedDbAccessor.OptionsCollectionName, menu);
         return await GetOptions(pageType, menuType);
     }
-    
-    public async Task<string[]> RemoveOptionAsync(PageType pageType, MenuType menuType, string option)
-    {
-        var options = await indexedDbAccessor.GetValueAsync<MenuOption[]>(IndexedDbAccessor.OptionsCollectionName);
-        var menu = options
-            .Where(p => p.Page.Equals(pageType.ToString()))
-            .Single(p => p.Menu.Equals(menuType.ToString()));
 
-        menu.Options = menu.Options
-            .Where(o => !o.Equals(option))
-            .ToList();
-        
+    public async Task SetOptionAsync(string code, List<string> options)
+    {
+        var menu = await GetByCode(code);
+        menu.Options = options;
         await indexedDbAccessor.SetValueAsync(IndexedDbAccessor.OptionsCollectionName, menu);
-        return await GetOptions(pageType, menuType);
     }
 }

@@ -8,37 +8,37 @@
 <VisitDataSeparator Title="Balança Analítica">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Peso Homogenio Apos" Option="@_options.GetOption(MenuType.AnalyticalBalanceHomogeneousWeight)" Id="homogeneousWeight" @bind-value="Visit.HomogeneousWeight"/>
+            <VisitTextInput Title="Peso Homogenio Apos" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceHomogeneousWeight)" Id="homogeneousWeight" @bind-value="Visit.HomogeneousWeight"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Peso Amostra Final" Option="@_options.GetOption(MenuType.AnalyticalBalanceFinalWeight)" Id="finalWeight" @bind-value="Visit.FinalWeight"/>
+            <VisitTextInput Title="Peso Amostra Final" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceFinalWeight)" Id="finalWeight" @bind-value="Visit.FinalWeight"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança Aferida" Option="@_options.GetOption(MenuType.AnalyticalBalanceCalibratedBalance)" Id="calibratedBalance" @bind-value="Visit.CalibratedBalance"/>
+            <VisitTextInput Title="Balança Aferida" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceCalibratedBalance)" Id="calibratedBalance" @bind-value="Visit.CalibratedBalance"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança Nivelada" Option="@_options.GetOption(MenuType.AnalyticalBalanceLeveledBalance)" Id="leveledBalance" @bind-value="Visit.LeveledBalance"/>
+            <VisitTextInput Title="Balança Nivelada" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceLeveledBalance)" Id="leveledBalance" @bind-value="Visit.LeveledBalance"/>
         </div>
     </div>
     
     <div class="row">
             <div class="col">
-                <VisitTextInput Title="Balança Com Certificado de Calibragem" Option="@_options.GetOption(MenuType.AnalyticalBalanceCalibrationCertificateBalance)" Id="calibrationCertificateBalance" @bind-value="Visit.CalibrationCertificateBalance"/>
+                <VisitTextInput Title="Balança Com Certificado de Calibragem" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceCalibrationCertificateBalance)" Id="calibrationCertificateBalance" @bind-value="Visit.CalibrationCertificateBalance"/>
             </div>
         </div>
     
     <div class="row">
             <div class="col">
-                <VisitTextInput Title="Observações 5" Option="@_options.GetOption(MenuType.AnalyticalBalanceObservations5)" Id="observations5" @bind-value="Visit.Observations5"/>
+                <VisitTextInput Title="Observações 5" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceObservations5)" Id="observations5" @bind-value="Visit.Observations5"/>
             </div>
         </div>
 </VisitDataSeparator>
@@ -47,13 +47,13 @@
 <VisitDataSeparator Title="Temperatura Ambiente">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Média temperatura ambiente(20ºC±5)" Option="@_options.GetOption(MenuType.AnalyticalBalanceAverageAmbientTemperature)" Id="averageAmbientTemperature" @bind-value="Visit.AverageAmbientTemperature"/>
+            <VisitTextInput Title="Média temperatura ambiente(20ºC±5)" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceAverageAmbientTemperature)" Id="averageAmbientTemperature" @bind-value="Visit.AverageAmbientTemperature"/>
         </div>
     </div>
     
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 6" Option="@_options.GetOption(MenuType.AnalyticalBalanceObservations6)" Id="observations6" @bind-value="Visit.Observations6"/>
+            <VisitTextInput Title="Observações 6" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceObservations6)" Id="observations6" @bind-value="Visit.Observations6"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -63,7 +63,7 @@
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
 
-    private MenuOption[] _options = Array.Empty<MenuOption>();
+    private Menu[] _options = Array.Empty<Menu>();
 
     public Visit Visit { get; set; } = new();
 
@@ -71,10 +71,7 @@
     {
         _options = await MenuService.GetMenuOptions(PageType.SugarcaneScale);
 
-        if (Layout.SelectedVisit is not null)
-        {
-            Visit = Layout.SelectedVisit;
-        }
+        Visit = Layout.SelectedVisit;
     }
 
     public void Dispose()

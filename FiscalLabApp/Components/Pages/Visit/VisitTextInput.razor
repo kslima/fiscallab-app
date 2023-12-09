@@ -1,102 +1,70 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using System.Text.Json
+@inject NavigationManager NavigationManager
 @inject IMenuService MenuService
 @inject IJSRuntime JsRuntime
 
 <div class="form-floating input-group mb-3">
     <InputText class="form-control" list="@($"list-{Id}")" id="@Id" @oninput="UpdateParent" @bind-Value="@Value"/>
-    @if (Option is not null)
-    {
-        <datalist id="@($"list-{Id}")">
-            @foreach (var opt in Option.Options)
+    <datalist id="@($"list-{Id}")">
+        @if (Menu?.Options is not null)
+        {
+            @foreach (var opt in Menu.Options)
             {
                 <option value="@opt"/>
             }
-        </datalist>
-    }
-    else
-    {
-        <datalist id="@($"list-{Id}")">
-            @foreach (var opt in _options)
-            {
-                <option value="@opt"/>
-            }
-        </datalist>
-    }
-    
+        }
+    </datalist>
+
     @if (Required)
     {
-        <label for="@Id">@Title <strong class="text-danger">*</strong></label>
+        <label for="@Id">
+            @Title <strong class="text-danger">*</strong>
+        </label>
     }
     else
     {
         <label for="@Id">@Title</label>
     }
-    <button class="btn btn-outline-secondary" type="button" @onclick="AddOptionAsync">+</button>
-    <button class="btn btn-outline-secondary" type="button" @onclick="RemoveOptionAsync">-</button>
+    <button class="btn btn-outline-secondary" type="button" @onclick="EditOptionsAsync">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
+        </svg>
+    </button>
 </div >
 
 @code {
 
-    [Parameter]
-    public MenuOption? Option { get; set; }
+    [Parameter] public Menu? Menu { get; set; }
 
-    [Parameter]
-    public string Id { get; set; } = string.Empty;
+    private string _menuCode = string.Empty;
 
-    [Parameter]
-    public string Title { get; set; } = string.Empty;
+    [Parameter] public string Id { get; set; } = string.Empty;
 
-    [Parameter]
-    public string Value { get; set; } = string.Empty;
-    [Parameter]
-    public bool Required { get; set; }
+    [Parameter] public string Title { get; set; } = string.Empty;
 
-    [Parameter]
-    public PageType? PageType { get; set; }
-
-    [Parameter]
-    public MenuType? MenuType { get; set; }
-
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
-
-    private string[] _options = Array.Empty<string>();
-
-    protected override async Task OnParametersSetAsync()
+    [Parameter] public string Value { get; set; } = string.Empty;
+    [Parameter] public bool Required { get; set; }
+    
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    
+    [CascadingParameter] public string Callback { get; set; } = "/";
+    
+    private Task UpdateParent(ChangeEventArgs e)
     {
-        if (PageType is not null && MenuType is not null)
+        return ValueChanged.InvokeAsync(e.Value?.ToString());
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Menu is not null)
         {
-            _options = await MenuService.GetOptions(PageType.Value, MenuType.Value);
+            _menuCode = Menu.Code;
         }
     }
 
-    private async Task UpdateParent(ChangeEventArgs e)
+    private void EditOptionsAsync()
     {
-        await ValueChanged.InvokeAsync(e.Value?.ToString());
-    }
-    
-    private async Task AddOptionAsync()
-    {
-        if (PageType is null || MenuType is null) return;
-        
-        if (_options.Contains(Value))
-        {
-            await JsRuntime.InvokeAsync<string>("alert", "Opção já cadastrada!!"); 
-            return;
-        }
-        await MenuService.AddOptionAsync(PageType.Value, MenuType.Value, Value);
-        await JsRuntime.InvokeAsync<string>("alert", "Nova opção adicionado com sucesso!!"); 
-    }
-    
-    private async Task RemoveOptionAsync()
-    {
-        if (PageType is null || MenuType is null) return;
-        
-        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Remover opção ?");
-        if (!confirmed) return;
-        
-        await MenuService.RemoveOptionAsync(PageType.Value, MenuType.Value, Value);
-        await ValueChanged.InvokeAsync(string.Empty);
-        await JsRuntime.InvokeAsync<string>("alert", "Opção removida com sucesso!!"); 
+        NavigationManager.NavigateTo($"/menus/{_menuCode}?Callback={Callback}");
     }
 }

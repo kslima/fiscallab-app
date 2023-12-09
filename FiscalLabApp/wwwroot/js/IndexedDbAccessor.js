@@ -4,7 +4,7 @@
     applicationDb.onupgradeneeded = function ()
     {
         let db = applicationDb.result;
-        db.createObjectStore("options", { keyPath: "menu" });
+        db.createObjectStore("menus", { keyPath: "code" });
         db.createObjectStore("visits", { keyPath: "id" });
         db.createObjectStore("plants", { keyPath: "id" });
     }
@@ -52,7 +52,7 @@ export async function get(collectionName)
     return await request;
 }
 
-export async function getByKey(collectionName, id)
+export async function getById(collectionName, id)
 {
     let request = new Promise((resolve) =>
     {

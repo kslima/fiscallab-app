@@ -20,7 +20,7 @@ public class PlantRepository(IndexedDbAccessor indexedDbAccessor) : IPlantReposi
 
     public async Task<PlantModel> GetAsync(string id)
     {
-        return await indexedDbAccessor.GetValueByKeyAsync<PlantModel>(PlantCollectionName, id);
+        return await indexedDbAccessor.GetValueByIdAsync<PlantModel>(PlantCollectionName, id);
     }
 
     public async Task<List<PlantModel>> GetAllAsync()
