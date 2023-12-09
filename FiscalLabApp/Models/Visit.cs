@@ -1,4 +1,5 @@
-﻿using FiscalLabApp.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using FiscalLabApp.Enums;
 
 namespace FiscalLabApp.Models;
 
@@ -6,13 +7,18 @@ public class Visit
 {
     //Main
     public string Id { get; set; } = Guid.NewGuid().ToString();
+    [Required]
     public PlantModel Plant { get; set; } = new();
+    [Required]
     public string Consultant { get; set; } = string.Empty;
+    [Required]
     public string Association { get; set; } = string.Empty;
     public string Inspector { get; set; } = string.Empty;
     public string Leader { get; set; } = string.Empty;
     public string LaboratoryLeader { get; set; } = string.Empty;
+    [Required]
     public DateOnly VisitDate { get; set; }
+    [Required]
     public TimeOnly VisitTime { get; set; }
     public DateTime CreatedAt { get; set; }
     

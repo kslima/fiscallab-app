@@ -22,9 +22,17 @@
             }
         </datalist>
     }
-    <label for="@Id">@Title</label>
+    
+    @if (Required)
+    {
+        <label for="@Id">@Title <strong class="text-danger">*</strong></label>
+    }
+    else
+    {
+        <label for="@Id">@Title</label>
+    }
     <button class="btn btn-outline-secondary" type="button" @onclick="AddOptionAsync">+</button>
-    <button class="btn btn-outline-danger" type="button" @onclick="RemoveOptionAsync">-</button>
+    <button class="btn btn-outline-secondary" type="button" @onclick="RemoveOptionAsync">-</button>
 </div >
 
 @code {
@@ -40,6 +48,8 @@
 
     [Parameter]
     public string Value { get; set; } = string.Empty;
+    [Parameter]
+    public bool Required { get; set; }
 
     [Parameter]
     public PageType? PageType { get; set; }

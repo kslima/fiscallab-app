@@ -28,9 +28,9 @@
 
                     <div class="col text-truncate">
                         <div class="row">
-                            <div class="text-truncate d-flex justify-content-between" style="font-size: 1em;">
-                                <span class="fw-bolder">@visit.Plant.Name</span>
-                                <span class="badge text-truncate" style="background-color: indianred;">Pendente</span>
+                            <div class="d-flex justify-content-between" style="font-size: 1em;">
+                                <span class="fw-bolder text-truncate">@($"{visit.Plant.Name} ({visit.Plant.City} - {visit.Plant.State})")</span>
+                                <span class="badge" style="background-color: indianred;">Pendente</span>
                             </div>
                             <small class="text-muted" style="font-size: 0.750em;">@($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small>
                         </div>
@@ -53,20 +53,6 @@
                 </div>
             </div>
         </div>
-
-        @* <div class="card mb-3 border border-white shadow-sm rounded"> *@
-        @*     <div class="card-body"> *@
-        @*         <h6 class="card-title fw-bold">@visit.Plant.Name</h6> *@
-        @*         <p class="card-text">@visit.Association</p> *@
-        @*         <p class="card-text"> *@
-        @*             <small class="text-muted"> @($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small> *@
-        @*         </p> *@
-        @*         <div class="row justify-content-start"> *@
-        @*             <button class="btn btn-outline-secondary col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Editar</button> *@
-        @*             <button class="btn btn-outline-danger col-3 btn-sm ms-2" type="button" @onclick="() => EditVisit(visit.Id)">Excluir</button> *@
-        @*         </div> *@
-        @*     </div> *@
-        @* </div> *@
     }
 </div>
 

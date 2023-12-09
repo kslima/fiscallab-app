@@ -2,7 +2,7 @@
 @inject NavigationManager NavigationManager
 @inject IVisitService VisitService
 
-<div class="content px-4">
+<div class="content">
     <select class="form-select form-select-lg mb-3" aria-label="Large select example" @onchange="CallVisitPage">
         @foreach (var visitPage in _visitPages)
         {
