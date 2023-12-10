@@ -3,5 +3,5 @@
 public enum PageType
 {
     Main,
-    SugarcaneScale
+    SugarcaneBalance
 }

@@ -57,10 +57,18 @@
 
     protected override void OnParametersSet()
     {
-        if (Menu is not null)
+        if (Menu is null) return;
+        
+        Menu.Options.Sort(string.CompareOrdinal);
+        
+        if (Menu.AddPercentageOptions)
         {
-            _menuCode = Menu.Code;
+            foreach (var value in Enumerable.Range(1, 100))
+            {
+                Menu.Options.Add($"{value}%");
+            }
         }
+        _menuCode = Menu.Code;
     }
 
     private void EditOptionsAsync()

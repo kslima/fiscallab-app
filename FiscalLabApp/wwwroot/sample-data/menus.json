@@ -49,5 +49,146 @@
       "Severino Cláudio Bento Figueiredo",
       "Emanuel Danilo Moraes"
     ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageInScale",
+    "Options": [
+      "Limpa e nivelada",
+      "Excesso de terra",
+      "Danificada",
+      "Em manutenção"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageOutScale",
+    "Options": [
+      "Limpa e nivelada",
+      "Excesso de terra",
+      "Danificada",
+      "Em manutenção"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageCargoDraw",
+    "Options": [
+      "--",
+      "Sim",
+      "Não"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageScaleObservations",
+    "Options": [
+      "--",
+      "Não realizado",
+      "Realizado teste das balanças de cana, não foi detectado irregularidades",
+      "Não realizado - moagem parada por excesso de chuvas",
+      "Não realizado - moagem  parada, manutenção na indústria."
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageCalibration1",
+    "Options": [
+      "--",
+      "Sim",
+      "Não"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageCalibration2",
+    "Options": [
+      "--",
+      "Sim",
+      "Não",
+      "1° calibração valida"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageResponsibleBody",
+    "Options": [
+      "--",
+      "Toledo",
+      "Não realizado",
+      "In-metro"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageCalibrationCertificate",
+    "Options": [
+      "--",
+      "Sim, entregue",
+      "Não foi entregue"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageObservations1",
+    "Options": [
+      "--",
+      "Em conformidade com as normas do Consecana/SP",
+      "Em conformidade com as normas do Consecana",
+      "Aguardando envio dos certificados de calibrações"
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePagePlantPercentage",
+    "AddPercentageOptions": true,
+    "Options": [
+      "--",
+      "Sem informações disponíveis durante visita técnica",
+      "Controle realizado em planilha separada, enviado p/Whatsapp."
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageProviderPercentage",
+    "AddPercentageOptions": true,
+    "Options": [
+      "--",
+      "Sem informações disponíveis durante visita técnica",
+      "Controle realizado em planilha separada, enviado p/Whatsapp."
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePagePlantFarmPercentage",
+    "Options": [
+      "--",
+      "Conforme tabela Consecana",
+      "Irregular tabela Consecana",
+      "Sem informações disponivel durante visita técnica",
+      "Controle realizado em planilha separada, enviado p/Whatsapp."
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageFarmProviderPercentage",
+    "Options": [
+      "--",
+      "Conforme tabela Consecana",
+      "Irregular tabela Consecana",
+      "Sem informações disponivel durante visita técnica",
+      "Controle realizado em planilha separada, enviado p/Whatsapp."
+    ]
+  },
+  {
+    "Page": "SugarcaneBalance",
+    "Code": "CaneBalancePageObservations2",
+    "Options": [
+      "--",
+      "Em conformidade com as normas do Consecana/SP",
+      "Sem informações durante visita técnica",
+      "Em conformidade com as normas do Consecana",
+      "Controle realizado em planilha separada, enviado p/Whatsapp."
+    ]
   }
 ]
