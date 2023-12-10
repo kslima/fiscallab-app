@@ -1,32 +1,35 @@
-﻿@page "/system-consistency"
+﻿@page "/visits/{VisitId}/system-consistency"
 @implements IDisposable
+@implements IAsyncDisposable
 @using FiscalLabApp.Enums
+@using FiscalLabApp.Extensions
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
+@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Amostra">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="O.C" Id="pressureGaugeCertificated" @bind-value="Visit.PressureGaugeCertificated"/>
+            <VisitTextInput Title="O.C" Id="pressureGaugeCertificated" Menu="@_options.GetMenu(MenuType.SystemConsistencyOc)" @bind-value="SelectedVisit.SystemConsistencyOc"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Fazenda" Id="systemConsistencyFarm" @bind-value="Visit.SystemConsistencyFarm"/>
+            <VisitTextInput Title="Fazenda" Id="systemConsistencyFarm" Menu="@_options.GetMenu(MenuType.SystemConsistencyFarm)" @bind-value="SelectedVisit.SystemConsistencyFarm"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Propietário" Id="systemConsistencyOwner" @bind-value="Visit.SystemConsistencyOwner"/>
+            <VisitTextInput Title="Propietário" Id="systemConsistencyOwner" Menu="@_options.GetMenu(MenuType.SystemConsistencyOwner)" @bind-value="SelectedVisit.SystemConsistencyOwner"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações" Id="systemConsistencyObservations" @bind-value="Visit.SystemConsistencyObservations"/>
+            <VisitTextInput Title="Observações" Id="systemConsistencyObservations" Menu="@_options.GetMenu(MenuType.SystemConsistencyObservations)" @bind-value="SelectedVisit.SystemConsistencyObservations"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -47,19 +50,19 @@
     </div>
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Pbu" Id="benchmarkingEquipmentExpectedCrop" @bind-value="Visit.BenchmarkingEquipmentExpectedCrop" ValueUpdated="CalculateAtr"/>
+            <VisitNumberInput Title="Pbu" Id="benchmarkingEquipmentExpectedCrop" @bind-value="SelectedVisit.BenchmarkingEquipmentExpectedCrop" ValueUpdated="CalculateAtr"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Brix" Id="benchmarkingEquipmentAccomplishedCrop" @bind-value="Visit.BenchmarkingEquipmentAccomplishedCrop" ValueUpdated="CalculateAtr"/>
+            <VisitNumberInput Title="Brix" Id="benchmarkingEquipmentAccomplishedCrop" @bind-value="SelectedVisit.BenchmarkingEquipmentAccomplishedCrop" ValueUpdated="CalculateAtr"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Leitura Sacarimétrica" Id="benchmarkingEquipmentPreviousCrop" @bind-value="Visit.BenchmarkingEquipmentPreviousCrop" ValueUpdated="CalculateAtr"/>
+            <VisitNumberInput Title="Leitura Sacarimétrica" Id="benchmarkingEquipmentPreviousCrop" @bind-value="SelectedVisit.BenchmarkingEquipmentPreviousCrop" ValueUpdated="CalculateAtr"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -67,19 +70,19 @@
 <VisitDataSeparator Title="Resultados Atr">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAtr" @bind-value="Visit.SystemConsistencyPlantAtr" Readonly="true"/>
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAtr" @bind-value="SelectedVisit.SystemConsistencyPlantAtr" Readonly="true"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAtr" @bind-value="Visit.SystemConsistencyConsecanaAtr"/>
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAtr" @bind-value="SelectedVisit.SystemConsistencyConsecanaAtr"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAtr" @bind-value="Visit.SystemConsistencyDifferenceAtr" Readonly="true"/>
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAtr" @bind-value="SelectedVisit.SystemConsistencyDifferenceAtr" Readonly="true"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -87,19 +90,19 @@
 <VisitDataSeparator Title="Resultados Pureza">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPurity" @bind-value="Visit.SystemConsistencyPlantPurity" Readonly="true"/>
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPurity" @bind-value="SelectedVisit.SystemConsistencyPlantPurity" Readonly="true"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPurity" @bind-value="Visit.SystemConsistencyConsecanaPurity"/>
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPurity" @bind-value="SelectedVisit.SystemConsistencyConsecanaPurity"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePurity" @bind-value="Visit.SystemConsistencyDifferencePurity" Readonly="true"/>
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePurity" @bind-value="SelectedVisit.SystemConsistencyDifferencePurity" Readonly="true"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -107,19 +110,19 @@
 <VisitDataSeparator Title="Resultados Pol">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPol" @bind-value="Visit.SystemConsistencyPlantPol" Readonly="true"/>
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPol" @bind-value="SelectedVisit.SystemConsistencyPlantPol" Readonly="true"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPol" @bind-value="Visit.SystemConsistencyConsecanaPol"/>
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPol" @bind-value="SelectedVisit.SystemConsistencyConsecanaPol"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePol" @bind-value="Visit.SystemConsistencyDifferencePol" Readonly="true"/>
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePol" @bind-value="SelectedVisit.SystemConsistencyDifferencePol" Readonly="true"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -127,19 +130,19 @@
 <VisitDataSeparator Title="Resultados Fibra">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantFiber" @bind-value="Visit.SystemConsistencyPlantFiber" Readonly="true"/>
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantFiber" @bind-value="SelectedVisit.SystemConsistencyPlantFiber" Readonly="true"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaFiber" @bind-value="Visit.SystemConsistencyConsecanaFiber"/>
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaFiber" @bind-value="SelectedVisit.SystemConsistencyConsecanaFiber"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceFiber" @bind-value="Visit.SystemConsistencyDifferenceFiber" Readonly="true"/>
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceFiber" @bind-value="SelectedVisit.SystemConsistencyDifferenceFiber" Readonly="true"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -147,19 +150,19 @@
 <VisitDataSeparator Title="Resultados Pcc">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPcc" @bind-value="Visit.SystemConsistencyPlantPcc" Readonly="true"/>
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPcc" @bind-value="SelectedVisit.SystemConsistencyPlantPcc" Readonly="true"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPcc" @bind-value="Visit.SystemConsistencyConsecanaPcc"/>
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPcc" @bind-value="SelectedVisit.SystemConsistencyConsecanaPcc"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Pcc()" Id="systemConsistencyDifferencePcc" @bind-value="Visit.SystemConsistencyDifferencePcc" Readonly="true"/>
+            <VisitNumberInput Title="Pcc()" Id="systemConsistencyDifferencePcc" @bind-value="SelectedVisit.SystemConsistencyDifferencePcc" Readonly="true"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -168,19 +171,19 @@
 <VisitDataSeparator Title="Resultados Ar">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAr" @bind-value="Visit.SystemConsistencyPlantAr" Readonly="true"/>
+            <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAr" @bind-value="SelectedVisit.SystemConsistencyPlantAr" Readonly="true"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAr" @bind-value="Visit.SystemConsistencyConsecanaAr"/>
+            <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAr" @bind-value="SelectedVisit.SystemConsistencyConsecanaAr"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAr" @bind-value="Visit.SystemConsistencyDifferenceAr" Readonly="true"/>
+            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAr" @bind-value="SelectedVisit.SystemConsistencyDifferenceAr" Readonly="true"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -189,15 +192,26 @@
 
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
+    
+    [Parameter] 
+    public string VisitId { get; set; } = string.Empty;
 
     private Menu[] _options = Array.Empty<Menu>();
 
-    public Visit Visit { get; set; } = new();
+    public Visit SelectedVisit { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.SystemConsistency);
-        Visit = Layout.SelectedVisit;
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Layout.SelectedVisitId = VisitId;
+        }
     }
 
     private void OnClarifySelected(ChangeEventArgs e)
@@ -220,7 +234,12 @@
 
     public void Dispose()
     {
-        Layout.SaveChanges();
+        VisitService.UpdateAsync(SelectedVisit);
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        await VisitService.UpdateAsync(SelectedVisit);
     }
 
 }

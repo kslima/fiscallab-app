@@ -3,7 +3,7 @@
 <nav class="navbar shadow-sm mb-4" style="background-color: #f9f9f9;">
     <div class="container-fluid">
         <div>
-            <a class="navbar-brand text-secondary fw-bold" href="visits">
+            <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
                 <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
                 Grupo Esdra
             </a>
@@ -16,9 +16,9 @@
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
 
-    private void ToggleNavMenu()
+    private void OpenVisits()
     {
-        _collapseNavMenu = !_collapseNavMenu;
+        NavigationManager.NavigateTo("/visits");
     }
 
 }

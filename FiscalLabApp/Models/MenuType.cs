@@ -115,6 +115,9 @@ public enum MenuType
     BenchmarkingEquipmentObservations12,
     
     //system consistency
+    SystemConsistencyOc,
+    SystemConsistencyFarm,
+    SystemConsistencyOwner,
     SystemConsistencyObservations,
     
     //conclusion

@@ -1,7 +1,5 @@
 ﻿@inherits LayoutComponentBase
 
-@inject IVisitService VisitService
-
 <CascadingValue Value="this">
     <NavMenu/>
     <main class="container" style="background-color: #f9f9f9;">
@@ -12,11 +10,5 @@
 
 @code
 {
-    public Visit SelectedVisit { get; set; } = new();
-
-    public void SaveChanges()
-    {
-        if (string.IsNullOrWhiteSpace(SelectedVisit.Id)) return;
-        VisitService.UpdateAsync(SelectedVisit);
-    }
+    public string SelectedVisitId { get; set; } = string.Empty;
 }

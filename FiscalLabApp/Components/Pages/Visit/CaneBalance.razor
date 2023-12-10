@@ -1,66 +1,67 @@
-﻿@page "/cane-balance"
+﻿@page "/visits/{VisitId}/cane-balance"
 @implements IDisposable
+@implements IAsyncDisposable
 
 @using FiscalLabApp.Extensions
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
+@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Balanças">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança de Entrada" Menu="@_options.GetMenu(MenuType.CaneBalancePageInScale)" Id="inScale" @bind-value="Visit.InScale"/>
+            <VisitTextInput Title="Balança de Entrada" Menu="@_options.GetMenu(MenuType.CaneBalancePageInScale)" Id="inScale" @bind-value="SelectedVisit.InScale"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança de Saída" Menu="@_options.GetMenu(MenuType.CaneBalancePageOutScale)" Id="outScale" @bind-value="Visit.OutScale"/>
+            <VisitTextInput Title="Balança de Saída" Menu="@_options.GetMenu(MenuType.CaneBalancePageOutScale)" Id="outScale" @bind-value="SelectedVisit.OutScale"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Sorteio de Cargas" Menu="@_options.GetMenu(MenuType.CaneBalancePageCargoDraw)" Id="cargoDraw" @bind-value="Visit.CargoDraw"/>
+            <VisitTextInput Title="Sorteio de Cargas" Menu="@_options.GetMenu(MenuType.CaneBalancePageCargoDraw)" Id="cargoDraw" @bind-value="SelectedVisit.CargoDraw"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações(Teste de Balança)" Menu="@_options.GetMenu(MenuType.CaneBalancePageScaleObservations)" Id="scaleObservations" @bind-value="Visit.ScaleObservations"/>
+            <VisitTextInput Title="Observações(Teste de Balança)" Menu="@_options.GetMenu(MenuType.CaneBalancePageScaleObservations)" Id="scaleObservations" @bind-value="SelectedVisit.ScaleObservations"/>
         </div>
     </div>
 </VisitDataSeparator>
 
-
 <VisitDataSeparator Title="Calibragens">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="1ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration1)" Id="calibration1" @bind-value="Visit.Calibration1"/>
+            <VisitTextInput Title="1ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration1)" Id="calibration1" @bind-value="SelectedVisit.Calibration1"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="2ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration2)" Id="calibration2" @bind-value="Visit.Calibration2"/>
+            <VisitTextInput Title="2ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration2)" Id="calibration2" @bind-value="SelectedVisit.Calibration2"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Órgão Responsável" Menu="@_options.GetMenu(MenuType.CaneBalancePageResponsibleBody)" Id="responsibleBody" @bind-value="Visit.ResponsibleBody"/>
+            <VisitTextInput Title="Órgão Responsável" Menu="@_options.GetMenu(MenuType.CaneBalancePageResponsibleBody)" Id="responsibleBody" @bind-value="SelectedVisit.ResponsibleBody"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Certificado de Calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibrationCertificate)" Id="calibrationCertificate" @bind-value="Visit.CalibrationCertificate"/>
+            <VisitTextInput Title="Certificado de Calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibrationCertificate)" Id="calibrationCertificate" @bind-value="SelectedVisit.CalibrationCertificate"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 1" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations1)" Id="observations1" @bind-value="Visit.Observations1"/>
+            <VisitTextInput Title="Observações 1" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations1)" Id="observations1" @bind-value="SelectedVisit.Observations1"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -69,55 +70,67 @@
 <VisitDataSeparator Title="Porcentagens Analisadas">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Usina" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantPercentage)" Id="plant" @bind-value="Visit.PlantPercentage"/>
+            <VisitTextInput Title="Porcentagem Usina" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantPercentage)" Id="plant" @bind-value="SelectedVisit.PlantPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageProviderPercentage)" Id="provider" @bind-value="Visit.ProviderPercentage"/>
+            <VisitTextInput Title="Porcentagem Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageProviderPercentage)" Id="provider" @bind-value="SelectedVisit.ProviderPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Usina/Fazenda" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantFarmPercentage)" Id="percentPlantFarm" @bind-value="Visit.PlantFarmPercentage"/>
+            <VisitTextInput Title="Porcentagem Usina/Fazenda" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantFarmPercentage)" Id="percentPlantFarm" @bind-value="SelectedVisit.PlantFarmPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Fazenda/Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageFarmProviderPercentage)" Id="percentFarmProvider" @bind-value="Visit.FarmProviderPercentage"/>
+            <VisitTextInput Title="Porcentagem Fazenda/Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageFarmProviderPercentage)" Id="percentFarmProvider" @bind-value="SelectedVisit.FarmProviderPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 2" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations2)" Id="observations2" @bind-value="Visit.Observations2"/>
+            <VisitTextInput Title="Observações 2" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations2)" Id="observations2" @bind-value="SelectedVisit.Observations2"/>
         </div>
     </div>
 </VisitDataSeparator>
 
-
 @code {
 
-    [CascadingParameter]
-    public EditVisitLayout Layout { get; set; } = new();
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
+
+    [Parameter] public string VisitId { get; set; } = string.Empty;
+
+    public Visit SelectedVisit { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
-
-    public Visit Visit { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.SugarcaneBalance);
+    }
 
-        Visit = Layout.SelectedVisit;
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Layout.SelectedVisitId = VisitId;
+        }
     }
 
     public void Dispose()
     {
-        Layout.SaveChanges();
+        VisitService.UpdateAsync(SelectedVisit);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await VisitService.UpdateAsync(SelectedVisit);
     }
 
 }
