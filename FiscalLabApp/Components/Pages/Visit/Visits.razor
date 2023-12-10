@@ -18,40 +18,31 @@
     </div>
     @foreach (var visit in _visits)
     {
-        <div class="card mb-3 border border-white rounded">
-            <div class="card-body">
+        <div class="card mb-3 rounded ps-2 pe-2"
+             style="border-left: 0.750rem solid indianred;border-right: 0rem;border-top: 0rem;border-bottom: 0rem;">
+
+            <div class="col card-body">
                 <div class="row d-flex justify-content-between">
-
-                    <div class="card border-white rounded" style="width: 48px; background-color: #f9f9f9;">
-                        <img src="plant.svg" alt="plant" style="width: 38px;" @onclick="() => EditVisit(visit.Id)">
-                    </div>
-
                     <div class="col text-truncate">
                         <div class="row">
-                            <div class="d-flex justify-content-between" style="font-size: 1em;">
-                                <span class="fw-bolder text-truncate" style="font-size: 0.875em">@($"{visit.Plant.Name} ({visit.Plant.City} - {visit.Plant.State})")</span>
-                                <span class="badge ms-1" style="background-color: indianred;">Pendente</span>
-                            </div>
-                            <small class="text-muted" style="font-size: 0.750em;">@($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small>
+                            <div class="text-truncate fw-semibold text-body-tertiary" style="font-size: 0.875em;">@($"{visit.Plant.Name} ({visit.Plant.City} - {visit.Plant.State})")</div>
+                            <div class="text-truncate fw-semibold text-muted" style="font-size: 0.750em;">@($"{visit.Association}")</div>
+                            <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"{visit.CreatedAt:dd/MM/yyyy HH:mm:ss}")</small>
                         </div>
                     </div>
 
+                    @* <div class="col d-flex justify-content-end" style="max-width: 40%;"> *@
+                    @*     <div class="badge h-50 text-truncate" style="background-color: indianred;">Pendencias: 250</div> *@
+                    @* </div> *@
+
                 </div>
 
-                @* <div class="row d-flex justify-content-between mt-2">  *@
-                @*     <button class="col btn btn-outline-secondary btn-sm" type="button" @onclick="() => EditVisit(visit.Id)">Editar</button> *@
-                @*     <button class="col btn btn-outline-danger btn-sm" type="button" @onclick="() => EditVisit(visit.Id)">Excluir</button> *@
-                @* </div> *@
-                
-                <div class="progress row mt-4" role="progressbar" aria-label="Danger example" aria-valuenow="100"
-                     aria-valuemin="0" aria-valuemax="100" style="height: 8px">
-                    <div class="progress-bar bg-secondary" style="width: 75%"></div>
-                </div>
-
-                <div class="row mt-1 fw-bolder" style="font-size: 0.750em;">
-                    32 Concluídos de 80.
+                <div class="row d-flex flex-row mt-2">
+                    <button type="button" class="btn btn-outline-secondary col btn-sm me-2" @onclick="() => EditVisit(visit.Id)">Editar</button>
+                    <button type="button" class="btn btn-outline-secondary col btn-sm" @onclick="() => EditVisit(visit.Id)">Excluir</button>
                 </div>
             </div>
+
         </div>
     }
 </div>
