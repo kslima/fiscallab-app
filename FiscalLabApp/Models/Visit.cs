@@ -22,7 +22,7 @@ public class Visit
     public TimeOnly VisitTime { get; set; }
     public DateTime CreatedAt { get; set; }
     
-    //Cane Scale
+    //Cane balance
     public string InScale { get; set; } = string.Empty;
     public string OutScale { get; set; } = string.Empty;
     public string CargoDraw { get; set; } = string.Empty;
@@ -59,9 +59,7 @@ public class Visit
     public string CleanMixer  { get; set; } = string.Empty;
     public string DesintegratorRpm  { get; set; } = string.Empty;
     public string PreparationIndex  { get; set; } = string.Empty;
-    public string LastRazorChange  { get; set; } = string.Empty;
-    public string LastHammerChange  { get; set; } = string.Empty;
-    public string LastAgainstKnifeChange  { get; set; } = string.Empty;
+    public DateTime? SharpenedOrReplacedKnifeAt  { get; set; }
     public string Observations4 { get; set; } = string.Empty;
     
     

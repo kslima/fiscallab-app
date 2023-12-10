@@ -27,6 +27,8 @@
     protected override async Task OnParametersSetAsync()
     {
         var menu = await MenuService.GetByCode(MenuCode);
+        if (menu.Options.Count == 0) return;
+        
         RawOptions = $"{string.Join(_splitToken, menu.Options)}";
         if (!RawOptions.EndsWith(";"))
         {
@@ -41,6 +43,7 @@
             .Split(_splitToken)
             .Where(s => !string.IsNullOrWhiteSpace(s.Trim()))
             .ToList();
+        
         await MenuService.SetOptionAsync(MenuCode, options);
         NavigationManager.NavigateTo(Callback);
     }

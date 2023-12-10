@@ -69,7 +69,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetMenuOptions(PageType.SugarcaneBalance);
+        _options = await MenuService.GetMenuOptions(PageType.AnalyticalBalance);
 
         Visit = Layout.SelectedVisit;
     }

@@ -27,7 +27,7 @@ public enum MenuType
     CaneBalancePageObservations2,
 
     //desintegrator probe page
-    DesintegratorProbePageProbeTYpe,
+    DesintegratorProbePageProbeType,
     DesintegratorProbePageTubeInserted,
     DesintegratorProbePageTubeDischarged,
     DesintegratorProbePageCollect,
@@ -36,8 +36,8 @@ public enum MenuType
     DesintegratorProbePageLoadPosition,
     DesintegratorProbePageToothedCrown,
     DesintegratorProbePageToothedCrownType,
-    DesintegratorProbePageLastCrownChange,
     DesintegratorProbePageObservations3,
+    
     DesintegratorProbePageHomogeneousSamples,
     DesintegratorProbePageKnifeConservation,
     DesintegratorProbePageAgainstKnifeConservation,
@@ -46,9 +46,6 @@ public enum MenuType
     DesintegratorProbePageCleanMixer,
     DesintegratorProbePageDesintegratorRpm,
     DesintegratorProbePagePreparationIndex,
-    DesintegratorProbePageLastRazorChange,
-    DesintegratorProbePageLastHammerChange,
-    DesintegratorProbePageLastAgainstKnifeChange,
     DesintegratorProbePageObservations4,
 
     //analytical balance
@@ -87,6 +84,7 @@ public enum MenuType
     ClarificationSaccharimeterBottleClarifiedVolume,
     ClarificationSaccharimeterBottleAfterClarifiedVolume,
     ClarificationSaccharimeterObservations9,
+    
     ClarificationSaccharimeterStabilization,
     ClarificationSaccharimeterBenchmarking,
     ClarificationSaccharimeterQuartzPattern,
@@ -116,9 +114,12 @@ public enum MenuType
     BenchmarkingEquipmentObservations11,
     BenchmarkingEquipmentObservations12,
     
+    //system consistency
+    SystemConsistencyObservations,
+    
     //conclusion
     ConclusionInspectorPerformance,
-    ConclusionLaboratoryReceptivity,
+    ConclusionLaboratoryPerformance,
     ConclusionPendencies,
     ConclusionObservations
 }

@@ -9,13 +9,13 @@
 <VisitDataSeparator Title="Conclusao">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Atuação do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="Visit.ConclusionInspectorPerformance"/>
+            <VisitTextInput Title="Desempenho do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="Visit.ConclusionInspectorPerformance"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Receptividade Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryReceptivity)" Id="conclusionLaboratoryReceptivity" @bind-value="Visit.ConclusionLaboratoryReceptivity"/>
+            <VisitTextInput Title="Desempenho Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="Visit.ConclusionLaboratoryReceptivity"/>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetMenuOptions(PageType.Main);
+        _options = await MenuService.GetMenuOptions(PageType.Conclusion);
         Visit = Layout.SelectedVisit;
     }
 

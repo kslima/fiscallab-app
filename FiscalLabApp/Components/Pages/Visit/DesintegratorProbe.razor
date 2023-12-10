@@ -8,7 +8,7 @@
 <VisitDataSeparator Title="Sonda">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Tipo de Sonda" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageProbeTYpe)" Id="probeTYpe" @bind-value="Visit.ProbeTYpe"/>
+            <VisitTextInput Title="Tipo de Sonda" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageProbeType)" Id="probeTYpe" @bind-value="Visit.ProbeTYpe"/>
         </div>
     </div>
 
@@ -59,13 +59,7 @@
             <VisitTextInput Title="Tipo Coroa" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageToothedCrownType)" Id="toothedCrownType" @bind-value="Visit.ToothedCrownType"/>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Ultima Troca/Fiação da Coroa" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageLastCrownChange)" Id="lastCrownChange" @bind-value="Visit.LastCrownChange"/>
-        </div>
-    </div>
-
+    
     <div class="row">
         <div class="col">
             <VisitTextInput Title="Observações 3" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageObservations3)" Id="observations3" @bind-value="Visit.Observations3"/>
@@ -121,19 +115,13 @@
             <VisitTextInput Title="Índice de Preparo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePagePreparationIndex)" Id="preparationIndex" @bind-value="Visit.PreparationIndex"/>
         </div>
     </div>
+
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Ultima Troca Navalha" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageLastRazorChange)" Id="lastRazorChange" @bind-value="Visit.LastRazorChange"/>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Ultima Troca Martelo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageLastHammerChange)" Id="lastHammerChange" @bind-value="Visit.LastHammerChange"/>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Ultima Troca Contra-Faca" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageLastAgainstKnifeChange)" Id="lastAgainstKnifeChange" @bind-value="Visit.LastAgainstKnifeChange"/>
+            <div class="form-floating mb-3">
+                <InputDate class="form-control" id="sharpenedOrReplacedKnifeAt" @bind-Value="Layout.SelectedVisit.SharpenedOrReplacedKnifeAt"/>
+                <label for="sharpenedOrReplacedKnifeAt">Afiação/troca facas</label>
+            </div >
         </div>
     </div>
 
@@ -146,8 +134,7 @@
 
 @code {
 
-    [CascadingParameter]
-    public EditVisitLayout Layout { get; set; } = new();
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
 
@@ -155,7 +142,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _options = await MenuService.GetMenuOptions(PageType.SugarcaneBalance);
+        _options = await MenuService.GetMenuOptions(PageType.DesintegratorProbe);
         Visit = Layout.SelectedVisit;
     }
 
