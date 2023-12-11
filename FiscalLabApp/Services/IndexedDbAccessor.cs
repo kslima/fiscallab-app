@@ -66,6 +66,12 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
 
         return result;
     }
+    
+    public async Task DeleteAsync(string collectionName, string key)
+    {
+        await WaitForReference();
+        await _accessorJsRef.Value.InvokeVoidAsync("remove", collectionName, key);
+    }
 
     public async Task SetValueAsync<T>(string collectionName, T value)
     {

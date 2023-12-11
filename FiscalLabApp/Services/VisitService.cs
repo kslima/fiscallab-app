@@ -20,6 +20,11 @@ public class VisitService(IVisitRepository visitRepository) : IVisitService
         return await visitRepository.GetByIdAsync(id);
     }
 
+    public Task DeleteAsync(string id)
+    {
+        return visitRepository.DeleteAsync(id);
+    }
+
     public async Task<List<Visit>> GetAllAsync()
     {
         return (await visitRepository.GetAllAsync())

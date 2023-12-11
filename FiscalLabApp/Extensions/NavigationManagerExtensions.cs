@@ -18,4 +18,9 @@ public static class NavigationManagerExtensions
         
         return $"/visits/{routeParameters[^1]}";
     }
+    
+    public static void ReloadPage(this NavigationManager manager)
+    {
+        manager.NavigateTo(manager.Uri, true);
+    }
 }

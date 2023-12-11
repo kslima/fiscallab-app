@@ -73,5 +73,26 @@ export async function getById(collectionName, id)
     return await request;
 }
 
+export async function remove(collectionName, id)
+{
+    let request = new Promise((resolve) =>
+    {
+        let blazorSchoolIndexedDb = indexedDB.open(DATABASE_NAME, CURRENT_VERSION);
+        blazorSchoolIndexedDb.onsuccess = function ()
+        {
+            let transaction = blazorSchoolIndexedDb.result.transaction(collectionName, "readwrite");
+            let collection = transaction.objectStore(collectionName);
+            let result = collection.delete(id);
+
+            result.onsuccess = function (e)
+            {
+                resolve(result.result);
+            }
+        }
+    });
+
+    return await request;
+}
+
 let CURRENT_VERSION = 1;
 let DATABASE_NAME = "FiscalLabApp";

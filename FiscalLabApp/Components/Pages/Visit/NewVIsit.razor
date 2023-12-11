@@ -24,8 +24,9 @@
     </div>
 </div>
 
-<div class="d-grid gap-2">
-    <button type="button" class="btn btn-success mb-3" @onclick="CreateNewVisit">Criar</button>
+<div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-outline-secondary mb-3" @onclick="OnCancel">Cancelar</button>
+    <button type="submit" class="btn btn-outline-success mb-3 ms-3" @onclick="CreateNewVisit">Salvar</button>
 </div>
 
 @code {
@@ -48,6 +49,11 @@
         NavigationManager.NavigateTo("/visits");
     }
 
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo("/visits");
+    }
+    
     private Task OnPlantChanged(PlantModel plant)
     {
         SelectedPlant = plant;

@@ -24,6 +24,11 @@ public class VisitRepository(IndexedDbAccessor indexedDbAccessor) : IVisitReposi
         return await indexedDbAccessor.GetValueByIdAsync<Visit>(VisitCollectionName, id);
     }
 
+    public Task DeleteAsync(string id)
+    {
+        return indexedDbAccessor.DeleteAsync(VisitCollectionName, id);
+    }
+
     public async Task<List<Visit>> GetAllAsync()
     {
         return await indexedDbAccessor.GetValueAsync<List<Visit>>(VisitCollectionName);
