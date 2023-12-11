@@ -1,0 +1,75 @@
+﻿@page "/new-visit"
+
+@inject IVisitService VisitService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@Visit" OnValidSubmit="@CreateAsync">
+    <DataAnnotationsValidator/>
+    <div class="row">
+        <div class="col">
+            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="/new-visit"/>
+            <ValidationMessage For="() => Visit.Plant"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="/new-visit"/>
+            <ValidationMessage For="() => Visit.Association"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputDate class="form-control" id="createdAtDateInput" Type="InputDateType.Date" @bind-Value="Visit.VisitDate"/>
+                <label for="createdAtTimeInput">Data</label>
+                <ValidationMessage For="() => Visit.VisitDate"/>
+            </div >
+
+        </div>
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputDate class="form-control" id="createdAtTimeInput" Type="InputDateType.Time" @bind-Value="Visit.VisitTime"/>
+                <label for="createdAtTimeInput">Hora</label>
+                <ValidationMessage For="() => Visit.VisitTime"/>
+            </div >
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-outline-secondary mb-3" @onclick="OnCancel">Cancelar</button>
+        <button type="submit" class="btn btn-outline-success mb-3 ms-3">Salvar</button>
+    </div>
+</EditForm>
+
+@code {
+    
+    public Visit Visit = new();
+    
+    private async Task CreateAsync()
+    {
+        Visit.Id = Guid.NewGuid().ToString();
+        Visit.CreatedAt = DateTime.Now;
+        await VisitService.CreateAsync(Visit);
+
+        NavigationManager.NavigateTo("/visits");
+    }
+
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo("/visits");
+    }
+
+    private Task OnPlantChanged(PlantModel plant)
+    {
+        Visit.Plant = plant;
+        return Task.CompletedTask;
+    }
+
+    private Task OnAssociationChanged(AssociationModel association)
+    {
+        Visit.Association = association;
+        return Task.CompletedTask;
+    }
+}

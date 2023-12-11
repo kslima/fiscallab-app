@@ -1,0 +1,99 @@
+﻿@page "/associations"
+@page "/associations/{AssociationId}"
+@using FiscalLabApp.Helpers
+
+@inject NavigationManager NavigationManager
+@inject IAssociationRepository AssociationRepository
+
+<h6>Associação</h6>
+<EditForm Model="@AssociationModel" OnValidSubmit="@SaveOrUpdate">
+    <DataAnnotationsValidator/>
+    <div class="form-floating mb-3">
+        <InputText class="form-control" id="nameInput" @bind-Value="AssociationModel.Name"/>
+        <label for="nameInput">Nome <strong class="text-danger">*</strong></label>
+        <ValidationMessage For="() => AssociationModel.Name"/>
+    </div >
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputText class="form-control" id="stateInput" @bind-Value="AssociationModel.City"/>
+                <label for="emailInput">Cidade <strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => AssociationModel.City"/>
+            </div >
+        </div>
+
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputSelect @bind-Value="SelectedState" class="form-control" id="cityInput" @bind-Value:after="OnChangeState">
+                    @foreach (var state in AddressHelper.StatesFromBrazil)
+                    {
+                        <option value="@state.Key" selected="@(AssociationModel.State.Equals(state.Key))">@state.Value</option>
+                    }
+                </InputSelect>
+                <label for="cityInput">Estado <strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => AssociationModel.State"/>
+            </div >
+        </div>
+
+    </div>
+
+    <div class="form-floating mb-3">
+        <InputTextArea class="form-control" id="emailInput" @bind-Value="AssociationModel.Emails"/>
+        <label for="emailInput">Emails <strong class="text-danger">*</strong></label>
+        <ValidationMessage For="() => AssociationModel.Emails"/>
+    </div >
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-outline-secondary mb-3" @onclick="OnCancel">Cancelar</button>
+        <button type="submit" class="btn btn-outline-success mb-3 ms-3">Salvar</button>
+        <button type="button" class="btn btn-outline-danger mb-3 ms-3" disabled="@(string.IsNullOrWhiteSpace(AssociationId))">Excluir</button>
+    </div>
+</EditForm >
+
+
+@code {
+
+    [Parameter] public string AssociationId { get; set; } = string.Empty;
+
+    [SupplyParameterFromQuery] 
+    public string Callback { get; set; } = "/";
+    
+    public AssociationModel AssociationModel = new();
+    private string SelectedState { get; set; } = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(AssociationId))
+        {
+            AssociationModel = await AssociationRepository.GetAsync(AssociationId);
+            SelectedState = AssociationModel.State;
+        }
+    }
+
+    private async Task SaveOrUpdate()
+    {
+        if (string.IsNullOrWhiteSpace(AssociationId))
+        {
+            AssociationModel.Id = Guid.NewGuid().ToString();
+            await AssociationRepository.CreateAsync(AssociationModel);
+        }
+        else
+        {
+            await AssociationRepository.UpdateAsync(AssociationModel);
+        }
+
+        NavigationManager.NavigateTo(Callback);
+    }
+
+    private void OnChangeState()
+    {
+        AssociationModel.State = SelectedState;
+    }
+
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo(Callback);
+    }
+
+}

@@ -33,13 +33,13 @@
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="SelectedVisit.Consultant" Required="true"/>
+            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@($"/main-visit/{VisitId}")" CurrentAssociation="SelectedVisit.Association"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Associação/Fornecedor" Menu="@_menus.GetMenu(MenuType.MainPageAssociation)" Id="associationInput" @bind-value="SelectedVisit.Association" Required="true"/>
+            <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="SelectedVisit.Consultant" Required="true"/>
         </div>
     </div>
 
@@ -89,6 +89,11 @@
     private void OnPlantChanged(PlantModel plant)
     {
         SelectedVisit.Plant = plant;
+    }
+    
+    private void OnAssociationChanged(AssociationModel association)
+    {
+        SelectedVisit.Association = association;
     }
 
     public void Dispose()

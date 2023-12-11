@@ -2,7 +2,7 @@
 
 namespace FiscalLabApp.Models;
 
-public class PlantModel
+public class AssociationModel
 {
     public string Id { get; set; } = string.Empty;
     [Required(ErrorMessage = "Nome é obrigatório.")]
@@ -11,4 +11,6 @@ public class PlantModel
     public string City { get; set; } = string.Empty;
     [Required(ErrorMessage = "Estado é obrigatório.")]
     public string State { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Email é obrigatório.")]
+    public string Emails { get; set; } = string.Empty;
 }

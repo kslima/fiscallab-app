@@ -1,9 +1,11 @@
-﻿@page "/plant"
-@page "/plant/{PlantId}"
+﻿@page "/plants"
+@page "/plants/{PlantId}"
+@using FiscalLabApp.Helpers
 
 @inject NavigationManager NavigationManager
 @inject IPlantRepository PlantRepository
 
+<h6>Usina</h6>
 <EditForm Model="@PlantModel" OnValidSubmit="@SaveOrUpdatePlant">
     <DataAnnotationsValidator/>
     <div class="form-floating mb-3">
@@ -24,7 +26,7 @@
         <div class="col">
             <div class="form-floating mb-3">
                 <InputSelect @bind-Value="SelectedState" class="form-control" id="cityInput" @bind-Value:after="OnChangeState">
-                    @foreach (var state in StatesFromBrazil)
+                    @foreach (var state in  AddressHelper.StatesFromBrazil)
                     {
                         <option value="@state.Key" selected="@(PlantModel.State.Equals(state.Key))">@state.Value</option>
                     }
@@ -35,13 +37,7 @@
         </div>
 
     </div>
-
-    <div class="form-floating mb-3">
-        <InputTextArea class="form-control" id="emailInput" @bind-Value="PlantModel.Emails"/>
-        <label for="emailInput">Emails <strong class="text-danger">*</strong></label>
-        <ValidationMessage For="() => PlantModel.Emails"/>
-    </div >
-
+    
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-outline-secondary mb-3" @onclick="OnCancel">Cancelar</button>
         <button type="submit" class="btn btn-outline-success mb-3 ms-3">Salvar</button>
@@ -51,38 +47,7 @@
 
 
 @code {
-
-    private static readonly IReadOnlyDictionary<string, string> StatesFromBrazil = new Dictionary<string, string>
-    {
-        { "AC", "Acre" },
-        { "AL", "Alagoas" },
-        { "AP", "Amapá" },
-        { "AM", "Amazonas" },
-        { "BA", "Bahia" },
-        { "CE", "Ceara" },
-        { "DF", "Distrito Federal" },
-        { "ES", "Espirito Santo" },
-        { "GO", "Goiás" },
-        { "MA", "Maranhão" },
-        { "MT", "Mato Grosso" },
-        { "MS", "Mato Grosso do Sul" },
-        { "MG", "Minas Gerais" },
-        { "PA", "Para" },
-        { "PB", "Paraíba" },
-        { "PR", "Paraná" },
-        { "PE", "Pernambuco" },
-        { "PI", "Piauí" },
-        { "RJ", "Rio de Janeiro" },
-        { "RN", "Rio Grande do Norte" },
-        { "RS", "Rio Grande do Sul" },
-        { "RO", "Rondônia" },
-        { "RR", "Roraima" },
-        { "SC", "Santa Catarina" },
-        { "SP", "São Paulo" },
-        { "SE", "Sergipe" },
-        { "TO", "Tocantins" },
-    };
-
+    
     [Parameter] public string PlantId { get; set; } = string.Empty;
 
     [SupplyParameterFromQuery] public string Callback { get; set; } = "/";

@@ -6,7 +6,7 @@
         <option value="" selected hidden>Selecione uma usina..</option>
         @foreach (var plant in Plants)
         {
-            <option value="@plant.Id" selected="@(CurrentPlant?.Id.Equals(plant.Id))">@plant.Name</option>
+            <option value="@plant.Id" selected="@(CurrentPlant?.Id.Equals(plant.Id))">@($"{plant.Name} ({plant.City} - {plant.State})")</option>
         }
     </InputSelect>
     <label for="plantInput">Usina <strong class="text-danger">*</strong></label>
@@ -40,12 +40,12 @@
 
     private void EditPlant()
     {
-        NavigationManager.NavigateTo($"/plant/{_selectedPlantId}?Callback={CallbackRoute}");
+        NavigationManager.NavigateTo($"/plants/{_selectedPlantId}?Callback={CallbackRoute}");
     }
 
     private void AddPlant()
     {
-        NavigationManager.NavigateTo($"/plant?Callback={CallbackRoute}");
+        NavigationManager.NavigateTo($"/plants?Callback={CallbackRoute}");
     }
 
     private Task OnChangePlant()

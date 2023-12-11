@@ -7,7 +7,9 @@ namespace FiscalLabApp.Services;
 public class IndexedDbAccessor(IJSRuntime jsRuntime,
     HttpClient httpClient) : IAsyncDisposable, IDisposable
 {
-    public const string OptionsCollectionName = "menus";
+    public const string MenuCollectionName = "menus";
+    public const string PlantCollectionName = "plants";
+    
     private Lazy<IJSObjectReference> _accessorJsRef = new();
 
     public async Task InitializeAsync()
@@ -16,11 +18,12 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
         await _accessorJsRef.Value.InvokeVoidAsync("initialize");
 
         await InitializeOptionsAsync();
+        await InitializePlantsAsync();
     }
     
     public async Task InitializeOptionsAsync()
     {
-        var menus = await GetValueAsync<Menu[]>(OptionsCollectionName);
+        var menus = await GetValueAsync<Menu[]>(MenuCollectionName);
         if (menus.Length > 0) return;
         
         var result = await httpClient.GetFromJsonAsync<Menu[]>("/sample-data/menus.json");
@@ -28,7 +31,22 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
         {
             foreach (var menu in result)
             {
-                await SetValueAsync(OptionsCollectionName, menu);
+                await SetValueAsync(MenuCollectionName, menu);
+            }
+        }
+    }
+    
+    public async Task InitializePlantsAsync()
+    {
+        var menus = await GetValueAsync<PlantModel[]>(PlantCollectionName);
+        if (menus.Length > 0) return;
+        
+        var result = await httpClient.GetFromJsonAsync<PlantModel[]>("/sample-data/plants.json");
+        if (result != null)
+        {
+            foreach (var menu in result)
+            {
+                await SetValueAsync(PlantCollectionName, menu);
             }
         }
     }
