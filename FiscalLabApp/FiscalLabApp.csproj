@@ -20,4 +20,8 @@
       <_ContentIncludedByDefault Remove="Components\Pages\Menu\AddOption.razor" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <BlazorCacheBootResources>false</BlazorCacheBootResources>
+    </PropertyGroup>
+
 </Project>

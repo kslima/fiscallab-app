@@ -9,6 +9,7 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
 {
     public const string MenuCollectionName = "menus";
     public const string PlantCollectionName = "plants";
+    public const string AssociationCollectionName = "associations";
     
     private Lazy<IJSObjectReference> _accessorJsRef = new();
 
@@ -19,6 +20,7 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
 
         await InitializeOptionsAsync();
         await InitializePlantsAsync();
+        await InitializeAssociationsAsync();
     }
     
     public async Task InitializeOptionsAsync()
@@ -47,6 +49,21 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
             foreach (var menu in result)
             {
                 await SetValueAsync(PlantCollectionName, menu);
+            }
+        }
+    }
+    
+    public async Task InitializeAssociationsAsync()
+    {
+        var menus = await GetValueAsync<AssociationModel[]>(AssociationCollectionName);
+        if (menus.Length > 0) return;
+        
+        var result = await httpClient.GetFromJsonAsync<AssociationModel[]>("/sample-data/associations.json");
+        if (result != null)
+        {
+            foreach (var menu in result)
+            {
+                await SetValueAsync(AssociationCollectionName, menu);
             }
         }
     }
