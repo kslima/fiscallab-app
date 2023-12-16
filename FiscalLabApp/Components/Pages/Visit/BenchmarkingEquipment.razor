@@ -120,7 +120,7 @@
             <VisitNumberInput Title="Previsto Safra" Id="benchmarkingEquipmentExpectedCrop" @bind-value="SelectedVisit.BenchmarkingEquipmentExpectedCrop" ValueUpdated="ExpectedCropChanged"/>
         </div>
     </div>
-
+    
     <div class="row">
         <div class="col">
             <VisitNumberInput Title="Realizado" Id="benchmarkingEquipmentAccomplishedCrop" @bind-value="SelectedVisit.BenchmarkingEquipmentAccomplishedCrop" ValueUpdated="ExpectedCropChanged"/>
@@ -135,7 +135,7 @@
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Safra Passada" Id="benchmarkingEquipmentPreviousCrop" @bind-value="SelectedVisit.BenchmarkingEquipmentPreviousCrop" ValueUpdated="CalculateVariationBetweenCrops"/>
+            <VisitNumberInput Title="Safra Passada" Id="benchmarkingEquipmentPreviousCrop" @bind-value="SelectedVisit.BenchmarkingEquipmentPreviousCrop" ValueUpdated="CalculateCropVariation"/>
         </div>
     </div>
     
@@ -149,15 +149,16 @@
 <VisitDataSeparator Title="Resultados Analíticos">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Fibra(Safra Atual)" Id="benchmarkingEquipmentCurrentFiber" @bind-value="SelectedVisit.BenchmarkingEquipmentCurrentFiber"/>
+            <VisitNumberInput Title="Fibra(Safra Atual)" Id="benchmarkingEquipmentCurrentFiber" @bind-value="SelectedVisit.BenchmarkingEquipmentCurrentFiber" ValueUpdated="CalculateFiberVariation"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Fibra(Safra Anterior)" Id="benchmarkingEquipmentPreviousFiber" @bind-value="SelectedVisit.BenchmarkingEquipmentPreviousFiber"/>
+            <VisitNumberInput Title="Fibra(Safra Anterior)" Id="benchmarkingEquipmentPreviousFiber" @bind-value="SelectedVisit.BenchmarkingEquipmentPreviousFiber" ValueUpdated="CalculateFiberVariation"/>
         </div>
     </div>
+    
 
     <div class="row">
         <div class="col">
@@ -167,13 +168,13 @@
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="ATR(Safra Atual)" Id="benchmarkingEquipmentCurrentAtr" @bind-value="SelectedVisit.BenchmarkingEquipmentCurrentAtr"/>
+            <VisitNumberInput Title="ATR(Safra Atual)" Id="benchmarkingEquipmentCurrentAtr" @bind-value="SelectedVisit.BenchmarkingEquipmentCurrentAtr" ValueUpdated="CalculateAtrVariation"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="ATR(Safra Anterior)" Id="benchmarkingEquipmentPreviousAtr" @bind-value="SelectedVisit.BenchmarkingEquipmentPreviousAtr"/>
+            <VisitNumberInput Title="ATR(Safra Anterior)" Id="benchmarkingEquipmentPreviousAtr" @bind-value="SelectedVisit.BenchmarkingEquipmentPreviousAtr" ValueUpdated="CalculateAtrVariation"/>
         </div>
     </div>
 
@@ -219,19 +220,28 @@
     public void ExpectedCropChanged(decimal value)
     {
         CalculateCropPercentageRealized();
-        Console.WriteLine(value);
     }
     
     private void CalculateCropPercentageRealized()
     {
         if (SelectedVisit.BenchmarkingEquipmentExpectedCrop == 0) return; 
         var value = SelectedVisit.BenchmarkingEquipmentAccomplishedCrop / SelectedVisit.BenchmarkingEquipmentExpectedCrop * 100;
-        SelectedVisit.BenchmarkingEquipmentPercentageRealized = value;
+        SelectedVisit.BenchmarkingEquipmentPercentageRealized = decimal.Round(value, 2, MidpointRounding.ToEven);
     }
 
-    private void CalculateVariationBetweenCrops()
+    private void CalculateCropVariation()
     {
         SelectedVisit.BenchmarkingEquipmentVariationBetweenCrops = SelectedVisit.BenchmarkingEquipmentAccomplishedCrop - SelectedVisit.BenchmarkingEquipmentPreviousCrop;
+    }
+    
+    private void CalculateFiberVariation()
+    {
+        SelectedVisit.BenchmarkingEquipmentFiberVariation = SelectedVisit.BenchmarkingEquipmentCurrentFiber - SelectedVisit.BenchmarkingEquipmentPreviousFiber;
+    }
+    
+    private void CalculateAtrVariation()
+    {
+        SelectedVisit.BenchmarkingEquipmentAtrVariation = SelectedVisit.BenchmarkingEquipmentCurrentAtr - SelectedVisit.BenchmarkingEquipmentPreviousAtr;
     }
 
     public void Dispose()
