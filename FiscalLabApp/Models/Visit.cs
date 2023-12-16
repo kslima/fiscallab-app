@@ -142,10 +142,11 @@ public class Visit
     public string SystemConsistencyOc { get; set; } = string.Empty;
     public string SystemConsistencyFarm { get; set; } = string.Empty;
     public string SystemConsistencyOwner { get; set; } = string.Empty;
-    public Clarify SystemConsistencyClarifier { get; set; }
+    public Clarify? SystemConsistencyClarifier { get; set; }
     public decimal SystemConsistencyPlantPbu { get; set; }
-    public decimal SystemConsistencyConsecanaPbu { get; set; }
-    public decimal SystemConsistencyDifferencePbu { get; set; }
+    public decimal SystemConsistencyPlantBrix { get; set; }
+    public decimal SystemConsistencyPlantLs { get; set; }
+
     public decimal SystemConsistencyPlantPurity { get; set; }
     public decimal SystemConsistencyConsecanaPurity { get; set; }
     public decimal SystemConsistencyDifferencePurity { get; set; }

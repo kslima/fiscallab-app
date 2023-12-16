@@ -226,7 +226,7 @@
     {
         if (SelectedVisit.BenchmarkingEquipmentExpectedCrop == 0) return; 
         var value = SelectedVisit.BenchmarkingEquipmentAccomplishedCrop / SelectedVisit.BenchmarkingEquipmentExpectedCrop * 100;
-        SelectedVisit.BenchmarkingEquipmentPercentageRealized = decimal.Round(value, 2, MidpointRounding.ToEven);
+        SelectedVisit.BenchmarkingEquipmentPercentageRealized = value.RoundToEven(2);
     }
 
     private void CalculateCropVariation()
