@@ -13,6 +13,7 @@ public static class DependencyInjection
         services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<IVisitRepository, VisitRepository>();
         services.AddScoped<IAssociationRepository, AssociationRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
         services.AddScoped<IVisitService, VisitService>();
     }
 }

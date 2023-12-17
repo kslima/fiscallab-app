@@ -31,19 +31,7 @@
             <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="SelectedVisit.ConclusionObservations"/>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col">
-            <InputFile OnChange="@OnFileSelection" multiple></InputFile>
-            <div class="row w-25 h-25">
-                @foreach (var imgUrl in _imgUrls)
-                {
-                    <img class="w-25 h-25" src="@imgUrl" alt="...">
-                }
-
-            </div>
-        </div>
-    </div>
+    
 </VisitDataSeparator>
 
 
@@ -56,8 +44,6 @@
     public Visit SelectedVisit { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
-
-    private readonly List<string> _imgUrls = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -81,18 +67,6 @@
     public async ValueTask DisposeAsync()
     {
         await VisitService.UpdateAsync(SelectedVisit);
-    }
-
-    private async Task OnFileSelection(InputFileChangeEventArgs e)
-    {
-        foreach (var imgFile in e.GetMultipleFiles(5))
-        {
-            var buffers = new byte[imgFile.Size];
-            await imgFile.OpenReadStream().ReadAsync(buffers);
-            var imageType = imgFile.ContentType;
-            var imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
-            _imgUrls.Add(imgUrl);
-        }
     }
 
 }
