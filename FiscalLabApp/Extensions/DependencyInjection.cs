@@ -1,4 +1,5 @@
-﻿using FiscalLabApp.Interfaces;
+﻿using Blazored.Toast;
+using FiscalLabApp.Interfaces;
 using FiscalLabApp.Repositories;
 using FiscalLabApp.Services;
 
@@ -8,6 +9,7 @@ public static class DependencyInjection
 {
     public static void AddDependencies(this IServiceCollection services)
     {
+        services.AddBlazoredToast();
         services.AddScoped<IndexedDbAccessor>();
         services.AddScoped<IPlantRepository, PlantRepository>();
         services.AddScoped<IMenuService, MenuService>();

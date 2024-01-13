@@ -1,6 +1,10 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.Toast.Configuration
+@inherits LayoutComponentBase
 <NavMenu />
 
 <main class="container">
     @Body
 </main>
+
+<BlazoredToasts Position="ToastPosition.TopRight"
+                Timeout="5"/>
