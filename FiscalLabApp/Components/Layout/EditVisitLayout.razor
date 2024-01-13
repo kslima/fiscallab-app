@@ -1,4 +1,6 @@
 ﻿@using Blazored.Toast.Configuration
+@using FiscalLabApp.Helpers
+@using PdfSharp.Fonts
 @inherits LayoutComponentBase
 
 <CascadingValue Value="this">
@@ -15,4 +17,10 @@
 @code
 {
     public string SelectedVisitId { get; set; } = string.Empty;
+    
+    protected override void OnInitialized()
+    {
+        GlobalFontSettings.FontResolver = new FontResolver();
+        base.OnInitialized();
+    }
 }

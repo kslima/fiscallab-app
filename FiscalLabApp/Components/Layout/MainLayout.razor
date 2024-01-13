@@ -1,6 +1,8 @@
 ﻿@using Blazored.Toast.Configuration
+@using FiscalLabApp.Helpers
+@using PdfSharp.Fonts
 @inherits LayoutComponentBase
-<NavMenu />
+<NavMenu/>
 
 <main class="container">
     @Body
@@ -8,3 +10,12 @@
 
 <BlazoredToasts Position="ToastPosition.TopRight"
                 Timeout="5"/>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        GlobalFontSettings.FontResolver = new FontResolver();
+        base.OnInitialized();
+    }
+}
