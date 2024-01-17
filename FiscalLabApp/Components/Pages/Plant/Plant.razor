@@ -1,0 +1,92 @@
+﻿@page "/plants"
+@page "/plants/{PlantId}"
+@using FiscalLabApp.Helpers
+
+@inject NavigationManager NavigationManager
+@inject IPlantRepository PlantRepository
+
+<h6>Usina</h6>
+<EditForm Model="@PlantModel" OnValidSubmit="@SaveOrUpdatePlant">
+    <DataAnnotationsValidator/>
+    <div class="form-floating mb-3">
+        <InputText class="form-control" id="nameInput" @bind-Value="PlantModel.Name"/>
+        <label for="nameInput">Nome <strong class="text-danger">*</strong></label>
+        <ValidationMessage For="() => PlantModel.Name"/>
+    </div >
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputText class="form-control" id="stateInput" @bind-Value="PlantModel.City"/>
+                <label for="emailInput">Cidade <strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => PlantModel.City"/>
+            </div >
+        </div>
+
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputSelect @bind-Value="SelectedState" class="form-control" id="cityInput" @bind-Value:after="OnChangeState">
+                    @foreach (var state in  AddressHelper.StatesFromBrazil)
+                    {
+                        <option value="@state.Key" selected="@(PlantModel.State.Equals(state.Key))">@state.Value</option>
+                    }
+                </InputSelect>
+                <label for="cityInput">Estado <strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => PlantModel.State"/>
+            </div >
+        </div>
+
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-outline-secondary mb-3" @onclick="OnCancel">Cancelar</button>
+        <button type="submit" class="btn btn-outline-success mb-3 ms-3">Salvar</button>
+        <button type="button" class="btn btn-outline-danger mb-3 ms-3" disabled="@(string.IsNullOrWhiteSpace(PlantId))">Excluir</button>
+    </div>
+</EditForm >
+
+
+@code {
+    
+    [Parameter] public string PlantId { get; set; } = string.Empty;
+
+    [SupplyParameterFromQuery] public string Callback { get; set; } = "/";
+    
+    public PlantModel PlantModel = new();
+    private string SelectedState { get; set; } = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(PlantId))
+        {
+            PlantModel = await PlantRepository.GetAsync(PlantId);
+            SelectedState = PlantModel.State;
+        }
+    }
+
+    private async Task SaveOrUpdatePlant()
+    {
+        if (string.IsNullOrWhiteSpace(PlantId))
+        {
+            PlantModel.Id = Guid.NewGuid().ToString();
+            await PlantRepository.CreateAsync(PlantModel);
+        }
+        else
+        {
+            await PlantRepository.UpdateAsync(PlantModel);
+        }
+
+        NavigationManager.NavigateTo(Callback);
+    }
+
+    private void OnChangeState()
+    {
+        PlantModel.State = SelectedState;
+    }
+
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo(Callback);
+    }
+
+}

@@ -4,29 +4,66 @@ using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Services;
 
-public class IndexedDbAccessor : IAsyncDisposable
+public class IndexedDbAccessor(IJSRuntime jsRuntime,
+    HttpClient httpClient) : IAsyncDisposable, IDisposable
 {
+    public const string MenuCollectionName = "menus";
+    public const string PlantCollectionName = "plants";
+    public const string AssociationCollectionName = "associations";
+    
     private Lazy<IJSObjectReference> _accessorJsRef = new();
-    private readonly IJSRuntime _jsRuntime;
-    private readonly HttpClient _httpClient;
-
-    public IndexedDbAccessor(IJSRuntime jsRuntime, HttpClient httpClient)
-    {
-        _jsRuntime = jsRuntime;
-        _httpClient = httpClient;
-    }
 
     public async Task InitializeAsync()
     {
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("initialize");
 
-        var result = await _httpClient.GetFromJsonAsync<MenuOption[]>("/sample-data/options.json");
+        await InitializeOptionsAsync();
+        await InitializePlantsAsync();
+        await InitializeAssociationsAsync();
+    }
+    
+    public async Task InitializeOptionsAsync()
+    {
+        var menus = await GetValueAsync<Menu[]>(MenuCollectionName);
+        if (menus.Length > 0) return;
+        
+        var result = await httpClient.GetFromJsonAsync<Menu[]>("/sample-data/menus.json");
         if (result != null)
         {
             foreach (var menu in result)
             {
-                await SetValueAsync("options", menu);
+                await SetValueAsync(MenuCollectionName, menu);
+            }
+        }
+    }
+    
+    public async Task InitializePlantsAsync()
+    {
+        var menus = await GetValueAsync<PlantModel[]>(PlantCollectionName);
+        if (menus.Length > 0) return;
+        
+        var result = await httpClient.GetFromJsonAsync<PlantModel[]>("/sample-data/plants.json");
+        if (result != null)
+        {
+            foreach (var menu in result)
+            {
+                await SetValueAsync(PlantCollectionName, menu);
+            }
+        }
+    }
+    
+    public async Task InitializeAssociationsAsync()
+    {
+        var menus = await GetValueAsync<AssociationModel[]>(AssociationCollectionName);
+        if (menus.Length > 0) return;
+        
+        var result = await httpClient.GetFromJsonAsync<AssociationModel[]>("/sample-data/associations.json");
+        if (result != null)
+        {
+            foreach (var menu in result)
+            {
+                await SetValueAsync(AssociationCollectionName, menu);
             }
         }
     }
@@ -37,7 +74,7 @@ public class IndexedDbAccessor : IAsyncDisposable
         {
             _accessorJsRef =
                 new Lazy<IJSObjectReference>(
-                    await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/IndexedDbAccessor.js"));
+                    await jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/IndexedDbAccessor.js"));
         }
     }
 
@@ -56,13 +93,19 @@ public class IndexedDbAccessor : IAsyncDisposable
 
         return result;
     }
-    
-    public async Task<T> GetValueByKeyAsync<T>(string collectionName, string key)
+
+    public async Task<T> GetValueByIdAsync<T>(string collectionName, string key)
     {
         await WaitForReference();
-        var result = await _accessorJsRef.Value.InvokeAsync<T>("getByKey", collectionName, key);
+        var result = await _accessorJsRef.Value.InvokeAsync<T>("getById", collectionName, key);
 
         return result;
+    }
+    
+    public async Task DeleteAsync(string collectionName, string key)
+    {
+        await WaitForReference();
+        await _accessorJsRef.Value.InvokeVoidAsync("remove", collectionName, key);
     }
 
     public async Task SetValueAsync<T>(string collectionName, T value)
@@ -70,10 +113,18 @@ public class IndexedDbAccessor : IAsyncDisposable
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("set", collectionName, value);
     }
-    
+
     public async Task DeleteDatabaseAsync()
     {
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("deleteDatabase");
+    }
+
+    public void Dispose()
+    {
+        // if (_accessorJsRef.IsValueCreated)
+        // {
+        //     _accessorJsRef.Value.
+        // }
     }
 }

@@ -1,0 +1,135 @@
+﻿@page "/visits/{VisitId}/press-refractometer"
+@implements IDisposable
+@implements IAsyncDisposable
+@using FiscalLabApp.Extensions
+@layout EditVisitLayout
+
+@inject IMenuService MenuService
+@inject IVisitService VisitService
+
+<VisitDataSeparator Title="Prensa">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Manômetro com cert. calibragem" Menu="@_options.GetMenu(MenuType.PressRefractometerPressureGaugeCertificated)" Id="pressureGaugeCertificated" @bind-value="SelectedVisit.PressureGaugeCertificated"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Uso do Copo Descarte" Menu="@_options.GetMenu(MenuType.PressRefractometerDiscardCup)" Id="discardCup" @bind-value="SelectedVisit.DiscardCup"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Frasco Coletor" Menu="@_options.GetMenu(MenuType.PressRefractometerCollectorBottle)" Id="pressRefractometerCollectorBottle" @bind-value="SelectedVisit.CollectorBottle"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Pressão" Menu="@_options.GetMenu(MenuType.PressRefractometerPressure)" Id="pressRefractometerPressure" @bind-value="SelectedVisit.Pressure"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Temporizador" Menu="@_options.GetMenu(MenuType.PressRefractometerTimer)" Id="pressRefractometerTimer" @bind-value="SelectedVisit.Timer"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Limpeza da Prensa" Menu="@_options.GetMenu(MenuType.PressRefractometerPressCleaning)" Id="pressRefractometerPressCleaning" @bind-value="SelectedVisit.PressCleaning"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 7" Menu="@_options.GetMenu(MenuType.PressRefractometerObservations7)" Id="observations7" @bind-value="SelectedVisit.Observations7"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+
+<VisitDataSeparator Title="Refratômetro">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Hômogênização do Caldo" Menu="@_options.GetMenu(MenuType.PressRefractometerBrothHomogenization)" Id="pressRefractometerBrothHomogenization" @bind-value="SelectedVisit.BrothHomogenization"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Certificado calibragem" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerCalibrationCertificate)" Id="refractometerCalibrationCertificate" @bind-value="SelectedVisit.RefractometerCalibrationCertificate"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Precisão Leitura" Menu="@_options.GetMenu(MenuType.PressRefractometerPrecisionReading)" Id="precisionReading" @bind-value="SelectedVisit.PrecisionReading"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Aferição" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerBenchmarking)" Id="refractometerBenchmarking" @bind-value="SelectedVisit.RefractometerBenchmarking"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Limpeza" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerCleaning)" Id="refractometerCleaning" @bind-value="SelectedVisit.RefractometerCleaning"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Temperatura Interna" Menu="@_options.GetMenu(MenuType.PressRefractometerInternalTemperature)" Id="internalTemperature" @bind-value="SelectedVisit.InternalTemperature"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 8" Menu="@_options.GetMenu(MenuType.PressRefractometerObservations8)" Id="observations8" @bind-value="SelectedVisit.Observations8"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+@code {
+
+    [CascadingParameter]
+    public EditVisitLayout Layout { get; set; } = new();
+    
+    [Parameter] 
+    public string VisitId { get; set; } = string.Empty;
+
+    private Menu[] _options = Array.Empty<Menu>();
+
+    public Visit SelectedVisit { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _options = await MenuService.GetMenuOptions(PageType.PressRefractometer);
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Layout.SelectedVisitId = VisitId;
+        }
+    }
+
+    public void Dispose()
+    {
+        VisitService.UpdateAsync(SelectedVisit);
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        await VisitService.UpdateAsync(SelectedVisit);
+    }
+
+}

@@ -1,13 +1,14 @@
-﻿@using FiscalLabApp.Models
+﻿@using System.Text.Json
+@using FiscalLabApp.Extensions
 @inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager
 @inject IVisitService VisitService
 
-<div class="content px-4">
+<div class="content">
     <select class="form-select form-select-lg mb-3" aria-label="Large select example" @onchange="CallVisitPage">
         @foreach (var visitPage in _visitPages)
         {
-            <option value="@visitPage.Route">@visitPage.Description</option>
+            <option value="@visitPage.Page" selected="@(visitPage.Page.Equals(NavigationManager.GetCurrentVisitPage()))">@visitPage.Description</option>
         }
     </select>
 </div>
@@ -15,26 +16,22 @@
 @code
 {
     [CascadingParameter]
-    public EditVisitLayout EditVisitLayout { get; set; } = new();
+    public EditVisitLayout Layout { get; set; } = new();
     
     private IReadOnlyList<VisitPage> _visitPages = new List<VisitPage>();
     protected override async Task OnInitializedAsync()
     {
         var pages = await HttpClient.GetFromJsonAsync<VisitPage[]>("/sample-data/visit-pages.json");
         if (pages is not null) _visitPages = pages;
+        
+        Console.WriteLine(JsonSerializer.Serialize(NavigationManager.Uri));
     }
 
-    private async Task CallVisitPage(ChangeEventArgs e)
+    private void CallVisitPage(ChangeEventArgs e)
     {
-        if (EditVisitLayout.SelectedVisit is not null)
-        {
-            var visit = EditVisitLayout.SelectedVisit;
-            EditVisitLayout.SelectedVisit = await VisitService.UpdateAsync(visit);
-        }
-        
         var route = e.Value?.ToString();
         if (route is null) return;
         
-        NavigationManager.NavigateTo($"{route}");
+        NavigationManager.NavigateTo($"visits/{Layout.SelectedVisitId}/{route}");
     }
 }

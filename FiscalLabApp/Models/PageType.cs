@@ -3,5 +3,12 @@
 public enum PageType
 {
     Main,
-    SugarcaneScale
+    SugarcaneBalance,
+    DesintegratorProbe,
+    AnalyticalBalance,
+    PressRefractometer,
+    ClarificationSaccharimeter,
+    BenchmarkingEquipment,
+    SystemConsistency,
+    Conclusion
 }

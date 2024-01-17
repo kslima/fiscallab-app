@@ -4,8 +4,8 @@ namespace FiscalLabApp.Extensions;
 
 public static class MenuOptionExtensions
 {
-    public static MenuOption? GetOption(this MenuOption[] options, MenuType menuType)
+    public static Menu? GetMenu(this Menu[] options, MenuType menuType)
     {
-        return options.SingleOrDefault(o => o.Menu.Equals(menuType.ToString()));
+        return options.SingleOrDefault(o => o.Code.Equals(menuType.ToString()));
     }
 }

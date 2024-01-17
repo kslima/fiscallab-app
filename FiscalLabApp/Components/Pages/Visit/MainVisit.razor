@@ -1,0 +1,109 @@
+﻿@page "/visits/{VisitId}/main"
+@using FiscalLabApp.Extensions
+@implements IDisposable
+@implements IAsyncDisposable
+
+@layout EditVisitLayout
+@inject IMenuService MenuService
+@inject IVisitService VisitService
+
+<VisitDataSeparator Title="Dados Básicos">
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="SelectedVisit.VisitDate"/>
+                <label for="createdAtDateInput">Data</label>
+            </div >
+
+        </div>
+        <div class="col">
+            <div class="form-floating mb-3">
+                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="SelectedVisit.VisitTime"/>
+                <label for="createdAtTimeInput">Hora</label>
+            </div >
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@($"/main-visit/{VisitId}")" CurrentPlant="SelectedVisit.Plant"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@($"/main-visit/{VisitId}")" CurrentAssociation="SelectedVisit.Association"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="SelectedVisit.Consultant" Required="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Fiscal de Turno" Menu="@_menus.GetMenu(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="SelectedVisit.Inspector"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Líder de Turno" Menu="@_menus.GetMenu(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="SelectedVisit.Leader"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Menu="@_menus.GetMenu(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="SelectedVisit.LaboratoryLeader"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+@code {
+
+    [CascadingParameter] EditVisitLayout Layout { get; set; } = new();
+
+    [Parameter] public string VisitId { get; set; } = string.Empty;
+
+    public Visit SelectedVisit { get; set; } = new();
+
+    private Menu[] _menus = Array.Empty<Menu>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _menus = await MenuService.GetMenuOptions(PageType.Main);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Layout.SelectedVisitId = VisitId;
+        }
+    }
+
+    private void OnPlantChanged(PlantModel plant)
+    {
+        SelectedVisit.Plant = plant;
+    }
+    
+    private void OnAssociationChanged(AssociationModel association)
+    {
+        SelectedVisit.Association = association;
+    }
+
+    public void Dispose()
+    {
+        VisitService.UpdateAsync(SelectedVisit);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await VisitService.UpdateAsync(SelectedVisit);
+    }
+
+}

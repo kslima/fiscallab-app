@@ -1,22 +1,12 @@
-﻿<nav class="navbar navbar-expand-md mb-4 shadow" style="background-color: #f9f9f9;">
+﻿@inject NavigationManager NavigationManager
+
+<nav class="navbar shadow-sm mb-4" style="background-color: #f9f9f9;">
     <div class="container-fluid">
-        <a href="#" class="rounded float-start mb-2">
-            <img src="icon-192.png" alt="logo" style="width:25%">
-        </a>
         <div>
-            <a class="navbar-brand  fw-bold text-black" href="">Fiscal Lab</a>
-            <p class="card-text">
-                <small class="text-muted">Sistema de Fiscalizacao de Laboratorio de Sacarose</small>
-            </p>
-        </div>
-        <div class="collapse navbar-collapse @NavBarCssClass" id="navbarCollapse" @onclick="ToggleNavMenu">
-            @* <ul class="navbar-nav me-auto mb-2 mb-md-0"> *@
-            @*     <li class="nav-item"> *@
-            @*         <NavLink class="nav-link" href="new-visit"> *@
-            @*             <span class="bi bi-list-nested" aria-hidden="true"></span> Nova Visita *@
-            @*         </NavLink> *@
-            @*     </li> *@
-            @* </ul> *@
+            <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
+                <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
+                Grupo Esdra
+            </a>
         </div>
     </div>
 </nav>
@@ -26,9 +16,9 @@
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
 
-    private void ToggleNavMenu()
+    private void OpenVisits()
     {
-        _collapseNavMenu = !_collapseNavMenu;
+        NavigationManager.NavigateTo("/visits");
     }
 
 }

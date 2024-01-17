@@ -1,23 +1,18 @@
-﻿@inherits LayoutComponentBase
-
-@inject IVisitService VisitService
+﻿@using Blazored.Toast.Configuration
+@inherits LayoutComponentBase
 
 <CascadingValue Value="this">
     <NavMenu/>
-    <VisitPageSelector/>
     <main class="container" style="background-color: #f9f9f9;">
+        <VisitPageSelector/>
         @Body
     </main>
 </CascadingValue>
 
+<BlazoredToasts Position="ToastPosition.TopRight"
+                Timeout="5"/>
+
 @code
 {
-    public Visit? SelectedVisit { get; set; }
-
-    public void SaveChanges()
-    {
-        if (SelectedVisit is null)
-            return;
-        VisitService.UpdateAsync(SelectedVisit);
-    }
+    public string SelectedVisitId { get; set; } = string.Empty;
 }

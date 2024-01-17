@@ -4,7 +4,8 @@ namespace FiscalLabApp.Interfaces;
 
 public interface IMenuService
 {
-    public Task<Menu[]> GetAllAsync();
-    public Task<MenuOption[]> GetOptions(PageType pageType);
-    
+    Task<Menu> GetByCode(string id);
+    Task<Menu[]> GetMenuOptions(PageType pageType);
+    Task<string[]> AddOptionAsync(PageType pageType, MenuType menuType, string option);
+    Task SetOptionAsync(string code, List<string> options);
 }

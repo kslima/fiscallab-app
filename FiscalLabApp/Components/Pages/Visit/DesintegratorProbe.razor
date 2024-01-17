@@ -1,0 +1,173 @@
+﻿@page "/visits/{VisitId}/desintegrator-probe"
+@implements IDisposable
+@implements IAsyncDisposable
+@using FiscalLabApp.Extensions
+@layout EditVisitLayout
+
+@inject IMenuService MenuService
+@inject IVisitService VisitService
+
+<VisitDataSeparator Title="Sonda">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Tipo de Sonda" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageProbeType)" Id="probeTYpe" @bind-value="SelectedVisit.ProbeTYpe"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Tubo Introduzido Totalmente" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageTubeInserted)" Id="tubeInserted" @bind-value="SelectedVisit.TubeInserted"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Descarrega Tubo Apos" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageTubeDischarged)" Id="tubeDischarged" @bind-value="SelectedVisit.TubeDischarged"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Coleta" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageCollect)" Id="collect" @bind-value="SelectedVisit.Collect"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Quantidade Amostra" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageSampleAmount)" Id="sampleAmount" @bind-value="SelectedVisit.SampleAmount"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Extração  do Caldo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageBrothExtraction)" Id="brothExtraction" @bind-value="SelectedVisit.BrothExtraction"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Posição da Carga" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageLoadPosition)" Id="loadPosition" @bind-value="SelectedVisit.LoadPosition"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Coroa Dentada" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageToothedCrown)" Id="toothedCrown" @bind-value="SelectedVisit.ToothedCrown"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Tipo Coroa" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageToothedCrownType)" Id="toothedCrownType" @bind-value="SelectedVisit.ToothedCrownType"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 3" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageObservations3)" Id="observations3" @bind-value="SelectedVisit.Observations3"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+
+<VisitDataSeparator Title="Desintegrador">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Amostra Homogenia" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageHomogeneousSamples)" Id="homogeneousSamples" @bind-value="SelectedVisit.HomogeneousSamples"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Conservação Facas" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageKnifeConservation)" Id="knifeConservation" @bind-value="SelectedVisit.KnifeConservation"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Conservação Contra-Faca" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageAgainstKnifeConservation)" Id="againstKnifeConservation" @bind-value="SelectedVisit.AgainstKnifeConservation"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Distância Faca/Contra-Faca" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageKnifeAgainstKnifeDistance)" Id="knifeAgainstKnifeDistance" @bind-value="SelectedVisit.KnifeAgainstKnifeDistance"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Conservação Martelos" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageHammerConservation)" Id="hammerConservation" @bind-value="SelectedVisit.HammerConservation"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Betoneira Limpa a Cada" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageCleanMixer)" Id="cleanMixer" @bind-value="SelectedVisit.CleanMixer"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="RPM do Desintegrador" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageDesintegratorRpm)" Id="desintegratorRpm" @bind-value="SelectedVisit.DesintegratorRpm"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Índice de Preparo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePagePreparationIndex)" Id="preparationIndex" @bind-value="SelectedVisit.PreparationIndex"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputDate class="form-control" id="sharpenedOrReplacedKnifeAt" @bind-Value="SelectedVisit.SharpenedOrReplacedKnifeAt"/>
+                <label for="sharpenedOrReplacedKnifeAt">Afiação/troca facas</label>
+            </div >
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 4" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageObservations4)" Id="observations4" @bind-value="SelectedVisit.Observations4"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+@code {
+
+    [CascadingParameter]
+    public EditVisitLayout Layout { get; set; } = new();
+    
+    [Parameter] 
+    public string VisitId { get; set; } = string.Empty;
+
+    public Visit SelectedVisit { get; set; } = new();
+
+    private Menu[] _options = Array.Empty<Menu>();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _options = await MenuService.GetMenuOptions(PageType.DesintegratorProbe);
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Layout.SelectedVisitId = VisitId;
+        }
+    }
+
+    public void Dispose()
+    {
+        VisitService.UpdateAsync(SelectedVisit);
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        await VisitService.UpdateAsync(SelectedVisit);
+    }
+
+}

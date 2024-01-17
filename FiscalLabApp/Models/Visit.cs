@@ -1,4 +1,5 @@
-﻿using FiscalLabApp.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using FiscalLabApp.Enums;
 
 namespace FiscalLabApp.Models;
 
@@ -6,17 +7,21 @@ public class Visit
 {
     //Main
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Plant { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Usina é obrigatório")]
+    public PlantModel? Plant { get; set; }
+    [Required(ErrorMessage = "Associação é obrigatório")]
+    public AssociationModel? Association { get; set; }
     public string Consultant { get; set; } = string.Empty;
-    public string Association { get; set; } = string.Empty;
     public string Inspector { get; set; } = string.Empty;
     public string Leader { get; set; } = string.Empty;
     public string LaboratoryLeader { get; set; } = string.Empty;
-    public DateOnly VisitDate { get; set; }
-    public TimeOnly VisitTime { get; set; }
+    [Required(ErrorMessage = "Data é obrigatório")]
+    public DateOnly? VisitDate { get; set; }
+    [Required(ErrorMessage = "Hora é obrigatório")]
+    public TimeOnly? VisitTime { get; set; }
     public DateTime CreatedAt { get; set; }
     
-    //Cane Scale
+    //Cane balance
     public string InScale { get; set; } = string.Empty;
     public string OutScale { get; set; } = string.Empty;
     public string CargoDraw { get; set; } = string.Empty;
@@ -53,9 +58,7 @@ public class Visit
     public string CleanMixer  { get; set; } = string.Empty;
     public string DesintegratorRpm  { get; set; } = string.Empty;
     public string PreparationIndex  { get; set; } = string.Empty;
-    public string LastRazorChange  { get; set; } = string.Empty;
-    public string LastHammerChange  { get; set; } = string.Empty;
-    public string LastAgainstKnifeChange  { get; set; } = string.Empty;
+    public DateTime? SharpenedOrReplacedKnifeAt  { get; set; }
     public string Observations4 { get; set; } = string.Empty;
     
     
@@ -139,10 +142,11 @@ public class Visit
     public string SystemConsistencyOc { get; set; } = string.Empty;
     public string SystemConsistencyFarm { get; set; } = string.Empty;
     public string SystemConsistencyOwner { get; set; } = string.Empty;
-    public Clarify SystemConsistencyClarifier { get; set; }
+    public Clarify? SystemConsistencyClarifier { get; set; }
     public decimal SystemConsistencyPlantPbu { get; set; }
-    public decimal SystemConsistencyConsecanaPbu { get; set; }
-    public decimal SystemConsistencyDifferencePbu { get; set; }
+    public decimal SystemConsistencyPlantBrix { get; set; }
+    public decimal SystemConsistencyPlantLs { get; set; }
+
     public decimal SystemConsistencyPlantPurity { get; set; }
     public decimal SystemConsistencyConsecanaPurity { get; set; }
     public decimal SystemConsistencyDifferencePurity { get; set; }

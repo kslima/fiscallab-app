@@ -1,0 +1,58 @@
+@page "/menus/{MenuCode}"
+@using FiscalLabApp.Extensions
+@inject IMenuService MenuService
+@inject NavigationManager NavigationManager
+
+<div class="form-floating mb-3o">
+    <InputTextArea @bind-Value="RawOptions" class="form-control h-100 mb-3" id="inputOption" rows="@Rows"/>
+    <label for="inputOption">Opções</label>
+</div>
+
+<div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-outline-secondary mb-3" @onclick="OnCancel">Cancelar</button>
+    <button type="submit" class="btn btn-outline-success mb-3 ms-3" @onclick="UpdateAsync">Salvar</button>
+</div>
+
+@code {
+
+    private const string SplitToken = ";";
+    [Parameter] public string MenuCode { get; set; } = string.Empty;
+
+    [SupplyParameterFromQuery] public string Callback { get; set; } = "/";
+
+    public string RawOptions { get; set; } = string.Empty;
+    public int Rows { get; set; }
+
+    public Menu SelectedMenu { get; set; } = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var menu = await MenuService.GetByCode(MenuCode);
+        if (menu.Options.Count == 0) return;
+        
+        RawOptions = $"{string.Join($"{SplitToken}{Environment.NewLine}{Environment.NewLine}", menu.Options)}";
+        if (!RawOptions.EndsWith(";"))
+        {
+            RawOptions += ";";
+        }
+        Rows = menu.Options.Count * 2;
+    }
+
+    private async Task UpdateAsync()
+    {
+        var options = RawOptions
+            .Split(SplitToken)
+            .Select(o => o.RemoveSpacesAndNewLines())
+            .Where(o => !string.IsNullOrWhiteSpace(o))
+            .ToList();
+        
+        await MenuService.SetOptionAsync(MenuCode, options);
+        NavigationManager.NavigateTo(Callback);
+    }
+
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo(Callback);
+    }
+
+}

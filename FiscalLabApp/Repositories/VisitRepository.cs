@@ -16,13 +16,17 @@ public class VisitRepository(IndexedDbAccessor indexedDbAccessor) : IVisitReposi
 
     public async Task<Visit> UpdateAsync(Visit visit)
     {
-        await indexedDbAccessor.SetValueAsync(VisitCollectionName, visit);
-        return visit;
+        return await CreateAsync(visit);
     }
 
     public async Task<Visit> GetByIdAsync(string id)
     {
-        return await indexedDbAccessor.GetValueByKeyAsync<Visit>(VisitCollectionName, id);
+        return await indexedDbAccessor.GetValueByIdAsync<Visit>(VisitCollectionName, id);
+    }
+
+    public Task DeleteAsync(string id)
+    {
+        return indexedDbAccessor.DeleteAsync(VisitCollectionName, id);
     }
 
     public async Task<List<Visit>> GetAllAsync()

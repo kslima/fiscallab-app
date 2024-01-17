@@ -1,0 +1,72 @@
+﻿@page "/visits/{VisitId}/conclusion"
+@implements IDisposable
+@implements IAsyncDisposable
+@using FiscalLabApp.Extensions
+
+@layout EditVisitLayout
+@inject IMenuService MenuService
+@inject IVisitService VisitService
+
+<VisitDataSeparator Title="Conclusao">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Desempenho do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="SelectedVisit.ConclusionInspectorPerformance"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Desempenho Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="SelectedVisit.ConclusionLaboratoryReceptivity"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Pendências" Menu="@_options.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="SelectedVisit.ConclusionPendencies"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="SelectedVisit.ConclusionObservations"/>
+        </div>
+    </div>
+    
+</VisitDataSeparator>
+
+
+@code {
+
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
+
+    [Parameter] public string VisitId { get; set; } = string.Empty;
+
+    public Visit SelectedVisit { get; set; } = new();
+
+    private Menu[] _options = Array.Empty<Menu>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _options = await MenuService.GetMenuOptions(PageType.Conclusion);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Layout.SelectedVisitId = VisitId;
+        }
+    }
+
+    public void Dispose()
+    {
+        VisitService.UpdateAsync(SelectedVisit);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await VisitService.UpdateAsync(SelectedVisit);
+    }
+
+}
