@@ -18,3 +18,14 @@ function base64toBlob(base64) {
     }
     return new Blob([bytes]);
 }
+
+var jsFunctions = {};
+
+jsFunctions.registerOnlineStatusHandler = function (dotNetObjRef) {
+    function onlineStatusHandler() {
+        dotNetObjRef.invokeMethodAsync("SetOnlineStatusColor", navigator.onLine);
+    };
+    onlineStatusHandler();
+    window.addEventListener("online", onlineStatusHandler);
+    window.addEventListener("offline", onlineStatusHandler);
+}

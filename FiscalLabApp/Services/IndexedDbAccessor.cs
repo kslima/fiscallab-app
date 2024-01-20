@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 namespace FiscalLabApp.Services;
 
 public class IndexedDbAccessor(IJSRuntime jsRuntime,
-    HttpClient httpClient) : IAsyncDisposable, IDisposable
+    HttpClient httpClient) : IAsyncDisposable
 {
     public const string MenuCollectionName = "menus";
     public const string PlantCollectionName = "plants";
@@ -118,13 +118,5 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
     {
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("deleteDatabase");
-    }
-
-    public void Dispose()
-    {
-        // if (_accessorJsRef.IsValueCreated)
-        // {
-        //     _accessorJsRef.Value.
-        // }
     }
 }

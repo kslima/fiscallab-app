@@ -1,21 +1,24 @@
 ﻿@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
-<nav class="navbar shadow-sm mb-4" style="background-color: #f9f9f9;">
+<nav class="navbar shadow-sm mb-4" style="background-color: #ffffff;">
     <div class="container-fluid">
-        <div>
-            <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
-                <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
-                Grupo Esdra
-            </a>
+        <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
+            <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
+            Grupo Esdra
+        </a>
+        <div class="d-flex ">
+            <OnlineStatusIndicator />
         </div>
     </div>
 </nav>
 
 @code {
+    
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
-
+    
     private void OpenVisits()
     {
         NavigationManager.NavigateTo("/visits");

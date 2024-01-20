@@ -1,0 +1,24 @@
+<div class="rounded-circle" style="width:24px; height: 24px; background-color: @_color"></div>
+
+@code {
+    private string? _color;
+    
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; } = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            var dotNetObjRef = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("jsFunctions.registerOnlineStatusHandler", dotNetObjRef);
+        }
+    }
+    
+    [JSInvokable]
+    public void SetOnlineStatusColor(bool isOnline)
+    {
+        _color = isOnline ? "#467b56" : "#c74634";
+        StateHasChanged();
+    }
+}
