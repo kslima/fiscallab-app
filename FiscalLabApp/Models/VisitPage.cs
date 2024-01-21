@@ -2,6 +2,7 @@
 
 public class VisitPage
 {
-    public string Description { get; set; } = string.Empty;
-    public string Page { get; set; } = string.Empty;
+    public int Id { get; set; }
+    public string DisplayName { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 }

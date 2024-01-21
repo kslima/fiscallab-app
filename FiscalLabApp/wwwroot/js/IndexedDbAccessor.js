@@ -9,6 +9,7 @@
         db.createObjectStore("plants", { keyPath: "id" });
         db.createObjectStore("associations", { keyPath: "id" });
         db.createObjectStore("visit_images", { keyPath: "visitId" });
+        db.createObjectStore("visit_pages", { keyPath: "id" });
     }
 }
 

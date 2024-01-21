@@ -1,15 +1,19 @@
 ﻿using System.Net.Http.Json;
+using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
 using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Services;
 
-public class IndexedDbAccessor(IJSRuntime jsRuntime,
-    HttpClient httpClient) : IAsyncDisposable
+public class IndexedDbAccessor(
+    IJSRuntime jsRuntime,
+    HttpClient httpClient,
+    IApiService apiService) : IAsyncDisposable
 {
     public const string MenuCollectionName = "menus";
     public const string PlantCollectionName = "plants";
     public const string AssociationCollectionName = "associations";
+    public const string VisitPageCollectionName = "visit_pages";
     
     private Lazy<IJSObjectReference> _accessorJsRef = new();
 
@@ -18,12 +22,13 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("initialize");
 
-        await InitializeOptionsAsync();
+        await InitializeVisitPagesAsync();
+        await InitializeMenusAsync();
         await InitializePlantsAsync();
         await InitializeAssociationsAsync();
     }
     
-    public async Task InitializeOptionsAsync()
+    public async Task InitializeMenusAsync()
     {
         var menus = await GetValueAsync<Menu[]>(MenuCollectionName);
         if (menus.Length > 0) return;
@@ -65,6 +70,17 @@ public class IndexedDbAccessor(IJSRuntime jsRuntime,
             {
                 await SetValueAsync(AssociationCollectionName, menu);
             }
+        }
+    }
+    
+    public async Task InitializeVisitPagesAsync()
+    {
+        var visitPages = await apiService.GetAllVisitPagesAsync();
+        if (visitPages.Count == 0) return;
+        
+        foreach (var visitPage in visitPages)
+        {
+            await SetValueAsync(VisitPageCollectionName, visitPage);
         }
     }
 
