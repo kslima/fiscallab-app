@@ -2,8 +2,10 @@
 
 public class Menu
 {
-    public string Code { get; set; } = string.Empty;
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string DisplayName { get; set; } = string.Empty;
     public string Page { get; set; } = string.Empty;
-    public bool AddPercentageOptions { get; set; }
-    public List<string> Options { get; set; } = new ();
+    public bool HasPercentageOptions { get; set; }
+    public List<Option> Options { get; set; } = [];
 }

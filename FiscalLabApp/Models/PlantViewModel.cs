@@ -2,7 +2,7 @@
 
 namespace FiscalLabApp.Models;
 
-public class PlantModel
+public class PlantViewModel
 {
     public string Id { get; set; } = string.Empty;
     [Required(ErrorMessage = "Nome é obrigatório.")]

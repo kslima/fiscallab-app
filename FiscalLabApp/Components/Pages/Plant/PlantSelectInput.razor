@@ -1,4 +1,4 @@
-@inject IPlantRepository PlantRepository
+@inject IPlantService PlantService
 @inject NavigationManager NavigationManager
 
 <div class="form-floating input-group mb-3">
@@ -6,7 +6,7 @@
         <option value="" selected hidden>Selecione uma usina..</option>
         @foreach (var plant in Plants)
         {
-            <option value="@plant.Id" selected="@(CurrentPlant?.Id.Equals(plant.Id))">@($"{plant.Name} ({plant.City} - {plant.State})")</option>
+            <option value="@plant.Id" selected="@(CurrentPlant?.Id.Equals(plant.Id))">@($"{plant.Name} ({plant.Address.City} - {plant.Address.State})")</option>
         }
     </InputSelect>
     <label for="plantInput">Usina <strong class="text-danger">*</strong></label>
@@ -27,15 +27,15 @@
 @code {
 
     private string _selectedPlantId = string.Empty;
-    private List<PlantModel> Plants { get; set; } = [];
+    private Plant[] Plants { get; set; } = [];
     [Parameter] public string CallbackRoute { get; set; } = "/";
-    [Parameter] public PlantModel? CurrentPlant { get; set; }
+    [Parameter] public Plant? CurrentPlant { get; set; }
 
-    [Parameter] public EventCallback<PlantModel> PlantChanged { get; set; }
+    [Parameter] public EventCallback<Plant> PlantChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Plants = await PlantRepository.GetAllAsync();
+        Plants = await PlantService.GetAllAsync();
     }
 
     private void EditPlant()

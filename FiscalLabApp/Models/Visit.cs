@@ -8,7 +8,7 @@ public class Visit
     //Main
     public string Id { get; set; } = Guid.NewGuid().ToString();
     [Required(ErrorMessage = "Usina é obrigatório")]
-    public PlantModel? Plant { get; set; }
+    public Plant? Plant { get; set; }
     [Required(ErrorMessage = "Associação é obrigatório")]
     public AssociationModel? Association { get; set; }
     public string Consultant { get; set; } = string.Empty;

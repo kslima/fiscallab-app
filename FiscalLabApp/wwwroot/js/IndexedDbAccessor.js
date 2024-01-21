@@ -4,7 +4,7 @@
     applicationDb.onupgradeneeded = function ()
     {
         let db = applicationDb.result;
-        db.createObjectStore("menus", { keyPath: "code" });
+        db.createObjectStore("menus", { keyPath: "id" });
         db.createObjectStore("visits", { keyPath: "id" });
         db.createObjectStore("plants", { keyPath: "id" });
         db.createObjectStore("associations", { keyPath: "id" });

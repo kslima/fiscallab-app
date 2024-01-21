@@ -28,33 +28,34 @@ public class IndexedDbAccessor(
         await InitializeAssociationsAsync();
     }
     
+    public async Task InitializeVisitPagesAsync()
+    {
+        var visitPages = await apiService.GetAllVisitPagesAsync();
+        if (visitPages.Length == 0) return;
+        
+        foreach (var visitPage in visitPages)
+        {
+            await SetValueAsync(VisitPageCollectionName, visitPage);
+        }
+    }
+    
     public async Task InitializeMenusAsync()
     {
-        var menus = await GetValueAsync<Menu[]>(MenuCollectionName);
-        if (menus.Length > 0) return;
-        
-        var result = await httpClient.GetFromJsonAsync<Menu[]>("/sample-data/menus.json");
-        if (result != null)
+        var menus = await apiService.GetAllMenusAsync();
+        if (menus.Length == 0) return;
+        foreach (var menu in menus)
         {
-            foreach (var menu in result)
-            {
-                await SetValueAsync(MenuCollectionName, menu);
-            }
+            await SetValueAsync(MenuCollectionName, menu);
         }
     }
     
     public async Task InitializePlantsAsync()
     {
-        var menus = await GetValueAsync<PlantModel[]>(PlantCollectionName);
-        if (menus.Length > 0) return;
-        
-        var result = await httpClient.GetFromJsonAsync<PlantModel[]>("/sample-data/plants.json");
-        if (result != null)
+        var plants = await apiService.GetAllPlantsAsync();
+        if (plants.Length == 0) return;
+        foreach (var plant in plants)
         {
-            foreach (var menu in result)
-            {
-                await SetValueAsync(PlantCollectionName, menu);
-            }
+            await SetValueAsync(PlantCollectionName, plant);
         }
     }
     
@@ -73,17 +74,6 @@ public class IndexedDbAccessor(
         }
     }
     
-    public async Task InitializeVisitPagesAsync()
-    {
-        var visitPages = await apiService.GetAllVisitPagesAsync();
-        if (visitPages.Count == 0) return;
-        
-        foreach (var visitPage in visitPages)
-        {
-            await SetValueAsync(VisitPageCollectionName, visitPage);
-        }
-    }
-
     private async Task WaitForReference()
     {
         if (!_accessorJsRef.IsValueCreated)

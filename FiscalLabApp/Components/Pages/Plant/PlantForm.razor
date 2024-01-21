@@ -1,25 +1,26 @@
 ﻿@page "/plants"
 @page "/plants/{PlantId}"
 @using FiscalLabApp.Helpers
+@using FiscalLabApp.Extensions
 
 @inject NavigationManager NavigationManager
-@inject IPlantRepository PlantRepository
+@inject IPlantService PlantService
 
 <h6>Usina</h6>
-<EditForm Model="@PlantModel" OnValidSubmit="@SaveOrUpdatePlant">
+<EditForm Model="@PlantViewModel" OnValidSubmit="@SaveOrUpdatePlant">
     <DataAnnotationsValidator/>
     <div class="form-floating mb-3">
-        <InputText class="form-control" id="nameInput" @bind-Value="PlantModel.Name"/>
+        <InputText class="form-control" id="nameInput" @bind-Value="PlantViewModel.Name"/>
         <label for="nameInput">Nome <strong class="text-danger">*</strong></label>
-        <ValidationMessage For="() => PlantModel.Name"/>
+        <ValidationMessage For="() => PlantViewModel.Name"/>
     </div >
 
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <InputText class="form-control" id="stateInput" @bind-Value="PlantModel.City"/>
+                <InputText class="form-control" id="stateInput" @bind-Value="PlantViewModel.City"/>
                 <label for="emailInput">Cidade <strong class="text-danger">*</strong></label>
-                <ValidationMessage For="() => PlantModel.City"/>
+                <ValidationMessage For="() => PlantViewModel.City"/>
             </div >
         </div>
 
@@ -28,11 +29,11 @@
                 <InputSelect @bind-Value="SelectedState" class="form-control" id="cityInput" @bind-Value:after="OnChangeState">
                     @foreach (var state in  AddressHelper.StatesFromBrazil)
                     {
-                        <option value="@state.Key" selected="@(PlantModel.State.Equals(state.Key))">@state.Value</option>
+                        <option value="@state.Key" selected="@(PlantViewModel.State.Equals(state.Key))">@state.Value</option>
                     }
                 </InputSelect>
                 <label for="cityInput">Estado <strong class="text-danger">*</strong></label>
-                <ValidationMessage For="() => PlantModel.State"/>
+                <ValidationMessage For="() => PlantViewModel.State"/>
             </div >
         </div>
 
@@ -52,15 +53,16 @@
 
     [SupplyParameterFromQuery] public string Callback { get; set; } = "/";
     
-    public PlantModel PlantModel = new();
+    public PlantViewModel PlantViewModel = new();
     private string SelectedState { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(PlantId))
         {
-            PlantModel = await PlantRepository.GetAsync(PlantId);
-            SelectedState = PlantModel.State;
+            var plant = await PlantService.GetAsync(PlantId);
+            PlantViewModel = plant.AsPlantViewModel();
+            SelectedState = PlantViewModel.State;
         }
     }
 
@@ -68,12 +70,14 @@
     {
         if (string.IsNullOrWhiteSpace(PlantId))
         {
-            PlantModel.Id = Guid.NewGuid().ToString();
-            await PlantRepository.CreateAsync(PlantModel);
+            PlantViewModel.Id = Guid.NewGuid().ToString();
+            var plant = PlantViewModel.AsPlant();
+            await PlantService.CreateAsync(plant);
         }
         else
         {
-            await PlantRepository.UpdateAsync(PlantModel);
+            var plant = PlantViewModel.AsPlant();
+            await PlantService.UpdateAsync(plant);
         }
 
         NavigationManager.NavigateTo(Callback);
@@ -81,7 +85,7 @@
 
     private void OnChangeState()
     {
-        PlantModel.State = SelectedState;
+        PlantViewModel.State = SelectedState;
     }
 
     private void OnCancel()

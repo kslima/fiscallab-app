@@ -4,5 +4,7 @@ namespace FiscalLabApp.Interfaces;
 
 public interface IApiService
 {
-    Task<List<VisitPage>> GetAllVisitPagesAsync();
+    Task<VisitPage[]> GetAllVisitPagesAsync();
+    Task<Menu[]> GetAllMenusAsync();
+    Task<Plant[]> GetAllPlantsAsync();
 }

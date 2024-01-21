@@ -7,10 +7,10 @@ namespace FiscalLabApp.Repositories;
 public class AssociationRepository(IndexedDbAccessor indexedDbAccessor) : IAssociationRepository
 {
     private const string AssociationCollectionName = "associations";
-    public async Task<PlantModel> CreateAsync(PlantModel plantModel)
+    public async Task<PlantViewModel> CreateAsync(PlantViewModel plantViewModel)
     {
-        await indexedDbAccessor.SetValueAsync(AssociationCollectionName, plantModel);
-        return plantModel;
+        await indexedDbAccessor.SetValueAsync(AssociationCollectionName, plantViewModel);
+        return plantViewModel;
     }
     
     public async Task<AssociationModel> CreateAsync(AssociationModel model)

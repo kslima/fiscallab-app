@@ -8,7 +8,7 @@
     <datalist id="@($"list-{Id}")">
         @if (Menu?.Options is not null)
         {
-            @foreach (var opt in Menu.Options)
+            @foreach (var opt in Menu.Options.Select(o => o.Description))
             {
                 <option value="@opt"/>
             }
@@ -37,7 +37,7 @@
 
     [Parameter] public Menu? Menu { get; set; }
 
-    private string _menuCode = string.Empty;
+    private string _menuId = string.Empty;
 
     [Parameter] public string Id { get; set; } = string.Empty;
 
@@ -61,22 +61,22 @@
     {
         if (Menu is null) return;
 
-        Menu.Options.Sort(string.CompareOrdinal);
+        Menu.Options.Sort((a, b) => String.Compare(a.Description, b.Description, StringComparison.Ordinal));
 
-        if (Menu.AddPercentageOptions)
+        if (Menu.HasPercentageOptions)
         {
             foreach (var value in Enumerable.Range(1, 100))
             {
-                Menu.Options.Add($"{value}%");
+                Menu.Options.Add(new Option{Description = $"{value}%"});
             }
         }
 
-        _menuCode = Menu.Code;
+        _menuId = Menu.Id;
     }
 
     private void EditOptionsAsync()
     {
-        NavigationManager.NavigateTo($"/menus/{_menuCode}?Callback={NavigationManager.GetCurrentVisitUrl()}");
+        NavigationManager.NavigateTo($"/menus/{_menuId}?Callback={NavigationManager.GetCurrentVisitUrl()}");
     }
 
 }

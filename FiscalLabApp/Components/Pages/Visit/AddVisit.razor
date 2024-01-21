@@ -61,7 +61,7 @@
         NavigationManager.NavigateTo("/visits");
     }
 
-    private Task OnPlantChanged(PlantModel plant)
+    private Task OnPlantChanged(Plant plant)
     {
         Visit.Plant = plant;
         return Task.CompletedTask;

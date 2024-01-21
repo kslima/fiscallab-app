@@ -1,4 +1,4 @@
-@page "/menus/{MenuCode}"
+@page "/menus/{MenuId}"
 @using FiscalLabApp.Extensions
 @inject IMenuService MenuService
 @inject NavigationManager NavigationManager
@@ -16,7 +16,7 @@
 @code {
 
     private const string SplitToken = ";";
-    [Parameter] public string MenuCode { get; set; } = string.Empty;
+    [Parameter] public string MenuId { get; set; } = string.Empty;
 
     [SupplyParameterFromQuery] public string Callback { get; set; } = "/";
 
@@ -27,10 +27,10 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        var menu = await MenuService.GetByCode(MenuCode);
+        var menu = await MenuService.GetById(MenuId);
         if (menu.Options.Count == 0) return;
         
-        RawOptions = $"{string.Join($"{SplitToken}{Environment.NewLine}{Environment.NewLine}", menu.Options)}";
+        RawOptions = $"{string.Join($"{SplitToken}{Environment.NewLine}{Environment.NewLine}", menu.Options.Select(o => o.Description))}";
         if (!RawOptions.EndsWith(";"))
         {
             RawOptions += ";";
@@ -44,9 +44,10 @@
             .Split(SplitToken)
             .Select(o => o.RemoveSpacesAndNewLines())
             .Where(o => !string.IsNullOrWhiteSpace(o))
+            .Select(o => new Option{Description = o})
             .ToList();
         
-        await MenuService.SetOptionAsync(MenuCode, options);
+        await MenuService.SetOptionAsync(MenuId, options);
         NavigationManager.NavigateTo(Callback);
     }
 

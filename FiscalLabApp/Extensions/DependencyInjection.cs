@@ -12,7 +12,7 @@ public static class DependencyInjection
         services.AddBlazoredToast();
         services.AddScoped<IndexedDbAccessor>();
         services.AddScoped<IApiService, ApiService>();
-        services.AddScoped<IPlantRepository, PlantRepository>();
+        services.AddScoped<IPlantService, PlantService>();
         services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<IVisitRepository, VisitRepository>();
         services.AddScoped<IAssociationRepository, AssociationRepository>();
