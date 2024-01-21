@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-using FiscalLabApp.Interfaces;
-using FiscalLabApp.Models;
+﻿using FiscalLabApp.Interfaces;
 using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Services;
@@ -61,16 +59,11 @@ public class IndexedDbAccessor(
     
     public async Task InitializeAssociationsAsync()
     {
-        var menus = await GetValueAsync<AssociationModel[]>(AssociationCollectionName);
-        if (menus.Length > 0) return;
-        
-        var result = await httpClient.GetFromJsonAsync<AssociationModel[]>("/sample-data/associations.json");
-        if (result != null)
+        var associations = await apiService.GetAllAssociationsAsync();
+        if (associations.Length == 0) return;
+        foreach (var association in associations)
         {
-            foreach (var menu in result)
-            {
-                await SetValueAsync(AssociationCollectionName, menu);
-            }
+            await SetValueAsync(AssociationCollectionName, association);
         }
     }
     

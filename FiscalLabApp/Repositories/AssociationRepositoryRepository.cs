@@ -13,24 +13,24 @@ public class AssociationRepository(IndexedDbAccessor indexedDbAccessor) : IAssoc
         return plantViewModel;
     }
     
-    public async Task<AssociationModel> CreateAsync(AssociationModel model)
+    public async Task<AssociationViewModel> CreateAsync(AssociationViewModel viewModel)
     {
-        await indexedDbAccessor.SetValueAsync(AssociationCollectionName, model);
-        return model;
+        await indexedDbAccessor.SetValueAsync(AssociationCollectionName, viewModel);
+        return viewModel;
     }
 
-    public Task<AssociationModel> UpdateAsync(AssociationModel model)
+    public Task<AssociationViewModel> UpdateAsync(AssociationViewModel viewModel)
     {
-        return CreateAsync(model);
+        return CreateAsync(viewModel);
     }
 
-    public Task<AssociationModel> GetAsync(string id)
+    public Task<AssociationViewModel> GetAsync(string id)
     {
-        return indexedDbAccessor.GetValueByIdAsync<AssociationModel>(AssociationCollectionName, id);
+        return indexedDbAccessor.GetValueByIdAsync<AssociationViewModel>(AssociationCollectionName, id);
     }
 
-    public Task<List<AssociationModel>> GetAllAsync()
+    public Task<List<AssociationViewModel>> GetAllAsync()
     {
-        return indexedDbAccessor.GetValueAsync<List<AssociationModel>>(AssociationCollectionName);
+        return indexedDbAccessor.GetValueAsync<List<AssociationViewModel>>(AssociationCollectionName);
     }
 }

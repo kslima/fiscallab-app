@@ -27,11 +27,11 @@
 @code {
 
     private string _selectedAssociationId = string.Empty;
-    private List<AssociationModel> Associations { get; set; } = [];
+    private List<AssociationViewModel> Associations { get; set; } = [];
     [Parameter] public string CallbackRoute { get; set; } = "/";
-    [Parameter] public AssociationModel? CurrentAssociation { get; set; }
+    [Parameter] public AssociationViewModel? CurrentAssociation { get; set; }
 
-    [Parameter] public EventCallback<AssociationModel> AssociationChanged { get; set; }
+    [Parameter] public EventCallback<AssociationViewModel> AssociationChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

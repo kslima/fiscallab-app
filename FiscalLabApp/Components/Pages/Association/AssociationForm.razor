@@ -6,20 +6,20 @@
 @inject IAssociationRepository AssociationRepository
 
 <h6>Associação</h6>
-<EditForm Model="@AssociationModel" OnValidSubmit="@SaveOrUpdate">
+<EditForm Model="@AssociationViewModel" OnValidSubmit="@SaveOrUpdate">
     <DataAnnotationsValidator/>
     <div class="form-floating mb-3">
-        <InputText class="form-control" id="nameInput" @bind-Value="AssociationModel.Name"/>
+        <InputText class="form-control" id="nameInput" @bind-Value="AssociationViewModel.Name"/>
         <label for="nameInput">Nome <strong class="text-danger">*</strong></label>
-        <ValidationMessage For="() => AssociationModel.Name"/>
+        <ValidationMessage For="() => AssociationViewModel.Name"/>
     </div >
 
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <InputText class="form-control" id="stateInput" @bind-Value="AssociationModel.City"/>
+                <InputText class="form-control" id="stateInput" @bind-Value="AssociationViewModel.City"/>
                 <label for="emailInput">Cidade <strong class="text-danger">*</strong></label>
-                <ValidationMessage For="() => AssociationModel.City"/>
+                <ValidationMessage For="() => AssociationViewModel.City"/>
             </div >
         </div>
 
@@ -28,20 +28,20 @@
                 <InputSelect @bind-Value="SelectedState" class="form-control" id="cityInput" @bind-Value:after="OnChangeState">
                     @foreach (var state in AddressHelper.StatesFromBrazil)
                     {
-                        <option value="@state.Key" selected="@(AssociationModel.State.Equals(state.Key))">@state.Value</option>
+                        <option value="@state.Key" selected="@(AssociationViewModel.State.Equals(state.Key))">@state.Value</option>
                     }
                 </InputSelect>
                 <label for="cityInput">Estado <strong class="text-danger">*</strong></label>
-                <ValidationMessage For="() => AssociationModel.State"/>
+                <ValidationMessage For="() => AssociationViewModel.State"/>
             </div >
         </div>
 
     </div>
 
     <div class="form-floating mb-3">
-        <InputTextArea class="form-control" id="emailInput" @bind-Value="AssociationModel.Emails"/>
+        <InputTextArea class="form-control" id="emailInput" @bind-Value="AssociationViewModel.Emails"/>
         <label for="emailInput">Emails <strong class="text-danger">*</strong></label>
-        <ValidationMessage For="() => AssociationModel.Emails"/>
+        <ValidationMessage For="() => AssociationViewModel.Emails"/>
     </div >
 
     <div class="d-flex justify-content-end">
@@ -59,15 +59,15 @@
     [SupplyParameterFromQuery] 
     public string Callback { get; set; } = "/";
     
-    public AssociationModel AssociationModel = new();
+    public AssociationViewModel AssociationViewModel = new();
     private string SelectedState { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(AssociationId))
         {
-            AssociationModel = await AssociationRepository.GetAsync(AssociationId);
-            SelectedState = AssociationModel.State;
+            AssociationViewModel = await AssociationRepository.GetAsync(AssociationId);
+            SelectedState = AssociationViewModel.State;
         }
     }
 
@@ -75,12 +75,12 @@
     {
         if (string.IsNullOrWhiteSpace(AssociationId))
         {
-            AssociationModel.Id = Guid.NewGuid().ToString();
-            await AssociationRepository.CreateAsync(AssociationModel);
+            AssociationViewModel.Id = Guid.NewGuid().ToString();
+            await AssociationRepository.CreateAsync(AssociationViewModel);
         }
         else
         {
-            await AssociationRepository.UpdateAsync(AssociationModel);
+            await AssociationRepository.UpdateAsync(AssociationViewModel);
         }
 
         NavigationManager.NavigateTo(Callback);
@@ -88,7 +88,7 @@
 
     private void OnChangeState()
     {
-        AssociationModel.State = SelectedState;
+        AssociationViewModel.State = SelectedState;
     }
 
     private void OnCancel()

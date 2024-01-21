@@ -4,8 +4,8 @@ namespace FiscalLabApp.Interfaces;
 
 public interface IAssociationRepository
 {
-    Task<AssociationModel> CreateAsync(AssociationModel model);
-    Task<AssociationModel> UpdateAsync(AssociationModel model);
-    Task<AssociationModel> GetAsync(string id);
-    Task<List<AssociationModel>> GetAllAsync();
+    Task<AssociationViewModel> CreateAsync(AssociationViewModel viewModel);
+    Task<AssociationViewModel> UpdateAsync(AssociationViewModel viewModel);
+    Task<AssociationViewModel> GetAsync(string id);
+    Task<List<AssociationViewModel>> GetAllAsync();
 }

@@ -2,7 +2,7 @@
 
 namespace FiscalLabApp.Models;
 
-public class AssociationModel
+public class AssociationViewModel
 {
     public string Id { get; set; } = string.Empty;
     [Required(ErrorMessage = "Nome é obrigatório.")]

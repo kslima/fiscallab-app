@@ -39,4 +39,13 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
         var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Plant[]>>(_jsonOptions))!;
         return response.Data!;
     }
+
+    public async Task<Association[]> GetAllAssociationsAsync()
+    {
+        var result = await _httpClient.GetAsync("associations");
+        result.EnsureSuccessStatusCode();
+
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Association[]>>(_jsonOptions))!;
+        return response.Data!;
+    }
 }
