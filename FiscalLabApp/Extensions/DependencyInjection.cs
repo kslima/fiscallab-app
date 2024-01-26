@@ -15,7 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IPlantService, PlantService>();
         services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<IVisitRepository, VisitRepository>();
-        services.AddScoped<IAssociationRepository, AssociationRepository>();
+        services.AddScoped<IAssociationService, AssociationService>();
         services.AddScoped<IImageRepository, ImageRepository>();
         services.AddScoped<IVisitService, VisitService>();
         services.AddScoped<IVisitPageService, VisitPageService>();

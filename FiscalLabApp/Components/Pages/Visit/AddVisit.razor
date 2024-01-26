@@ -67,9 +67,9 @@
         return Task.CompletedTask;
     }
 
-    private Task OnAssociationChanged(AssociationViewModel associationView)
+    private Task OnAssociationChanged(Association association)
     {
-        Visit.Association = associationView;
+        Visit.Association = association;
         return Task.CompletedTask;
     }
 }

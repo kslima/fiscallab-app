@@ -1,12 +1,14 @@
-@inject IAssociationRepository AssociationRepository
+@using FiscalLabApp.Extensions
+@using System.Text.Json
+@inject IAssociationService AssociationService
 @inject NavigationManager NavigationManager
 
 <div class="form-floating input-group mb-3">
     <InputSelect @bind-Value="_selectedAssociationId" class="form-control" id="plantInput" @bind-Value:after="OnChangeAssociation">
         <option value="" selected hidden>Selecione uma associação..</option>
-        @foreach (var plant in Associations)
+        @foreach (var association in Associations)
         {
-            <option value="@plant.Id" selected="@(CurrentAssociation?.Id.Equals(plant.Id))">@($"{plant.Name} ({plant.City} - {plant.State})")</option>
+            <option value="@association.Id" selected="@(CurrentAssociation?.Id.Equals(association.Id))">@($"{association.Name} ({association.Address.City} - {association.Address.State})")</option>
         }
     </InputSelect>
     <label for="plantInput">Associação <strong class="text-danger">*</strong></label>
@@ -27,19 +29,27 @@
 @code {
 
     private string _selectedAssociationId = string.Empty;
-    private List<AssociationViewModel> Associations { get; set; } = [];
+    private Association[] Associations { get; set; } = [];
     [Parameter] public string CallbackRoute { get; set; } = "/";
-    [Parameter] public AssociationViewModel? CurrentAssociation { get; set; }
+    [Parameter] public Association? CurrentAssociation { get; set; }
 
-    [Parameter] public EventCallback<AssociationViewModel> AssociationChanged { get; set; }
+    [Parameter] public EventCallback<Association> AssociationChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Associations = await AssociationRepository.GetAllAsync();
+        Associations = await AssociationService.GetAllAsync();
     }
 
     private void EditAssociation()
     {
+        if (string.IsNullOrWhiteSpace(_selectedAssociationId) && CurrentAssociation is not null)
+        {
+            _selectedAssociationId = CurrentAssociation.Id;
+        }
+        else
+        {
+            return;
+        }
         NavigationManager.NavigateTo($"/associations/{_selectedAssociationId}?Callback={CallbackRoute}");
     }
 

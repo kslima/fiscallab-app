@@ -18,10 +18,10 @@
     private const string SplitToken = ";";
     [Parameter] public string MenuId { get; set; } = string.Empty;
 
-    [SupplyParameterFromQuery] public string Callback { get; set; } = "/";
+    [SupplyParameterFromQuery] private string Callback { get; set; } = "/";
 
     public string RawOptions { get; set; } = string.Empty;
-    public int Rows { get; set; }
+    private int Rows { get; set; }
 
     public Menu SelectedMenu { get; set; } = new();
 
@@ -29,24 +29,23 @@
     {
         var menu = await MenuService.GetById(MenuId);
         if (menu.Options.Count == 0) return;
-        
+
         RawOptions = $"{string.Join($"{SplitToken}{Environment.NewLine}{Environment.NewLine}", menu.Options.Select(o => o.Description))}";
         if (!RawOptions.EndsWith(";"))
         {
             RawOptions += ";";
         }
+
         Rows = menu.Options.Count * 2;
     }
 
     private async Task UpdateAsync()
     {
         var options = RawOptions
-            .Split(SplitToken)
-            .Select(o => o.RemoveSpacesAndNewLines())
-            .Where(o => !string.IsNullOrWhiteSpace(o))
-            .Select(o => new Option{Description = o})
+            .SplitByBar(SplitToken)
+            .Select(o => new Option { Description = o })
             .ToList();
-        
+
         await MenuService.SetOptionAsync(MenuId, options);
         NavigationManager.NavigateTo(Callback);
     }

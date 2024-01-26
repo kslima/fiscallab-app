@@ -1,9 +1,10 @@
 ﻿@page "/associations"
 @page "/associations/{AssociationId}"
 @using FiscalLabApp.Helpers
+@using FiscalLabApp.Extensions
 
 @inject NavigationManager NavigationManager
-@inject IAssociationRepository AssociationRepository
+@inject IAssociationService AssociationService
 
 <h6>Associação</h6>
 <EditForm Model="@AssociationViewModel" OnValidSubmit="@SaveOrUpdate">
@@ -39,7 +40,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <InputTextArea class="form-control" id="emailInput" @bind-Value="AssociationViewModel.Emails"/>
+        <InputTextArea class="form-control" id="emailInput" @bind-Value="AssociationViewModel.Emails" rows="@Rows"/>
         <label for="emailInput">Emails <strong class="text-danger">*</strong></label>
         <ValidationMessage For="() => AssociationViewModel.Emails"/>
     </div >
@@ -55,32 +56,62 @@
 @code {
 
     [Parameter] public string AssociationId { get; set; } = string.Empty;
-
-    [SupplyParameterFromQuery] 
-    public string Callback { get; set; } = "/";
+    [SupplyParameterFromQuery] private string Callback { get; set; } = "/";
+    private const string SplitToken = ";";
     
+    private int Rows { get; set; }
+
     public AssociationViewModel AssociationViewModel = new();
     private string SelectedState { get; set; } = string.Empty;
+    private Association _selectedAssociation = new();
 
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(AssociationId))
         {
-            AssociationViewModel = await AssociationRepository.GetAsync(AssociationId);
+            _selectedAssociation = await AssociationService.GetAsync(AssociationId);
+            AssociationViewModel = _selectedAssociation.AsAssociationViewModel();
             SelectedState = AssociationViewModel.State;
+            
+            AssociationViewModel.Emails = $"{string.Join($"{SplitToken}{Environment.NewLine}{Environment.NewLine}", _selectedAssociation.Emails.Select(e => e.Address))}";
+            if (!AssociationViewModel.Emails.EndsWith(SplitToken))
+            {
+                AssociationViewModel.Emails += SplitToken;
+            }
+
+            Rows = _selectedAssociation.Emails.Count * 2;
         }
     }
 
     private async Task SaveOrUpdate()
     {
+        var emails = AssociationViewModel.Emails
+            .SplitByBar(SplitToken)
+            .Select(e => new Email { Address = e })
+            .ToList();
+        
         if (string.IsNullOrWhiteSpace(AssociationId))
         {
-            AssociationViewModel.Id = Guid.NewGuid().ToString();
-            await AssociationRepository.CreateAsync(AssociationViewModel);
+            var association = new Association
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = AssociationViewModel.Name,
+                Address = new Address
+                {
+                    City = AssociationViewModel.City,
+                    State = AssociationViewModel.State
+                },
+                Emails = emails
+            };
+            await AssociationService.CreateAsync(association);
         }
         else
         {
-            await AssociationRepository.UpdateAsync(AssociationViewModel);
+            _selectedAssociation.Name = AssociationViewModel.Name;
+            _selectedAssociation.Address.City = AssociationViewModel.City;
+            _selectedAssociation.Address.State = AssociationViewModel.State;
+            _selectedAssociation.Emails = emails;
+            await AssociationService.UpdateAsync(_selectedAssociation);
         }
 
         NavigationManager.NavigateTo(Callback);

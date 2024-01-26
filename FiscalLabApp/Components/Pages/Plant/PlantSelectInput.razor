@@ -40,6 +40,14 @@
 
     private void EditPlant()
     {
+        if (string.IsNullOrWhiteSpace(_selectedPlantId) && CurrentPlant is not null)
+        {
+            _selectedPlantId = CurrentPlant.Id;
+        }
+        else
+        {
+            return;
+        }
         NavigationManager.NavigateTo($"/plants/{_selectedPlantId}?Callback={CallbackRoute}");
     }
 

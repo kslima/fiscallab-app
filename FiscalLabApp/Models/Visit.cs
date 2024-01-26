@@ -10,7 +10,7 @@ public class Visit
     [Required(ErrorMessage = "Usina é obrigatório")]
     public Plant? Plant { get; set; }
     [Required(ErrorMessage = "Associação é obrigatório")]
-    public AssociationViewModel? Association { get; set; }
+    public Association? Association { get; set; }
     public string Consultant { get; set; } = string.Empty;
     public string Inspector { get; set; } = string.Empty;
     public string Leader { get; set; } = string.Empty;
