@@ -3,32 +3,33 @@ using FiscalLabApp.Models;
 
 namespace FiscalLabApp.Services;
 
-public class VisitService(IVisitRepository visitRepository) : IVisitService
+public class VisitService(IndexedDbAccessor indexedDbAccessor) : IVisitService
 {
+    private const string VisitCollectionName = "visits";
+    
     public async Task<Visit> CreateAsync(Visit visit)
     {
-        return await visitRepository.CreateAsync(visit);
+        await indexedDbAccessor.SetValueAsync(VisitCollectionName, visit);
+        return visit;
     }
 
     public async Task<Visit> UpdateAsync(Visit visit)
     {
-        return await visitRepository.UpdateAsync(visit);
+        return await CreateAsync(visit);
     }
 
     public async Task<Visit> GetByIdAsync(string id)
     {
-        return await visitRepository.GetByIdAsync(id);
+        return await indexedDbAccessor.GetValueByIdAsync<Visit>(VisitCollectionName, id);
     }
 
     public Task DeleteAsync(string id)
     {
-        return visitRepository.DeleteAsync(id);
+        return indexedDbAccessor.DeleteAsync(VisitCollectionName, id);
     }
 
     public async Task<List<Visit>> GetAllAsync()
     {
-        return (await visitRepository.GetAllAsync())
-            .OrderByDescending(v => v.CreatedAt)
-            .ToList();
+        return await indexedDbAccessor.GetValueAsync<List<Visit>>(VisitCollectionName);
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/visits/{VisitId}/Main"
 @using FiscalLabApp.Extensions
+@using Mapster
 @implements IDisposable
 @implements IAsyncDisposable
 
@@ -12,14 +13,14 @@
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="SelectedVisit.VisitDate"/>
+                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="SelectedBasicInformation.VisitDate"/>
                 <label for="createdAtDateInput">Data</label>
             </div >
 
         </div>
         <div class="col">
             <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="SelectedVisit.VisitTime"/>
+                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="SelectedBasicInformation.VisitTime"/>
                 <label for="createdAtTimeInput">Hora</label>
             </div >
         </div>
@@ -27,37 +28,37 @@
 
     <div class="row">
         <div class="col">
-            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@($"/visits/{VisitId}/Main")" CurrentPlant="SelectedVisit.Plant"/>
+            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@($"/visits/{VisitId}/Main")" CurrentPlant="SelectedBasicInformation.Plant"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@($"/visits/{VisitId}/Main")" CurrentAssociation="SelectedVisit.Association"/>
+            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@($"/visits/{VisitId}/Main")" CurrentAssociation="SelectedBasicInformation.Association"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="SelectedVisit.Consultant" Required="true"/>
+            <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-value="SelectedBasicInformation.Consultant" Required="true"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Fiscal de Turno" Menu="@_menus.GetMenu(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="SelectedVisit.Inspector"/>
+            <VisitTextInput Title="Fiscal de Turno" Menu="@_menus.GetMenu(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="SelectedBasicInformation.Inspector"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Líder de Turno" Menu="@_menus.GetMenu(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="SelectedVisit.Leader"/>
+            <VisitTextInput Title="Líder de Turno" Menu="@_menus.GetMenu(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="SelectedBasicInformation.Leader"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Menu="@_menus.GetMenu(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="SelectedVisit.LaboratoryLeader"/>
+            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Menu="@_menus.GetMenu(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="SelectedBasicInformation.LaboratoryLeader"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -69,6 +70,7 @@
     [Parameter] public string VisitId { get; set; } = string.Empty;
 
     public Visit SelectedVisit { get; set; } = new();
+    private BasicInformationViewModel SelectedBasicInformation { get; set; } = new();
 
     private Menu[] _menus = Array.Empty<Menu>();
 
@@ -82,27 +84,34 @@
         if (!string.IsNullOrWhiteSpace(VisitId))
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            SelectedBasicInformation = SelectedVisit.BasicInformation.Adapt<BasicInformationViewModel>();
             Layout.SelectedVisitId = VisitId;
         }
     }
 
     private void OnPlantChanged(Plant plant)
     {
-        SelectedVisit.Plant = plant;
+        SelectedVisit.BasicInformation.Plant = plant;
     }
     
     private void OnAssociationChanged(Association association)
     {
-        SelectedVisit.Association = association;
+        SelectedVisit.BasicInformation.Association = association;
     }
 
     public void Dispose()
-    {
-        VisitService.UpdateAsync(SelectedVisit);
+    { 
+        UpdateVisit();
     }
-
+    
     public async ValueTask DisposeAsync()
     {
+        await UpdateVisit();
+    }
+
+    private async Task UpdateVisit()
+    {
+        SelectedVisit.BasicInformation = SelectedBasicInformation.Adapt<BasicInformation>();
         await VisitService.UpdateAsync(SelectedVisit);
     }
 

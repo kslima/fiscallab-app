@@ -2,6 +2,7 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using Mapster
 
 @layout EditVisitLayout
 @inject IMenuService MenuService
@@ -10,25 +11,25 @@
 <VisitDataSeparator Title="Conclusao">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Desempenho do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="SelectedVisit.ConclusionInspectorPerformance"/>
+            <VisitTextInput Title="Desempenho do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="SelectedConclusion.InspectorPerformance"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Desempenho Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="SelectedVisit.ConclusionLaboratoryReceptivity"/>
+            <VisitTextInput Title="Desempenho Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="SelectedConclusion.LaboratoryReceptivity"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Pendências" Menu="@_options.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="SelectedVisit.ConclusionPendencies"/>
+            <VisitTextInput Title="Pendências" Menu="@_options.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="SelectedConclusion.Pendencies"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="SelectedVisit.ConclusionObservations"/>
+            <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="SelectedConclusion.Observations"/>
         </div>
     </div>
     
@@ -42,7 +43,7 @@
     [Parameter] public string VisitId { get; set; } = string.Empty;
 
     public Visit SelectedVisit { get; set; } = new();
-
+    private ConclusionViewModel SelectedConclusion { get; set; } = new();
     private Menu[] _options = Array.Empty<Menu>();
 
     protected override async Task OnInitializedAsync()
@@ -55,17 +56,24 @@
         if (!string.IsNullOrWhiteSpace(VisitId))
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            SelectedConclusion = SelectedVisit.Conclusion.Adapt<ConclusionViewModel>();
             Layout.SelectedVisitId = VisitId;
         }
     }
 
     public void Dispose()
-    {
-        VisitService.UpdateAsync(SelectedVisit);
+    { 
+        UpdateVisit();
     }
-
+    
     public async ValueTask DisposeAsync()
     {
+        await UpdateVisit();
+    }
+
+    private async Task UpdateVisit()
+    {
+        SelectedVisit.Conclusion = SelectedConclusion.Adapt<Models.Conclusion>();
         await VisitService.UpdateAsync(SelectedVisit);
     }
 

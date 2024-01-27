@@ -1,0 +1,266 @@
+﻿@page "/visits/{VisitId}/BenchmarkingEquipment"
+@implements IDisposable
+@implements IAsyncDisposable
+@using FiscalLabApp.Extensions
+@using Mapster
+@layout EditVisitLayout
+
+@inject IMenuService MenuService
+@inject IVisitService VisitService
+
+<VisitDataSeparator Title="Prensa/Desintegrador/Temperatura">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Célula Carga" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentLoadCell)" Id="benchmarkingEquipmentLoadCell" @bind-value="SelectedBenchmarkingEquipment.LoadCell"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Termômetro" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentThermometer)" Id="=benchmarkingEquipmentThermometer" @bind-value="SelectedBenchmarkingEquipment.Thermometer"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Tacômetro" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentTachometer)" Id="benchmarkingEquipmentTachometer" @bind-value="SelectedBenchmarkingEquipment.Tachometer"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Paquímetro" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentPachymeter)" Id="benchmarkingEquipmentPachymeter" @bind-value="SelectedBenchmarkingEquipment.Pachymeter"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Pesos Padrões">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="500gm" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipment500Gm)" Id="benchmarkingEquipment500Gm" @bind-value="SelectedBenchmarkingEquipment.Gm500"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="100gm" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipment100Gm)" Id="=cenchmarkingEquipment100Gm" @bind-value="SelectedBenchmarkingEquipment.Gm100"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="1gm" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipment1Gm)" Id="benchmarkingEquipment1Gm" @bind-value="SelectedBenchmarkingEquipment.Gm1"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Linearidade/Repetitividade-Sacarose(PA)">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Teste de Sacarose" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentSucroseTest)" Id="benchmarkingEquipmentSucroseTest" @bind-value="SelectedBenchmarkingEquipment.SucroseTest"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Refratômetro(Faixa)">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="10º" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentRange10)" Id="benchmarkingEquipmentRange10" @bind-value="SelectedBenchmarkingEquipment.Range10"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="20º" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentRange20)" Id="=benchmarkingEquipmentRange20" @bind-value="SelectedBenchmarkingEquipment.Range20"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="30º" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentRange30)" Id="benchmarkingEquipmentRange30" @bind-value="SelectedBenchmarkingEquipment.Range30"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Sacarímetro(Solução)">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="25ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ25)" Id="benchmarkingEquipmentZ25" @bind-value="SelectedBenchmarkingEquipment.Z25"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="50ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ50)" Id="=benchmarkingEquipmentZ50" @bind-value="SelectedBenchmarkingEquipment.Z50"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="75ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ75)" Id="benchmarkingEquipmentZ75" @bind-value="SelectedBenchmarkingEquipment.Z75"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="100ºZ" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentZ100)" Id="benchmarkingEquipmentZ100" @bind-value="SelectedBenchmarkingEquipment.Z100"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 11" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentObservations11)" Id="benchmarkingEquipmentObservations11" @bind-value="SelectedBenchmarkingEquipment.Observations11"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+
+<VisitDataSeparator Title="Moagem">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Previsto Safra" Id="benchmarkingEquipmentExpectedCrop" @bind-value="SelectedBenchmarkingEquipment.ExpectedCrop" ValueUpdated="ExpectedCropChanged"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Realizado" Id="benchmarkingEquipmentAccomplishedCrop" @bind-value="SelectedBenchmarkingEquipment.AccomplishedCrop" ValueUpdated="ExpectedCropChanged"/>
+        </div>
+    </div>
+    
+    <div class="row">
+            <div class="col">
+                <VisitNumberInput Title="Percentual Realizado" Id="benchmarkingEquipmentPercentageRealized" @bind-value="SelectedBenchmarkingEquipment.PercentageRealized" Readonly="true"/>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Safra Passada" Id="benchmarkingEquipmentPreviousCrop" @bind-value="SelectedBenchmarkingEquipment.PreviousCrop" ValueUpdated="CalculateCropVariation"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Variação Entre Safras" Id="benchmarkingEquipmentVariationBetweenCrops" @bind-value="SelectedBenchmarkingEquipment.VariationBetweenCrops" Readonly="true"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+<VisitDataSeparator Title="Resultados Analíticos">
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Fibra(Safra Atual)" Id="benchmarkingEquipmentCurrentFiber" @bind-value="SelectedBenchmarkingEquipment.CurrentFiber" ValueUpdated="CalculateFiberVariation"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Fibra(Safra Anterior)" Id="benchmarkingEquipmentPreviousFiber" @bind-value="SelectedBenchmarkingEquipment.PreviousFiber" ValueUpdated="CalculateFiberVariation"/>
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Fibra(Variação)" Id="benchmarkingEquipmentFiberVariation" @bind-value="SelectedBenchmarkingEquipment.FiberVariation" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="ATR(Safra Atual)" Id="benchmarkingEquipmentCurrentAtr" @bind-value="SelectedBenchmarkingEquipment.CurrentAtr" ValueUpdated="CalculateAtrVariation"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="ATR(Safra Anterior)" Id="benchmarkingEquipmentPreviousAtr" @bind-value="SelectedBenchmarkingEquipment.PreviousAtr" ValueUpdated="CalculateAtrVariation"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitNumberInput Title="Fibra(Variação)" Id="benchmarkingEquipmentAtrVariation" @bind-value="SelectedBenchmarkingEquipment.AtrVariation" Readonly="true"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 12" Menu="@_options.GetMenu(MenuType.BenchmarkingEquipmentObservations12)" Id="benchmarkingEquipmentObservations12" @bind-value="SelectedBenchmarkingEquipment.Observations12"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+@code {
+
+    [CascadingParameter]
+    public EditVisitLayout Layout { get; set; } = new();
+    
+    [Parameter] 
+    public string VisitId { get; set; } = string.Empty;
+
+    private Menu[] _options = Array.Empty<Menu>();
+
+    public Visit SelectedVisit { get; set; } = new();
+    public BenchmarkingEquipmentViewModel SelectedBenchmarkingEquipment { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _options = await MenuService.GetMenuOptions(PageType.BenchmarkingEquipment);
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(VisitId))
+        {
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            SelectedBenchmarkingEquipment = SelectedVisit.BenchmarkingEquipment.Adapt<BenchmarkingEquipmentViewModel>();
+            Layout.SelectedVisitId = VisitId;
+        }
+    }
+    
+    public void ExpectedCropChanged(decimal value)
+    {
+        CalculateCropPercentageRealized();
+    }
+    
+    private void CalculateCropPercentageRealized()
+    {
+        if (SelectedBenchmarkingEquipment.ExpectedCrop == 0) return; 
+        var value = SelectedBenchmarkingEquipment.AccomplishedCrop / SelectedBenchmarkingEquipment.ExpectedCrop * 100;
+        SelectedBenchmarkingEquipment.PercentageRealized = value.RoundToEven(2);
+    }
+
+    private void CalculateCropVariation()
+    {
+        SelectedBenchmarkingEquipment.VariationBetweenCrops = SelectedBenchmarkingEquipment.AccomplishedCrop - SelectedBenchmarkingEquipment.PreviousCrop;
+    }
+    
+    private void CalculateFiberVariation()
+    {
+        SelectedBenchmarkingEquipment.FiberVariation = SelectedBenchmarkingEquipment.CurrentFiber - SelectedBenchmarkingEquipment.PreviousFiber;
+    }
+    
+    private void CalculateAtrVariation()
+    {
+        SelectedBenchmarkingEquipment.AtrVariation = SelectedBenchmarkingEquipment.CurrentAtr - SelectedBenchmarkingEquipment.PreviousAtr;
+    }
+
+    public void Dispose()
+    { 
+        UpdateVisit();
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        await UpdateVisit();
+    }
+
+    private async Task UpdateVisit()
+    {
+        SelectedVisit.BenchmarkingEquipment = SelectedBenchmarkingEquipment.Adapt<BenchmarkingEquipment>();
+        await VisitService.UpdateAsync(SelectedVisit);
+    }
+
+}
