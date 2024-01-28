@@ -12,4 +12,5 @@ public class Visit
     public BenchmarkingEquipment BenchmarkingEquipment { get; set; } = new();
     public SystemConsistency SystemConsistency { get; set; } = new();
     public Conclusion Conclusion { get; set; } = new();
+    public List<Image> Images { get; set; } = [];
 }

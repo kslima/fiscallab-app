@@ -1,16 +1,16 @@
 ﻿using FiscalLabApp.Interfaces;
+using FiscalLabApp.Models;
 using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Services;
 
 public class IndexedDbAccessor(
     IJSRuntime jsRuntime,
-    HttpClient httpClient,
     IApiService apiService) : IAsyncDisposable
 {
     public const string MenuCollectionName = "menus";
-    public const string PlantCollectionName = "plants";
-    public const string AssociationCollectionName = "associations";
+    private const string PlantCollectionName = "plants";
+    private const string AssociationCollectionName = "associations";
     public const string VisitPageCollectionName = "visit_pages";
     
     private Lazy<IJSObjectReference> _accessorJsRef = new();
@@ -25,10 +25,13 @@ public class IndexedDbAccessor(
         await InitializePlantsAsync();
         await InitializeAssociationsAsync();
     }
-    
-    public async Task InitializeVisitPagesAsync()
+
+    private async Task InitializeVisitPagesAsync()
     {
-        var visitPages = await apiService.GetAllVisitPagesAsync();
+        var visitPages =  await GetValueAsync<VisitPage[]>(VisitPageCollectionName);
+        if (visitPages.Length != 0) return;
+        
+        visitPages = await apiService.GetAllVisitPagesAsync();
         if (visitPages.Length == 0) return;
         
         foreach (var visitPage in visitPages)
@@ -37,9 +40,12 @@ public class IndexedDbAccessor(
         }
     }
     
-    public async Task InitializeMenusAsync()
+    private async Task InitializeMenusAsync()
     {
-        var menus = await apiService.GetAllMenusAsync();
+        var menus =  await GetValueAsync<Menu[]>(MenuCollectionName);
+        if (menus.Length != 0) return;
+        
+        menus = await apiService.GetAllMenusAsync();
         if (menus.Length == 0) return;
         foreach (var menu in menus)
         {
@@ -47,9 +53,12 @@ public class IndexedDbAccessor(
         }
     }
     
-    public async Task InitializePlantsAsync()
+    private async Task InitializePlantsAsync()
     {
-        var plants = await apiService.GetAllPlantsAsync();
+        var plants =  await GetValueAsync<Plant[]>(PlantCollectionName);
+        if (plants.Length != 0) return;
+        
+        plants = await apiService.GetAllPlantsAsync();
         if (plants.Length == 0) return;
         foreach (var plant in plants)
         {
@@ -57,9 +66,12 @@ public class IndexedDbAccessor(
         }
     }
     
-    public async Task InitializeAssociationsAsync()
+    private async Task InitializeAssociationsAsync()
     {
-        var associations = await apiService.GetAllAssociationsAsync();
+        var associations =  await GetValueAsync<Association[]>(AssociationCollectionName);
+        if (associations.Length != 0) return;
+        
+        associations = await apiService.GetAllAssociationsAsync();
         if (associations.Length == 0) return;
         foreach (var association in associations)
         {

@@ -42,7 +42,7 @@
 
     [Parameter] public string VisitId { get; set; } = string.Empty;
 
-    public Visit SelectedVisit { get; set; } = new();
+    private Visit SelectedVisit { get; set; } = new();
     private ConclusionViewModel SelectedConclusion { get; set; } = new();
     private Menu[] _options = Array.Empty<Menu>();
 

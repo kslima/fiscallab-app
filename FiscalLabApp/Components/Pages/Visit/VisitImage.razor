@@ -1,7 +1,8 @@
 @page "/visits/{VisitId}/images"
 @using Image = FiscalLabApp.Models.Image
-@inject IImageRepository ImageRepository
+@using Mapster
 @inject IToastService ToastService
+@inject IVisitService VisitService
 @inject NavigationManager NavigationManager
 
 <h4>Imagens</h4>
@@ -9,10 +10,10 @@
     <InputFile OnChange="@OnFileSelection" multiple></InputFile>
 </div>
 
-@if (VImages is not null)
+@if (Images.Any())
 {
     <div class="mt-2">
-        @foreach (var img in VImages.Images)
+        @foreach (var img in Images)
         {
             <div class="bg-light border rounded p-2 mb-2">
                 <div class="row position-relative">
@@ -34,28 +35,28 @@
         }
     </div>
 
-    <button type="submit" class="btn btn-outline-success mb-3" @onclick="SaveImages" disabled="@(VImages is null || !VImages.Images.Any())">Salvar</button>
+    <button type="submit" class="btn btn-outline-success mb-3" @onclick="SaveImages" disabled="@(!Images.Any())">Salvar</button>
 }
 
 @code {
 
-    public Models.VisitImage? VImages { get; set; }
+    private List<ImageViewModel> Images { get; set; } = [];
     [Parameter] public string VisitId { get; set; } = string.Empty;
-
-    public string Value { get; set; } = string.Empty;
+    private Visit SelectedVisit { get; set; } = new();
     private const int MaxAllowedSize = 10 * 1024 * 1024;
 
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(VisitId))
         {
-            VImages = await ImageRepository.GetByVisitIdAsync(VisitId) ?? new Models.VisitImage { VisitId = VisitId };
+            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Images = SelectedVisit.Images.Adapt<List<ImageViewModel>>();
         }
     }
 
     private async Task OnFileSelection(InputFileChangeEventArgs e)
     {
-        VImages?.Images.Clear();
+        Images.Clear();
         foreach (var imgFile in e.GetMultipleFiles(20))
         {
             var resizedImg = await imgFile.RequestImageFileAsync(imgFile.ContentType, 600, int.MaxValue);
@@ -70,24 +71,25 @@
             var imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
             var imgName = resizedImg.Name;
 
-            VImages?.Images.Add(new Image { Name = imgName, Url = imgUrl });
+            Images.Add(new ImageViewModel { Name = imgName, Url = imgUrl });
         }
     }
 
     private async Task SaveImages()
     {
-        if (VImages is null) return;
-        await ImageRepository.AddAsync(VImages);
+        if (!Images.Any()) return;
+        SelectedVisit.Images = Images.Adapt<List<Image>>();
+        await VisitService.UpdateAsync(SelectedVisit);
+        
         NavigationManager.NavigateTo("visits");
         ToastService.ShowSuccess("Imagens adicionadas com sucesso...");
     }
 
     private async Task RemoveImage(string name)
     {
-        if (VImages is null) return;
-        VImages.Images = VImages.Images.Where(i => !i.Name.Equals(name)).ToList();
+        Images = Images.Where(i => !i.Name.Equals(name)).ToList();
 
-        if (!VImages.Images.Any())
+        if (!Images.Any())
         {
             await SaveImages();
         }
