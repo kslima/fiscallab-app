@@ -18,5 +18,6 @@ public static class DependencyInjection
         services.AddScoped<IImageRepository, ImageRepository>();
         services.AddScoped<IVisitService, VisitService>();
         services.AddScoped<IVisitPageService, VisitPageService>();
+        services.AddSingleton<ApplicationContextAccessor>();
     }
 }
