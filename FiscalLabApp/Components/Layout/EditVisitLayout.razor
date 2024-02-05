@@ -25,8 +25,8 @@
         SelectedVisitId = selectedVisitId;
         _selectedVisit = await VisitService.GetByIdAsync(selectedVisitId);
         _selectedVisitViewModel = _selectedVisit.Adapt<VisitViewModel>();
-        var visitPages = _selectedVisitViewModel.GetPages();
-        _pages = visitPages.OrderBy(v => v.Id).ToArray();
+        var metadata = _selectedVisitViewModel.GetMetadata();
+        _pages = metadata.Pages.OrderBy(v => v.Id).ToArray();
         StateHasChanged();
     }
 

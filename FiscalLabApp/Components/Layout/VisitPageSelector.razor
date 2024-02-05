@@ -11,8 +11,8 @@
     <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3" aria-label="Large select example" @bind-Value:after="CallVisitPage">
         @foreach (var visitPage in Pages)
         {
-            <option value="@visitPage.Name" selected="@(visitPage.Name.Equals(NavigationManager.GetCurrentVisitPage()))">
-                @($"{visitPage.DisplayName} - {visitPage.PendingItems} de {visitPage.TotalItems}")
+            <option value="@visitPage.Name" checked="@(visitPage.Name.Equals(NavigationManager.GetCurrentVisitPage()))">
+                @($"{visitPage.DisplayName} ({visitPage.TotalItems - visitPage.PendingItems} de {visitPage.TotalItems})")
             </option>
         }
     </InputSelect>

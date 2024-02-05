@@ -14,8 +14,7 @@ public class VisitViewModel
     public ConclusionViewModel Conclusion { get; set; } = new();
     public List<ImageViewModel> Images { get; set; } = [];
 
-
-    public IEnumerable<VisitPage> GetPages()
+    public VisitViewModelMetadata GetMetadata()
     {
         var pages = new List<VisitPage>
         {
@@ -29,7 +28,14 @@ public class VisitViewModel
             CreatePage(8,"SystemConsistency","Consistência do Sistema", SystemConsistency),
             CreatePage(9,"Conclusion","Conclusão", Conclusion),
         };
-        return pages;
+
+        var visitViewModelMetadata = new VisitViewModelMetadata
+        {
+            Pages = pages,
+            TotalItems = pages.Sum(p => p.TotalItems),
+            PendingItems = pages.Sum(p => p.PendingItems)
+        };
+        return visitViewModelMetadata;
     }
     
     

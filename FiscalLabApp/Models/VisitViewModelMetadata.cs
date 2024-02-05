@@ -1,8 +1,8 @@
 namespace FiscalLabApp.Models;
 
-public class TabModel
+public class VisitViewModelMetadata
 {
-    public string Name { get; set; } = string.Empty;
+    public List<VisitPage> Pages { get; set; } = [];
     public int TotalItems { get; set; }
     public int PendingItems { get; set; }
 }
