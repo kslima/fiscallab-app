@@ -16,5 +16,4 @@ public class BasicInformationViewModel
     public DateOnly? VisitDate { get; set; }
     [Required(ErrorMessage = "Hora é obrigatório")]
     public TimeOnly? VisitTime { get; set; }
-    public DateTime CreatedAt { get; set; }
 }

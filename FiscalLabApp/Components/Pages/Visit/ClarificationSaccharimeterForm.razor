@@ -145,7 +145,7 @@
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
             SelectedClarificationSaccharimeter = SelectedVisit.ClarificationSaccharimeter.Adapt<ClarificationSaccharimeterViewModel>();
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
         }
     }
 

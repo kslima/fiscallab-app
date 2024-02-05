@@ -121,7 +121,7 @@
         if (!string.IsNullOrWhiteSpace(VisitId))
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
             SelectedSugarcaneBalance = SelectedVisit.SugarcaneBalance.Adapt<SugarcaneBalanceViewModel>();
         }
     }

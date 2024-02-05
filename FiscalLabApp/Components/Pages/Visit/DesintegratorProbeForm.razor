@@ -159,7 +159,7 @@
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
             SelectedDesintegratorProbe = SelectedVisit.DesintegratorProbe.Adapt<DesintegratorProbeViewModel>();
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
         }
     }
 

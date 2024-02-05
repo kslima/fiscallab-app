@@ -121,7 +121,7 @@
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
             SelectedPressRefractometer = SelectedVisit.PressRefractometer.Adapt<PressRefractometerViewModel>();
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
         }
     }
 

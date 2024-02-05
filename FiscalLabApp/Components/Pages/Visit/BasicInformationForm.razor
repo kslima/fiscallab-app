@@ -6,7 +6,6 @@
 
 @layout EditVisitLayout
 @inject IMenuService MenuService
-@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Dados Básicos">
 
@@ -68,8 +67,7 @@
     [CascadingParameter] EditVisitLayout Layout { get; set; } = new();
 
     [Parameter] public string VisitId { get; set; } = string.Empty;
-
-    public Visit SelectedVisit { get; set; } = new();
+    
     private BasicInformationViewModel SelectedBasicInformation { get; set; } = new();
 
     private Menu[] _menus = Array.Empty<Menu>();
@@ -83,20 +81,19 @@
     {
         if (!string.IsNullOrWhiteSpace(VisitId))
         {
-            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            SelectedBasicInformation = SelectedVisit.BasicInformation.Adapt<BasicInformationViewModel>();
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
+            SelectedBasicInformation = Layout.GetSelectedVisit().BasicInformation.Adapt<BasicInformationViewModel>();
         }
     }
 
     private void OnPlantChanged(Plant plant)
     {
-        SelectedVisit.BasicInformation.Plant = plant;
+        SelectedBasicInformation.Plant = plant;
     }
     
     private void OnAssociationChanged(Association association)
     {
-        SelectedVisit.BasicInformation.Association = association;
+        SelectedBasicInformation.Association = association;
     }
 
     public void Dispose()
@@ -111,8 +108,8 @@
 
     private async Task UpdateVisit()
     {
-        SelectedVisit.BasicInformation = SelectedBasicInformation.Adapt<BasicInformation>();
-        await VisitService.UpdateAsync(SelectedVisit);
+        Layout.GetSelectedVisit().BasicInformation = SelectedBasicInformation.Adapt<BasicInformation>();
+        await Layout.UpdateVisitAsync();
     }
 
 }

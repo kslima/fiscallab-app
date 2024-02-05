@@ -216,7 +216,7 @@
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
             SelectedBenchmarkingEquipment = SelectedVisit.BenchmarkingEquipment.Adapt<BenchmarkingEquipmentViewModel>();
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
         }
     }
     

@@ -1,38 +1,36 @@
 ﻿@using System.Text.Json
 @using FiscalLabApp.Extensions
 @using FiscalLabApp.Services
+@using Mapster
 @inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager
 @inject IVisitService VisitService
 @inject IVisitPageService VisitPageService
 
 <div class="content">
-    <select class="form-select form-select-lg mb-3" aria-label="Large select example" @onchange="CallVisitPage">
-        @foreach (var visitPage in _visitPages)
+    <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3" aria-label="Large select example" @bind-Value:after="CallVisitPage">
+        @foreach (var visitPage in Pages)
         {
-            <option value="@visitPage.Name" selected="@(visitPage.Name.Equals(NavigationManager.GetCurrentVisitPage()))">@visitPage.DisplayName</option>
+            <option value="@visitPage.Name" selected="@(visitPage.Name.Equals(NavigationManager.GetCurrentVisitPage()))">
+                @($"{visitPage.DisplayName} - {visitPage.PendingItems} de {visitPage.TotalItems}")
+            </option>
         }
-    </select>
+    </InputSelect>
 </div>
 
 @code
 {
-    [CascadingParameter]
-    public EditVisitLayout Layout { get; set; } = new();
-    
-    private IReadOnlyList<VisitPage> _visitPages = new List<VisitPage>();
-    protected override async Task OnInitializedAsync()
-    {
-        var visitPages = await VisitPageService.GetAllAsync();
-        _visitPages = visitPages.OrderBy(v => v.Id).ToList();
-        StateHasChanged();
-    }
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
 
-    private void CallVisitPage(ChangeEventArgs e)
+    [Parameter] public VisitPage[] Pages { get; set; } = Array.Empty<VisitPage>();
+
+    private VisitViewModel _selectedVisit = new();
+    private string _selectedPageName = string.Empty;
+
+    [Parameter] public EventCallback<decimal> ValueUpdated { get; set; }
+
+    private void CallVisitPage()
     {
-        var route = e.Value?.ToString();
-        if (route is null) return;
-        
-        NavigationManager.NavigateTo($"visits/{Layout.SelectedVisitId}/{route}");
+        NavigationManager.NavigateTo($"visits/{Layout.SelectedVisitId}/{_selectedPageName}");
     }
 }

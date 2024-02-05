@@ -85,7 +85,7 @@
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
             SelectedAnalyticalBalance = SelectedVisit.AnalyticalBalance.Adapt<AnalyticalBalanceViewModel>();
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
         }
     }
 

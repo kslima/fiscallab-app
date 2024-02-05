@@ -57,7 +57,7 @@
         {
             SelectedVisit = await VisitService.GetByIdAsync(VisitId);
             SelectedConclusion = SelectedVisit.Conclusion.Adapt<ConclusionViewModel>();
-            Layout.SelectedVisitId = VisitId;
+            await Layout.SetSelectedVisitId(VisitId);
         }
     }
 
