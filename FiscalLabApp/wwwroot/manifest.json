@@ -1,6 +1,6 @@
 {
   "name": "FiscalLabApp",
-  "short_name": "FiscalLabApp",
+  "short_name": "FiscalLab",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

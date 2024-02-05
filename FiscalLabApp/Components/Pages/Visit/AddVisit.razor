@@ -1,40 +1,39 @@
 ﻿@page "/new-visit"
-@using FiscalLabApp.Extensions
 @using Mapster
 
 @inject IVisitService VisitService
 @inject NavigationManager NavigationManager
 
-<EditForm Model="@BasicInformationViewModel" OnValidSubmit="@CreateAsync">
+<EditForm Model="@_basicInformationViewModel" OnValidSubmit="@CreateAsync">
     <DataAnnotationsValidator/>
     <div class="row">
         <div class="col">
             <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="/new-visit"/>
-            <ValidationMessage For="() => BasicInformationViewModel.Plant"/>
+            <ValidationMessage For="() => _basicInformationViewModel.Plant"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
             <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="/new-visit"/>
-            <ValidationMessage For="() => BasicInformationViewModel.Association"/>
+            <ValidationMessage For="() => _basicInformationViewModel.Association"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <InputDate class="form-control" id="createdAtDateInput" Type="InputDateType.Date" @bind-Value="BasicInformationViewModel.VisitDate"/>
+                <InputDate class="form-control" id="createdAtDateInput" Type="InputDateType.Date" @bind-Value="_basicInformationViewModel.VisitDate"/>
                 <label for="createdAtTimeInput">Data</label>
-                <ValidationMessage For="() => BasicInformationViewModel.VisitDate"/>
+                <ValidationMessage For="() => _basicInformationViewModel.VisitDate"/>
             </div >
 
         </div>
         <div class="col">
             <div class="form-floating mb-3">
-                <InputDate class="form-control" id="createdAtTimeInput" Type="InputDateType.Time" @bind-Value="BasicInformationViewModel.VisitTime"/>
+                <InputDate class="form-control" id="createdAtTimeInput" Type="InputDateType.Time" @bind-Value="_basicInformationViewModel.VisitTime"/>
                 <label for="createdAtTimeInput">Hora</label>
-                <ValidationMessage For="() => BasicInformationViewModel.VisitTime"/>
+                <ValidationMessage For="() => _basicInformationViewModel.VisitTime"/>
             </div >
         </div>
     </div>
@@ -47,14 +46,14 @@
 
 @code {
     
-    public readonly BasicInformationViewModel BasicInformationViewModel = new();
+    private readonly BasicInformationViewModel _basicInformationViewModel = new();
     
     private async Task CreateAsync()
     {
         var visit = new Visit
         {
             Id = Guid.NewGuid().ToString(),
-            BasicInformation = BasicInformationViewModel.Adapt<BasicInformation>()
+            BasicInformation = _basicInformationViewModel.Adapt<BasicInformation>()
         };
 
         visit.BasicInformation.CreatedAt = DateTime.UtcNow;
@@ -70,13 +69,13 @@
 
     private Task OnPlantChanged(Plant plant)
     {
-        BasicInformationViewModel.Plant = plant;
+        _basicInformationViewModel.Plant = plant;
         return Task.CompletedTask;
     }
 
     private Task OnAssociationChanged(Association association)
     {
-        BasicInformationViewModel.Association = association;
+        _basicInformationViewModel.Association = association;
         return Task.CompletedTask;
     }
 }
