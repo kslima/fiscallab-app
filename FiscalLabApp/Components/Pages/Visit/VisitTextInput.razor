@@ -61,7 +61,7 @@
     {
         if (Menu is null) return;
 
-        Menu.Options.Sort((a, b) => String.Compare(a.Description, b.Description, StringComparison.Ordinal));
+        Menu.Options.Sort((a, b) => string.Compare(a.Description, b.Description, StringComparison.Ordinal));
 
         if (Menu.HasPercentageOptions)
         {

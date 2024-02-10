@@ -1,71 +1,68 @@
-﻿@page "/visits/{VisitId}/DesintegratorProbe"
+﻿@page "/visits/desintegrator-probe"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
-
 @inject IMenuService MenuService
-@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Sonda">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Tipo de Sonda" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageProbeType)" Id="probeTYpe" @bind-value="SelectedDesintegratorProbe.ProbeType"/>
+            <VisitTextInput Title="Tipo de Sonda" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageProbeType)" Id="probeTYpe" @bind-value="DesintegratorProbe.ProbeType"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Tubo Introduzido Totalmente" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageTubeInserted)" Id="tubeInserted" @bind-value="SelectedDesintegratorProbe.TubeInserted"/>
+            <VisitTextInput Title="Tubo Introduzido Totalmente" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageTubeInserted)" Id="tubeInserted" @bind-value="DesintegratorProbe.TubeInserted"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Descarrega Tubo Apos" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageTubeDischarged)" Id="tubeDischarged" @bind-value="SelectedDesintegratorProbe.TubeDischarged"/>
+            <VisitTextInput Title="Descarrega Tubo Apos" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageTubeDischarged)" Id="tubeDischarged" @bind-value="DesintegratorProbe.TubeDischarged"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Coleta" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageCollect)" Id="collect" @bind-value="SelectedDesintegratorProbe.Collect"/>
+            <VisitTextInput Title="Coleta" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageCollect)" Id="collect" @bind-value="DesintegratorProbe.Collect"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Quantidade Amostra" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageSampleAmount)" Id="sampleAmount" @bind-value="SelectedDesintegratorProbe.SampleAmount"/>
+            <VisitTextInput Title="Quantidade Amostra" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageSampleAmount)" Id="sampleAmount" @bind-value="DesintegratorProbe.SampleAmount"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Extração  do Caldo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageBrothExtraction)" Id="brothExtraction" @bind-value="SelectedDesintegratorProbe.BrothExtraction"/>
+            <VisitTextInput Title="Extração  do Caldo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageBrothExtraction)" Id="brothExtraction" @bind-value="DesintegratorProbe.BrothExtraction"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Posição da Carga" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageLoadPosition)" Id="loadPosition" @bind-value="SelectedDesintegratorProbe.LoadPosition"/>
+            <VisitTextInput Title="Posição da Carga" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageLoadPosition)" Id="loadPosition" @bind-value="DesintegratorProbe.LoadPosition"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Coroa Dentada" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageToothedCrown)" Id="toothedCrown" @bind-value="SelectedDesintegratorProbe.ToothedCrown"/>
+            <VisitTextInput Title="Coroa Dentada" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageToothedCrown)" Id="toothedCrown" @bind-value="DesintegratorProbe.ToothedCrown"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Tipo Coroa" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageToothedCrownType)" Id="toothedCrownType" @bind-value="SelectedDesintegratorProbe.ToothedCrownType"/>
+            <VisitTextInput Title="Tipo Coroa" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageToothedCrownType)" Id="toothedCrownType" @bind-value="DesintegratorProbe.ToothedCrownType"/>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 3" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageObservations3)" Id="observations3" @bind-value="SelectedDesintegratorProbe.Observations3"/>
+            <VisitTextInput Title="Observações 3" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageObservations3)" Id="observations3" @bind-value="DesintegratorProbe.Observations3"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -74,55 +71,55 @@
 <VisitDataSeparator Title="Desintegrador">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Amostra Homogenia" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageHomogeneousSamples)" Id="homogeneousSamples" @bind-value="SelectedDesintegratorProbe.HomogeneousSamples"/>
+            <VisitTextInput Title="Amostra Homogenia" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageHomogeneousSamples)" Id="homogeneousSamples" @bind-value="DesintegratorProbe.HomogeneousSamples"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Conservação Facas" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageKnifeConservation)" Id="knifeConservation" @bind-value="SelectedDesintegratorProbe.KnifeConservation"/>
+            <VisitTextInput Title="Conservação Facas" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageKnifeConservation)" Id="knifeConservation" @bind-value="DesintegratorProbe.KnifeConservation"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Conservação Contra-Faca" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageAgainstKnifeConservation)" Id="againstKnifeConservation" @bind-value="SelectedDesintegratorProbe.AgainstKnifeConservation"/>
+            <VisitTextInput Title="Conservação Contra-Faca" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageAgainstKnifeConservation)" Id="againstKnifeConservation" @bind-value="DesintegratorProbe.AgainstKnifeConservation"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Distância Faca/Contra-Faca" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageKnifeAgainstKnifeDistance)" Id="knifeAgainstKnifeDistance" @bind-value="SelectedDesintegratorProbe.KnifeAgainstKnifeDistance"/>
+            <VisitTextInput Title="Distância Faca/Contra-Faca" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageKnifeAgainstKnifeDistance)" Id="knifeAgainstKnifeDistance" @bind-value="DesintegratorProbe.KnifeAgainstKnifeDistance"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Conservação Martelos" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageHammerConservation)" Id="hammerConservation" @bind-value="SelectedDesintegratorProbe.HammerConservation"/>
+            <VisitTextInput Title="Conservação Martelos" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageHammerConservation)" Id="hammerConservation" @bind-value="DesintegratorProbe.HammerConservation"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Betoneira Limpa a Cada" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageCleanMixer)" Id="cleanMixer" @bind-value="SelectedDesintegratorProbe.CleanMixer"/>
+            <VisitTextInput Title="Betoneira Limpa a Cada" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageCleanMixer)" Id="cleanMixer" @bind-value="DesintegratorProbe.CleanMixer"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="RPM do Desintegrador" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageDesintegratorRpm)" Id="desintegratorRpm" @bind-value="SelectedDesintegratorProbe.DesintegratorRpm"/>
+            <VisitTextInput Title="RPM do Desintegrador" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageDesintegratorRpm)" Id="desintegratorRpm" @bind-value="DesintegratorProbe.DesintegratorRpm"/>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Índice de Preparo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePagePreparationIndex)" Id="preparationIndex" @bind-value="SelectedDesintegratorProbe.PreparationIndex"/>
+            <VisitTextInput Title="Índice de Preparo" Menu="@_options.GetMenu(MenuType.DesintegratorProbePagePreparationIndex)" Id="preparationIndex" @bind-value="DesintegratorProbe.PreparationIndex"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <InputDate class="form-control" id="sharpenedOrReplacedKnifeAt" @bind-Value="SelectedDesintegratorProbe.SharpenedOrReplacedKnifeAt"/>
+                <InputDate class="form-control" id="sharpenedOrReplacedKnifeAt" @bind-Value="DesintegratorProbe.SharpenedOrReplacedKnifeAt"/>
                 <label for="sharpenedOrReplacedKnifeAt">Afiação/troca facas</label>
             </div >
         </div>
@@ -130,36 +127,25 @@
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 4" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageObservations4)" Id="observations4" @bind-value="SelectedDesintegratorProbe.Observations4"/>
+            <VisitTextInput Title="Observações 4" Menu="@_options.GetMenu(MenuType.DesintegratorProbePageObservations4)" Id="observations4" @bind-value="DesintegratorProbe.Observations4"/>
         </div>
     </div>
 </VisitDataSeparator>
 
 @code {
 
-    [CascadingParameter]
-    public EditVisitLayout Layout { get; set; } = new();
-    
-    [Parameter] 
-    public string VisitId { get; set; } = string.Empty;
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
 
-    private Visit SelectedVisit { get; set; } = new();
-    public DesintegratorProbeViewModel SelectedDesintegratorProbe { get; set; } = new();
+    public DesintegratorProbeViewModel DesintegratorProbe { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
-    
+
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.DesintegratorProbe);
-    }
-    
-    protected override async Task OnParametersSetAsync()
-    {
-        if (!string.IsNullOrWhiteSpace(VisitId))
+        if (Layout.SelectedVisit is not null)
         {
-            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            SelectedDesintegratorProbe = SelectedVisit.DesintegratorProbe.Adapt<DesintegratorProbeViewModel>();
-            await Layout.SetSelectedVisitId(VisitId);
+            DesintegratorProbe = Layout.SelectedVisit.DesintegratorProbe;
         }
     }
 
@@ -167,7 +153,7 @@
     {
         UpdateVisit();
     }
-    
+
     public async ValueTask DisposeAsync()
     {
         await UpdateVisit();
@@ -175,7 +161,10 @@
 
     private async Task UpdateVisit()
     {
-        SelectedVisit.DesintegratorProbe = SelectedDesintegratorProbe.Adapt<DesintegratorProbe>();
-        await VisitService.UpdateAsync(SelectedVisit);
+        if (Layout.SelectedVisit is null) return;
+
+        Layout.SelectedVisit.DesintegratorProbe = DesintegratorProbe;
+        await Layout.UpdateVisitAsync();
     }
+
 }

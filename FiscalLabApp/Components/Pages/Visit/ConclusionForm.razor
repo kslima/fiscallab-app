@@ -1,71 +1,70 @@
-﻿@page "/visits/{VisitId}/Conclusion"
+﻿@page "/visits/conclusion"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
-
 @layout EditVisitLayout
 @inject IMenuService MenuService
-@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Conclusao">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Desempenho do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="SelectedConclusion.InspectorPerformance"/>
+            <VisitTextInput Title="Desempenho do fiscal" Menu="@_options.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="Conclusion.InspectorPerformance"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Desempenho Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="SelectedConclusion.LaboratoryReceptivity"/>
+            <VisitTextInput Title="Desempenho Laboratório" Menu="@_options.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="Conclusion.LaboratoryReceptivity"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Pendências" Menu="@_options.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="SelectedConclusion.Pendencies"/>
+            <VisitTextInput Title="Pendências" Menu="@_options.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="Conclusion.Pendencies"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="SelectedConclusion.Observations"/>
+            <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="Conclusion.Observations"/>
         </div>
     </div>
-    
+
+    <div class="row">
+        <div class="col">
+            <div class="form-check">
+                <InputCheckbox class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked @bind-Value="Conclusion.MarkToSend"/>
+                <small class="form-check-label text-muted fw-semibold" for="flexSwitchCheckChecked">Marcar para envio</small>
+            </div>
+        </div>
+
+    </div>
+
+
 </VisitDataSeparator>
 
 
 @code {
 
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
-
-    [Parameter] public string VisitId { get; set; } = string.Empty;
-
-    private Visit SelectedVisit { get; set; } = new();
-    private ConclusionViewModel SelectedConclusion { get; set; } = new();
+    
+    private ConclusionViewModel Conclusion { get; set; } = new();
     private Menu[] _options = Array.Empty<Menu>();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.Conclusion);
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (!string.IsNullOrWhiteSpace(VisitId))
+        if (Layout.SelectedVisit is not null)
         {
-            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            SelectedConclusion = SelectedVisit.Conclusion.Adapt<ConclusionViewModel>();
-            await Layout.SetSelectedVisitId(VisitId);
+            Conclusion = Layout.SelectedVisit.Conclusion;
         }
     }
-
+    
     public void Dispose()
-    { 
+    {
         UpdateVisit();
     }
-    
+
     public async ValueTask DisposeAsync()
     {
         await UpdateVisit();
@@ -73,8 +72,10 @@
 
     private async Task UpdateVisit()
     {
-        SelectedVisit.Conclusion = SelectedConclusion.Adapt<Models.Conclusion>();
-        await VisitService.UpdateAsync(SelectedVisit);
+        if (Layout.SelectedVisit is null) return;
+        Layout.SelectedVisit.Conclusion = Conclusion;
+        
+        await Layout.UpdateVisitAsync();
     }
 
 }

@@ -1,7 +1,12 @@
 ﻿@using Blazored.Toast.Configuration
+@using FiscalLabApp.Services
 @using Mapster
+@using System.Text.Json
+@implements IDisposable
+@implements IAsyncDisposable
 @inherits LayoutComponentBase
 @inject IVisitService VisitService
+@inject SelectedVisitEvent SelectedVisitEvent
 
 <CascadingValue Value="this">
     <NavMenu/>
@@ -16,32 +21,64 @@
 @code
 {
     public string SelectedVisitId { get; set; } = string.Empty;
-    private VisitViewModel _selectedVisitViewModel = new();
-    private Visit _selectedVisit = new();
+    public VisitViewModel? SelectedVisit { get; set; }
     private VisitPage[] _pages = Array.Empty<VisitPage>();
-    
-    public async Task SetSelectedVisitId(string selectedVisitId)
+
+    // protected override Task OnInitializedAsync()
+    // {
+    //     //SelectedVisitEvent.SelectedVisit += HandleSelectedVisit;
+    //     SelectedVisit = SelectedVisitEvent.SelectedVisitModel!;
+    //     var metadata = SelectedVisit.GetMetadata();
+    //     _pages = metadata.Pages.OrderBy(v => v.Id).ToArray();
+    //     return Task.CompletedTask;
+    // }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        SelectedVisitId = selectedVisitId;
-        _selectedVisit = await VisitService.GetByIdAsync(selectedVisitId);
-        _selectedVisitViewModel = _selectedVisit.Adapt<VisitViewModel>();
-        var metadata = _selectedVisitViewModel.GetMetadata();
+        if (! firstRender) return Task.CompletedTask;
+        
+        SelectedVisit = SelectedVisitEvent.SelectedVisitModel!;
+        var metadata = SelectedVisit.GetMetadata();
         _pages = metadata.Pages.OrderBy(v => v.Id).ToArray();
         StateHasChanged();
+        return Task.CompletedTask;
     }
 
-    public Visit GetSelectedVisit()
+
+    public Task SetSelectedVisitId(string selectedVisitId)
     {
-        return _selectedVisit;
+        // SelectedVisitId = selectedVisitId;
+        // _selectedVisit = await VisitService.GetByIdAsync(selectedVisitId);
+        // _selectedVisitViewModel = _selectedVisit.Adapt<VisitViewModel>();
+        //
+        // StateHasChanged();
+        //SelectedVisitEvent.SelectedVisit += HandleSelectedVisit;
+        return Task.CompletedTask;
     }
     
-    public VisitViewModel GetSelectedVisitViewModel()
+    private void HandleSelectedVisit(VisitViewModel visit)
     {
-        return _selectedVisitViewModel;
+        SelectedVisit = visit;
+        var metadata = SelectedVisit.GetMetadata();
+        _pages = metadata.Pages.OrderBy(v => v.Id).ToArray();
+        StateHasChanged();
     }
     
     public Task UpdateVisitAsync()
     {
-        return VisitService.UpdateAsync(_selectedVisit);
+        var visit = SelectedVisit.Adapt<Visit>();
+        Console.WriteLine($"visita atualizada: {JsonSerializer.Serialize(visit)}");
+        return VisitService.UpdateAsync(visit);
+    }
+    
+    public void Dispose()
+    {
+        SelectedVisitEvent.SelectedVisit -= HandleSelectedVisit;
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        SelectedVisitEvent.SelectedVisit -= HandleSelectedVisit;
+        return ValueTask.CompletedTask;
     }
 }

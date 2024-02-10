@@ -1,53 +1,50 @@
-﻿@page "/visits/{VisitId}/PressRefractometer"
+﻿@page "/visits/press-refractometer"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
-
 @inject IMenuService MenuService
-@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Prensa">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Manômetro com cert. calibragem" Menu="@_options.GetMenu(MenuType.PressRefractometerPressureGaugeCertificated)" Id="pressureGaugeCertificated" @bind-value="SelectedPressRefractometer.PressureGaugeCertificated"/>
+            <VisitTextInput Title="Manômetro com cert. calibragem" Menu="@_options.GetMenu(MenuType.PressRefractometerPressureGaugeCertificated)" Id="pressureGaugeCertificated" @bind-value="PressRefractometer.PressureGaugeCertificated"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Uso do Copo Descarte" Menu="@_options.GetMenu(MenuType.PressRefractometerDiscardCup)" Id="discardCup" @bind-value="SelectedPressRefractometer.DiscardCup"/>
+            <VisitTextInput Title="Uso do Copo Descarte" Menu="@_options.GetMenu(MenuType.PressRefractometerDiscardCup)" Id="discardCup" @bind-value="PressRefractometer.DiscardCup"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Frasco Coletor" Menu="@_options.GetMenu(MenuType.PressRefractometerCollectorBottle)" Id="pressRefractometerCollectorBottle" @bind-value="SelectedPressRefractometer.CollectorBottle"/>
+            <VisitTextInput Title="Frasco Coletor" Menu="@_options.GetMenu(MenuType.PressRefractometerCollectorBottle)" Id="pressRefractometerCollectorBottle" @bind-value="PressRefractometer.CollectorBottle"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Pressão" Menu="@_options.GetMenu(MenuType.PressRefractometerPressure)" Id="pressRefractometerPressure" @bind-value="SelectedPressRefractometer.Pressure"/>
+            <VisitTextInput Title="Pressão" Menu="@_options.GetMenu(MenuType.PressRefractometerPressure)" Id="pressRefractometerPressure" @bind-value="PressRefractometer.Pressure"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Temporizador" Menu="@_options.GetMenu(MenuType.PressRefractometerTimer)" Id="pressRefractometerTimer" @bind-value="SelectedPressRefractometer.Timer"/>
+            <VisitTextInput Title="Temporizador" Menu="@_options.GetMenu(MenuType.PressRefractometerTimer)" Id="pressRefractometerTimer" @bind-value="PressRefractometer.Timer"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Limpeza da Prensa" Menu="@_options.GetMenu(MenuType.PressRefractometerPressCleaning)" Id="pressRefractometerPressCleaning" @bind-value="SelectedPressRefractometer.PressCleaning"/>
+            <VisitTextInput Title="Limpeza da Prensa" Menu="@_options.GetMenu(MenuType.PressRefractometerPressCleaning)" Id="pressRefractometerPressCleaning" @bind-value="PressRefractometer.PressCleaning"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 7" Menu="@_options.GetMenu(MenuType.PressRefractometerObservations7)" Id="observations7" @bind-value="SelectedPressRefractometer.Observations7"/>
+            <VisitTextInput Title="Observações 7" Menu="@_options.GetMenu(MenuType.PressRefractometerObservations7)" Id="observations7" @bind-value="PressRefractometer.Observations7"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -56,43 +53,43 @@
 <VisitDataSeparator Title="Refratômetro">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Hômogênização do Caldo" Menu="@_options.GetMenu(MenuType.PressRefractometerBrothHomogenization)" Id="pressRefractometerBrothHomogenization" @bind-value="SelectedPressRefractometer.BrothHomogenization"/>
+            <VisitTextInput Title="Hômogênização do Caldo" Menu="@_options.GetMenu(MenuType.PressRefractometerBrothHomogenization)" Id="pressRefractometerBrothHomogenization" @bind-value="PressRefractometer.BrothHomogenization"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Certificado calibragem" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerCalibrationCertificate)" Id="refractometerCalibrationCertificate" @bind-value="SelectedPressRefractometer.RefractometerCalibrationCertificate"/>
+            <VisitTextInput Title="Certificado calibragem" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerCalibrationCertificate)" Id="refractometerCalibrationCertificate" @bind-value="PressRefractometer.RefractometerCalibrationCertificate"/>
         </div>
     </div>
     
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Precisão Leitura" Menu="@_options.GetMenu(MenuType.PressRefractometerPrecisionReading)" Id="precisionReading" @bind-value="SelectedPressRefractometer.PrecisionReading"/>
+            <VisitTextInput Title="Precisão Leitura" Menu="@_options.GetMenu(MenuType.PressRefractometerPrecisionReading)" Id="precisionReading" @bind-value="PressRefractometer.PrecisionReading"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Aferição" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerBenchmarking)" Id="refractometerBenchmarking" @bind-value="SelectedPressRefractometer.RefractometerBenchmarking"/>
+            <VisitTextInput Title="Aferição" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerBenchmarking)" Id="refractometerBenchmarking" @bind-value="PressRefractometer.RefractometerBenchmarking"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Limpeza" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerCleaning)" Id="refractometerCleaning" @bind-value="SelectedPressRefractometer.RefractometerCleaning"/>
+            <VisitTextInput Title="Limpeza" Menu="@_options.GetMenu(MenuType.PressRefractometerRefractometerCleaning)" Id="refractometerCleaning" @bind-value="PressRefractometer.RefractometerCleaning"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Temperatura Interna" Menu="@_options.GetMenu(MenuType.PressRefractometerInternalTemperature)" Id="internalTemperature" @bind-value="SelectedPressRefractometer.InternalTemperature"/>
+            <VisitTextInput Title="Temperatura Interna" Menu="@_options.GetMenu(MenuType.PressRefractometerInternalTemperature)" Id="internalTemperature" @bind-value="PressRefractometer.InternalTemperature"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 8" Menu="@_options.GetMenu(MenuType.PressRefractometerObservations8)" Id="observations8" @bind-value="SelectedPressRefractometer.Observations8"/>
+            <VisitTextInput Title="Observações 8" Menu="@_options.GetMenu(MenuType.PressRefractometerObservations8)" Id="observations8" @bind-value="PressRefractometer.Observations8"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -101,30 +98,20 @@
 
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
-    
-    [Parameter] 
-    public string VisitId { get; set; } = string.Empty;
 
     private Menu[] _options = Array.Empty<Menu>();
-
-    private Visit SelectedVisit { get; set; } = new();
-    public PressRefractometerViewModel SelectedPressRefractometer { get; set; } = new();
+    
+    public PressRefractometerViewModel PressRefractometer { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.PressRefractometer);
-    }
-    
-    protected override async Task OnParametersSetAsync()
-    {
-        if (!string.IsNullOrWhiteSpace(VisitId))
+        if (Layout.SelectedVisit is not null)
         {
-            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            SelectedPressRefractometer = SelectedVisit.PressRefractometer.Adapt<PressRefractometerViewModel>();
-            await Layout.SetSelectedVisitId(VisitId);
+            PressRefractometer = Layout.SelectedVisit.PressRefractometer;
         }
     }
-
+    
     public void Dispose()
     {
         UpdateVisit();
@@ -137,7 +124,9 @@
 
     private async Task UpdateVisit()
     {
-        SelectedVisit.PressRefractometer = SelectedPressRefractometer.Adapt<PressRefractometer>();
-        await VisitService.UpdateAsync(SelectedVisit);
+        if (Layout.SelectedVisit is null) return;
+        
+        Layout.SelectedVisit.PressRefractometer = PressRefractometer;
+        await Layout.UpdateVisitAsync();
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/visits/{VisitId}/SugarcaneBalance"
+﻿@page "/visits/sugarcane-balance"
 @implements IDisposable
 @implements IAsyncDisposable
 
@@ -7,30 +7,29 @@
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
-@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Balanças">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança de Entrada" Menu="@_options.GetMenu(MenuType.CaneBalancePageInScale)" Id="inScale" @bind-value="SelectedSugarcaneBalance.InScale"/>
+            <VisitTextInput Title="Balança de Entrada" Menu="@_options.GetMenu(MenuType.CaneBalancePageInScale)" Id="inScale" @bind-value="SugarcaneBalance.InScale"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança de Saída" Menu="@_options.GetMenu(MenuType.CaneBalancePageOutScale)" Id="outScale" @bind-value="SelectedSugarcaneBalance.OutScale"/>
+            <VisitTextInput Title="Balança de Saída" Menu="@_options.GetMenu(MenuType.CaneBalancePageOutScale)" Id="outScale" @bind-value="SugarcaneBalance.OutScale"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Sorteio de Cargas" Menu="@_options.GetMenu(MenuType.CaneBalancePageCargoDraw)" Id="cargoDraw" @bind-value="SelectedSugarcaneBalance.CargoDraw"/>
+            <VisitTextInput Title="Sorteio de Cargas" Menu="@_options.GetMenu(MenuType.CaneBalancePageCargoDraw)" Id="cargoDraw" @bind-value="SugarcaneBalance.CargoDraw"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações(Teste de Balança)" Menu="@_options.GetMenu(MenuType.CaneBalancePageScaleObservations)" Id="scaleObservations" @bind-value="SelectedSugarcaneBalance.ScaleObservations"/>
+            <VisitTextInput Title="Observações(Teste de Balança)" Menu="@_options.GetMenu(MenuType.CaneBalancePageScaleObservations)" Id="scaleObservations" @bind-value="SugarcaneBalance.ScaleObservations"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -38,31 +37,31 @@
 <VisitDataSeparator Title="Calibragens">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="1ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration1)" Id="calibration1" @bind-value="SelectedSugarcaneBalance.Calibration1"/>
+            <VisitTextInput Title="1ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration1)" Id="calibration1" @bind-value="SugarcaneBalance.Calibration1"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="2ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration2)" Id="calibration2" @bind-value="SelectedSugarcaneBalance.Calibration2"/>
+            <VisitTextInput Title="2ª calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibration2)" Id="calibration2" @bind-value="SugarcaneBalance.Calibration2"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Órgão Responsável" Menu="@_options.GetMenu(MenuType.CaneBalancePageResponsibleBody)" Id="responsibleBody" @bind-value="SelectedSugarcaneBalance.ResponsibleBody"/>
+            <VisitTextInput Title="Órgão Responsável" Menu="@_options.GetMenu(MenuType.CaneBalancePageResponsibleBody)" Id="responsibleBody" @bind-value="SugarcaneBalance.ResponsibleBody"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Certificado de Calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibrationCertificate)" Id="calibrationCertificate" @bind-value="SelectedSugarcaneBalance.CalibrationCertificate"/>
+            <VisitTextInput Title="Certificado de Calibração" Menu="@_options.GetMenu(MenuType.CaneBalancePageCalibrationCertificate)" Id="calibrationCertificate" @bind-value="SugarcaneBalance.CalibrationCertificate"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 1" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations1)" Id="observations1" @bind-value="SelectedSugarcaneBalance.Observations1"/>
+            <VisitTextInput Title="Observações 1" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations1)" Id="observations1" @bind-value="SugarcaneBalance.Observations1"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -71,31 +70,31 @@
 <VisitDataSeparator Title="Porcentagens Analisadas">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Usina" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantPercentage)" Id="plant" @bind-value="SelectedSugarcaneBalance.PlantPercentage"/>
+            <VisitTextInput Title="Porcentagem Usina" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantPercentage)" Id="plant" @bind-value="SugarcaneBalance.PlantPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageProviderPercentage)" Id="provider" @bind-value="SelectedSugarcaneBalance.ProviderPercentage"/>
+            <VisitTextInput Title="Porcentagem Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageProviderPercentage)" Id="provider" @bind-value="SugarcaneBalance.ProviderPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Usina/Fazenda" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantFarmPercentage)" Id="percentPlantFarm" @bind-value="SelectedSugarcaneBalance.PlantFarmPercentage"/>
+            <VisitTextInput Title="Porcentagem Usina/Fazenda" Menu="@_options.GetMenu(MenuType.CaneBalancePagePlantFarmPercentage)" Id="percentPlantFarm" @bind-value="SugarcaneBalance.PlantFarmPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Fazenda/Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageFarmProviderPercentage)" Id="percentFarmProvider" @bind-value="SelectedSugarcaneBalance.FarmProviderPercentage"/>
+            <VisitTextInput Title="Porcentagem Fazenda/Fornecedor" Menu="@_options.GetMenu(MenuType.CaneBalancePageFarmProviderPercentage)" Id="percentFarmProvider" @bind-value="SugarcaneBalance.FarmProviderPercentage"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 2" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations2)" Id="observations2" @bind-value="SelectedSugarcaneBalance.Observations2"/>
+            <VisitTextInput Title="Observações 2" Menu="@_options.GetMenu(MenuType.CaneBalancePageObservations2)" Id="observations2" @bind-value="SugarcaneBalance.Observations2"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -103,29 +102,20 @@
 @code {
 
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
-
-    [Parameter] public string VisitId { get; set; } = string.Empty;
-
-    private Visit SelectedVisit { get; set; } = new();
-    public SugarcaneBalanceViewModel SelectedSugarcaneBalance { get; set; } = new();
+    
+    public SugarcaneBalanceViewModel SugarcaneBalance { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.SugarcaneBalance);
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (!string.IsNullOrWhiteSpace(VisitId))
+        if (Layout.SelectedVisit is not null)
         {
-            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            await Layout.SetSelectedVisitId(VisitId);
-            SelectedSugarcaneBalance = SelectedVisit.SugarcaneBalance.Adapt<SugarcaneBalanceViewModel>();
+            SugarcaneBalance = Layout.SelectedVisit.SugarcaneBalance.Adapt<SugarcaneBalanceViewModel>();
         }
     }
-
+    
     public void Dispose()
     {
         UpdateVisit();
@@ -138,8 +128,10 @@
 
     private async Task UpdateVisit()
     {
-        SelectedVisit.SugarcaneBalance = SelectedSugarcaneBalance.Adapt<SugarcaneBalance>();
-        await VisitService.UpdateAsync(SelectedVisit);
+        if (Layout.SelectedVisit is null) return;
+        
+        Layout.SelectedVisit.SugarcaneBalance = SugarcaneBalance;
+        await Layout.UpdateVisitAsync();
     }
 
 }

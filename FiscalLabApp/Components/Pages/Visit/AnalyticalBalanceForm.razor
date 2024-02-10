@@ -1,47 +1,45 @@
-﻿@page "/visits/{VisitId}/AnalyticalBalance"
+﻿@page "/visits/analytical-balance"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
-@inject IVisitService VisitService
 
 <VisitDataSeparator Title="Balança Analítica">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Peso Homogenio Apos" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceHomogeneousWeight)" Id="homogeneousWeight" @bind-value="SelectedAnalyticalBalance.HomogeneousWeight"/>
+            <VisitTextInput Title="Peso Homogenio Apos" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceHomogeneousWeight)" Id="homogeneousWeight" @bind-value="AnalyticalBalance.HomogeneousWeight"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Peso Amostra Final" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceFinalWeight)" Id="finalWeight" @bind-value="SelectedAnalyticalBalance.FinalWeight"/>
+            <VisitTextInput Title="Peso Amostra Final" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceFinalWeight)" Id="finalWeight" @bind-value="AnalyticalBalance.FinalWeight"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança Aferida" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceCalibratedBalance)" Id="calibratedBalance" @bind-value="SelectedAnalyticalBalance.CalibratedBalance"/>
+            <VisitTextInput Title="Balança Aferida" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceCalibratedBalance)" Id="calibratedBalance" @bind-value="AnalyticalBalance.CalibratedBalance"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança Nivelada" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceLeveledBalance)" Id="leveledBalance" @bind-value="SelectedAnalyticalBalance.LeveledBalance"/>
+            <VisitTextInput Title="Balança Nivelada" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceLeveledBalance)" Id="leveledBalance" @bind-value="AnalyticalBalance.LeveledBalance"/>
         </div>
     </div>
     
     <div class="row">
             <div class="col">
-                <VisitTextInput Title="Balança Com Certificado de Calibragem" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceCalibrationCertificateBalance)" Id="calibrationCertificateBalance" @bind-value="SelectedAnalyticalBalance.CalibrationCertificateBalance"/>
+                <VisitTextInput Title="Balança Com Certificado de Calibragem" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceCalibrationCertificateBalance)" Id="calibrationCertificateBalance" @bind-value="AnalyticalBalance.CalibrationCertificateBalance"/>
             </div>
         </div>
     
     <div class="row">
             <div class="col">
-                <VisitTextInput Title="Observações 5" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceObservations5)" Id="observations5" @bind-value="SelectedAnalyticalBalance.Observations5"/>
+                <VisitTextInput Title="Observações 5" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceObservations5)" Id="observations5" @bind-value="AnalyticalBalance.Observations5"/>
             </div>
         </div>
 </VisitDataSeparator>
@@ -50,13 +48,13 @@
 <VisitDataSeparator Title="Temperatura Ambiente">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Média temperatura ambiente(20ºC±5)" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceAverageAmbientTemperature)" Id="averageAmbientTemperature" @bind-value="SelectedAnalyticalBalance.AverageAmbientTemperature"/>
+            <VisitTextInput Title="Média temperatura ambiente(20ºC±5)" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceAverageAmbientTemperature)" Id="averageAmbientTemperature" @bind-value="AnalyticalBalance.AverageAmbientTemperature"/>
         </div>
     </div>
     
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 6" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceObservations6)" Id="observations6" @bind-value="SelectedAnalyticalBalance.Observations6"/>
+            <VisitTextInput Title="Observações 6" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceObservations6)" Id="observations6" @bind-value="AnalyticalBalance.Observations6"/>
         </div>
     </div>
 </VisitDataSeparator>
@@ -67,28 +65,18 @@
     public EditVisitLayout Layout { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
-
-    [Parameter] 
-    public string VisitId { get; set; } = string.Empty;
-
-    private Visit SelectedVisit { get; set; } = new();
-    public AnalyticalBalanceViewModel SelectedAnalyticalBalance { get; set; } = new();
+    
+    public AnalyticalBalanceViewModel AnalyticalBalance { get; set; } = new();
     
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.AnalyticalBalance);
-    }
-    
-    protected override async Task OnParametersSetAsync()
-    {
-        if (!string.IsNullOrWhiteSpace(VisitId))
+        if (Layout.SelectedVisit is not null)
         {
-            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            SelectedAnalyticalBalance = SelectedVisit.AnalyticalBalance.Adapt<AnalyticalBalanceViewModel>();
-            await Layout.SetSelectedVisitId(VisitId);
+            AnalyticalBalance = Layout.SelectedVisit.AnalyticalBalance;
         }
     }
-
+    
     public void Dispose()
     { 
         UpdateVisit();
@@ -101,7 +89,9 @@
 
     private async Task UpdateVisit()
     {
-        SelectedVisit.AnalyticalBalance = SelectedAnalyticalBalance.Adapt<AnalyticalBalance>();
-        await VisitService.UpdateAsync(SelectedVisit);
+        if (Layout.SelectedVisit is null) return;
+        
+        Layout.SelectedVisit.AnalyticalBalance = AnalyticalBalance;
+        await Layout.UpdateVisitAsync();
     }
 }
