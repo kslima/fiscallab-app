@@ -3,7 +3,7 @@ using FiscalLabApp.Models;
 
 namespace FiscalLabApp.Services;
 
-public class VisitService(IndexedDbAccessor indexedDbAccessor) : IVisitService
+public class VisitService(IndexedDbAccessor indexedDbAccessor, IApiService apiService) : IVisitService
 {
     private const string VisitCollectionName = "visits";
     

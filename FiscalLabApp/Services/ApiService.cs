@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
@@ -46,6 +47,17 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
         result.EnsureSuccessStatusCode();
 
         var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Association[]>>(_jsonOptions))!;
+        return response.Data!;
+    }
+
+    public async Task<bool> CreateManyVisits(Visit[] visits)
+    {
+        var body = JsonSerializer.Serialize(visits, _jsonOptions);
+        var contentString = new StringContent(body, Encoding.UTF8, "application/json");
+        var result = await _httpClient.PostAsync("visits", contentString);
+        result.EnsureSuccessStatusCode();
+
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>(_jsonOptions))!;
         return response.Data!;
     }
 }

@@ -13,6 +13,10 @@ public class VisitViewModel
     public SystemConsistencyViewModel SystemConsistency { get; set; } = new();
     public ConclusionViewModel Conclusion { get; set; } = new();
     public List<ImageViewModel> Images { get; set; } = [];
+    public bool IsFinished { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime FinishedAt { get; set; } = DateTime.Now;
+    public DateTime SentAt { get; set; } = DateTime.Now;
 
     public VisitViewModelMetadata GetMetadata()
     {

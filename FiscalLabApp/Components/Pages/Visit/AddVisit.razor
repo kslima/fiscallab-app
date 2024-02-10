@@ -53,10 +53,10 @@
         var visit = new Visit
         {
             Id = Guid.NewGuid().ToString(),
-            BasicInformation = _basicInformationViewModel.Adapt<BasicInformation>()
+            BasicInformation = _basicInformationViewModel.Adapt<BasicInformation>(),
+            CreatedAt = DateTime.UtcNow
         };
 
-        visit.BasicInformation.CreatedAt = DateTime.UtcNow;
         await VisitService.CreateAsync(visit);
 
         NavigationManager.NavigateTo("/visits");

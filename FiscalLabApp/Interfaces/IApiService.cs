@@ -8,4 +8,5 @@ public interface IApiService
     Task<Menu[]> GetAllMenusAsync();
     Task<Plant[]> GetAllPlantsAsync();
     Task<Association[]> GetAllAssociationsAsync();
+    Task<bool> CreateManyVisits(Visit[] visits);
 }
