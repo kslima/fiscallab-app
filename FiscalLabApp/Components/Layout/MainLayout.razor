@@ -1,10 +1,14 @@
 ﻿@using Blazored.Toast.Configuration
+@using FiscalLabApp.Services
 @inherits LayoutComponentBase
 <NavMenu/>
+
+@inject IJSRuntime JsRuntime
+@inject SyncService SyncService
 
 <main class="container">
     @Body
 </main>
 
 <BlazoredToasts Position="ToastPosition.TopRight" Timeout="5"/>
-                
+        

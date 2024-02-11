@@ -24,8 +24,17 @@ var jsFunctions = {};
 jsFunctions.registerOnlineStatusHandler = function (dotNetObjRef) {
     function onlineStatusHandler() {
         dotNetObjRef.invokeMethodAsync("SetOnlineStatusColor", navigator.onLine);
+        registerSyncTask();
     };
     onlineStatusHandler();
     window.addEventListener("online", onlineStatusHandler);
     window.addEventListener("offline", onlineStatusHandler);
+}
+
+function registerSyncTask() {
+    if (navigator.serviceWorker.controller !== null && 'SyncManager' in window) {
+        navigator.serviceWorker.ready.then(registration => {
+            registration.sync.register('sincronizacao-background');
+        });
+    }
 }

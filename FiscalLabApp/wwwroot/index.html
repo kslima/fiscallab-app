@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="icon" type="image/png" href="favicon.png"/>
     <link href="FiscalLabApp.styles.css" rel="stylesheet"/>
-    <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
+    <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet"/>
     <link href="manifest.json" rel="manifest"/>
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png"/>
@@ -33,9 +33,15 @@
 </div>
 
 <script src="_framework/blazor.webassembly.js"></script>
-<script src="js/interop.js"></script>
+<script src="./js/interop.js"></script>
+<script type="module" src="./js/IndexedDbAccessor.js"></script>
 <script>if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+    navigator.serviceWorker.register("service-worker.js").then(registration => {
+        console.log('Service Worker registrado com sucesso:', registration);
+    })
+        .catch(error => {
+            console.error('Erro ao registrar o Service Worker:', error);
+        });
 }</script>
 </body>
 

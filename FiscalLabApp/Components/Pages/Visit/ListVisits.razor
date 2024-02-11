@@ -69,12 +69,12 @@
 
 
 @code {
-    private List<VisitViewModel> _visits = [];
+    private VisitViewModel[] _visits = [];
 
     protected override async Task OnInitializedAsync()
     {
         var visits = await VisitService.GetAllAsync();
-        _visits = visits.Adapt<List<VisitViewModel>>();
+        _visits = visits.Adapt<VisitViewModel[]>();
     }
 
     private void NewVisit()

@@ -1,18 +1,29 @@
 using FiscalLabApp.Interfaces;
+using FiscalLabApp.Models;
 
 namespace FiscalLabApp.Services;
 
-public class SyncService(IApiService apiService, IVisitService visitService)
+public class SyncService(IApiService apiService,
+    IPlantService plantService,
+    IAssociationService associationService,
+    IMenuService menuService,
+    IVisitService visitService)
 {
-    public async Task SyncAsync(bool isOnline)
+    public async Task SyncAsync()
     {
-        if (!isOnline) return;
-        var allVisits = await visitService.GetAllAsync();
-        var visitsToSync = allVisits
-            .Where(x => x.IsFinished)
-            .Where(x => x.FinishedAt is not null)
-            .ToArray();
+        var plants = await plantService.GetAllAsync();
+        var associations = await associationService.GetAllAsync();
+        var menus = await menuService.GetAllAsync();
+        var visits = await visitService.GetAllAsync();
 
-        await apiService.CreateManyVisits(visitsToSync);
+        var syncModel = new SyncModel
+        {
+            Plants = plants,
+            Associations = associations,
+            Menus = menus,
+            Visits = visits
+        };
+
+        var syncResult = await apiService.SyncDataAsync(syncModel);
     }
 }

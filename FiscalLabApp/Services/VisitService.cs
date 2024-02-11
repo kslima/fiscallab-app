@@ -28,8 +28,8 @@ public class VisitService(IndexedDbAccessor indexedDbAccessor, IApiService apiSe
         return indexedDbAccessor.DeleteAsync(VisitCollectionName, id);
     }
 
-    public async Task<List<Visit>> GetAllAsync()
+    public async Task<Visit[]> GetAllAsync()
     {
-        return await indexedDbAccessor.GetValueAsync<List<Visit>>(VisitCollectionName);
+        return await indexedDbAccessor.GetValueAsync<Visit[]>(VisitCollectionName);
     }
 }

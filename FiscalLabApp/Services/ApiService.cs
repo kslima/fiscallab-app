@@ -9,17 +9,13 @@ namespace FiscalLabApp.Services;
 public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("api");
-    private readonly JsonSerializerOptions _jsonOptions = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-    };
-
+    
     public async Task<VisitPage[]> GetAllVisitPagesAsync()
     {
         var result = await _httpClient.GetAsync("visit-pages");
         result.EnsureSuccessStatusCode();
 
-        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<VisitPage[]>>(_jsonOptions))!;
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<VisitPage[]>>())!;
         return response.Data!;
     }
 
@@ -28,7 +24,7 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
         var result = await _httpClient.GetAsync("menus");
         result.EnsureSuccessStatusCode();
 
-        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Menu[]>>(_jsonOptions))!;
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Menu[]>>())!;
         return response.Data!;
     }
 
@@ -37,7 +33,7 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
         var result = await _httpClient.GetAsync("plants");
         result.EnsureSuccessStatusCode();
 
-        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Plant[]>>(_jsonOptions))!;
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Plant[]>>())!;
         return response.Data!;
     }
 
@@ -46,18 +42,27 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
         var result = await _httpClient.GetAsync("associations");
         result.EnsureSuccessStatusCode();
 
-        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Association[]>>(_jsonOptions))!;
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<Association[]>>())!;
         return response.Data!;
     }
 
     public async Task<bool> CreateManyVisits(Visit[] visits)
     {
-        var body = JsonSerializer.Serialize(visits, _jsonOptions);
+        var body = JsonSerializer.Serialize(visits);
         var contentString = new StringContent(body, Encoding.UTF8, "application/json");
         var result = await _httpClient.PostAsync("visits", contentString);
         result.EnsureSuccessStatusCode();
 
-        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>(_jsonOptions))!;
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>())!;
+        return response.Data!;
+    }
+
+    public async Task<SyncResult> SyncDataAsync(SyncModel syncModel)
+    {
+        var result = await _httpClient.PostAsJsonAsync("synchronization", syncModel);
+        result.EnsureSuccessStatusCode();
+
+        var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<SyncResult>>())!;
         return response.Data!;
     }
 }

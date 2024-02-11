@@ -17,7 +17,12 @@ public class MenuService(IndexedDbAccessor indexedDbAccessor) : IMenuService
             .Where(p => p.Page.Equals(pageType.ToString()))
             .ToArray();
     }
-    
+
+    public async Task<Menu[]> GetAllAsync()
+    {
+        return await indexedDbAccessor.GetValueAsync<Menu[]>(IndexedDbAccessor.MenuCollectionName);
+    }
+
     public async Task SetOptionAsync(string code, List<Option> options)
     {
         var menu = await GetById(code);

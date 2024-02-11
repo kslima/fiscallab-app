@@ -8,5 +8,5 @@ public interface IVisitService
     Task<Visit> UpdateAsync(Visit visit);
     Task<Visit> GetByIdAsync(string id);
     Task DeleteAsync(string id);
-    Task<List<Visit>> GetAllAsync();
+    Task<Visit[]> GetAllAsync();
 }

@@ -5,7 +5,6 @@
 @inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager
 @inject IVisitService VisitService
-@inject IVisitPageService VisitPageService
 
 <div class="content">
     <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3" aria-label="Large select example" @bind-Value:after="CallVisitPage">
