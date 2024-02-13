@@ -1,114 +1,128 @@
 // In development, always fetch from the network and do not enable offline support.
 // This is because caching would make development more difficult (changes would not
 // be reflected on the first load after each change).
-
+if ('undefined' === typeof window) {
+    importScripts("./js/shared.js")
+}
 self.addEventListener('fetch', () => {
 });
 
-let CURRENT_VERSION = 1;
-let DATABASE_NAME = "FiscalLabApp";
-
 self.addEventListener('sync', event => {
-    if (event.tag === 'sincronizacao-background') {
-        Promise.all([
-            get('plants'),
-            get('associations'),
-            get('menus'),
-            get('visits')
-        ])
-            .then(results => {
-                sendToBack(results)
-                    .then(result => {
-                        putAll(result.plants)
-                            .then(message => console.log(message))
-                            .catch(error => console.error(error));
-
-                        putAll(result.associations)
-                            .then(message => console.log(message))
-                            .catch(error => console.error(error));
-
-                        putAll(result.menus)
-                            .then(message => console.log(message))
-                            .catch(error => console.error(error));
-
-                        putAll(result.visits)
-                            .then(message => console.log(message))
-                            .catch(error => console.error(error));
-                    })
+    if (event.tag === SYNC_PROCESS_NAME) {
+        openDatabase()
+            .then(db => {
+                fetchDataAndPopulateDB(db);
+                if ('serviceWorker' in navigator && 'ready' in navigator.serviceWorker) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.active.postMessage({type: 'notification', message: 'Sync completed'});
+                    });
+                }
             })
-            .catch(error => {
-                console.error('Erro ao obter dados do IndexedDB:', error);
-            });
+            .catch(error => console.error(error));
     }
 });
 
-function putAll(collectionName, data) {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DATABASE_NAME, CURRENT_VERSION);
+function fetchDataAndPopulateDB(db) {
 
-        request.onsuccess = event => {
-            const db = event.target.result;
+    let collectionsToSync = [PLANTS_COLLECTION, ASSOCIATIONS_COLLECTION, MENUS_COLLECTION, VISITS_COLLECTION];
+    const promises = collectionsToSync.map(collection => listAllAsync(db, collection));
 
-            const transaction = db.transaction(collectionName, 'readwrite');
-            const store = transaction.objectStore(collectionName);
-            
-            data.forEach(record => {
-                const putRequest = store.put(record);
-                putRequest.onerror = error => reject(error);
-            });
-
-            transaction.oncomplete = () => {
-                resolve();
+    Promise.all(promises)
+        .then(results => {
+            const dataToSend = {
+                plants: results[0],
+                associations: results[1],
+                menus: results[2],
+                visits: results[3].filter(v => v.finishedAt !== null && v.finishedAt !== undefined),
             };
-        };
 
-        request.onerror = event => reject(event.target.error);
-    });
-}
-
-async function get(collectionName) {
-    let request = new Promise((resolve) => {
-        let applicationDb = indexedDB.open(DATABASE_NAME, CURRENT_VERSION);
-        applicationDb.onsuccess = function () {
-            let transaction = applicationDb.result.transaction(collectionName, "readonly");
-            let collection = transaction.objectStore(collectionName);
-            let result = collection.getAll();
-
-            result.onsuccess = function (e) {
-                resolve(result.result);
-            }
-        }
-    });
-
-    return await request;
-}
-
-async function sendToBack(results) {
-    const body = {
-        plants: results[0],
-        associations: results[1],
-        menus: results[2],
-        visits: results[3],
-    };
-
-    fetch('http://localhost:7001/synchronization', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-    })
-        .then(response => {
-            if (!response.ok) {
-                console.error('Resposta da API: ', response);
-                throw new Error('Erro na requisição para a API');
-            }
-            return response.json();
+            return fetch('http://localhost:7001/synchronization', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend),
+            });
         })
+        .then(response => response.json())
         .then(apiResponse => {
-            console.log('Resposta da API: ', apiResponse);
+
+            let plants = apiResponse.data[PLANTS_COLLECTION];
+            let associations = apiResponse.data[ASSOCIATIONS_COLLECTION];
+            let menus = apiResponse.data[MENUS_COLLECTION];
+            let visits = apiResponse.data[VISITS_COLLECTION];
+
+            const promises = [
+                updateDatabaseWithApiData(db, PLANTS_COLLECTION, plants),
+                updateDatabaseWithApiData(db, ASSOCIATIONS_COLLECTION, associations),
+                updateDatabaseWithApiData(db, MENUS_COLLECTION, menus),
+                updateDatabaseWithApiData(db, SYNCED_VISITS_COLLECTION, visits),
+                deleteItems(db, VISITS_COLLECTION, visits.map(v => v.id))
+            ];
+
+            return Promise.all(promises);
+        })
+        .then(messages => {
+            messages.forEach(message => console.log(message));
         })
         .catch(error => {
-            console.error('Erro ao enviar dados para a API:', error);
+            console.error('Erro ao listar, enviar dados para a API e atualizar o banco:', error);
         });
+}
+
+function listAllAsync(db, storeName) {
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction([storeName], "readonly");
+        let store = transaction.objectStore(storeName);
+
+        let request = store.getAll();
+
+        request.onsuccess = function (event) {
+            resolve(event.target.result);
+        };
+
+        request.onerror = function (event) {
+            reject("Error listing items from " + storeName + ": " + event.target.error);
+        };
+    });
+}
+
+function updateDatabaseWithApiData(db, storeName, data) {
+    console.log(storeName)
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction([storeName], "readwrite");
+        let store = transaction.objectStore(storeName);
+
+        let clearRequest = store.clear();
+
+        clearRequest.onsuccess = function () {
+            data.forEach(item => {
+                store.add(item);
+            });
+
+            resolve("Database updated with API data for " + storeName);
+        };
+
+        clearRequest.onerror = function (event) {
+            reject("Error clearing store " + storeName + ": " + event.target.error);
+        };
+    });
+}
+
+function deleteItems(db, storeName, ids) {
+    console.log(storeName)
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction([storeName], "readwrite");
+        let store = transaction.objectStore(storeName);
+
+        const deletePromises = ids.map(id => new Promise((resolve, reject) => {
+            let deleteRequest = store.delete(id);
+            deleteRequest.onsuccess = () => resolve();
+            deleteRequest.onerror = (event) => reject("Error deleting item from store " + storeName + ": " + event.target.error);
+        }));
+
+        Promise.all(deletePromises)
+            .then(() => resolve("Items deleted from " + storeName))
+            .catch(error => reject(error));
+    });
 }

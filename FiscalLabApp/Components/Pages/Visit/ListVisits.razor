@@ -55,7 +55,7 @@
                     <button class="btn card ms-2" type="button" @onclick="() => GetPdf(visit.Id)">
                         <PdfIcon/>
                     </button>
-                    
+
                     <div class="form-switch position-absolute end-0 pe-2">
                         <InputCheckbox class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind-Value="visit.IsFinished" @oninput="() => OnFinishedClicked(visit)"/>
                         <small class="form-check-label text-muted fw-semibold" for="flexSwitchCheckChecked"> Finalizado</small>
@@ -70,9 +70,10 @@
 
 @code {
     private VisitViewModel[] _visits = [];
-
+    
     protected override async Task OnInitializedAsync()
     {
+        await JsRuntime.InvokeVoidAsync("registerNotificationHandler");
         var visits = await VisitService.GetAllAsync();
         _visits = visits.Adapt<VisitViewModel[]>();
     }
@@ -102,7 +103,7 @@
     {
         NavigationManager.NavigateTo($"/visits/{visitId}/images");
     }
-    
+
     private async Task OnFinishedClicked(VisitViewModel visitViewModel)
     {
         var visit = await VisitService.GetByIdAsync(visitViewModel.Id);
@@ -121,5 +122,12 @@
 
         ToastService.ShowError("A geração do PDF requer uma conexão ativa à internet.");
     }
-
+    
+    [JSInvokable]
+    public Task SyncCompleted(string message)
+    {
+        Console.WriteLine($"sync completed: {message}");
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
 }

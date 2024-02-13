@@ -34,15 +34,24 @@
 
 <script src="_framework/blazor.webassembly.js"></script>
 <script src="./js/interop.js"></script>
-<script type="module" src="./js/IndexedDbAccessor.js"></script>
+<script src="./js/shared.js"></script>
 <script>if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register("service-worker.js").then(registration => {
-        console.log('Service Worker registrado com sucesso:', registration);
+        console.log('service worker registered successfully..:', registration);
     })
         .catch(error => {
-            console.error('Erro ao registrar o Service Worker:', error);
+            console.error('error registering service worker..:', error);
         });
 }</script>
+<script>
+    window.registerNotificationHandler = function () {
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data && event.data.type === 'notification') {
+                window.notifications.notify(event.data.message);
+            }
+        });
+    }
+</script>
 </body>
 
 </html>

@@ -1,7 +1,6 @@
 ﻿@using Blazored.Toast.Configuration
 @using FiscalLabApp.Services
 @using Mapster
-@using System.Text.Json
 @implements IDisposable
 @implements IAsyncDisposable
 @inherits LayoutComponentBase
@@ -67,7 +66,6 @@
     public Task UpdateVisitAsync()
     {
         var visit = SelectedVisit.Adapt<Visit>();
-        Console.WriteLine($"visita atualizada: {JsonSerializer.Serialize(visit)}");
         return VisitService.UpdateAsync(visit);
     }
     
