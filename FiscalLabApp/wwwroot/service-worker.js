@@ -33,7 +33,7 @@ function fetchDataAndPopulateDB(db) {
                 plants: results[0],
                 associations: results[1],
                 menus: results[2],
-                visits: results[3].filter(v => v.finishedAt !== null && v.finishedAt !== undefined),
+                visits: results[3],
             };
 
             return fetch('http://localhost:7001/synchronization', {
@@ -56,8 +56,7 @@ function fetchDataAndPopulateDB(db) {
                 updateDatabaseWithApiData(db, PLANTS_COLLECTION, plants),
                 updateDatabaseWithApiData(db, ASSOCIATIONS_COLLECTION, associations),
                 updateDatabaseWithApiData(db, MENUS_COLLECTION, menus),
-                updateDatabaseWithApiData(db, SYNCED_VISITS_COLLECTION, visits),
-                deleteItems(db, VISITS_COLLECTION, visits.map(v => v.id))
+                updateDatabaseWithApiData(db, VISITS_COLLECTION, visits),
             ];
 
             return Promise.all(promises);
@@ -106,23 +105,5 @@ function updateDatabaseWithApiData(db, storeName, data) {
         clearRequest.onerror = function (event) {
             reject("Error clearing store " + storeName + ": " + event.target.error);
         };
-    });
-}
-
-function deleteItems(db, storeName, ids) {
-    console.log(storeName)
-    return new Promise((resolve, reject) => {
-        let transaction = db.transaction([storeName], "readwrite");
-        let store = transaction.objectStore(storeName);
-
-        const deletePromises = ids.map(id => new Promise((resolve, reject) => {
-            let deleteRequest = store.delete(id);
-            deleteRequest.onsuccess = () => resolve();
-            deleteRequest.onerror = (event) => reject("Error deleting item from store " + storeName + ": " + event.target.error);
-        }));
-
-        Promise.all(deletePromises)
-            .then(() => resolve("Items deleted from " + storeName))
-            .catch(error => reject(error));
     });
 }

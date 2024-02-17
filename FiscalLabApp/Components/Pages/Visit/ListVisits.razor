@@ -13,7 +13,7 @@
 
 <PageTitle>Visitas</PageTitle>
 <div class="mb-5">
-    <div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
+    <div class="d-flex justify-content-end fixed-bottom mb-2 me-3">
         <button class="btn rounded-pill btn-lg fw-bolder shadow" @onclick="NewVisit" style="background-color: #57504a; color: #ffffff;">
             Nova Visita
         </button>
@@ -36,7 +36,15 @@
                             </div>
 
                             <div class="text-truncate fw-semibold text-muted" style="font-size: 0.750em;">@($"{visit.BasicInformation.Association?.Name} ({visit.BasicInformation.Association?.Address.City} - {visit.BasicInformation.Association?.Address.State})")</div>
-                            <small class="text-muted fw-semibold" style="font-size: 0.700em;">@visit.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                            <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Criado em: {visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                            @if (visit.SyncedAt.HasValue)
+                            {
+                                <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Sincronizado em: {visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                            }
+                            else
+                            {
+                                <small class="text-muted fw-semibold" style="font-size: 0.700em;">@("Sincronizado em: -")</small>
+                            }
                         </div>
                     </div>
                 </div>
@@ -70,12 +78,12 @@
 
 @code {
     private VisitViewModel[] _visits = [];
-    
+
     protected override async Task OnInitializedAsync()
     {
         await JsRuntime.InvokeVoidAsync("registerNotificationHandler");
         var visits = await VisitService.GetAllAsync();
-        _visits = visits.Adapt<VisitViewModel[]>();
+        _visits = visits.OrderByDescending(x => x.CreatedAt).Adapt<VisitViewModel[]>();
     }
 
     private void NewVisit()
@@ -122,7 +130,7 @@
 
         ToastService.ShowError("A geração do PDF requer uma conexão ativa à internet.");
     }
-    
+
     [JSInvokable]
     public Task SyncCompleted(string message)
     {
@@ -130,4 +138,5 @@
         StateHasChanged();
         return Task.CompletedTask;
     }
+
 }

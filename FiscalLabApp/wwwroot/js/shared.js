@@ -5,10 +5,7 @@ let PLANTS_COLLECTION = "plants";
 let ASSOCIATIONS_COLLECTION = "associations";
 let MENUS_COLLECTION = "menus";
 let VISITS_COLLECTION = "visits";
-let SYNCED_VISITS_COLLECTION = "synced_visits";
-let SYNC_PROCESS_NAME = "sincronizacao-background";
-let SYNC_CHANNEL_NAME = "sincronizacao-channel";
-let SYNC_CHANNEL_EVENT = "sync_completed";
+let SYNC_PROCESS_NAME = "background-sync";
 
 function openDatabase() {
     return new Promise((resolve, reject) => {
@@ -22,7 +19,7 @@ function openDatabase() {
         request.onupgradeneeded = function (event) {
             let db = event.target.result;
 
-            let collectionsToCreate = [PLANTS_COLLECTION, ASSOCIATIONS_COLLECTION, MENUS_COLLECTION, VISITS_COLLECTION, SYNCED_VISITS_COLLECTION];
+            let collectionsToCreate = [PLANTS_COLLECTION, ASSOCIATIONS_COLLECTION, MENUS_COLLECTION, VISITS_COLLECTION];
             collectionsToCreate.forEach(c => {
                 if (!db.objectStoreNames.contains(c)) {
                     db.createObjectStore(c, {keyPath: "id"});

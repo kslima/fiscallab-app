@@ -10,7 +10,7 @@ jsFunctions.registerOnlineStatusHandler = function (dotNetObjRef) {
             .then(connectionType => {
                 const isWiFi = connectionType === '4g';
                 if (navigator.onLine && isWiFi) {
-                    registerSyncTask();
+                    //registerSyncTask();
                 }
                 dotNetObjRef.invokeMethodAsync("SetOnlineStatusColor", navigator.onLine, isWiFi);
             });

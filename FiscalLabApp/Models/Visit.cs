@@ -16,5 +16,6 @@ public class Visit
     public bool IsFinished { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? FinishedAt { get; set; }
+    public DateTime? SyncedAt { get; set; }
     public DateTime? SentAt { get; set; }
 }

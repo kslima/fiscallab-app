@@ -1,4 +1,8 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using FiscalLabApp.Services
+@using FiscalLabApp.Enums
+@inject NavigationManager NavigationManager
+@inject ApplicationContextAccessor ApplicationContextAccessor
+@inject IJSRuntime JsRuntime
 
 <nav class="navbar shadow mb-4" style="background-color: #ffffff;">
     <div class="container-fluid">
@@ -6,9 +10,9 @@
             <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
             Grupo Esdra
         </a>
-        <div class="d-flex ">
-            <OnlineStatusIndicator />
-        </div>
+        <form class="d-flex" role="search">
+            <button class="btn btn-sm btn-outline-success" type="button" @onclick="SynAsync" disabled="@(!ApplicationContextAccessor.IsOnline())">Sincronizar</button>
+        </form>
     </div>
 </nav>
 
@@ -17,10 +21,18 @@
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
-    
+
     private void OpenVisits()
     {
         NavigationManager.NavigateTo("/visits");
+    }
+
+
+    private async Task SynAsync()
+    {
+        Console.WriteLine("chamando sync...");
+        await JsRuntime.InvokeVoidAsync("registerSyncTask");
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
     }
 
 }
