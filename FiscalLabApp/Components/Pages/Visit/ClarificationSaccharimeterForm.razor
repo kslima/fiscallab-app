@@ -1,10 +1,12 @@
-﻿@page "/visits/clarification-saccharimeter"
+﻿@page "/visits/{visitId}/clarification-saccharimeter"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using Mapster
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
+@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Clarificação">
     <div class="row">
@@ -123,7 +125,8 @@
 
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
-    
+    [Parameter] public string? VisitId { get; set; }
+    private Visit? _selectedVisit;
     private Menu[] _options = Array.Empty<Menu>();
     
     private ClarificationSaccharimeterViewModel ClarificationSaccharimeter { get; set; } = new();
@@ -131,9 +134,16 @@
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.ClarificationSaccharimeter);
-        if (Layout.SelectedVisit is not null)
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (VisitId is not null)
         {
-            ClarificationSaccharimeter = Layout.SelectedVisit.ClarificationSaccharimeter;
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            ClarificationSaccharimeter = _selectedVisit.ClarificationSaccharimeter.Adapt<ClarificationSaccharimeterViewModel>();
         }
     }
 
@@ -149,9 +159,9 @@
 
     private async Task UpdateVisit()
     {
-        if (Layout.SelectedVisit is null) return;
-        
-        Layout.SelectedVisit.ClarificationSaccharimeter = ClarificationSaccharimeter;
-        await Layout.UpdateVisitAsync();
+        if (_selectedVisit is null) return;
+
+        _selectedVisit.ClarificationSaccharimeter = ClarificationSaccharimeter.Adapt<ClarificationSaccharimeter>();
+        await VisitService.CreateAsync(_selectedVisit);
     }
 }

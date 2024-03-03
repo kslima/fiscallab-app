@@ -1,10 +1,12 @@
-﻿@page "/visits/system-consistency"
+﻿@page "/visits/{visitId}/system-consistency"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Enums
 @using FiscalLabApp.Extensions
+@using Mapster
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Amostra">
     <div class="row">
@@ -187,15 +189,24 @@
 
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
+    [Parameter] public string? VisitId { get; set; }
+    private Visit? _selectedVisit;
     private Menu[] _options = Array.Empty<Menu>();
     public SystemConsistencyViewModel SystemConsistency { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.SystemConsistency);
-        if (Layout.SelectedVisit is not null)
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (VisitId is not null)
         {
-            SystemConsistency = Layout.SelectedVisit.SystemConsistency;
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            SystemConsistency = _selectedVisit.SystemConsistency.Adapt<SystemConsistencyViewModel>();
         }
     }
     
@@ -211,10 +222,10 @@
 
     private async Task UpdateVisit()
     {
-        if (Layout.SelectedVisit is null) return;
-        
-        Layout.SelectedVisit.SystemConsistency = SystemConsistency;
-        await Layout.UpdateVisitAsync();
+        if (_selectedVisit is null) return;
+
+        _selectedVisit.SystemConsistency = SystemConsistency.Adapt<SystemConsistency>();
+        await VisitService.CreateAsync(_selectedVisit);
     }
 
     private void OnClarifierSelected(ChangeEventArgs e)

@@ -46,7 +46,7 @@ function fetchDataAndPopulateDB(db) {
         })
         .then(response => response.json())
         .then(apiResponse => {
-
+            console.log(apiResponse);
             let plants = apiResponse.data[PLANTS_COLLECTION];
             let associations = apiResponse.data[ASSOCIATIONS_COLLECTION];
             let menus = apiResponse.data[MENUS_COLLECTION];

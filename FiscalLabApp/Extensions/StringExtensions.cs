@@ -1,7 +1,14 @@
+using System.Globalization;
+
 namespace FiscalLabApp.Extensions;
 
 public static class StringExtensions
 {
+    private static readonly NumberFormatInfo NumberFormatter =  new NumberFormatInfo
+    {
+        NumberGroupSeparator = ".",
+        NumberDecimalSeparator = ","
+    };
     private static string RemoveSpacesAndNewLines(this string source)
     {
         return source
@@ -16,5 +23,10 @@ public static class StringExtensions
             .Select(o => o.RemoveSpacesAndNewLines())
             .Where(o => !string.IsNullOrWhiteSpace(o))
             .ToArray();
+    }
+    
+    public static string FormatToBrazil(this float value)
+    {
+        return value.ToString("n2", NumberFormatter);
     }
 }

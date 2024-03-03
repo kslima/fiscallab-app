@@ -1,8 +1,6 @@
-@page "/visits/{VisitId}/images"
-@using Image = FiscalLabApp.Models.Image
-@using Mapster
+@page "/visits/images"
+@layout EditVisitLayout
 @inject IToastService ToastService
-@inject IVisitService VisitService
 @inject NavigationManager NavigationManager
 
 <h4>Imagens</h4>
@@ -40,23 +38,21 @@
 
 @code {
 
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
     private List<ImageViewModel> Images { get; set; } = [];
     [Parameter] public string VisitId { get; set; } = string.Empty;
-    private Visit SelectedVisit { get; set; } = new();
     private const int MaxAllowedSize = 10 * 1024 * 1024;
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnInitialized()
     {
-        if (!string.IsNullOrWhiteSpace(VisitId))
+        if (Layout.SelectedVisit is not null)
         {
-            SelectedVisit = await VisitService.GetByIdAsync(VisitId);
-            Images = SelectedVisit.Images.Adapt<List<ImageViewModel>>();
+            Images = Layout.SelectedVisit.Images;
         }
     }
-
+    
     private async Task OnFileSelection(InputFileChangeEventArgs e)
     {
-        Images.Clear();
         foreach (var imgFile in e.GetMultipleFiles(20))
         {
             var resizedImg = await imgFile.RequestImageFileAsync(imgFile.ContentType, 600, int.MaxValue);
@@ -77,11 +73,13 @@
 
     private async Task SaveImages()
     {
-        if (!Images.Any()) return;
-        SelectedVisit.Images = Images.Adapt<List<Image>>();
-        await VisitService.UpdateAsync(SelectedVisit);
+        Console.WriteLine($"selected visit is null ? {Layout.SelectedVisit is null}");
+        if (Layout.SelectedVisit is null) return;
+        Layout.SelectedVisit.Images = Images;
         
-        NavigationManager.NavigateTo("visits");
+        await Layout.UpdateVisitAsync();
+        
+        NavigationManager.NavigateTo("visits/conclusion");
         ToastService.ShowSuccess("Imagens adicionadas com sucesso...");
     }
 

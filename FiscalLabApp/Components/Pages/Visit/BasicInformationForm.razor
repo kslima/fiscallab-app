@@ -1,10 +1,12 @@
-﻿@page "/visits/main"
+﻿@page "/visits/{visitId}/main"
 @using FiscalLabApp.Extensions
+@using Mapster
 @implements IDisposable
 @implements IAsyncDisposable
 
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Dados Básicos">
 
@@ -62,9 +64,9 @@
 </VisitDataSeparator>
 
 @code {
-
-    [CascadingParameter] EditVisitLayout Layout { get; set; } = new();
     
+    [Parameter] public string? VisitId { get; set; }
+    private Visit? _selectedVisit;
     private BasicInformationViewModel BasicInformation { get; set; } = new();
 
     private Menu[] _menus = Array.Empty<Menu>();
@@ -72,10 +74,16 @@
     protected override async Task OnInitializedAsync()
     {
         _menus = await MenuService.GetMenuOptions(PageType.Main);
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
 
-        if (Layout.SelectedVisit is not null)
+        if (VisitId is not null)
         {
-            BasicInformation = Layout.SelectedVisit.BasicInformation;
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            BasicInformation = _selectedVisit.BasicInformation.Adapt<BasicInformationViewModel>();
         }
     }
     
@@ -101,10 +109,10 @@
 
     private async Task UpdateVisit()
     {
-        if (Layout.SelectedVisit is null) return;
-        
-        Layout.SelectedVisit.BasicInformation = BasicInformation;
-        await Layout.UpdateVisitAsync();
+        if (_selectedVisit is null) return;
+
+        _selectedVisit.BasicInformation = BasicInformation.Adapt<BasicInformation>();
+        await VisitService.CreateAsync(_selectedVisit);
     }
 
 }

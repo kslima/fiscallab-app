@@ -39,6 +39,17 @@ function registerSyncTask() {
     }
 }
 
+function downloadPdf(base64Pdf, fileName) {
+    let link = document.createElement("a");
+    link.href = "data:application/pdf;base64," + base64Pdf;
+    link.download = fileName;
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    document.body.removeChild(link);
+}
+
 window.notifications = {
     notify: function(message) {
         DotNet.invokeMethodAsync("FiscalLabApp", "SyncCompleted", message);

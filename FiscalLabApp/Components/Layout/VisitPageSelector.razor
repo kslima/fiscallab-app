@@ -30,6 +30,7 @@
 
     private void CallVisitPage()
     {
-        NavigationManager.NavigateTo($"visits/{_selectedPageName}");
+        if (Layout.SelectedVisit is null) return;
+        NavigationManager.NavigateTo($"visits/{Layout.SelectedVisit.Id}/{_selectedPageName}");
     }
 }

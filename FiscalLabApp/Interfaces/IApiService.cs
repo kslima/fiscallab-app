@@ -9,5 +9,6 @@ public interface IApiService
     Task<Plant[]> GetAllPlantsAsync();
     Task<Association[]> GetAllAssociationsAsync();
     Task<bool> CreateManyVisits(Visit[] visits);
+    Task<string> GenerateVisitPdf(string visitId);
     Task<SyncResult> SyncDataAsync(SyncModel syncModel);
 }

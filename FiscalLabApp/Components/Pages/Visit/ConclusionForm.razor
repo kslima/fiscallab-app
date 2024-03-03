@@ -1,9 +1,12 @@
-﻿@page "/visits/conclusion"
+﻿@page "/visits/{visitId}/conclusion"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using Mapster
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject NavigationManager NavigationManager
+@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Conclusao">
     <div class="row">
@@ -29,24 +32,39 @@
             <VisitTextInput Title="Observações sobre a visita" Menu="@_options.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="Conclusion.Observations"/>
         </div>
     </div>
-    
+    <div class="d-grid">
+      <button class="btn btn-primary" type="button" @onclick="AddImage">Imagens</button>
+    </div>
 </VisitDataSeparator>
 
 
 @code {
 
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
-    
+    [Parameter] public string? VisitId { get; set; }
+    private Visit? _selectedVisit;
     private ConclusionViewModel Conclusion { get; set; } = new();
     private Menu[] _options = Array.Empty<Menu>();
 
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.Conclusion);
-        if (Layout.SelectedVisit is not null)
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (VisitId is not null)
         {
-            Conclusion = Layout.SelectedVisit.Conclusion;
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Conclusion = _selectedVisit.Conclusion.Adapt<ConclusionViewModel>();
         }
+    }
+    
+    private void AddImage()
+    {
+        NavigationManager.NavigateTo("/visits/images");
     }
     
     public void Dispose()
@@ -61,10 +79,10 @@
 
     private async Task UpdateVisit()
     {
-        if (Layout.SelectedVisit is null) return;
-        Layout.SelectedVisit.Conclusion = Conclusion;
-        
-        await Layout.UpdateVisitAsync();
+        if (_selectedVisit is null) return;
+
+        _selectedVisit.Conclusion = Conclusion.Adapt<Conclusion>();
+        await VisitService.CreateAsync(_selectedVisit);
     }
 
 }

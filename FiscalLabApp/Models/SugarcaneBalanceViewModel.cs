@@ -16,4 +16,5 @@ public class SugarcaneBalanceViewModel
     public string PlantFarmPercentage { get; set; } = string.Empty;
     public string FarmProviderPercentage { get; set; } = string.Empty;
     public string Observations2 { get; set; } = string.Empty;
+    public List<BalanceTestViewModel> Tests { get; set; } = [];
 }

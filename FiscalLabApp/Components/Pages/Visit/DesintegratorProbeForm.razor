@@ -1,9 +1,11 @@
-﻿@page "/visits/desintegrator-probe"
+﻿@page "/visits/{visitId}/desintegrator-probe"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using Mapster
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Sonda">
     <div class="row">
@@ -135,7 +137,8 @@
 @code {
 
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
-
+    [Parameter] public string? VisitId { get; set; }
+    private Visit? _selectedVisit;
     public DesintegratorProbeViewModel DesintegratorProbe { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
@@ -143,9 +146,16 @@
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.DesintegratorProbe);
-        if (Layout.SelectedVisit is not null)
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (VisitId is not null)
         {
-            DesintegratorProbe = Layout.SelectedVisit.DesintegratorProbe;
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            DesintegratorProbe = _selectedVisit.DesintegratorProbe.Adapt<DesintegratorProbeViewModel>();
         }
     }
 
@@ -161,10 +171,10 @@
 
     private async Task UpdateVisit()
     {
-        if (Layout.SelectedVisit is null) return;
+        if (_selectedVisit is null) return;
 
-        Layout.SelectedVisit.DesintegratorProbe = DesintegratorProbe;
-        await Layout.UpdateVisitAsync();
+        _selectedVisit.DesintegratorProbe = DesintegratorProbe.Adapt<DesintegratorProbe>();
+        await VisitService.CreateAsync(_selectedVisit);
     }
 
 }

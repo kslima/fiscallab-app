@@ -1,4 +1,4 @@
-﻿@page "/visits/sugarcane-balance"
+﻿@page "/visits/{visitId}/sugarcane-balance"
 @implements IDisposable
 @implements IAsyncDisposable
 
@@ -7,6 +7,8 @@
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
+@inject IVisitService VisitService;
+@inject NavigationManager NavigationManager
 
 <VisitDataSeparator Title="Balanças">
     <div class="row">
@@ -31,6 +33,10 @@
         <div class="col">
             <VisitTextInput Title="Observações(Teste de Balança)" Menu="@_options.GetMenu(MenuType.CaneBalancePageScaleObservations)" Id="scaleObservations" @bind-value="SugarcaneBalance.ScaleObservations"/>
         </div>
+    </div>
+
+    <div class="d-grid">
+        <button class="btn btn-primary" type="button" @onclick="OpenBalanceTestsView">Testes</button>
     </div>
 </VisitDataSeparator>
 
@@ -102,7 +108,9 @@
 @code {
 
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
-    
+    [Parameter] public string? VisitId { get; set; }
+    private Visit? _selectedVisit;
+
     public SugarcaneBalanceViewModel SugarcaneBalance { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
@@ -116,6 +124,17 @@
         }
     }
     
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (VisitId is not null)
+        {
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            SugarcaneBalance = _selectedVisit.SugarcaneBalance.Adapt<SugarcaneBalanceViewModel>();
+        }
+    }
+
     public void Dispose()
     {
         UpdateVisit();
@@ -128,10 +147,15 @@
 
     private async Task UpdateVisit()
     {
-        if (Layout.SelectedVisit is null) return;
-        
-        Layout.SelectedVisit.SugarcaneBalance = SugarcaneBalance;
-        await Layout.UpdateVisitAsync();
+        if (_selectedVisit is null) return;
+
+        _selectedVisit.SugarcaneBalance = SugarcaneBalance.Adapt<SugarcaneBalance>();
+        await VisitService.CreateAsync(_selectedVisit);
     }
 
+    private void OpenBalanceTestsView()
+    {
+        if (_selectedVisit is null) return;
+        NavigationManager.NavigateTo($"visits/{_selectedVisit.Id}/balance-tests");
+    }
 }

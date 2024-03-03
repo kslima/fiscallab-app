@@ -12,12 +12,12 @@ public class VisitViewModel
     public BenchmarkingEquipmentViewModel BenchmarkingEquipment { get; set; } = new();
     public SystemConsistencyViewModel SystemConsistency { get; set; } = new();
     public ConclusionViewModel Conclusion { get; set; } = new();
-    public List<ImageViewModel> Images { get; set; } = [];
     public bool IsFinished { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? SyncedAt { get; set; }
     public DateTime? FinishedAt { get; set; }
     public DateTime? SentAt { get; set; }
+    public List<ImageViewModel> Images { get; set; } = [];
 
     public VisitViewModelMetadata GetMetadata()
     {

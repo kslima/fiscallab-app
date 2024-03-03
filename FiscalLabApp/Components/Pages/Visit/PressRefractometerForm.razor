@@ -1,9 +1,11 @@
-﻿@page "/visits/press-refractometer"
+﻿@page "/visits/{visitId}/press-refractometer"
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using Mapster
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Prensa">
     <div class="row">
@@ -98,7 +100,8 @@
 
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
-
+    [Parameter] public string? VisitId { get; set; }
+    private Visit? _selectedVisit;
     private Menu[] _options = Array.Empty<Menu>();
     
     public PressRefractometerViewModel PressRefractometer { get; set; } = new();
@@ -106,9 +109,16 @@
     protected override async Task OnInitializedAsync()
     {
         _options = await MenuService.GetMenuOptions(PageType.PressRefractometer);
-        if (Layout.SelectedVisit is not null)
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (VisitId is not null)
         {
-            PressRefractometer = Layout.SelectedVisit.PressRefractometer;
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            PressRefractometer = _selectedVisit.PressRefractometer.Adapt<PressRefractometerViewModel>();
         }
     }
     
@@ -124,9 +134,9 @@
 
     private async Task UpdateVisit()
     {
-        if (Layout.SelectedVisit is null) return;
-        
-        Layout.SelectedVisit.PressRefractometer = PressRefractometer;
-        await Layout.UpdateVisitAsync();
+        if (_selectedVisit is null) return;
+
+        _selectedVisit.PressRefractometer = PressRefractometer.Adapt<PressRefractometer>();
+        await VisitService.CreateAsync(_selectedVisit);
     }
 }

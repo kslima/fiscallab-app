@@ -1,0 +1,138 @@
+@page "/visits/{visitId}/balance-tests"
+@using Mapster
+@using System.Text.Json
+@using System.Globalization
+@using FiscalLabApp.Extensions
+
+@inject IVisitService VisitService;
+@inject NavigationManager NavigationManager
+
+<h6>Teste de Balança</h6>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Placa</th>
+        <th>Entrada</th>
+        <th>Saída</th>
+        <th>Diferença</th>
+        <th>Editar</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    @foreach (var test in _tests)
+    {
+        <tr>
+            <td>@test.TruckNumber</td>
+            <td>@test.InputBalanceWeight.FormatToBrazil()</td>
+            <td>@test.OutputBalanceWeight.FormatToBrazil()</td>
+            <td>@test.VariationBetweenBalances.FormatToBrazil()</td>
+            <td>
+                <button type="button" class="btn btn-sm" @onclick="@(() => Edit(test))">
+                    <EditIcon/>
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<EditForm Model="@_selectedTest" OnValidSubmit="@AddOrUpdateBalanceTest">
+    <DataAnnotationsValidator/>
+    <div class="form-floating mb-3">
+        <InputText class="form-control" id="truckNumberInput" @bind-Value="_selectedTest.TruckNumber"/>
+        <label for="truckNumberInput">Placa <strong class="text-danger">*</strong></label>
+        <ValidationMessage For="() => _selectedTest.TruckNumber"/>
+    </div >
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputNumber class="form-control" id="inputBalanceWeight" @bind-Value="_selectedTest.InputBalanceWeight" @onblur="UpdateVariationBetweenBalances" />
+                <label for="inputBalanceWeight">Entrada<strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => _selectedTest.InputBalanceWeight"/>
+            </div >
+        </div>
+
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputNumber class="form-control" id="outputBalanceWeight" @bind-Value="_selectedTest.OutputBalanceWeight" @onblur="UpdateVariationBetweenBalances"/>
+                <label for="outputBalanceWeight">Saída<strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => _selectedTest.OutputBalanceWeight"/>
+            </div >
+        </div>
+
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputNumber class="form-control" id="differenceBalanceWeight" @bind-Value="_selectedTest.VariationBetweenBalances" disabled/>
+                <label for="differenceBalanceWeight">Diferença</label>
+            </div >
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-outline-success mb-3 ms-3">Salvar</button>
+        <button type="button" class="btn btn-outline-danger mb-3 ms-3" disabled="@(string.IsNullOrWhiteSpace(_selectedTest.Id))" @onclick="Remove">Excluir</button>
+        <button type="button" class="btn btn-outline-secondary mb-3 ms-3" @onclick="UpdateTests">Voltar</button>
+    </div>
+</EditForm >
+
+@code {
+
+    [Parameter] public string? VisitId { get; set; }
+    private BalanceTestViewModel _selectedTest = new();
+    private List<BalanceTestViewModel> _tests = [];
+    private Visit? _selectedVisit;
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (VisitId is not null)
+        {
+            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            Console.WriteLine($"testes: {JsonSerializer.Serialize(_selectedVisit.SugarcaneBalance.Tests)}");
+            _tests = _selectedVisit.SugarcaneBalance.Tests.Adapt<List<BalanceTestViewModel>>();
+        }
+    }
+
+    private void Edit(BalanceTestViewModel item) => _selectedTest = item;
+
+    private void Remove()
+    {
+        _tests.Remove(_selectedTest);
+        _selectedTest = new BalanceTestViewModel();
+    }
+
+    private void AddOrUpdateBalanceTest()
+    {
+        if (string.IsNullOrWhiteSpace(_selectedTest.Id))
+        {
+            _selectedTest.Id = Guid.NewGuid().ToString();
+            _tests.Add(_selectedTest);
+
+            _selectedTest = new BalanceTestViewModel();
+            StateHasChanged();
+            return;
+        }
+
+        _selectedTest = new BalanceTestViewModel();
+        StateHasChanged();
+    }
+
+    private void UpdateVariationBetweenBalances()
+    {
+        _selectedTest.VariationBetweenBalances = _selectedTest.InputBalanceWeight - _selectedTest.OutputBalanceWeight;
+    }
+    
+    private async Task UpdateTests()
+    {
+        if (_selectedVisit is null) return;
+
+        _selectedVisit.SugarcaneBalance.Tests = _tests.Adapt<List<BalanceTest>>();
+        await VisitService.CreateAsync(_selectedVisit);
+
+        NavigationManager.NavigateTo($"visits/{_selectedVisit.Id}/sugarcane-balance");
+    }
+
+}
