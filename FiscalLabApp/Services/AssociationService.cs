@@ -12,6 +12,11 @@ public class AssociationService(IndexedDbAccessor indexedDbAccessor) : IAssociat
         await indexedDbAccessor.SetValueAsync(AssociationCollectionName, association);
         return association;
     }
+    
+    public async Task CreateManyAsync(Association[] associations)
+    {
+        await indexedDbAccessor.SetAllValuesAsync(AssociationCollectionName, associations);
+    }
 
     public Task<Association> UpdateAsync(Association association)
     {

@@ -2,6 +2,7 @@
 @page "/visits"
 @using FiscalLabApp.Services
 @using Mapster
+@using FiscalLabApp.Helpers
 
 
 @inject IVisitService VisitService
@@ -11,6 +12,7 @@
 @inject ApplicationContextAccessor ApplicationContextAccessor
 @inject SelectedVisitEvent SelectedVisitEvent
 @inject IApiService ApiService
+@inject SyncService SyncService
 
 <PageTitle>Visitas</PageTitle>
 <div class="mb-5">
@@ -22,7 +24,7 @@
     @foreach (var visit in _visits)
     {
         <div class="card mb-3 rounded ps-2 pe-2 shadow"
-             style="border-left: 0.750rem solid indianred;border-right: 0rem;border-top: 0rem;border-bottom: 0rem; background-color: #ffffff;">
+             style="border-left: 0.750rem solid indianred;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;">
 
             <div class="col card-body">
                 <div class="row">
@@ -52,7 +54,7 @@
 
                 <div class="d-flex flex-row p-0">
                     <div class="form-switch">
-                        <InputCheckbox class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind-Value="visit.IsFinished" @oninput="() => OnFinishedClicked(visit)"/>
+                        <InputCheckbox class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind-Value="visit.NotifyByEmail" @oninput="() => OnFinishedClicked(visit)"/>
                         <small class="form-check-label text-muted fw-semibold" for="flexSwitchCheckChecked">Marcar para Envio</small>
                     </div >
                 </div>
@@ -82,6 +84,11 @@
     {
         var visits = await VisitService.GetAllAsync();
         _visits = visits.OrderByDescending(x => x.CreatedAt).Adapt<VisitViewModel[]>();
+
+        if (await SyncService.NeedSync())
+        {
+            ToastService.ShowWarning(MessageHelper.UnSynchronizedData);
+        }
     }
 
     private void NewVisit()
@@ -109,8 +116,8 @@
     {
         var visit = await VisitService.GetByIdAsync(visitViewModel.Id);
         
-        visit.IsFinished = visitViewModel.IsFinished;
-        visit.FinishedAt = visitViewModel.IsFinished ? DateTime.UtcNow : null;
+        visit.NotifyByEmail = visitViewModel.NotifyByEmail;
+        visit.FinishedAt = visitViewModel.NotifyByEmail ? DateTime.UtcNow : null;
         await VisitService.UpdateAsync(visit);
     }
 
@@ -125,7 +132,6 @@
 
         var pdf = await ApiService.GenerateVisitPdf(visit.Id);
         await JsRuntime.InvokeVoidAsync("downloadPdf", pdf, $"visita{visit.Id}.pdf");
-        ToastService.ShowError($"PDF: {pdf}");
     }
 
     [JSInvokable]

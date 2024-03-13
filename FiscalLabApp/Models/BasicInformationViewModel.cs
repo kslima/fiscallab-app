@@ -12,8 +12,10 @@ public class BasicInformationViewModel
     public string Inspector { get; set; } = string.Empty;
     public string Leader { get; set; } = string.Empty;
     public string LaboratoryLeader { get; set; } = string.Empty;
+
     [Required(ErrorMessage = "Data é obrigatório")]
-    public DateOnly? VisitDate { get; set; }
+    public DateOnly VisitDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+
     [Required(ErrorMessage = "Hora é obrigatório")]
-    public TimeOnly? VisitTime { get; set; }
+    public TimeOnly VisitTime { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
 }

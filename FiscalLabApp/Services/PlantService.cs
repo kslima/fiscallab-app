@@ -11,6 +11,11 @@ public class PlantService(IndexedDbAccessor indexedDbAccessor) : IPlantService
         await indexedDbAccessor.SetValueAsync(PlantCollectionName, plant);
         return plant;
     }
+    
+    public async Task CreateManyAsync(Plant[] plants)
+    {
+        await indexedDbAccessor.SetAllValuesAsync(PlantCollectionName, plants);
+    }
 
     public async Task<Plant> UpdateAsync(Plant plant)
     {

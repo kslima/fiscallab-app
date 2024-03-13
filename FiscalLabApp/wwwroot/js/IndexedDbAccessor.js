@@ -17,6 +17,39 @@ export function set(collectionName, value) {
         let transaction = applicationDb.result.transaction(collectionName, "readwrite");
         let collection = transaction.objectStore(collectionName)
         collection.put(value);
+        
+        let lastUpdateData = {
+            id: LAST_UPDATE_KEY,
+            value: new Date()
+        }
+        let lastUpdateTransaction = applicationDb.result.transaction(LAST_UPDATE_INFO_COLLECTION, "readwrite");
+        let lastUpdateCollection = lastUpdateTransaction.objectStore(LAST_UPDATE_INFO_COLLECTION)
+        lastUpdateCollection.put(lastUpdateData);
+    }
+}
+
+export function setAll(collectionName, data) {
+    let applicationDb = indexedDB.open(DATABASE_NAME, CURRENT_VERSION);
+
+    applicationDb.onsuccess = function () {
+        let transaction = applicationDb.result.transaction(collectionName, "readwrite");
+        let collection = transaction.objectStore(collectionName)
+
+        let clearRequest = collection.clear();
+
+        clearRequest.onsuccess = function () {
+            data.forEach(item => {
+                collection.add(item);
+            });
+
+            let lastSyncData = {
+                id: LAST_SYNC_KEY,
+                value: new Date()
+            }
+            let lastSyncTransaction = applicationDb.result.transaction(LAST_SYNC_INFO_COLLECTION, "readwrite");
+            let lastSyncCollection = lastSyncTransaction.objectStore(LAST_SYNC_INFO_COLLECTION)
+            lastSyncCollection.put(lastSyncData);
+        };
     }
 }
 

@@ -56,6 +56,12 @@ public class IndexedDbAccessor(
         await WaitForReference();
         await _accessorJsRef.Value.InvokeVoidAsync("set", collectionName, value);
     }
+    
+    public async Task SetAllValuesAsync<T>(string collectionName, T[] values)
+    {
+        await WaitForReference();
+        await _accessorJsRef.Value.InvokeVoidAsync("setAll", collectionName, values);
+    }
 
     public async Task DeleteDatabaseAsync()
     {

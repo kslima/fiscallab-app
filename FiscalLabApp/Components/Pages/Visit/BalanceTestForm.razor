@@ -1,7 +1,7 @@
 @page "/visits/{visitId}/balance-tests"
+@implements IDisposable
+@implements IAsyncDisposable
 @using Mapster
-@using System.Text.Json
-@using System.Globalization
 @using FiscalLabApp.Extensions
 
 @inject IVisitService VisitService;
@@ -72,8 +72,8 @@
 
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-outline-success mb-3 ms-3">Salvar</button>
-        <button type="button" class="btn btn-outline-danger mb-3 ms-3" disabled="@(string.IsNullOrWhiteSpace(_selectedTest.Id))" @onclick="Remove">Excluir</button>
-        <button type="button" class="btn btn-outline-secondary mb-3 ms-3" @onclick="UpdateTests">Voltar</button>
+        <button type="button" class="btn btn-outline-danger mb-3 ms-3" disabled="@(!_tests.Exists(x => x.TruckNumber.Equals(_selectedTest.TruckNumber)))" @onclick="Remove">Excluir</button>
+        <button type="button" class="btn btn-outline-secondary mb-3 ms-3" @onclick="Cancel">Cancelar</button>
     </div>
 </EditForm >
 
@@ -91,12 +91,12 @@
         if (VisitId is not null)
         {
             _selectedVisit = await VisitService.GetByIdAsync(VisitId);
-            Console.WriteLine($"testes: {JsonSerializer.Serialize(_selectedVisit.SugarcaneBalance.Tests)}");
-            _tests = _selectedVisit.SugarcaneBalance.Tests.Adapt<List<BalanceTestViewModel>>();
+            _tests = _selectedVisit.BalanceTests.Adapt<List<BalanceTestViewModel>>();
         }
     }
 
     private void Edit(BalanceTestViewModel item) => _selectedTest = item;
+    private void Cancel() => _selectedTest = new BalanceTestViewModel();
 
     private void Remove()
     {
@@ -106,16 +106,14 @@
 
     private void AddOrUpdateBalanceTest()
     {
-        if (string.IsNullOrWhiteSpace(_selectedTest.Id))
+        if (_tests.Exists(x => x.TruckNumber.Equals(_selectedTest.TruckNumber)))
         {
-            _selectedTest.Id = Guid.NewGuid().ToString();
-            _tests.Add(_selectedTest);
-
             _selectedTest = new BalanceTestViewModel();
             StateHasChanged();
             return;
         }
 
+        _tests.Add(_selectedTest);
         _selectedTest = new BalanceTestViewModel();
         StateHasChanged();
     }
@@ -129,10 +127,19 @@
     {
         if (_selectedVisit is null) return;
 
-        _selectedVisit.SugarcaneBalance.Tests = _tests.Adapt<List<BalanceTest>>();
+        _selectedVisit.BalanceTests = _tests.Adapt<List<BalanceTest>>();
         await VisitService.CreateAsync(_selectedVisit);
 
         NavigationManager.NavigateTo($"visits/{_selectedVisit.Id}/sugarcane-balance");
     }
 
+    public void Dispose()
+    { 
+        UpdateTests();
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        await UpdateTests();
+    }
 }

@@ -4,6 +4,7 @@
 @inject ApplicationContextAccessor ApplicationContextAccessor
 @inject IJSRuntime JsRuntime
 
+@inject SyncService SyncService
 <nav class="navbar shadow mb-4" style="background-color: #ffffff;">
     <div class="container-fluid">
         <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
@@ -31,8 +32,7 @@
     private async Task SynAsync()
     {
         Console.WriteLine("chamando sync...");
-        await JsRuntime.InvokeVoidAsync("registerSyncTask");
-        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        await SyncService.SyncAsync();
     }
 
 }

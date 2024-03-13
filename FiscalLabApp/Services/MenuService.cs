@@ -5,6 +5,11 @@ namespace FiscalLabApp.Services;
 
 public class MenuService(IndexedDbAccessor indexedDbAccessor) : IMenuService
 {
+    public async Task CreateManyAsync(Menu[] menus)
+    {
+        await indexedDbAccessor.SetAllValuesAsync(IndexedDbAccessor.MenuCollectionName, menus);
+    }
+    
     public Task<Menu> GetById(string id)
     {
         return indexedDbAccessor.GetValueByIdAsync<Menu>(IndexedDbAccessor.MenuCollectionName, id);

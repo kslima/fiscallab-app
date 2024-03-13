@@ -12,6 +12,11 @@ public class VisitService(IndexedDbAccessor indexedDbAccessor, IApiService apiSe
         await indexedDbAccessor.SetValueAsync(VisitCollectionName, visit);
         return visit;
     }
+    
+    public async Task CreateManyAsync(Visit[] visits)
+    {
+        await indexedDbAccessor.SetAllValuesAsync(VisitCollectionName, visits);
+    }
 
     public async Task<Visit> UpdateAsync(Visit visit)
     {
