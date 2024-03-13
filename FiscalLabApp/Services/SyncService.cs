@@ -57,10 +57,12 @@ public class SyncService(
 
     public async Task<bool> NeedSync()
     {
-        var lastSyncInfo = await indexedDbAccessor.GetValueByIdAsync<SyncInfoModel>(LastSyncInfoCollectionName, LastSyncInfoKey);
-        Console.WriteLine(JsonSerializer.Serialize(lastSyncInfo));
-        var lastUpdateInfo = await indexedDbAccessor.GetValueByIdAsync<SyncInfoModel>(LastUpdateInfoCollectionName, LastUpdateInfoKey);
-        Console.WriteLine(JsonSerializer.Serialize(lastUpdateInfo));
+        var lastSyncInfo = await indexedDbAccessor.GetValueByIdAsync<SyncInfoModel?>(LastSyncInfoCollectionName, LastSyncInfoKey);
+        if (lastSyncInfo is null) return false;
+        
+        var lastUpdateInfo = await indexedDbAccessor.GetValueByIdAsync<SyncInfoModel?>(LastUpdateInfoCollectionName, LastUpdateInfoKey);
+        if (lastUpdateInfo is null) return false;
+        
         return lastUpdateInfo.Value > lastSyncInfo.Value;
     }
 }

@@ -1,10 +1,13 @@
 ﻿@using FiscalLabApp.Services
 @using FiscalLabApp.Enums
+@using FiscalLabApp.Helpers
 @inject NavigationManager NavigationManager
 @inject ApplicationContextAccessor ApplicationContextAccessor
 @inject IJSRuntime JsRuntime
 
 @inject SyncService SyncService
+@inject IToastService ToastService
+
 <nav class="navbar shadow mb-4" style="background-color: #ffffff;">
     <div class="container-fluid">
         <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
@@ -22,7 +25,16 @@
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
-
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var dotNetObjRef = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("jsFunctions.registerOnlineStatusHandler", dotNetObjRef);
+        }
+    }
+    
     private void OpenVisits()
     {
         NavigationManager.NavigateTo("/visits");
@@ -31,8 +43,16 @@
 
     private async Task SynAsync()
     {
-        Console.WriteLine("chamando sync...");
         await SyncService.SyncAsync();
+        StateHasChanged();
+    }
+    
+    [JSInvokable]
+    public Task SetOnlineStatus(bool isOnline, bool isWiFi)
+    {
+        ApplicationContextAccessor.NetworkStatus = isOnline ? NetworkStatus.Online : NetworkStatus.Offline;
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 
 }

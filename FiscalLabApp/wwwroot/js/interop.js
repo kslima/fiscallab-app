@@ -12,7 +12,7 @@ jsFunctions.registerOnlineStatusHandler = function (dotNetObjRef) {
                 if (navigator.onLine && isWiFi) {
                     //registerSyncTask();
                 }
-                dotNetObjRef.invokeMethodAsync("SetOnlineStatusColor", navigator.onLine, isWiFi);
+                dotNetObjRef.invokeMethodAsync("SetOnlineStatus", navigator.onLine, isWiFi);
             });
     }
 
