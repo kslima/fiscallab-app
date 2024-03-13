@@ -85,10 +85,10 @@
         var visits = await VisitService.GetAllAsync();
         _visits = visits.OrderByDescending(x => x.CreatedAt).Adapt<VisitViewModel[]>();
 
-        if (await SyncService.NeedSync())
-        {
-            ToastService.ShowWarning(MessageHelper.UnSynchronizedData);
-        }
+        // if (await SyncService.NeedSync())
+        // {
+        //     ToastService.ShowWarning(MessageHelper.UnSynchronizedData);
+        // }
     }
 
     private void NewVisit()
