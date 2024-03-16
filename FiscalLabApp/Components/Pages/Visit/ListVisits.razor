@@ -15,61 +15,55 @@
 @inject SyncService SyncService
 
 <PageTitle>Visitas</PageTitle>
+<ModalDialog @ref="@ModalDialog" Title="PDF Visíta Analítica">
+    <button @onclick="SalvarPdf">Salvar PDF</button>
+    <div id="pdfViewer" style="width: 60%; height: 100%;"></div>
+</ModalDialog>
+
 <div class="mb-5">
-    <div class="d-flex justify-content-end fixed-bottom mb-2 me-3">
-        <button class="btn rounded-pill btn-lg fw-bolder shadow" @onclick="NewVisit" style="background-color: #57504a; color: #ffffff;">
+    <div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
+        <button class="btn rounded-pill btn-lg fw-bolder shadow ps-3 pe-3" @onclick="NewVisit" style="background-color: #467b56; color: #ffffff;">
             Nova Visita
         </button>
     </div>
     @foreach (var visit in _visits)
     {
-        <div class="card mb-3 rounded ps-2 pe-2 shadow"
-             style="border-left: 0.750rem solid indianred;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;">
+        <div class="card mb-3 rounded shadow p-2"
+             style="@GetBorderStyle(visit)">
 
-            <div class="col card-body">
-                <div class="row">
-                    <div class="col text-truncate">
-                        <div class="row">
-                            <div class="col text-truncate fw-semibold text-body-tertiary" style="font-size: 0.875em;">
-                                @($"{visit.BasicInformation.Plant?.Name} ({visit.BasicInformation.Plant?.Address.City} - {visit.BasicInformation.Plant?.Address.State})")
-                                <span class="position-absolute end-0 translate-middle badge rounded-pill" style="background-color: indianred;">
-                                    @($"{visit.GetMetadata().PendingItems}")
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            </div>
-
-                            <div class="text-truncate fw-semibold text-muted" style="font-size: 0.750em;">@($"{visit.BasicInformation.Association?.Name} ({visit.BasicInformation.Association?.Address.City} - {visit.BasicInformation.Association?.Address.State})")</div>
-                            <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Criado em: {visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
-                            @if (visit.SyncedAt.HasValue)
-                            {
-                                <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Sincronizado em: {visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
-                            }
-                            else
-                            {
-                                <small class="text-muted fw-semibold" style="font-size: 0.700em;">@("Sincronizado em: -")</small>
-                            }
-                        </div>
-                    </div>
+            <div class="d-flex flex-column justify-content-start">
+                <div class="d-flex flex-row justify-content-end mb-2">
+                    <span class="badge " style="@GetBadgeStyle(visit.GetMetadata().PendingItems)">
+                        @($"Pendências: {visit.GetMetadata().PendingItems}")
+                    </span>
                 </div>
 
-                <div class="d-flex flex-row p-0">
-                    <div class="form-switch">
-                        <InputCheckbox class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" @bind-Value="visit.NotifyByEmail" @oninput="() => OnFinishedClicked(visit)"/>
-                        <small class="form-check-label text-muted fw-semibold" for="flexSwitchCheckChecked">Marcar para Envio</small>
-                    </div >
+                <small class="text-muted fw-bold"> @($"{visit.BasicInformation.Plant?.Name} ({visit.BasicInformation.Plant?.Address.City} - {visit.BasicInformation.Plant?.Address.State})")</small>
+                <small class="text-muted fw-bolder"> @($"{visit.BasicInformation.Association?.Name} ({visit.BasicInformation.Association?.Address.City} - {visit.BasicInformation.Association?.Address.State})")</small>
+
+                <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Criado em: {visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                @if (visit.SyncedAt.HasValue)
+                {
+                    <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Sincronizado em: {visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                }
+                else
+                {
+                    <small class="text-muted fw-semibold" style="font-size: 0.700em;">@("Sincronizado em: -")</small>
+                }
+
+                <div class="form-check">
+                    <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="visit.NotifyByEmail" id="flexCheckDefault" @oninput="() => OnFinishedClicked(visit)"/>
+                    <small class="text-muted fw-semibold" style="font-size: 0.800em;"> Enviar por e-mail</small>
                 </div>
-                
-                <div class="mt-2 d-flex flex-row p-0">
-                    <button class="btn card" type="button" @onclick="() => EditVisit(visit)">
-                        <EditIcon/>
-                    </button>
-                    <button class="btn card ms-2" type="button" @onclick="() => DeleteVisitAsync(visit.Id)">
-                        <DeleteIcon/>
-                    </button>
-                    <button class="btn card ms-2" type="button" @onclick="() => GetPdf(visit.Id)">
-                        <PdfIcon/>
-                    </button>
-                </div>
+            </div>
+
+            <div class="mt-2 d-flex flex-row p-0">
+                <button class="btn card" type="button" @onclick="() => EditVisit(visit)">
+                    <EditIcon/>
+                </button>
+                <button class="btn card ms-2" type="button" @onclick="() => GetPdf(visit.Id)">
+                    <PdfIcon/>
+                </button>
             </div>
 
         </div>
@@ -79,16 +73,24 @@
 
 @code {
     private VisitViewModel[] _visits = [];
+    private ModalDialog ModalDialog { get; set; } = null!;
+    public string PdfContent { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         var visits = await VisitService.GetAllAsync();
         _visits = visits.OrderByDescending(x => x.CreatedAt).Adapt<VisitViewModel[]>();
+    }
 
-        // if (await SyncService.NeedSync())
-        // {
-        //     ToastService.ShowWarning(MessageHelper.UnSynchronizedData);
-        // }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (!firstRender) return;
+
+        if (await SyncService.NeedSync() && ApplicationContextAccessor.IsOnline())
+        {
+            ToastService.ShowWarning(MessageHelper.UnSynchronizedData);
+        }
     }
 
     private void NewVisit()
@@ -103,19 +105,10 @@
         NavigationManager.NavigateTo($"/visits/{visit.Id}/main");
     }
 
-    private async Task DeleteVisitAsync(string visitId)
-    {
-        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Remover visita ?");
-        if (!confirmed) return;
-
-        await VisitService.DeleteAsync(visitId);
-        NavigationManager.Refresh(true);
-    }
-    
     private async Task OnFinishedClicked(VisitViewModel visitViewModel)
     {
         var visit = await VisitService.GetByIdAsync(visitViewModel.Id);
-        
+
         visit.NotifyByEmail = visitViewModel.NotifyByEmail;
         visit.FinishedAt = visitViewModel.NotifyByEmail ? DateTime.UtcNow : null;
         await VisitService.UpdateAsync(visit);
@@ -130,8 +123,23 @@
             return;
         }
 
-        var pdf = await ApiService.GenerateVisitPdf(visit.Id);
-        await JsRuntime.InvokeVoidAsync("downloadPdf", pdf, $"visita{visit.Id}.pdf");
+        var bytes = await ApiService.GenerateVisitPdf(visit.Id);
+        PdfContent = Convert.ToBase64String(bytes);
+        
+        await JsRuntime.InvokeVoidAsync("loadPdfFromBase64", PdfContent, "pdfViewer");
+        
+        ModalDialog.Open();
+    }
+    
+    private async Task SalvarPdf()
+    {
+        await JsRuntime.InvokeVoidAsync("savePdfFromBase64", PdfContent);
+    }
+
+    [JSInvokable("ShowPdfModal")]
+    public void ShowPdfModal()
+    {
+        ModalDialog.Open();
     }
 
     [JSInvokable]
@@ -140,6 +148,18 @@
         Console.WriteLine($"sync completed: {message}");
         StateHasChanged();
         return Task.CompletedTask;
+    }
+
+    private static string GetBorderStyle(VisitViewModel viewModel)
+    {
+        return viewModel.SyncedAt is null
+            ? "border-left: 0.750rem solid indianred;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;"
+            : "border-left: 0.750rem solid #467b56;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;";
+    }
+
+    private static string GetBadgeStyle(int totalPendingItems)
+    {
+        return totalPendingItems == 0 ? "background-color: #467b56;" : "background-color: indianred;";
     }
 
 }

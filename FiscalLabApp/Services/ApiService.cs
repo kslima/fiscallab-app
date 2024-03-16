@@ -57,13 +57,13 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
         return response.Data!;
     }
 
-    public async Task<string> GenerateVisitPdf(string visitId)
+    public async Task<byte[]> GenerateVisitPdf(string visitId)
     {
         var result = await _httpClient.GetAsync($"visits/{visitId}/pdf");
         result.EnsureSuccessStatusCode();
 
-        var response =  await result.Content.ReadAsByteArrayAsync();
-        return Convert.ToBase64String(response);
+        return  await result.Content.ReadAsByteArrayAsync();
+        //return Convert.ToBase64String(response);
     }
 
     public async Task<SyncResult> SyncDataAsync(SyncModel syncModel)

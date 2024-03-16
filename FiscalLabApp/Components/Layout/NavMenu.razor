@@ -15,9 +15,22 @@
             Grupo Esdra
         </a>
         <form class="d-flex" role="search">
-            <button class="btn btn-sm btn-outline-success" type="button" @onclick="SynAsync" disabled="@(!ApplicationContextAccessor.IsOnline())">Sincronizar</button>
+            <button class="btn btn-sm btn-outline-success" type="button" @onclick="() => ModalDialog.Open()" disabled="@(!ApplicationContextAccessor.IsOnline())">Sincronizar</button>
         </form>
     </div>
+    
+    <ModalDialog @ref="@ModalDialog" Title="Sincronizar Dados">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" type="button" disabled="@ShowSpinner" @onclick="SynAsync">
+                @if (ShowSpinner)
+                {
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                }
+                @($"  {Status}")
+            </button>
+        </div>
+        
+    </ModalDialog>
 </nav>
 
 @code {
@@ -25,6 +38,10 @@
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
+    private ModalDialog ModalDialog { get; set; } = null!;
+
+    private bool ShowSpinner { get; set; }
+    private string Status { get; set; } = "Sincronizar";
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -39,12 +56,27 @@
     {
         NavigationManager.NavigateTo("/visits");
     }
-
-
+    
     private async Task SynAsync()
     {
-        await SyncService.SyncAsync();
-        StateHasChanged();
+        try
+        {
+            Status = "Sincronizando....";
+            ShowSpinner = true;
+            StateHasChanged();
+            await SyncService.SyncAsync();
+
+            Status = "Sincronizar";
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            Status = e.Message;
+        }
+        finally
+        {
+            ShowSpinner = false;
+        }
     }
     
     [JSInvokable]
