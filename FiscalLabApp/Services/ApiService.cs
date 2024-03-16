@@ -63,7 +63,6 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
         result.EnsureSuccessStatusCode();
 
         return  await result.Content.ReadAsByteArrayAsync();
-        //return Convert.ToBase64String(response);
     }
 
     public async Task<SyncResult> SyncDataAsync(SyncModel syncModel)

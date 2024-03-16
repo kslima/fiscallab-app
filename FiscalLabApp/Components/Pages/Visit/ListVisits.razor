@@ -13,12 +13,9 @@
 @inject SelectedVisitEvent SelectedVisitEvent
 @inject IApiService ApiService
 @inject SyncService SyncService
+@inject SyncEventNotifier SyncEventNotifier
 
 <PageTitle>Visitas</PageTitle>
-<ModalDialog @ref="@ModalDialog" Title="PDF Visíta Analítica">
-    <button @onclick="SalvarPdf">Salvar PDF</button>
-    <div id="pdfViewer" style="width: 60%; height: 100%;"></div>
-</ModalDialog>
 
 <div class="mb-5">
     <div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
@@ -41,20 +38,42 @@
                 <small class="text-muted fw-bold"> @($"{visit.BasicInformation.Plant?.Name} ({visit.BasicInformation.Plant?.Address.City} - {visit.BasicInformation.Plant?.Address.State})")</small>
                 <small class="text-muted fw-bolder"> @($"{visit.BasicInformation.Association?.Name} ({visit.BasicInformation.Association?.Address.City} - {visit.BasicInformation.Association?.Address.State})")</small>
 
-                <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Criado em: {visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
-                @if (visit.SyncedAt.HasValue)
+                <div class="d-flex flex-row justify-content-start mb-1">
+                    <span class="badge " style="background-color: #f5f4f2; color: #312d2a">
+                        <small class="text-muted fw-semibold">@($"Criado em: {visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                    </span>
+                </div>
+
+                <div class="d-flex flex-row justify-content-start mb-1">
+                    <span class="badge " style="background-color: #f5f4f2; color: #312d2a">
+                        @if (visit.SyncedAt.HasValue)
+                        {
+                            <small class="text-muted fw-semibold">@($"Sincronizado em: {visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                        }
+                        else
+                        {
+                            <small class="text-muted fw-semibold">@("Sincronizado em: - ")</small>
+                        }
+                    </span>
+                </div>
+
+
+                @if (visit.NotifiedByEmailAt is not null)
                 {
-                    <small class="text-muted fw-semibold" style="font-size: 0.700em;">@($"Sincronizado em: {visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                    <div class="d-flex flex-row justify-content-start mb-2">
+                        <span class="badge " style="background-color: #f5f4f2; color: #312d2a">
+                            <small class="text-muted fw-semibold">@($"Enviado por e-mail em: {visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                        </span>
+                    </div>
                 }
                 else
                 {
-                    <small class="text-muted fw-semibold" style="font-size: 0.700em;">@("Sincronizado em: -")</small>
+                    <div class="form-check">
+                        <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="visit.NotifyByEmail" id="flexCheckDefault" @oninput="() => MarkAsNotifyByEmail(visit)"style="width: 16px; height: 16px;"/>
+                        <small class="text-muted fw-semibold" style="font-size: 0.700em;">Enviar por e-mail</small>
+                    </div>
                 }
 
-                <div class="form-check">
-                    <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="visit.NotifyByEmail" id="flexCheckDefault" @oninput="() => OnFinishedClicked(visit)"/>
-                    <small class="text-muted fw-semibold" style="font-size: 0.800em;"> Enviar por e-mail</small>
-                </div>
             </div>
 
             <div class="mt-2 d-flex flex-row p-0">
@@ -73,23 +92,19 @@
 
 @code {
     private VisitViewModel[] _visits = [];
-    private ModalDialog ModalDialog { get; set; } = null!;
-    public string PdfContent { get; set; } = string.Empty;
+    private string PdfContent { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        var visits = await VisitService.GetAllAsync();
-        _visits = visits.OrderByDescending(x => x.CreatedAt).Adapt<VisitViewModel[]>();
+        await SyncVisits();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (!firstRender) return;
-
-        if (await SyncService.NeedSync() && ApplicationContextAccessor.IsOnline())
+        if (firstRender)
         {
-            ToastService.ShowWarning(MessageHelper.UnSynchronizedData);
+            SyncEventNotifier.SyncEvent += async (sender, args) => { await SyncEventHandler(sender, args); };
         }
     }
 
@@ -105,10 +120,9 @@
         NavigationManager.NavigateTo($"/visits/{visit.Id}/main");
     }
 
-    private async Task OnFinishedClicked(VisitViewModel visitViewModel)
+    private async Task MarkAsNotifyByEmail(VisitViewModel visitViewModel)
     {
         var visit = await VisitService.GetByIdAsync(visitViewModel.Id);
-
         visit.NotifyByEmail = visitViewModel.NotifyByEmail;
         visit.FinishedAt = visitViewModel.NotifyByEmail ? DateTime.UtcNow : null;
         await VisitService.UpdateAsync(visit);
@@ -119,33 +133,19 @@
         var visit = await VisitService.GetByIdAsync(visitId);
         if (visit.SyncedAt is null)
         {
-            ToastService.ShowError("Visita ainda nao foi sincronizada.");
+            ToastService.ShowError(MessageHelper.UnSynchronizedData);
             return;
         }
 
         var bytes = await ApiService.GenerateVisitPdf(visit.Id);
         PdfContent = Convert.ToBase64String(bytes);
-        
-        await JsRuntime.InvokeVoidAsync("loadPdfFromBase64", PdfContent, "pdfViewer");
-        
-        ModalDialog.Open();
-    }
-    
-    private async Task SalvarPdf()
-    {
-        await JsRuntime.InvokeVoidAsync("savePdfFromBase64", PdfContent);
-    }
 
-    [JSInvokable("ShowPdfModal")]
-    public void ShowPdfModal()
-    {
-        ModalDialog.Open();
+        await JsRuntime.InvokeVoidAsync("savePdf", PdfContent, "visita.pdf");
     }
 
     [JSInvokable]
     public Task SyncCompleted(string message)
     {
-        Console.WriteLine($"sync completed: {message}");
         StateHasChanged();
         return Task.CompletedTask;
     }
@@ -159,7 +159,19 @@
 
     private static string GetBadgeStyle(int totalPendingItems)
     {
-        return totalPendingItems == 0 ? "background-color: #467b56;" : "background-color: indianred;";
+        return totalPendingItems == 0 ? "background-color: #467b56;" : "background-color: #c74634;";
+    }
+
+    private async Task SyncEventHandler(object? sender, EventArgs e)
+    {
+        await SyncVisits();
+        StateHasChanged();
+    }
+
+    private async Task SyncVisits()
+    {
+        var visits = await VisitService.GetAllAsync();
+        _visits = visits.OrderByDescending(x => x.CreatedAt).Adapt<VisitViewModel[]>();
     }
 
 }

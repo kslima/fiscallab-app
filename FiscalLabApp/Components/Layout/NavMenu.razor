@@ -7,6 +7,7 @@
 
 @inject SyncService SyncService
 @inject IToastService ToastService
+@inject SyncEventNotifier SyncEventNotifier
 
 <nav class="navbar shadow mb-4" style="background-color: #ffffff;">
     <div class="container-fluid">
@@ -18,23 +19,21 @@
             <button class="btn btn-sm btn-outline-success" type="button" @onclick="() => ModalDialog.Open()" disabled="@(!ApplicationContextAccessor.IsOnline())">Sincronizar</button>
         </form>
     </div>
-    
+
     <ModalDialog @ref="@ModalDialog" Title="Sincronizar Dados">
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-primary" type="button" disabled="@ShowSpinner" @onclick="SynAsync">
-                @if (ShowSpinner)
-                {
-                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                }
-                @($"  {Status}")
-            </button>
-        </div>
-        
+        <button class="btn btn-primary" type="button" disabled="@ShowSpinner" @onclick="SynAsync">
+            @if (ShowSpinner)
+            {
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            }
+            @($"  {Status}")
+        </button>
+
     </ModalDialog>
 </nav>
 
 @code {
-    
+
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
@@ -42,7 +41,7 @@
 
     private bool ShowSpinner { get; set; }
     private string Status { get; set; } = "Sincronizar";
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -51,12 +50,12 @@
             await JsRuntime.InvokeVoidAsync("jsFunctions.registerOnlineStatusHandler", dotNetObjRef);
         }
     }
-    
+
     private void OpenVisits()
     {
         NavigationManager.NavigateTo("/visits");
     }
-    
+
     private async Task SynAsync()
     {
         try
@@ -68,6 +67,8 @@
 
             Status = "Sincronizar";
             StateHasChanged();
+            ModalDialog.Close();
+            await SyncEventNotifier.NotifyAsync();
         }
         catch (Exception e)
         {
@@ -78,7 +79,7 @@
             ShowSpinner = false;
         }
     }
-    
+
     [JSInvokable]
     public Task SetOnlineStatus(bool isOnline, bool isWiFi)
     {
