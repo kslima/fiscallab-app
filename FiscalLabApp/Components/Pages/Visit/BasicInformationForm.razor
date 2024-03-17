@@ -28,13 +28,13 @@
 
     <div class="row">
         <div class="col">
-            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@("/visits/main")" CurrentPlant="BasicInformation.Plant"/>
+            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@($"/visits/{_selectedVisit?.Id}/main")" CurrentPlant="BasicInformation.Plant"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@("/visits/main")" CurrentAssociation="BasicInformation.Association"/>
+            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@($"/visits/{_selectedVisit?.Id}/main")" CurrentAssociation="BasicInformation.Association"/>
         </div>
     </div>
 
