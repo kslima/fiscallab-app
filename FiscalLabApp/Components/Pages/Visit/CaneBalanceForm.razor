@@ -3,10 +3,13 @@
 @implements IAsyncDisposable
 
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
 @inject NavigationManager NavigationManager
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Balanças">
     <div class="row">
@@ -121,6 +124,7 @@
         await base.OnParametersSetAsync();
         if (VisitId is null) return;
         SugarcaneBalance = (await Layout.SyncVisit(VisitId)).SugarcaneBalance;
+        SelectedPageEventNotifier.Notify(PageHelper.SugarcaneBalancePageName);
     }
     
     public void Dispose()

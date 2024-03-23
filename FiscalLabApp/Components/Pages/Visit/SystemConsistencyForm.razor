@@ -3,8 +3,11 @@
 @implements IAsyncDisposable
 @using FiscalLabApp.Enums
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Amostra">
     <div class="row">
@@ -203,6 +206,7 @@
 
         if (VisitId is null) return;
         SystemConsistency = (await Layout.SyncVisit(VisitId)).SystemConsistency;
+        SelectedPageEventNotifier.Notify(PageHelper.SystemConsistencyPageName);
     }
     
     public void Dispose()

@@ -2,9 +2,9 @@
 @using FiscalLabApp.Extensions
 @using FiscalLabApp.Services
 @using Mapster
-@inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager
 @inject IVisitService VisitService
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <div class="content">
     <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3" aria-label="Large select example" @bind-Value:after="CallVisitPage">
@@ -28,6 +28,18 @@
 
     [Parameter] public EventCallback<decimal> ValueUpdated { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        SelectedPageEventNotifier.SelectedPageEvent += SelectedPageHandler;
+    }
+
+    private void SelectedPageHandler(string currentPage)
+    {
+        _selectedPageName = currentPage;
+        StateHasChanged();
+    }
+    
     private void CallVisitPage()
     {
         if (Layout.SelectedVisit is null) return;

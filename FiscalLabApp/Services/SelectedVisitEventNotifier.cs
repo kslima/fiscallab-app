@@ -1,6 +1,6 @@
 namespace FiscalLabApp.Services;
 
-public class SelectedVisitEvent
+public class SelectedVisitEventNotifier
 {
     public event Action? SelectedVisit;
     

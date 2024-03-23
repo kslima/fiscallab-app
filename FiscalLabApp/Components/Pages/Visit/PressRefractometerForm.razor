@@ -2,8 +2,11 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Prensa">
     <div class="row">
@@ -114,6 +117,7 @@
 
         if (VisitId is null) return;
         PressRefractometer = (await Layout.SyncVisit(VisitId)).PressRefractometer;
+        SelectedPageEventNotifier.Notify(PageHelper.PressRefractometerPageName);
     }
     
     public void Dispose()

@@ -1,5 +1,5 @@
 ﻿@using FiscalLabApp.Services
-@inject SelectedVisitEvent SelectedVisitEvent
+@inject SelectedVisitEventNotifier SelectedVisitEventNotifier
 
 <div class="form-floating mb-3">
     <InputDate @bind-Value:format="dd/MM/yyyy hh:mm:ss" class="form-control" id="sharpenedOrReplacedKnifeAt" @bind-Value="@Value" @oninput="UpdateParent" @onblur="OnBlur"/>
@@ -38,6 +38,6 @@
 
     private void OnBlur(FocusEventArgs e)
     {
-        SelectedVisitEvent.NotifyFill();
+        SelectedVisitEventNotifier.NotifyFill();
     }
 }

@@ -2,11 +2,12 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
-@inject IVisitService VisitService;
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Prensa/Desintegrador/Temperatura">
     <div class="row">
@@ -212,6 +213,7 @@
 
         if (VisitId is null) return;
         BenchmarkingEquipment = (await Layout.SyncVisit(VisitId)).BenchmarkingEquipment;
+        SelectedPageEventNotifier.Notify(PageHelper.BenchmarkingEquipmentPageName);
     }
     
     public void ExpectedCropChanged(decimal value)

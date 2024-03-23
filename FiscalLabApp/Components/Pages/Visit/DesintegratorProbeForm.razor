@@ -2,8 +2,11 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @layout EditVisitLayout
 @inject IMenuService MenuService
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Sonda">
     <div class="row">
@@ -147,6 +150,7 @@
         await base.OnParametersSetAsync();
         if (VisitId is null) return;
         DesintegratorProbe = (await Layout.SyncVisit(VisitId)).DesintegratorProbe;
+        SelectedPageEventNotifier.Notify(PageHelper.DesintegratorProbePageName);
     }
 
     public void Dispose()

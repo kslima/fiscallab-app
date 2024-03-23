@@ -3,7 +3,7 @@
 @using Mapster
 @inherits LayoutComponentBase
 @inject IVisitService VisitService
-@inject SelectedVisitEvent SelectedVisitEvent
+@inject SelectedVisitEventNotifier SelectedVisitEventNotifier
 
 <CascadingValue Value="this">
     <NavMenu/>
@@ -23,7 +23,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        SelectedVisitEvent.SelectedVisit += HandlerVisitPages;
+        SelectedVisitEventNotifier.SelectedVisit += HandlerVisitPages;
     }
     
     public Task UpdateVisitAsync()
@@ -34,7 +34,10 @@
     
     public async Task<VisitViewModel> SyncVisit(string visitId)
     {
-        if (SelectedVisit is not null) return SelectedVisit;
+        if (SelectedVisit is not null)
+        {
+            return SelectedVisit;
+        }
         
         var visit = await VisitService.GetByIdAsync(visitId);
         SelectedVisit = visit.Adapt<VisitViewModel>();
@@ -50,4 +53,5 @@
         _pages = metadata.Pages.OrderBy(v => v.Id).ToArray();
         StateHasChanged();
     }
+    
 }

@@ -1,12 +1,13 @@
 ﻿@page "/visits/{visitId}/main"
 @using FiscalLabApp.Extensions
-@using Mapster
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @implements IDisposable
 @implements IAsyncDisposable
 
 @layout EditVisitLayout
 @inject IMenuService MenuService
-@inject IVisitService VisitService;
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Dados Básicos">
 
@@ -82,6 +83,7 @@
         await base.OnParametersSetAsync();
         if (VisitId is null) return;
         BasicInformation = (await Layout.SyncVisit(VisitId)).BasicInformation;
+        SelectedPageEventNotifier.Notify(PageHelper.BasicInformationPageName);
     }
 
     private void OnPlantChanged(Plant plant)

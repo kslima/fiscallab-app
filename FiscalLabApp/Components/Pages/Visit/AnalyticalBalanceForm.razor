@@ -2,9 +2,12 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Balança Analítica">
     <div class="row">
@@ -78,6 +81,7 @@
         await base.OnParametersSetAsync();
         if (VisitId is null) return;
         AnalyticalBalance = (await Layout.SyncVisit(VisitId)).AnalyticalBalance;
+        SelectedPageEventNotifier.Notify(PageHelper.AnalyticalBalancePageName);
     }
     
     public void Dispose()

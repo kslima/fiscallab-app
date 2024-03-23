@@ -1,3 +1,5 @@
+using FiscalLabApp.Helpers;
+
 namespace FiscalLabApp.Models;
 
 public class VisitViewModel
@@ -23,15 +25,15 @@ public class VisitViewModel
     {
         var pages = new List<VisitPage>
         {
-            CreatePage(1,"main","Principal", BasicInformation),
-            CreatePage(2,"sugarcane-balance","Balança de Cana", SugarcaneBalance),
-            CreatePage(3,"desintegrator-probe","Sonda/Desintegrador", DesintegratorProbe),
-            CreatePage(4,"analytical-balance","Balança Analítica/Temperatura", AnalyticalBalance),
-            CreatePage(5,"press-refractometer","Prensa/Refratômetro", PressRefractometer),
-            CreatePage(6,"clarification-saccharimeter","Clarificação/Sacarímetro", ClarificationSaccharimeter),
-            CreatePage(7,"benchmarking-equipment","Equipamentos de Aferição/Medias", BenchmarkingEquipment),
-            CreatePage(8,"system-consistency","Consistência do Sistema", SystemConsistency),
-            CreatePage(9,"conclusion","Conclusão", Conclusion),
+            CreatePage(1,PageHelper.BasicInformationPageName,"Principal", BasicInformation),
+            CreatePage(2,PageHelper.SugarcaneBalancePageName,"Balança de Cana", SugarcaneBalance),
+            CreatePage(3,PageHelper.DesintegratorProbePageName,"Sonda/Desintegrador", DesintegratorProbe),
+            CreatePage(4,PageHelper.AnalyticalBalancePageName,"Balança Analítica/Temperatura", AnalyticalBalance),
+            CreatePage(5,PageHelper.PressRefractometerPageName,"Prensa/Refratômetro", PressRefractometer),
+            CreatePage(6,PageHelper.ClarificationSaccharimeterPageName,"Clarificação/Sacarímetro", ClarificationSaccharimeter),
+            CreatePage(7,PageHelper.BenchmarkingEquipmentPageName,"Equipamentos de Aferição/Medias", BenchmarkingEquipment),
+            CreatePage(8,PageHelper.SystemConsistencyPageName,"Consistência do Sistema", SystemConsistency),
+            CreatePage(9,PageHelper.ConclusionPageName,"Conclusão", Conclusion),
         };
 
         var visitViewModelMetadata = new VisitViewModelMetadata

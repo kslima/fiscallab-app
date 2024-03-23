@@ -2,9 +2,12 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
 @layout EditVisitLayout
 @inject IMenuService MenuService
 @inject NavigationManager NavigationManager
+@inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <VisitDataSeparator Title="Conclusao">
     <div class="row">
@@ -54,6 +57,7 @@
 
         if (VisitId is null) return;
         Conclusion = (await Layout.SyncVisit(VisitId)).Conclusion;
+        SelectedPageEventNotifier.Notify(PageHelper.ConclusionPageName);
     }
     
     private void AddImage()
