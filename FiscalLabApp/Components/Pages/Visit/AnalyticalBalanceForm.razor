@@ -2,11 +2,9 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
-@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Balança Analítica">
     <div class="row">
@@ -50,7 +48,7 @@
 <VisitDataSeparator Title="Temperatura Ambiente">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Média temperatura ambiente(20ºC±5)" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceAverageAmbientTemperature)" Id="averageAmbientTemperature" @bind-value="AnalyticalBalance.AverageAmbientTemperature"/>
+            <VisitTextInput Title="Média temperatura ambiente(20ºC±3)" Menu="@_options.GetMenu(MenuType.AnalyticalBalanceAverageAmbientTemperature)" Id="averageAmbientTemperature" @bind-value="AnalyticalBalance.AverageAmbientTemperature"/>
         </div>
     </div>
     
@@ -66,7 +64,6 @@
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
     [Parameter] public string? VisitId { get; set; }
-    private Visit? _selectedVisit;
     private Menu[] _options = Array.Empty<Menu>();
     
     public AnalyticalBalanceViewModel AnalyticalBalance { get; set; } = new();
@@ -79,12 +76,8 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-
-        if (VisitId is not null)
-        {
-            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
-            AnalyticalBalance = _selectedVisit.AnalyticalBalance.Adapt<AnalyticalBalanceViewModel>();
-        }
+        if (VisitId is null) return;
+        AnalyticalBalance = (await Layout.SyncVisit(VisitId)).AnalyticalBalance;
     }
     
     public void Dispose()
@@ -99,9 +92,6 @@
 
     private async Task UpdateVisit()
     {
-        if (_selectedVisit is null) return;
-
-        _selectedVisit.AnalyticalBalance = AnalyticalBalance.Adapt<AnalyticalBalance>();
-        await VisitService.CreateAsync(_selectedVisit);
+        await Layout.UpdateVisitAsync();
     }
 }

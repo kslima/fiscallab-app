@@ -1,5 +1,8 @@
-﻿<div class="form-floating mb-3">
-    <InputNumber class="form-control" id="@Id" @oninput="UpdateParent" @bind-Value="Value" readonly="@Readonly"/>
+﻿@using FiscalLabApp.Services
+@inject SelectedVisitEvent SelectedVisitEvent
+
+<div class="form-floating mb-3">
+    <InputNumber class="form-control" id="@Id" @oninput="UpdateParent"  @onblur="OnBlur" @bind-Value="Value" readonly="@Readonly"/>
   <label for="@Id">@Title</label>
 </div >
 
@@ -29,5 +32,10 @@
         
         await ValueChanged.InvokeAsync(decimal.Parse(e.Value.ToString()!));
         await ValueUpdated.InvokeAsync(decimal.Parse(e.Value.ToString()!));
+    }
+    
+    private void OnBlur(FocusEventArgs e)
+    {
+        SelectedVisitEvent.NotifyFill();
     }
 }

@@ -3,10 +3,8 @@
 @implements IAsyncDisposable
 @using FiscalLabApp.Enums
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
 @inject IMenuService MenuService
-@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Amostra">
     <div class="row">
@@ -203,11 +201,8 @@
     {
         await base.OnParametersSetAsync();
 
-        if (VisitId is not null)
-        {
-            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
-            SystemConsistency = _selectedVisit.SystemConsistency.Adapt<SystemConsistencyViewModel>();
-        }
+        if (VisitId is null) return;
+        SystemConsistency = (await Layout.SyncVisit(VisitId)).SystemConsistency;
     }
     
     public void Dispose()
@@ -222,10 +217,7 @@
 
     private async Task UpdateVisit()
     {
-        if (_selectedVisit is null) return;
-
-        _selectedVisit.SystemConsistency = SystemConsistency.Adapt<SystemConsistency>();
-        await VisitService.CreateAsync(_selectedVisit);
+        await Layout.UpdateVisitAsync();
     }
 
     private void OnClarifierSelected(ChangeEventArgs e)

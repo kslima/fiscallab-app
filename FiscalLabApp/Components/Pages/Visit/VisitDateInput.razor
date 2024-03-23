@@ -1,0 +1,43 @@
+﻿@using FiscalLabApp.Services
+@inject SelectedVisitEvent SelectedVisitEvent
+
+<div class="form-floating mb-3">
+    <InputDate @bind-Value:format="dd/MM/yyyy hh:mm:ss" class="form-control" id="sharpenedOrReplacedKnifeAt" @bind-Value="@Value" @oninput="UpdateParent" @onblur="OnBlur"/>
+    @if (Required)
+    {
+        <label for="@Id">
+            @Title <strong class="text-danger">*</strong>
+        </label>
+    }
+    else
+    {
+        <label for="@Id">@Title</label>
+    }
+</div >
+
+@code {
+
+    [Parameter] public Menu? Menu { get; set; }
+    
+    [Parameter] public string Id { get; set; } = string.Empty;
+
+    [Parameter] public string Title { get; set; } = string.Empty;
+
+    [Parameter] public DateTime? Value { get; set; }
+    [Parameter] public bool Required { get; set; }
+
+    [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
+    
+    private async Task UpdateParent(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var result))
+        {
+            await ValueChanged.InvokeAsync(result);
+        }
+    }
+
+    private void OnBlur(FocusEventArgs e)
+    {
+        SelectedVisitEvent.NotifyFill();
+    }
+}

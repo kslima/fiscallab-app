@@ -10,7 +10,6 @@
 @inject IJSRuntime JsRuntime
 @inject IToastService ToastService
 @inject ApplicationContextAccessor ApplicationContextAccessor
-@inject SelectedVisitEvent SelectedVisitEvent
 @inject IApiService ApiService
 @inject SyncService SyncService
 @inject SyncEventNotifier SyncEventNotifier
@@ -115,8 +114,8 @@
 
     private void EditVisit(VisitViewModel visit)
     {
-        SelectedVisitEvent.NotifySelectedVisit(visit);
-        SelectedVisitEvent.SelectedVisitModel = visit;
+        // SelectedVisitEvent.SelectedVisitModel = visit;
+        // SelectedVisitEvent.NotifySelectedVisit(visit);
         NavigationManager.NavigateTo($"/visits/{visit.Id}/main");
     }
 

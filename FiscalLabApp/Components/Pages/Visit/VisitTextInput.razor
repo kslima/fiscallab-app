@@ -1,10 +1,12 @@
 ﻿@using System.Text.Json
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Services
 @inject NavigationManager NavigationManager
 @inject IMenuService MenuService
+@inject SelectedVisitEvent SelectedVisitEvent
 
 <div class="form-floating input-group mb-3">
-    <InputText class="form-control" list="@($"list-{Id}")" id="@Id" @oninput="UpdateParent" @bind-Value="@Value"/>
+    <InputText class="form-control" list="@($"list-{Id}")" id="@Id" @oninput="UpdateParent" @onblur="OnBlur" @bind-Value="@Value"/>
     <datalist id="@($"list-{Id}")">
         @if (Menu?.Options is not null)
         {
@@ -47,14 +49,20 @@
     [Parameter] public bool Required { get; set; }
 
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public EventCallback ValueUpdated { get; set; }
 
     [CascadingParameter] EditVisitLayout Layout { get; set; } = new();
 
     [CascadingParameter] public string Callback { get; set; } = "/";
 
-    private Task UpdateParent(ChangeEventArgs e)
+    private async Task UpdateParent(ChangeEventArgs e)
     {
-        return ValueChanged.InvokeAsync(e.Value?.ToString());
+        await ValueChanged.InvokeAsync(e.Value?.ToString());
+    }
+    
+    private void OnBlur(FocusEventArgs e)
+    {
+        SelectedVisitEvent.NotifyFill();
     }
 
     protected override void OnParametersSet()
@@ -67,7 +75,7 @@
         {
             foreach (var value in Enumerable.Range(1, 100))
             {
-                Menu.Options.Add(new Option{Description = $"{value}%"});
+                Menu.Options.Add(new Option { Description = $"{value}%" });
             }
         }
 

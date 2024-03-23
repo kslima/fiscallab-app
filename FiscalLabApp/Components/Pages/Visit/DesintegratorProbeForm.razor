@@ -2,10 +2,8 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
 @inject IMenuService MenuService
-@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Sonda">
     <div class="row">
@@ -120,10 +118,7 @@
 
     <div class="row">
         <div class="col">
-            <div class="form-floating mb-3">
-                <InputDate @bind-Value:format="dd/MM/yyyy hh:mm:ss" class="form-control" id="sharpenedOrReplacedKnifeAt" @bind-Value="DesintegratorProbe.SharpenedOrReplacedKnifeAt"/>
-                <label for="sharpenedOrReplacedKnifeAt">Afiação/troca facas</label>
-            </div >
+            <VisitDateInput Title="Afiação/troca facas" Id="sharpenedOrReplacedKnifeAt" @bind-value="DesintegratorProbe.SharpenedOrReplacedKnifeAt"/>
         </div>
     </div>
 
@@ -138,7 +133,6 @@
 
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
     [Parameter] public string? VisitId { get; set; }
-    private Visit? _selectedVisit;
     public DesintegratorProbeViewModel DesintegratorProbe { get; set; } = new();
 
     private Menu[] _options = Array.Empty<Menu>();
@@ -151,12 +145,8 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-
-        if (VisitId is not null)
-        {
-            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
-            DesintegratorProbe = _selectedVisit.DesintegratorProbe.Adapt<DesintegratorProbeViewModel>();
-        }
+        if (VisitId is null) return;
+        DesintegratorProbe = (await Layout.SyncVisit(VisitId)).DesintegratorProbe;
     }
 
     public void Dispose()
@@ -171,14 +161,11 @@
 
     private async Task UpdateVisit()
     {
-        if (_selectedVisit is null) return;
-
-        _selectedVisit.DesintegratorProbe = DesintegratorProbe.Adapt<DesintegratorProbe>();
-        if (_selectedVisit.DesintegratorProbe.SharpenedOrReplacedKnifeAt is not null)
+        if (DesintegratorProbe.SharpenedOrReplacedKnifeAt.HasValue)
         {
-            _selectedVisit.DesintegratorProbe.SharpenedOrReplacedKnifeAt = _selectedVisit.DesintegratorProbe.SharpenedOrReplacedKnifeAt.Value.ToUniversalTime();
+            DesintegratorProbe.SharpenedOrReplacedKnifeAt = DesintegratorProbe.SharpenedOrReplacedKnifeAt.Value.ToUniversalTime();
         }
-        await VisitService.CreateAsync(_selectedVisit);
+        
+        await Layout.UpdateVisitAsync();
     }
-
 }

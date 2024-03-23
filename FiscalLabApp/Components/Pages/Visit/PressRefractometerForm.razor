@@ -2,10 +2,8 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
 @inject IMenuService MenuService
-@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Prensa">
     <div class="row">
@@ -101,7 +99,6 @@
     [CascadingParameter]
     public EditVisitLayout Layout { get; set; } = new();
     [Parameter] public string? VisitId { get; set; }
-    private Visit? _selectedVisit;
     private Menu[] _options = Array.Empty<Menu>();
     
     public PressRefractometerViewModel PressRefractometer { get; set; } = new();
@@ -115,11 +112,8 @@
     {
         await base.OnParametersSetAsync();
 
-        if (VisitId is not null)
-        {
-            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
-            PressRefractometer = _selectedVisit.PressRefractometer.Adapt<PressRefractometerViewModel>();
-        }
+        if (VisitId is null) return;
+        PressRefractometer = (await Layout.SyncVisit(VisitId)).PressRefractometer;
     }
     
     public void Dispose()
@@ -134,9 +128,6 @@
 
     private async Task UpdateVisit()
     {
-        if (_selectedVisit is null) return;
-
-        _selectedVisit.PressRefractometer = PressRefractometer.Adapt<PressRefractometer>();
-        await VisitService.CreateAsync(_selectedVisit);
+        await Layout.UpdateVisitAsync();
     }
 }

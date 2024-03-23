@@ -2,11 +2,9 @@
 @implements IDisposable
 @implements IAsyncDisposable
 @using FiscalLabApp.Extensions
-@using Mapster
 @layout EditVisitLayout
 
 @inject IMenuService MenuService
-@inject IVisitService VisitService;
 
 <VisitDataSeparator Title="Clarificação">
     <div class="row">
@@ -140,11 +138,8 @@
     {
         await base.OnParametersSetAsync();
 
-        if (VisitId is not null)
-        {
-            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
-            ClarificationSaccharimeter = _selectedVisit.ClarificationSaccharimeter.Adapt<ClarificationSaccharimeterViewModel>();
-        }
+        if (VisitId is null) return;
+        ClarificationSaccharimeter = (await Layout.SyncVisit(VisitId)).ClarificationSaccharimeter;
     }
 
     public void Dispose()
@@ -159,9 +154,6 @@
 
     private async Task UpdateVisit()
     {
-        if (_selectedVisit is null) return;
-
-        _selectedVisit.ClarificationSaccharimeter = ClarificationSaccharimeter.Adapt<ClarificationSaccharimeter>();
-        await VisitService.CreateAsync(_selectedVisit);
+        await Layout.UpdateVisitAsync();
     }
 }

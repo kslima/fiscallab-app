@@ -28,13 +28,13 @@
 
     <div class="row">
         <div class="col">
-            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@($"/visits/{_selectedVisit?.Id}/main")" CurrentPlant="BasicInformation.Plant"/>
+            <PlantSelectInput PlantChanged="OnPlantChanged" CallbackRoute="@($"/visits/{Layout.SelectedVisit?.Id}/main")" CurrentPlant="BasicInformation.Plant"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@($"/visits/{_selectedVisit?.Id}/main")" CurrentAssociation="BasicInformation.Association"/>
+            <AssociationSelectInput AssociationChanged="OnAssociationChanged" CallbackRoute="@($"/visits/{Layout.SelectedVisit?.Id}/main")" CurrentAssociation="BasicInformation.Association"/>
         </div>
     </div>
 
@@ -64,9 +64,10 @@
 </VisitDataSeparator>
 
 @code {
-    
+
     [Parameter] public string? VisitId { get; set; }
-    private Visit? _selectedVisit;
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = null!;
+    
     private BasicInformationViewModel BasicInformation { get; set; } = new();
 
     private Menu[] _menus = Array.Empty<Menu>();
@@ -79,29 +80,25 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-
-        if (VisitId is not null)
-        {
-            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
-            BasicInformation = _selectedVisit.BasicInformation.Adapt<BasicInformationViewModel>();
-        }
+        if (VisitId is null) return;
+        BasicInformation = (await Layout.SyncVisit(VisitId)).BasicInformation;
     }
-    
+
     private void OnPlantChanged(Plant plant)
     {
         BasicInformation.Plant = plant;
     }
-    
+
     private void OnAssociationChanged(Association association)
     {
         BasicInformation.Association = association;
     }
-    
+
     public void Dispose()
-    { 
+    {
         UpdateVisit();
     }
-    
+
     public async ValueTask DisposeAsync()
     {
         await UpdateVisit();
@@ -109,10 +106,7 @@
 
     private async Task UpdateVisit()
     {
-        if (_selectedVisit is null) return;
-
-        _selectedVisit.BasicInformation = BasicInformation.Adapt<BasicInformation>();
-        await VisitService.CreateAsync(_selectedVisit);
+        await Layout.UpdateVisitAsync();
     }
 
 }
