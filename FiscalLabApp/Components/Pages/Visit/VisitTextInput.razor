@@ -4,18 +4,16 @@
 @inject NavigationManager NavigationManager
 @inject IMenuService MenuService
 @inject SelectedVisitEvent SelectedVisitEvent
+@inject IJSRuntime JsRuntime
 
 <div class="form-floating input-group mb-3">
-    <InputText class="form-control" list="@($"list-{Id}")" id="@Id" @oninput="UpdateParent" @onblur="OnBlur" @bind-Value="@Value"/>
-    <datalist id="@($"list-{Id}")">
-        @if (Menu?.Options is not null)
-        {
-            @foreach (var opt in Menu.Options.Select(o => o.Description))
-            {
-                <option value="@opt"/>
-            }
-        }
-    </datalist>
+    <InputText class="form-control" list="@($"list-{Id}")" id="@Id" @oninput="UpdateParent" @onchange="UpdateParent" @onblur="OnBlur" @bind-Value="@Value"/>
+
+    <button class="btn btn-outline-secondary" type="button" @onclick="OpenOptions">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right-circle" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.854 10.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707z"/>
+        </svg>
+    </button>
 
     @if (Required)
     {
@@ -33,6 +31,33 @@
             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
         </svg>
     </button>
+
+    <div class="modal @_modalClass" tabindex="-1" role="dialog" style="display:@_modalDisplay; overflow-y: auto;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="optionsModalLabel">@Title</h5>
+                    <button type="button" class="btn-close" @onclick="CloseOptions"></button>
+                </div>
+                <div class="modal-body">
+                    @if (Menu?.Options is not null)
+                    {
+                        <ol class="list-group list-group-numbered">
+                            @foreach (var opt in Menu.Options)
+                            {
+                                <li class="list-group-item" @onclick="() => OptionSelected(opt)">@opt.Description</li>
+                            }
+                        </ol>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (_showBackdrop)
+    {
+        <div class="modal-backdrop fade show"></div>
+    }
 </div >
 
 @code {
@@ -55,11 +80,29 @@
 
     [CascadingParameter] public string Callback { get; set; } = "/";
 
+    private string _modalDisplay = "none;";
+    private string _modalClass = string.Empty;
+    private bool _showBackdrop = false;
+
+    private void OpenOptions()
+    {
+        _modalDisplay = "block";
+        _modalClass = "show";
+        _showBackdrop = true;
+    }
+
+    private void CloseOptions()
+    {
+        _modalDisplay = "none";
+        _modalClass = string.Empty;
+        _showBackdrop = false;
+    }
+
     private async Task UpdateParent(ChangeEventArgs e)
     {
         await ValueChanged.InvokeAsync(e.Value?.ToString());
     }
-    
+
     private void OnBlur(FocusEventArgs e)
     {
         SelectedVisitEvent.NotifyFill();
@@ -82,6 +125,13 @@
         _menuId = Menu.Id;
     }
 
+    private async Task OptionSelected(Option opt)
+    {
+        Value = opt.Description;
+        await ValueChanged.InvokeAsync(opt.Description);
+        CloseOptions();
+    }
+    
     private void EditOptionsAsync()
     {
         NavigationManager.NavigateTo($"/menus/{_menuId}?Callback={NavigationManager.GetCurrentVisitUrl()}");
