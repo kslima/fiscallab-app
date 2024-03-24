@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Components\Pages\Menu\AddOption.razor" />
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\associations.json" />
     </ItemGroup>
     
 </Project>

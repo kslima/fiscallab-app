@@ -1,3 +1,27 @@
+@import url('bootstrap/bootstrap.min.css');
+
+:root {
+    --bs-danger: #c74634; /* Defina a cor "danger" como vermelho */
+}
+
+.btn.btn-primary {
+    background-color: #4a96b0 !important;
+    border-color: #4a96b0 !important;
+    color: #fff !important;
+}
+
+.btn.btn-success {
+    background-color: #467b56 !important;
+    border-color: #467b56 !important;
+    color: #fff !important;
+}
+
+.btn.btn-danger {
+    background-color: #c74634 !important;
+    border-color: #c74634 !important;
+    color: #fff !important;
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -101,3 +125,4 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
