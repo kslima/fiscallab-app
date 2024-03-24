@@ -1,3 +1,4 @@
+using FiscalLabApp.Enums;
 using FiscalLabApp.Helpers;
 
 namespace FiscalLabApp.Models;
@@ -5,6 +6,7 @@ namespace FiscalLabApp.Models;
 public class VisitViewModel
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
+    public VisitStatus Status { get; set; } = VisitStatus.InProgress;
     public BasicInformationViewModel BasicInformation { get; set; } = new();
     public SugarcaneBalanceViewModel SugarcaneBalance { get; set; } = new();
     public DesintegratorProbeViewModel DesintegratorProbe { get; set; } = new();

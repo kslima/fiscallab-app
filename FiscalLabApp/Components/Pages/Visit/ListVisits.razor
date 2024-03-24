@@ -3,6 +3,7 @@
 @using FiscalLabApp.Services
 @using Mapster
 @using FiscalLabApp.Helpers
+@using FiscalLabApp.Enums
 
 
 @inject IVisitService VisitService
@@ -22,7 +23,7 @@
             Nova Visita
         </button>
     </div>
-    @foreach (var visit in _visits)
+    @foreach (var visit in _visits.Where(v => v.Status != VisitStatus.Cancelled))
     {
         <div class="card mb-3 rounded shadow p-2"
              style="@GetBorderStyle(visit)">
@@ -79,6 +80,9 @@
                 <button class="btn card" type="button" @onclick="() => EditVisit(visit)">
                     <EditIcon/>
                 </button>
+                <button class="btn card ms-2" type="button" @onclick="() => DeleteVisitAsync(visit)">
+                    <DeleteIcon/>
+                </button>
                 <button class="btn card ms-2" type="button" @onclick="() => GetPdf(visit.Id)">
                     <PdfIcon/>
                 </button>
@@ -114,10 +118,19 @@
 
     private void EditVisit(VisitViewModel visit)
     {
-        // SelectedVisitEvent.SelectedVisitModel = visit;
-        // SelectedVisitEvent.NotifySelectedVisit(visit);
         NavigationManager.NavigateTo($"/visits/{visit.Id}/main");
     }
+
+    private async Task DeleteVisitAsync(VisitViewModel visit)
+    {
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Remover visita ?");
+        if (!confirmed) return;
+
+        await VisitService.DeleteAsync(visit.Id);
+        await JsRuntime.InvokeVoidAsync("removeFocusFromAllElements");
+        await SyncVisits();
+    }
+
 
     private async Task MarkAsNotifyByEmail(VisitViewModel visitViewModel)
     {

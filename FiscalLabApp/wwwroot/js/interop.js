@@ -54,3 +54,7 @@ window.savePdf = function (base64Pdf, name) {
     link.download = name;
     link.click();
 }
+
+window.removeFocusFromAllElements = function() {
+    document.activeElement.blur();
+};

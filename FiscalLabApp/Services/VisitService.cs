@@ -1,4 +1,5 @@
-﻿using FiscalLabApp.Interfaces;
+﻿using FiscalLabApp.Enums;
+using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
 
 namespace FiscalLabApp.Services;
@@ -28,9 +29,16 @@ public class VisitService(IndexedDbAccessor indexedDbAccessor, IApiService apiSe
         return await indexedDbAccessor.GetValueByIdAsync<Visit>(VisitCollectionName, id);
     }
 
-    public Task DeleteAsync(string id)
+    public async Task DeleteAsync(string id)
     {
-        return indexedDbAccessor.DeleteAsync(VisitCollectionName, id);
+        var visit = await indexedDbAccessor.GetValueByIdAsync<Visit>(VisitCollectionName, id);
+        if (visit.SyncedAt is not null)
+        {
+            visit.Status = VisitStatus.Cancelled;
+            await UpdateAsync(visit);
+            return;
+        }
+        await indexedDbAccessor.DeleteAsync(VisitCollectionName, id);
     }
 
     public async Task<Visit[]> GetAllAsync()

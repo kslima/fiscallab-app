@@ -1,8 +1,11 @@
+using FiscalLabApp.Enums;
+
 namespace FiscalLabApp.Models;
 
 public class Visit
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
+    public VisitStatus Status { get; set; } = VisitStatus.InProgress;
     public BasicInformation BasicInformation { get; set; } = new();
     public SugarcaneBalance SugarcaneBalance { get; set; } = new();
     public DesintegratorProbe DesintegratorProbe { get; set; } = new();
