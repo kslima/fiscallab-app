@@ -43,10 +43,11 @@
                     @if (Menu?.Options is not null)
                     {
                         <ol class="list-group list-group-numbered">
-                            @foreach (var (opt, index) in Menu.Options.Select((value, i) => (value, i)))
+                            @foreach (var opt in Menu.Options)
                             {
-                                var liClass = index == SelectedIndex ? "list-group-item active" : "list-group-item";
-                                <li class=@liClass @onclick="() => OptionSelected(opt, index)">@opt.Description</li>
+                                var isCurrentValue = opt.Description.Trim().Equals(Value.Trim());
+                                var liClass = isCurrentValue ? "list-group-item active" : "list-group-item";
+                                <li class=@liClass @onclick="() => OptionSelected(opt)">@opt.Description</li>
                             }
                         </ol>
                     }
@@ -66,8 +67,7 @@
     [Parameter] public Menu? Menu { get; set; }
 
     private string _menuId = string.Empty;
-    private int? SelectedIndex { get; set; }
-
+    
     [Parameter] public string Id { get; set; } = string.Empty;
 
     [Parameter] public string Title { get; set; } = string.Empty;
@@ -126,12 +126,11 @@
 
         _menuId = Menu.Id;
     }
-
-    private async Task OptionSelected(Option opt, int index)
+    
+    private async Task OptionSelected(Option opt)
     {
         Value = opt.Description;
         await ValueChanged.InvokeAsync(opt.Description);
-        SelectedIndex = index;
         CloseOptions();
     }
 
