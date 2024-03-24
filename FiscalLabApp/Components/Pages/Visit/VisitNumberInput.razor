@@ -1,7 +1,7 @@
 ﻿@using FiscalLabApp.Services
 @inject SelectedVisitEventNotifier SelectedVisitEventNotifier
 
-<div class="form-floating mb-3">
+<div class="form-floating">
     <InputNumber class="form-control" id="@Id" @oninput="UpdateParent"  @onblur="OnBlur" @bind-Value="Value" readonly="@Readonly"/>
   <label for="@Id">@Title</label>
 </div >

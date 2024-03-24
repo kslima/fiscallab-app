@@ -46,150 +46,94 @@
             </InputSelect>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
+    <div class="d-flex">
+        <div class="me-1">
             <VisitNumberInput Title="Pbu" Id="benchmarkingEquipmentExpectedCrop" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Pbu" ValueUpdated="CalculateAtr"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="me-1">
             <VisitNumberInput Title="Brix" Id="benchmarkingEquipmentAccomplishedCrop" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Brix" ValueUpdated="CalculateAtr"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <VisitNumberInput Title="Leitura Sacarimétrica" Id="benchmarkingEquipmentPreviousCrop" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Ls" ValueUpdated="CalculateAtr"/>
-        </div>
+        <VisitNumberInput Title="LS" Id="benchmarkingEquipmentPreviousCrop" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Ls" ValueUpdated="CalculateAtr"/>
     </div>
 </VisitDataSeparator>
 
-<VisitDataSeparator Title="Resultados Atr">
-    <div class="row">
-        <div class="col">
+<VisitDataSeparator Title="Atr">
+    <div class="d-flex">
+        <div class="me-1">
             <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAtr" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Atr" Readonly="true" ValueUpdated="CalculateAtrDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="me-1">
             <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAtr" @bind-value="SystemConsistency.ConsecanaSugarcaneAnalysis.Atr" ValueUpdated="CalculateAtrDifference"/>
         </div>
+        <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAtr" @bind-value="SystemConsistency.DifferenceAtr" Readonly="true"/>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAtr" @bind-value="SystemConsistency.DifferenceAtr" Readonly="true"/>
-        </div>
-    </div>
 </VisitDataSeparator>
 
-<VisitDataSeparator Title="Resultados Pureza">
-    <div class="row">
-        <div class="col">
+<VisitDataSeparator Title="Pureza">
+    <div class="d-flex">
+        <div class="me-1">
             <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPurity" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Purity" Readonly="true" ValueUpdated="CalculatePurityDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="me-1">
             <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPurity" @bind-value="SystemConsistency.ConsecanaSugarcaneAnalysis.Purity" ValueUpdated="CalculatePurityDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePurity" @bind-value="SystemConsistency.DifferencePurity" Readonly="true"/>
-        </div>
+        <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePurity" @bind-value="SystemConsistency.DifferencePurity" Readonly="true"/>
     </div>
 </VisitDataSeparator>
 
-<VisitDataSeparator Title="Resultados Pol">
-    <div class="row">
-        <div class="col">
+<VisitDataSeparator Title="Pol">
+    <div class="d-flex">
+        <div class="me-1">
             <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantPol" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Pol" Readonly="true" ValueUpdated="CalculatePolDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="me-1">
             <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPol" @bind-value="SystemConsistency.ConsecanaSugarcaneAnalysis.Pol" ValueUpdated="CalculatePolDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePol" @bind-value="SystemConsistency.DifferencePol" Readonly="true"/>
-        </div>
+        <VisitNumberInput Title="Variação" Id="systemConsistencyDifferencePol" @bind-value="SystemConsistency.DifferencePol" Readonly="true"/>
     </div>
 </VisitDataSeparator>
 
-<VisitDataSeparator Title="Resultados Fibra">
-    <div class="row">
-        <div class="col">
+<VisitDataSeparator Title="Fibra">
+    <div class="d-flex">
+        <div class="me-1">
             <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantFiber" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Fiber" Readonly="true" ValueUpdated="CalculateFiberDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="me-1">
             <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaFiber" @bind-value="SystemConsistency.ConsecanaSugarcaneAnalysis.Fiber" ValueUpdated="CalculateFiberDifference"/>
         </div>
+        <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceFiber" @bind-value="SystemConsistency.DifferenceFiber" Readonly="true"/>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceFiber" @bind-value="SystemConsistency.DifferenceFiber" Readonly="true"/>
-        </div>
-    </div>
 </VisitDataSeparator>
 
-<VisitDataSeparator Title="Resultados Pcc">
-    <div class="row">
-        <div class="col">
+<VisitDataSeparator Title="Pcc">
+    <div class="d-flex">
+        <div class="me-1">
             <VisitNumberInput Title="Usina" Id="systemConsistencyPlantPcc" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Pcc" Readonly="true" ValueUpdated="CalculatePccDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="me-1">
             <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaPcc" @bind-value="SystemConsistency.ConsecanaSugarcaneAnalysis.Pcc" ValueUpdated="CalculatePccDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <VisitNumberInput Title="Pcc()" Id="systemConsistencyDifferencePcc" @bind-value="SystemConsistency.DifferencePcc" Readonly="true"/>
-        </div>
+        <VisitNumberInput Title="Pcc()" Id="systemConsistencyDifferencePcc" @bind-value="SystemConsistency.DifferencePcc" Readonly="true"/>
     </div>
 </VisitDataSeparator>
 
-
-<VisitDataSeparator Title="Resultados Ar">
-    <div class="row">
-        <div class="col">
+<VisitDataSeparator Title="Ar">
+    <div class="d-flex">
+        <div class="me-1">
             <VisitNumberInput Title="Usina" Id="cystemConsistencyPlantAr" @bind-value="SystemConsistency.PlantSugarcaneAnalysis.Ar" Readonly="true" ValueUpdated="CalculateArDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="me-1">
             <VisitNumberInput Title="Consecana" Id="systemConsistencyConsecanaAr" @bind-value="SystemConsistency.ConsecanaSugarcaneAnalysis.Ar" ValueUpdated="CalculateArDifference"/>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAr" @bind-value="SystemConsistency.DifferenceAr" Readonly="true"/>
-        </div>
+        <VisitNumberInput Title="Variação" Id="systemConsistencyDifferenceAr" @bind-value="SystemConsistency.DifferenceAr" Readonly="true"/>
     </div>
 </VisitDataSeparator>
 
 @code {
 
-    [CascadingParameter]
-    public EditVisitLayout Layout { get; set; } = new();
+    [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
     [Parameter] public string? VisitId { get; set; }
     private Visit? _selectedVisit;
     private Menu[] _options = Array.Empty<Menu>();
@@ -199,7 +143,7 @@
     {
         _options = await MenuService.GetMenuOptions(PageType.SystemConsistency);
     }
-    
+
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
@@ -208,12 +152,12 @@
         SystemConsistency = (await Layout.SyncVisit(VisitId)).SystemConsistency;
         SelectedPageEventNotifier.Notify(PageHelper.SystemConsistencyPageName);
     }
-    
+
     public void Dispose()
     {
         UpdateVisit();
     }
-    
+
     public async ValueTask DisposeAsync()
     {
         await UpdateVisit();
@@ -227,7 +171,7 @@
     private void OnClarifierSelected(ChangeEventArgs e)
     {
         if (e.Value is null) return;
-        
+
         if (!Enum.TryParse<Clarify>(e.Value.ToString(), out var clarify)) return;
         SystemConsistency.Clarifier = clarify;
         CalculateAtr();
@@ -245,13 +189,13 @@
             SystemConsistency.PlantSugarcaneAnalysis.Pbu == 0 ||
             SystemConsistency.PlantSugarcaneAnalysis.Brix == 0 ||
             SystemConsistency.PlantSugarcaneAnalysis.Ls == 0) return;
-            
+
         var sugarcaneAnalysis = new SugarcaneAnalysisViewModel(
             SystemConsistency.Clarifier.Value,
             SystemConsistency.PlantSugarcaneAnalysis.Pbu,
             SystemConsistency.PlantSugarcaneAnalysis.Brix,
             SystemConsistency.PlantSugarcaneAnalysis.Ls);
-        
+
         SystemConsistency.PlantSugarcaneAnalysis.Atr = sugarcaneAnalysis.Atr.RoundToEven(3);
         SystemConsistency.PlantSugarcaneAnalysis.Purity = sugarcaneAnalysis.Purity.RoundToEven(3);
         SystemConsistency.PlantSugarcaneAnalysis.Pol = sugarcaneAnalysis.Pol.RoundToEven(3);
@@ -259,32 +203,32 @@
         SystemConsistency.PlantSugarcaneAnalysis.Pcc = sugarcaneAnalysis.Pcc.RoundToEven(3);
         SystemConsistency.PlantSugarcaneAnalysis.Ar = sugarcaneAnalysis.Ar.RoundToEven(3);
     }
-    
+
     private void CalculateAtrDifference()
     {
         SystemConsistency.DifferenceAtr = SystemConsistency.PlantSugarcaneAnalysis.Atr - SystemConsistency.ConsecanaSugarcaneAnalysis.Atr;
     }
-    
+
     private void CalculatePurityDifference()
     {
         SystemConsistency.DifferencePurity = SystemConsistency.PlantSugarcaneAnalysis.Purity - SystemConsistency.ConsecanaSugarcaneAnalysis.Purity;
     }
-    
+
     private void CalculatePolDifference()
     {
         SystemConsistency.DifferencePol = SystemConsistency.PlantSugarcaneAnalysis.Pol - SystemConsistency.ConsecanaSugarcaneAnalysis.Pol;
     }
-    
+
     private void CalculateFiberDifference()
     {
         SystemConsistency.DifferenceFiber = SystemConsistency.PlantSugarcaneAnalysis.Fiber - SystemConsistency.ConsecanaSugarcaneAnalysis.Fiber;
     }
-    
+
     private void CalculatePccDifference()
     {
         SystemConsistency.DifferencePcc = SystemConsistency.PlantSugarcaneAnalysis.Pcc - SystemConsistency.ConsecanaSugarcaneAnalysis.Pcc;
     }
-    
+
     private void CalculateArDifference()
     {
         SystemConsistency.DifferenceAr = SystemConsistency.PlantSugarcaneAnalysis.Ar - SystemConsistency.ConsecanaSugarcaneAnalysis.Ar;
