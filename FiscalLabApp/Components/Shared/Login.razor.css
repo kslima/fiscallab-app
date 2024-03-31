@@ -1,0 +1,60 @@
+
+.content {
+    background-color: #f5f4f2;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container-sing-in {
+    background-color: #ffffff;
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-sing-in {
+    background-color: #467b56;
+    color: #ffffff;
+    font-weight: bold;
+    width: 100%;
+    border: none;
+}
+
+.btn-sing-in:hover {
+    background-color: #568563;
+    color: #ffffff;
+}
+
+.form-label {
+    color: #3e3e3e;
+}
+
+.form-control {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    width: 100%;
+}
+
+.grupo-esdra {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #467b56;
+}
+
+.container-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 70%;
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+}

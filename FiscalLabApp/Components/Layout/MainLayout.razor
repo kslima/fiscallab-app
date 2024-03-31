@@ -1,9 +1,30 @@
 ﻿@using Blazored.Toast.Configuration
 @inherits LayoutComponentBase
-<NavMenu/>
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<main class="container">
-    @Body
-</main>
+@if (_authenticationState?.User.Identity is { IsAuthenticated: false })
+{
+    <div class="main">
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+}
+else
+{
+    <NavMenu/>
+    <main class="container">
+        @Body
+    </main>
+    <BlazoredToasts Position="ToastPosition.TopRight" Timeout="10" ShowCloseButton="true" ShowProgressBar="true"/>
+}
 
-<BlazoredToasts Position="ToastPosition.TopRight" Timeout="10" ShowCloseButton="true" ShowProgressBar="true"/>
+
+@code {
+    private AuthenticationState? _authenticationState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
+}

@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddBlazoredToast();
         services.AddScoped<IndexedDbAccessor>();
         services.AddScoped<IApiService, ApiService>();
+        services.AddScoped<IAuthenticationService, ApiService>();
         services.AddScoped<IPlantService, PlantService>();
         services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<IAssociationService, AssociationService>();
@@ -20,6 +21,7 @@ public static class DependencyInjection
         services.AddScoped<SyncService>();
         services.AddSingleton<ApplicationContextAccessor>();
         services.AddSingleton<SelectedPageEventNotifier>();
+        services.AddSingleton<LoginSuccessEventNotifier>();
         services.AddSingleton<SelectedVisitEventNotifier>();
         services.AddSingleton<SyncEventNotifier>();
     }

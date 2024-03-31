@@ -1,12 +1,20 @@
+using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using Blazored.LocalStorage;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
+using FiscalLabApp.Providers;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FiscalLabApp.Services;
 
-public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
+public class ApiService(
+    IHttpClientFactory httpClientFactory,
+    AuthenticationStateProvider authenticationStateProvider,
+    ILocalStorageService localStorage) : IApiService, IAuthenticationService
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("api");
     
@@ -72,5 +80,34 @@ public class ApiService(IHttpClientFactory httpClientFactory) : IApiService
 
         var response =  (await result.Content.ReadFromJsonAsync<ApiResponse<SyncResult>>())!;
         return response.Data!;
+    }
+    
+    public async Task<Result<LoginResult>> LoginAsync(LoginRequest loginRequest)
+    {
+        var loginResult = await _httpClient.PostAsJsonAsync("accounts/login", loginRequest);
+        if (loginResult.IsSuccessStatusCode)
+        {
+            var response =  (await loginResult.Content.ReadFromJsonAsync<ApiResponse<LoginResult>>())!;
+            var token = response.Data!.Token;
+            await localStorage.SetItemAsync("authToken", token);
+            ((ApiAuthenticationStateProvider) authenticationStateProvider).MarkUserAuthenticated(loginRequest.Email);
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            return Result<LoginResult>.Success(response.Data!);
+        }
+
+        // if (loginResult.StatusCode == HttpStatusCode.Unauthorized)
+        // {
+        //     return Result<LoginResult>.Failure(new Error(nameof(HttpStatusCode.Unauthorized), "Usuário ou senha incorretos."));
+        // }
+
+        return Result<LoginResult>.Failure(new Error(nameof(HttpStatusCode.InternalServerError), "Aconteceu um erro. Por favor, tente novamente mais tarde.."));
+    }
+
+    public async Task LogoutAsync()
+    {
+        await localStorage.RemoveItemAsync("authToken");
+        ((ApiAuthenticationStateProvider) authenticationStateProvider).MarkUserLoggedOut();
+        _httpClient.DefaultRequestHeaders.Authorization = null;
     }
 }

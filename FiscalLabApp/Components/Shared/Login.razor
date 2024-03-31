@@ -1,0 +1,87 @@
+@page "/login"
+
+@using FiscalLabApp.Services
+@inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager 
+@inject LoginSuccessEventNotifier LoginSuccessEventNotifier
+
+<div class="content">
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="container-image">
+
+            <img src="logo.png" alt="Grupo Esdra" class="logo">
+            <div class="container-sing-in">
+
+                <h2 class="mb-4 text-center" style="color: #467b56;">Login</h2>
+                <EditForm Model="@LoginViewModel" OnValidSubmit="@LoginAsync">
+                    <DataAnnotationsValidator/>
+                    <div class="mb-3">
+                        <label for="email" class="form-label d-block">Email</label>
+                        <InputText type="email" class="form-control" id="email" placeholder="Seu email" @bind-Value="LoginViewModel.Email"/>
+                        <ValidationMessage For="() => LoginViewModel.Email"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label d-block">Senha</label>
+                        <InputText type="password" class="form-control" id="password" placeholder="Sua senha" @bind-Value="LoginViewModel.Password"/>
+                        <ValidationMessage For="() => LoginViewModel.Password"/>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                    {
+                        <div class="text-danger mb-2">
+                           @ErrorMessage
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-sing-in">
+                        @if (ShowLoading)
+                        {
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span role="status">Entrando...</span>
+                        }
+                        else
+                        {
+                            <span role="status">Entrar</span>
+                        }
+                    </button>
+                </EditForm >
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    public LoginViewModel LoginViewModel { get; set; } = new();
+    private bool ShowLoading { get; set; }
+    private string ErrorMessage { get; set; } = string.Empty;
+
+    private async Task LoginAsync()
+    {
+        try
+        {
+            ShowLoading = true;
+            var loginRequest = new LoginRequest
+            {
+                Email = LoginViewModel.Email,
+                Password = LoginViewModel.Password
+            };
+            var loginResult = await AuthenticationService.LoginAsync(loginRequest);
+            if (loginResult.IsFailure)
+            {
+                ErrorMessage = loginResult.Error!.Description;
+                StateHasChanged();
+                return;
+            }
+            
+            ErrorMessage = string.Empty;
+            NavigationManager.NavigateTo("/", true);
+        }
+        finally
+        {
+            ShowLoading = false;
+            StateHasChanged();
+        }
+    }
+
+}
