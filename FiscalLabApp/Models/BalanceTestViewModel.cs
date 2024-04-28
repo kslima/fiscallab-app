@@ -2,7 +2,7 @@ namespace FiscalLabApp.Models;
 
 public class BalanceTestViewModel
 {
-    public string TruckNumber { get; set; } = string.Empty;
+    public string Identification { get; set; } = string.Empty;
     public float InputBalanceWeight { get; set; }
     public float OutputBalanceWeight { get; set; }
     public float VariationBetweenBalances { get; set; }

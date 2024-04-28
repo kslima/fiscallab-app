@@ -1,3 +1,4 @@
+using FiscalLabApp.Helpers;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
 
@@ -5,17 +6,15 @@ namespace FiscalLabApp.Services;
 
 public class AssociationService(IndexedDbAccessor indexedDbAccessor) : IAssociationService
 {
-    private const string AssociationCollectionName = "associations";
-    
     public async Task<Association> CreateAsync(Association association)
     {
-        await indexedDbAccessor.SetValueAsync(AssociationCollectionName, association);
+        await indexedDbAccessor.SetValueAsync(CollectionsHelper.AssociationsCollection, association);
         return association;
     }
     
     public async Task CreateManyAsync(Association[] associations)
     {
-        await indexedDbAccessor.SetAllValuesAsync(AssociationCollectionName, associations);
+        await indexedDbAccessor.SetAllValuesAsync(CollectionsHelper.AssociationsCollection, associations);
     }
 
     public Task<Association> UpdateAsync(Association association)
@@ -25,11 +24,11 @@ public class AssociationService(IndexedDbAccessor indexedDbAccessor) : IAssociat
 
     public Task<Association> GetAsync(string id)
     {
-        return indexedDbAccessor.GetValueByIdAsync<Association>(AssociationCollectionName, id);
+        return indexedDbAccessor.GetValueByIdAsync<Association>(CollectionsHelper.AssociationsCollection, id);
     }
 
     public Task<Association[]> GetAllAsync()
     {
-        return indexedDbAccessor.GetValueAsync<Association[]>(AssociationCollectionName);
+        return indexedDbAccessor.GetValueAsync<Association[]>(CollectionsHelper.AssociationsCollection);
     }
 }

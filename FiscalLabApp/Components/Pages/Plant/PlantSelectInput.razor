@@ -2,14 +2,14 @@
 @inject NavigationManager NavigationManager
 
 <div class="form-floating input-group mb-3">
-    <InputSelect @bind-Value="_selectedPlantId" class="form-control" id="plantInput" @bind-Value:after="OnChangePlant">
-        <option value="" selected hidden>Selecione uma usina..</option>
+    <InputSelect @bind-Value="_selectedPlantId" class="form-control" id="plantInput" @bind-Value:after="OnChangePlant" style="font-size: 12px;">
+        <option value="" selected hidden style="font-size: 12px;">Selecione uma usina..</option>
         @foreach (var plant in Plants)
         {
-            <option value="@plant.Id" selected="@(CurrentPlant?.Id.Equals(plant.Id))">@($"{plant.Name} ({plant.Address.City} - {plant.Address.State})")</option>
+            <option value="@plant.Id" selected="@(CurrentPlant?.Id.Equals(plant.Id))" style="font-size: 12px;">@($"{plant.Name} ({plant.Address.City} - {plant.Address.State})")</option>
         }
     </InputSelect>
-    <label for="plantInput">Usina <strong class="text-danger">*</strong></label>
+    <label for="plantInput" style="font-size: 14px;">Usina <strong class="text-danger">*</strong></label>
     <button class="btn btn-outline-secondary" type="button" @onclick="AddPlant">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>

@@ -1,6 +1,5 @@
 ﻿@using FiscalLabApp.Services
 @using FiscalLabApp.Enums
-@using FiscalLabApp.Helpers
 @inject NavigationManager NavigationManager
 @inject ApplicationContextAccessor ApplicationContextAccessor
 @inject IJSRuntime JsRuntime
@@ -16,19 +15,30 @@
             Grupo Esdra
         </a>
         <form class="d-flex" role="search">
-            <button class="btn btn-sm btn-outline-success" type="button" @onclick="() => ModalDialog.Open()" disabled="@(!ApplicationContextAccessor.IsOnline())">Sincronizar</button>
+            <button class="btn btn-sm btn-outline-success" type="button" @onclick="OpenModal" disabled="@(!ApplicationContextAccessor.IsOnline())">Sincronizar</button>
         </form>
     </div>
 
     <ModalDialog @ref="@ModalDialog" Title="Sincronizar Dados">
-        <button class="btn btn-primary" type="button" disabled="@ShowSpinner" @onclick="SynAsync">
-            @if (ShowSpinner)
-            {
-                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-            }
-            @($"  {Status}")
-        </button>
+        <div class="p-1">
+            <button class="btn btn-primary" type="button" disabled="@ShowSpinner" @onclick="SynAsync">
+                @if (ShowSpinner)
+                {
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                }
+                @($"  {Status}")
+            </button>
 
+            @if (!string.IsNullOrWhiteSpace(Error))
+            {
+                <div class="row p-4 rounded mt-2" style="background-color: #ffb2b2">
+                    <small class="fw-semibold">@Error</small>
+                    <button class="btn btn-danger" type="button" @onclick="SynAsync">
+                        Copiar Erro
+                    </button>
+                </div>
+            }
+        </div>
     </ModalDialog>
 </nav>
 
@@ -41,6 +51,7 @@
 
     private bool ShowSpinner { get; set; }
     private string Status { get; set; } = "Sincronizar";
+    private string? Error { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -54,6 +65,12 @@
     private void OpenVisits()
     {
         NavigationManager.NavigateTo("/visits");
+    }
+
+    private void OpenModal()
+    {
+        Error = string.Empty;
+        ModalDialog.Open();
     }
 
     private async Task SynAsync()
@@ -72,7 +89,8 @@
         }
         catch (Exception e)
         {
-            Status = e.Message;
+            Error = e.ToString();
+            StateHasChanged();
         }
         finally
         {

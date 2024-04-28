@@ -2,6 +2,9 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 using Blazored.LocalStorage;
+using FiscalLabApp.Helpers;
+using FiscalLabApp.Models;
+using FiscalLabApp.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FiscalLabApp.Providers;
@@ -9,20 +12,21 @@ namespace FiscalLabApp.Providers;
 public class ApiAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly HttpClient _httpClient;
-    private readonly ILocalStorageService _localStorage;
+    private readonly IndexedDbAccessor _indexedDbAccessor;
+    public const string AuthenticationType = "apiauth";
+    public const string TokenKey = "authToken";
 
     public ApiAuthenticationStateProvider(
-        HttpClient httpClient,
-        ILocalStorageService localStorage)
+        HttpClient httpClient, IndexedDbAccessor indexedDbAccessor)
     {
         _httpClient = httpClient;
-        _localStorage = localStorage;
+        _indexedDbAccessor = indexedDbAccessor;
     }
 
     public void MarkUserAuthenticated(string email)
     {
         var authenticatedUser =
-            new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Email, email), new Claim(ClaimTypes.Name, email) }, "apiauth"));
+            new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Email, email), new Claim(ClaimTypes.Name, email) }, AuthenticationType));
         var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
         NotifyAuthenticationStateChanged(authState);
     }
@@ -87,14 +91,14 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var savedToken = await _localStorage.GetItemAsync<string>("authToken");
-        if (string.IsNullOrWhiteSpace(savedToken))
+        var savedToken = await _indexedDbAccessor.GetValueOrDefaultIdAsync<KeyValue>(CollectionsHelper.KeyValueCollection, TokenKey);
+        if (savedToken is null)
         {
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
         
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
-        var claims = ParseClaimsFromJwt(savedToken).ToList();
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken.Value);
+        var claims = ParseClaimsFromJwt(savedToken.Value).ToList();
         return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt")));
     }
 }

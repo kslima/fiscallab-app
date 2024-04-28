@@ -7,10 +7,10 @@
 @inject SelectedPageEventNotifier SelectedPageEventNotifier
 
 <div class="content">
-    <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3" aria-label="Large select example" @bind-Value:after="CallVisitPage">
+    <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3" aria-label="Large select example" @bind-Value:after="CallVisitPage" style="font-size: 14px;">
         @foreach (var visitPage in Pages)
         {
-            <option value="@visitPage.Name" checked="@(visitPage.Name.Equals(NavigationManager.GetCurrentVisitPage()))">
+            <option value="@visitPage.Name" checked="@(visitPage.Name.Equals(NavigationManager.GetCurrentVisitPage()))" style="font-size: 14px;">
                 @($"{visitPage.DisplayName} ({visitPage.TotalItems - visitPage.PendingItems} de {visitPage.TotalItems})")
             </option>
         }

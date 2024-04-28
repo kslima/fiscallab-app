@@ -11,7 +11,7 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Placa</th>
+        <th>Identificação</th>
         <th>Entrada</th>
         <th>Saída</th>
         <th>Diferença</th>
@@ -23,7 +23,7 @@
     @foreach (var test in _tests)
     {
         <tr>
-            <td>@test.TruckNumber</td>
+            <td>@test.Identification</td>
             <td>@test.InputBalanceWeight.FormatToBrazil()</td>
             <td>@test.OutputBalanceWeight.FormatToBrazil()</td>
             <td>@test.VariationBetweenBalances.FormatToBrazil()</td>
@@ -40,9 +40,9 @@
 <EditForm Model="@_selectedTest" OnValidSubmit="@AddOrUpdateBalanceTest">
     <DataAnnotationsValidator/>
     <div class="form-floating mb-3">
-        <InputText class="form-control" id="truckNumberInput" @bind-Value="_selectedTest.TruckNumber"/>
-        <label for="truckNumberInput">Placa <strong class="text-danger">*</strong></label>
-        <ValidationMessage For="() => _selectedTest.TruckNumber"/>
+        <InputText class="form-control" id="identificationInput" @bind-Value="_selectedTest.Identification"/>
+        <label for="identificationInput">Identificação <strong class="text-danger">*</strong></label>
+        <ValidationMessage For="() => _selectedTest.Identification"/>
     </div >
 
     <div class="row">
@@ -72,7 +72,7 @@
 
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-outline-success mb-3 ms-3">Salvar</button>
-        <button type="button" class="btn btn-outline-danger mb-3 ms-3" disabled="@(!_tests.Exists(x => x.TruckNumber.Equals(_selectedTest.TruckNumber)))" @onclick="Remove">Excluir</button>
+        <button type="button" class="btn btn-outline-danger mb-3 ms-3" disabled="@(!_tests.Exists(x => x.Identification.Equals(_selectedTest.Identification)))" @onclick="Remove">Excluir</button>
         <button type="button" class="btn btn-outline-secondary mb-3 ms-3" @onclick="Cancel">Cancelar</button>
     </div>
 </EditForm >
@@ -106,7 +106,7 @@
 
     private void AddOrUpdateBalanceTest()
     {
-        if (_tests.Exists(x => x.TruckNumber.Equals(_selectedTest.TruckNumber)))
+        if (_tests.Exists(x => x.Identification.Equals(_selectedTest.Identification)))
         {
             _selectedTest = new BalanceTestViewModel();
             StateHasChanged();

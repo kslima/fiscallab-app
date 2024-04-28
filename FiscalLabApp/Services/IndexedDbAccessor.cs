@@ -1,16 +1,11 @@
-﻿using FiscalLabApp.Interfaces;
+﻿
 using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Services;
 
 public class IndexedDbAccessor(
-    IJSRuntime jsRuntime,
-    IApiService apiService) : IDisposable, IAsyncDisposable
+    IJSRuntime jsRuntime) : IDisposable, IAsyncDisposable
 {
-    public const string MenuCollectionName = "menus";
-    private const string PlantCollectionName = "plants";
-    private const string AssociationCollectionName = "associations";
-
     private Lazy<IJSObjectReference> _accessorJsRef = new();
 
     public async Task InitializeAsync()
@@ -41,6 +36,14 @@ public class IndexedDbAccessor(
     {
         await WaitForReference();
         var result = await _accessorJsRef.Value.InvokeAsync<T>("getById", collectionName, key);
+
+        return result;
+    }
+    
+    public async Task<T?> GetValueOrDefaultIdAsync<T>(string collectionName, string key)
+    {
+        await WaitForReference();
+        var result = await _accessorJsRef.Value.InvokeAsync<T?>("getById", collectionName, key);
 
         return result;
     }

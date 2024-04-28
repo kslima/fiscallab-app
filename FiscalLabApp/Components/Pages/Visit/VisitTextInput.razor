@@ -7,7 +7,7 @@
 @inject IJSRuntime JsRuntime
 
 <div class="form-floating input-group mb-3">
-   <InputText class="form-control" id="@Id" @oninput="UpdateParent" @onchange="UpdateParent" @onblur="OnBlur" @bind-Value="@Value"/>
+   <InputTextArea class="form-control" id="@Id" @oninput="UpdateParent" @onchange="UpdateParent" @onblur="OnBlur" @bind-Value="@Value" style="font-size: 12px; height: fit-content" rows="@Rows"/>
 
     <button class="btn btn-outline-secondary" type="button" @onclick="OpenOptions">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right-circle" viewBox="0 0 16 16">
@@ -17,13 +17,13 @@
 
     @if (Required)
     {
-        <label for="@Id">
+        <label for="@Id" style="font-size: 14px;">
             @Title <strong class="text-danger">*</strong>
         </label>
     }
     else
     {
-        <label for="@Id">@Title</label>
+        <label for="@Id" style="font-size: 14px;">@Title</label>
     }
     <button class="btn btn-outline-secondary" type="button" @onclick="EditOptionsAsync">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -67,6 +67,8 @@
     [Parameter] public Menu? Menu { get; set; }
 
     private string _menuId = string.Empty;
+    
+    private int Rows { get; set; }
     
     [Parameter] public string Id { get; set; } = string.Empty;
 
@@ -125,6 +127,7 @@
         }
 
         _menuId = Menu.Id;
+        CalculateSize();
     }
     
     private async Task OptionSelected(Option opt)
@@ -137,6 +140,11 @@
     private void EditOptionsAsync()
     {
         NavigationManager.NavigateTo($"/menus/{_menuId}?Callback={NavigationManager.GetCurrentVisitUrl()}");
+    }
+    
+    private void CalculateSize()
+    {
+        Rows = (Value.Length / 30) + 1;
     }
 
 }

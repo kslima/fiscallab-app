@@ -19,6 +19,7 @@ public class SyncService(
     
     public async Task SyncAsync()
     {
+        throw new InvalidOperationException("Invalid operation...");
         var plants = await plantService.GetAllAsync();
         var associations = await associationService.GetAllAsync();
         var menus = await menuService.GetAllAsync();

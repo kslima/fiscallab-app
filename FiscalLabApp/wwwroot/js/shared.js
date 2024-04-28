@@ -9,6 +9,7 @@ let LAST_SYNC_INFO_COLLECTION = "last_sync_info";
 let LAST_UPDATE_INFO_COLLECTION = "last_update_info";
 let LAST_SYNC_KEY = "last_sync_at";
 let LAST_UPDATE_KEY = "last_update_at";
+let KEY_VALUE_COLLECTION = "key_values";
 
 let SYNC_PROCESS_NAME = "background-sync";
 
@@ -24,7 +25,7 @@ function openDatabase() {
         request.onupgradeneeded = function (event) {
             let db = event.target.result;
 
-            let collectionsToCreate = [PLANTS_COLLECTION, ASSOCIATIONS_COLLECTION, MENUS_COLLECTION, VISITS_COLLECTION, LAST_SYNC_INFO_COLLECTION, LAST_UPDATE_INFO_COLLECTION];
+            let collectionsToCreate = [PLANTS_COLLECTION, ASSOCIATIONS_COLLECTION, MENUS_COLLECTION, VISITS_COLLECTION, LAST_SYNC_INFO_COLLECTION, LAST_UPDATE_INFO_COLLECTION, KEY_VALUE_COLLECTION];
             collectionsToCreate.forEach(c => {
                 if (!db.objectStoreNames.contains(c)) {
                     db.createObjectStore(c, {keyPath: "id"});
