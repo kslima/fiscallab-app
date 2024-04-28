@@ -33,7 +33,7 @@
             {
                 <div class="row p-4 rounded mt-2" style="background-color: #ffb2b2">
                     <small class="fw-semibold">@Error</small>
-                    <button class="btn btn-danger" type="button" @onclick="SynAsync">
+                    <button class="btn btn-danger" type="button" @onclick="CopyError">
                         Copiar Erro
                     </button>
                 </div>
@@ -43,7 +43,7 @@
 </nav>
 
 @code {
-
+    
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
@@ -73,6 +73,11 @@
         ModalDialog.Open();
     }
 
+    private async Task CopyError()
+    {
+        await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+    }
+    
     private async Task SynAsync()
     {
         try
