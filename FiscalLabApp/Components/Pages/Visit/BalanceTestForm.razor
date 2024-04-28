@@ -48,7 +48,7 @@
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <InputNumber class="form-control" id="inputBalanceWeight" @bind-Value="_selectedTest.InputBalanceWeight" @onblur="UpdateVariationBetweenBalances" />
+                <InputNumber class="form-control" id="inputBalanceWeight" @bind-Value="_selectedTest.InputBalanceWeight" @onblur="() => UpdateVariationBetweenBalances(_selectedTest)" />
                 <label for="inputBalanceWeight">Entrada<strong class="text-danger">*</strong></label>
                 <ValidationMessage For="() => _selectedTest.InputBalanceWeight"/>
             </div >
@@ -56,7 +56,7 @@
 
         <div class="col">
             <div class="form-floating mb-3">
-                <InputNumber class="form-control" id="outputBalanceWeight" @bind-Value="_selectedTest.OutputBalanceWeight" @onblur="UpdateVariationBetweenBalances"/>
+                <InputNumber class="form-control" id="outputBalanceWeight" @bind-Value="_selectedTest.OutputBalanceWeight" @onblur="() => UpdateVariationBetweenBalances(_selectedTest)"/>
                 <label for="outputBalanceWeight">Saída<strong class="text-danger">*</strong></label>
                 <ValidationMessage For="() => _selectedTest.OutputBalanceWeight"/>
             </div >
@@ -92,6 +92,7 @@
         {
             _selectedVisit = await VisitService.GetByIdAsync(VisitId);
             _tests = _selectedVisit.BalanceTests.Adapt<List<BalanceTestViewModel>>();
+            _tests.ForEach(UpdateVariationBetweenBalances);
         }
     }
 
@@ -117,10 +118,10 @@
         _selectedTest = new BalanceTestViewModel();
         StateHasChanged();
     }
-
-    private void UpdateVariationBetweenBalances()
+    
+    private void UpdateVariationBetweenBalances(BalanceTestViewModel balanceTestViewModel)
     {
-        _selectedTest.VariationBetweenBalances = _selectedTest.InputBalanceWeight - _selectedTest.OutputBalanceWeight;
+        balanceTestViewModel.VariationBetweenBalances = balanceTestViewModel.InputBalanceWeight - balanceTestViewModel.OutputBalanceWeight;
     }
     
     private async Task UpdateTests()
