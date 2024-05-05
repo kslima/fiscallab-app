@@ -6,7 +6,7 @@ public interface IAssociationService
 {
     Task<Association> CreateAsync(Association association);
     Task CreateManyAsync(Association[] associations);
-    Task<Association> UpdateAsync(Association association);
+    Task<Association> UpdateAsync(string id, Association association);
     Task<Association> GetAsync(string id);
     Task<Association[]> GetAllAsync();
 }

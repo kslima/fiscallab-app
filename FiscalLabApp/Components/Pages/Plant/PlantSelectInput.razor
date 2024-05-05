@@ -36,7 +36,6 @@
     private Plant[] Plants { get; set; } = [];
     [Parameter] public string CallbackRoute { get; set; } = "/";
     [Parameter] public Plant? CurrentPlant { get; set; }
-
     [Parameter] public EventCallback<Plant> PlantChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -67,11 +66,7 @@
         {
             _selectedPlantId = CurrentPlant.Id;
         }
-        else
-        {
-            return;
-        }
-
+        
         NavigationManager.NavigateTo($"/plants/{_selectedPlantId}?Callback={CallbackRoute}");
     }
 

@@ -77,7 +77,7 @@
         else
         {
             var plant = PlantViewModel.AsPlant();
-            await PlantService.UpdateAsync(plant);
+            await PlantService.UpdateAsync(PlantId, plant);
         }
 
         NavigationManager.NavigateTo(Callback);

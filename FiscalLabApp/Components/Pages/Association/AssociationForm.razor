@@ -110,7 +110,7 @@
             _selectedAssociation.Address.City = AssociationViewModel.City;
             _selectedAssociation.Address.State = AssociationViewModel.State;
             _selectedAssociation.Emails = emails;
-            await AssociationService.UpdateAsync(_selectedAssociation);
+            await AssociationService.UpdateAsync(AssociationId, _selectedAssociation);
         }
 
         NavigationManager.NavigateTo(Callback);

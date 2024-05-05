@@ -6,6 +6,8 @@ public interface IApiService
 {
     Task<ApiResponse<Plant>> CreatePlantAsync(Plant plant);
     Task<ApiResponse<Plant>> UpdatePlantAsync(string plantId, Plant plant);
+    Task<ApiResponse<Association>> CreateAssociationAsync(Association association);
+    Task<ApiResponse<Association>> UpdateAssociationAsync(string associationId, Association association);
     Task<VisitPage[]> GetAllVisitPagesAsync();
     Task<Menu[]> GetAllMenusAsync();
     Task<Plant[]> GetAllPlantsAsync();

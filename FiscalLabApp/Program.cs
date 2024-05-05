@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using FiscalLabApp.Components;
 using FiscalLabApp.Extensions;
+using FiscalLabApp.Handlers;
 using FiscalLabApp.Providers;
 using FiscalLabApp.Resources;
 using FiscalLabApp.Services;
@@ -24,7 +25,10 @@ var apiOptions = builder.Configuration
 builder.Services.AddSingleton(apiOptions);
 
 builder.Services.AddHttpClient();
-builder.Services.AddHttpClient("api", client => { client.BaseAddress = new Uri(apiOptions.BaseUrl); });
+builder.Services.AddTransient<AuthenticatedHttpClientHandler>();
+builder.Services
+    .AddHttpClient("api", client => { client.BaseAddress = new Uri(apiOptions.BaseUrl); })
+    .AddHttpMessageHandler<AuthenticatedHttpClientHandler>();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore(_ => { });

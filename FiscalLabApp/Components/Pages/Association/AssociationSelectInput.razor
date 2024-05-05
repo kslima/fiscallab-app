@@ -67,10 +67,7 @@
         {
             _selectedAssociationId = CurrentAssociation.Id;
         }
-        else
-        {
-            return;
-        }
+        
         NavigationManager.NavigateTo($"/associations/{_selectedAssociationId}?Callback={CallbackRoute}");
     }
 
@@ -89,5 +86,4 @@
         var selectedAssociation = Associations.Single(p => p.Id.Equals(_selectedAssociationId));
         return AssociationChanged.InvokeAsync(selectedAssociation);
     }
-
 }

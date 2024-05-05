@@ -34,6 +34,22 @@ public class ApiService(
         return (await result.Content.ReadFromJsonAsync<ApiResponse<Plant>>())!;
     }
 
+    public async Task<ApiResponse<Association>> CreateAssociationAsync(Association association)
+    {
+        var result = await _httpClient.PostAsJsonAsync("associations", association);
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<Association>>())!;
+    }
+
+    public async Task<ApiResponse<Association>> UpdateAssociationAsync(string associationId, Association association)
+    {
+        var result = await _httpClient.PutAsJsonAsync($"associations/{associationId}", association);
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<Association>>())!;
+    }
+
     public async Task<VisitPage[]> GetAllVisitPagesAsync()
     {
         var result = await _httpClient.GetAsync("visit-pages");

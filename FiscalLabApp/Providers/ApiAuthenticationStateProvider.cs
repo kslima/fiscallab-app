@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
-using Blazored.LocalStorage;
 using FiscalLabApp.Helpers;
 using FiscalLabApp.Models;
 using FiscalLabApp.Services;
@@ -17,16 +16,17 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
     public const string TokenKey = "authToken";
 
     public ApiAuthenticationStateProvider(
-        HttpClient httpClient, IndexedDbAccessor indexedDbAccessor)
+        IHttpClientFactory httpClientFactory, IndexedDbAccessor indexedDbAccessor)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("api");
         _indexedDbAccessor = indexedDbAccessor;
     }
 
     public void MarkUserAuthenticated(string email)
     {
         var authenticatedUser =
-            new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Email, email), new Claim(ClaimTypes.Name, email) }, AuthenticationType));
+            new ClaimsPrincipal(new ClaimsIdentity(
+                new[] { new Claim(ClaimTypes.Email, email), new Claim(ClaimTypes.Name, email) }, AuthenticationType));
         var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
         NotifyAuthenticationStateChanged(authState);
     }
@@ -45,7 +45,7 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
         var payload = jwt.Split('.')[1];
         var jsonBytes = ParseBase64WithoutPadding(payload);
         var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes)!;
-        
+
         if (keyValuePairs!.TryGetValue(ClaimTypes.Role, out object? roles))
         {
             if (roles.ToString()!.Trim().StartsWith("["))
@@ -60,10 +60,10 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
             {
                 claims.Add(new Claim(ClaimTypes.Role, roles.ToString()!));
             }
-            
+
             keyValuePairs.Remove(ClaimTypes.Role);
         }
-        
+
         if (keyValuePairs.TryGetValue(ClaimTypes.Name, out object? name))
         {
             claims.Add(new Claim(ClaimTypes.Name, name.ToString()!));
@@ -91,7 +91,8 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var savedToken = await _indexedDbAccessor.GetValueOrDefaultIdAsync<KeyValue>(CollectionsHelper.KeyValueCollection, TokenKey);
+        var savedToken =
+            await _indexedDbAccessor.GetValueOrDefaultIdAsync<KeyValue>(CollectionsHelper.KeyValueCollection, TokenKey);
         if (savedToken is null)
         {
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
