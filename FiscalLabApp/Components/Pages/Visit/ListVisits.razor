@@ -142,7 +142,7 @@
 
     private async Task GetPdf(string visitId)
     {
-        if (!ApplicationContextAccessor.IsOnline())
+        if (ApplicationContextAccessor.IsOffline())
         {
             ToastService.ShowError(MessageHelper.NoInternetConnection);
             return;

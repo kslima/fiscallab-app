@@ -10,4 +10,9 @@ public class ApplicationContextAccessor
     {
         return NetworkStatus == NetworkStatus.Online;
     }
+    
+    public bool IsOffline()
+    {
+        return !IsOnline();
+    }
 }

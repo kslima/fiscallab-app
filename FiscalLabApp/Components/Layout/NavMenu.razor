@@ -7,15 +7,16 @@
 @inject SyncService SyncService
 @inject IToastService ToastService
 @inject SyncEventNotifier SyncEventNotifier
+@inject NetworkStatusEventNotifier NetworkStatusEventNotifier
 
 <nav class="navbar shadow mb-4" style="background-color: #ffffff;">
     <div class="container-fluid">
         <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
             <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
-            Grupo Esdra
+            Grupo Esdra - v1.1.2
         </a>
         <form class="d-flex" role="search">
-            <button class="btn btn-sm btn-outline-success" type="button" @onclick="OpenModal" disabled="@(!ApplicationContextAccessor.IsOnline())">Sincronizar</button>
+            <button class="btn btn-sm btn-outline-success" type="button" @onclick="OpenModal" disabled="@(ApplicationContextAccessor.IsOffline())">Sincronizar</button>
         </form>
     </div>
 
@@ -43,7 +44,7 @@
 </nav>
 
 @code {
-    
+
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
@@ -77,7 +78,7 @@
     {
         await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
     }
-    
+
     private async Task SynAsync()
     {
         try
@@ -106,7 +107,9 @@
     [JSInvokable]
     public Task SetOnlineStatus(bool isOnline, bool isWiFi)
     {
-        ApplicationContextAccessor.NetworkStatus = isOnline ? NetworkStatus.Online : NetworkStatus.Offline;
+        var status = isOnline ? NetworkStatus.Online : NetworkStatus.Offline;
+        ApplicationContextAccessor.NetworkStatus = status;
+        NetworkStatusEventNotifier.Notify(status);
         StateHasChanged();
         return Task.CompletedTask;
     }

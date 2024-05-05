@@ -18,6 +18,22 @@ public class ApiService(
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("api");
 
+    public async Task<ApiResponse<Plant>> CreatePlantAsync(Plant plant)
+    {
+        var result = await _httpClient.PostAsJsonAsync("plants", plant);
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<Plant>>())!;
+    }
+    
+    public async Task<ApiResponse<Plant>> UpdatePlantAsync(string plantId, Plant plant)
+    {
+        var result = await _httpClient.PutAsJsonAsync($"plants/{plantId}", plant);
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<Plant>>())!;
+    }
+
     public async Task<VisitPage[]> GetAllVisitPagesAsync()
     {
         var result = await _httpClient.GetAsync("visit-pages");
@@ -98,10 +114,10 @@ public class ApiService(
             return Result<LoginResult>.Success(response.Data!);
         }
 
-        // if (loginResult.StatusCode == HttpStatusCode.Unauthorized)
-        // {
-        //     return Result<LoginResult>.Failure(new Error(nameof(HttpStatusCode.Unauthorized), "Usuário ou senha incorretos."));
-        // }
+        if (loginResult.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            return Result<LoginResult>.Failure(new Error(nameof(HttpStatusCode.Unauthorized), "Usuário ou senha incorretos."));
+        }
 
         return Result<LoginResult>.Failure(new Error(nameof(HttpStatusCode.InternalServerError),
             "Aconteceu um erro. Por favor, tente novamente mais tarde.."));

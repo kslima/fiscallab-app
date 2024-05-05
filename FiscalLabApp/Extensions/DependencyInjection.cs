@@ -20,8 +20,8 @@ public static class DependencyInjection
         services.AddScoped<IVisitService, VisitService>();
         services.AddScoped<SyncService>();
         services.AddSingleton<ApplicationContextAccessor>();
+        services.AddSingleton<NetworkStatusEventNotifier>();
         services.AddSingleton<SelectedPageEventNotifier>();
-        services.AddSingleton<LoginSuccessEventNotifier>();
         services.AddSingleton<SelectedVisitEventNotifier>();
         services.AddSingleton<SyncEventNotifier>();
     }
