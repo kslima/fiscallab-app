@@ -40,7 +40,7 @@ public class SyncService(
         }
         
         var visits = await visitService.GetAllAsync();
-        if (visits.Length > 0) return;
+        if (visits.Length == 0) return;
         
         var syncModel = new SyncModel
         {
