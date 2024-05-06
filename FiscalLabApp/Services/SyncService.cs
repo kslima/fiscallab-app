@@ -19,6 +19,43 @@ public class SyncService(
     
     public async Task SyncAsync()
     {
+        var syncData = await GetSyncDataAsync();
+        
+        if (syncData.Menus.Length == 0)
+        {
+            var options = await apiService.ListOptionsAsync();
+            await menuService.CreateManyAsync(options);
+        }
+        
+        if (syncData.Associations.Length == 0)
+        {
+            var associations = await apiService.ListAssociationsAsync();
+            await associationService.CreateManyAsync(associations);
+        }
+        
+        if (syncData.Plants.Length == 0)
+        {
+            var plants = await apiService.ListPlantAsync();
+            await plantService.CreateManyAsync(plants);
+        }
+        
+        var visits = await visitService.GetAllAsync();
+        if (visits.Length > 0) return;
+        
+        var syncModel = new SyncModel
+        {
+            Visits = visits
+        };
+
+        var syncResult = await apiService.SyncDataAsync(syncModel);
+        if (syncResult.Visits.Length > 0)
+        {
+            await visitService.CreateManyAsync(syncResult.Visits);
+        }
+    }
+    
+    public async Task<SyncModel> GetSyncDataAsync()
+    {
         var plants = await plantService.GetAllAsync();
         var associations = await associationService.GetAllAsync();
         var menus = await menuService.GetAllAsync();
@@ -32,27 +69,7 @@ public class SyncService(
             Visits = visits
         };
 
-        var syncResult = await apiService.SyncDataAsync(syncModel);
-
-        if (syncResult.Plants.Length > 0)
-        {
-            await plantService.CreateManyAsync(syncResult.Plants);
-        }
-        
-        if (syncResult.Associations.Length > 0)
-        {
-            await associationService.CreateManyAsync(syncResult.Associations);
-        }
-        
-        if (syncResult.Menus.Length > 0)
-        {
-            await menuService.CreateManyAsync(syncResult.Menus);
-        }
-        
-        if (syncResult.Visits.Length > 0)
-        {
-            await visitService.CreateManyAsync(syncResult.Visits);
-        }
+        return syncModel;
     }
 
     public async Task<bool> NeedSync()

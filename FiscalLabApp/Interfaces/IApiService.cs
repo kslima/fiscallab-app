@@ -9,9 +9,9 @@ public interface IApiService
     Task<ApiResponse<Association>> CreateAssociationAsync(Association association);
     Task<ApiResponse<Association>> UpdateAssociationAsync(string associationId, Association association);
     Task<VisitPage[]> GetAllVisitPagesAsync();
-    Task<Menu[]> GetAllMenusAsync();
-    Task<Plant[]> GetAllPlantsAsync();
-    Task<Association[]> GetAllAssociationsAsync();
+    Task<Menu[]> ListOptionsAsync();
+    Task<Plant[]> ListPlantAsync();
+    Task<Association[]> ListAssociationsAsync();
     Task<bool> CreateManyVisits(Visit[] visits);
     Task<byte[]> GenerateVisitPdf(string visitId);
     Task<SyncResult> SyncDataAsync(SyncModel syncModel);

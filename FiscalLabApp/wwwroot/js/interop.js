@@ -58,3 +58,25 @@ window.savePdf = function (base64Pdf, name) {
 window.removeFocusFromAllElements = function() {
     document.activeElement.blur();
 };
+
+window.shareJsonFile = function (jsonContent, fileName) {
+    let utf8Bytes = new TextEncoder().encode(jsonContent);
+    let blob = new Blob([utf8Bytes], { type: 'application/json;charset=utf-8' });
+    let url = window.URL.createObjectURL(blob);
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    
+    window.URL.revokeObjectURL(url);
+}
+
+window.clearIndexedDB = async function () {
+    let dbNames = await indexedDB.databases();
+    dbNames.forEach(function (db) {
+        console.log("limpando banco: " + db.name)
+        indexedDB.deleteDatabase(db.name);
+    });
+
+    window.location.reload();
+}

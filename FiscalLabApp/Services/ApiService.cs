@@ -59,7 +59,7 @@ public class ApiService(
         return response.Data!;
     }
 
-    public async Task<Menu[]> GetAllMenusAsync()
+    public async Task<Menu[]> ListOptionsAsync()
     {
         var result = await _httpClient.GetAsync("menus");
         result.EnsureSuccessStatusCode();
@@ -68,7 +68,7 @@ public class ApiService(
         return response.Data!;
     }
 
-    public async Task<Plant[]> GetAllPlantsAsync()
+    public async Task<Plant[]> ListPlantAsync()
     {
         var result = await _httpClient.GetAsync("plants");
         result.EnsureSuccessStatusCode();
@@ -77,7 +77,7 @@ public class ApiService(
         return response.Data!;
     }
 
-    public async Task<Association[]> GetAllAssociationsAsync()
+    public async Task<Association[]> ListAssociationsAsync()
     {
         var result = await _httpClient.GetAsync("associations");
         result.EnsureSuccessStatusCode();
