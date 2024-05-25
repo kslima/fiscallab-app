@@ -1,0 +1,138 @@
+@using System.Text.Json
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
+@inject ApplicationContextAccessor ApplicationContextAccessor
+@inject SyncService SyncService
+@inject SyncEventNotifier SyncEventNotifier
+@inject IJSRuntime JsRuntime
+@inject IToastService ToastService
+
+<div class="d-flex flex-column">
+    <button class="btn btn-sm btn-success mb-4 btn-lg" type="button" @onclick="SyncVisitsAsync" disabled="@(ApplicationContextAccessor.IsOffline() || ShowSyncVisitsSpinner)">
+        @if (ShowSyncVisitsSpinner)
+        {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        }
+        @($"  {SyncVisitsStatus}")
+    </button>
+
+    <button class="btn btn-sm btn-success mb-4 btn-lg" type="button" @onclick="BackupData">
+        @if (ShowBackupSpinner)
+        {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        }
+        @($"  {BackupStatus}")
+    </button>
+    <button class="btn btn-sm btn-danger mb-4 btn-lg" type="button" @onclick="ClearDataBase" disabled="@(ApplicationContextAccessor.IsOffline())">
+        @if (ShowClearDataSpinner)
+        {
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        }
+        @($"  {ClearDataStatus}")
+    </button>
+</div>
+
+@code {
+    private bool ShowSyncVisitsSpinner { get; set; }
+    private string SyncVisitsStatus { get; set; } = "Sincronizar visitas";
+    
+    private bool ShowBackupSpinner { get; set; }
+    private string BackupStatus { get; set; } = "Backup";
+    
+    private bool ShowClearDataSpinner { get; set; }
+    private string ClearDataStatus { get; set; } = "Limpar dados";
+    private string? Error { get; set; }
+
+    private async Task SyncVisitsAsync()
+    {
+        try
+        {
+            SyncVisitsStatus = "Sincronizando....";
+            ShowSyncVisitsSpinner = true;
+            StateHasChanged();
+            await SyncService.SyncAsync();
+            StateHasChanged();
+            await SyncEventNotifier.NotifyAsync();
+            ToastService.ShowSuccess(MessageHelper.SuccessOnSyncVisits);
+        }
+        catch (Exception e)
+        {
+            Error = e.ToString();
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+            StateHasChanged();
+            ToastService.ShowError(MessageHelper.ErrorOnSyncVisits);
+        }
+        finally
+        {
+            SyncVisitsStatus = "Sincronizar";
+            ShowSyncVisitsSpinner = false;
+        }
+    }
+
+    private async Task BackupData()
+    {
+        try
+        {
+            BackupStatus = "Realizando backup....";
+            ShowBackupSpinner = true;
+            StateHasChanged();
+            
+            var syncData = await SyncService.GetSyncDataAsync();
+            var currentDate = DateTime.Now.ToString("ddMMyyyyHHmmss");
+            var fileName = $"backup_{currentDate}.json";
+
+            var jsonOptions = new JsonSerializerOptions
+            {
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
+                WriteIndented = true
+            };
+            await JsRuntime.InvokeAsync<object>("shareJsonFile", JsonSerializer.Serialize(syncData, jsonOptions), fileName);
+        }
+        catch (Exception e)
+        {
+            Error = e.ToString();
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+            StateHasChanged();
+            ToastService.ShowError(MessageHelper.ErrorOnBackup);
+        }
+        finally
+        {
+            BackupStatus = "Backup";
+            ShowBackupSpinner = false;
+        }
+    }
+
+    private async Task ClearDataBase()
+    {
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Limpar Aplicativo ?");
+        if (!confirmed) return;
+
+        try
+        {
+            ClearDataStatus = "Limpando dados....";
+            ShowClearDataSpinner = true;
+            StateHasChanged();
+            
+            await JsRuntime.InvokeVoidAsync("clearIndexedDB");
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            Error = e.ToString();
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+            StateHasChanged();
+            ToastService.ShowError(MessageHelper.ErrorOnClearData);
+        }
+        finally
+        {
+            ClearDataStatus = "Limpar dados";
+            ShowClearDataSpinner = false;
+        }
+    }
+
+    private async Task CopyError()
+    {
+        await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+    }
+
+}

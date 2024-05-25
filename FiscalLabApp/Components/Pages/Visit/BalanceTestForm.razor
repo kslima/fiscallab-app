@@ -129,7 +129,7 @@
         if (_selectedVisit is null) return;
 
         _selectedVisit.BalanceTests = _tests.Adapt<List<BalanceTest>>();
-        await VisitService.CreateAsync(_selectedVisit);
+        await VisitService.UpdateAsync(_selectedVisit);
 
         NavigationManager.NavigateTo($"visits/{_selectedVisit.Id}/sugarcane-balance");
     }

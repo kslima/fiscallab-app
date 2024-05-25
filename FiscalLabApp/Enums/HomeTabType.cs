@@ -1,8 +1,8 @@
 namespace FiscalLabApp.Enums;
 
-public enum VisitStatus
+public enum HomeTabType
 {
     InProgress,
-    Cancelled,
-    Done
+    Done,
+    Settings
 }

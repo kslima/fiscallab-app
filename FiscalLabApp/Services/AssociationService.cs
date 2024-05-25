@@ -54,8 +54,11 @@ public class AssociationService : IAssociationService
         return _indexedDbAccessor.GetValueByIdAsync<Association>(CollectionsHelper.AssociationsCollection, id);
     }
 
-    public Task<Association[]> GetAllAsync()
+    public async Task<Association[]> GetAllAsync()
     {
-        return _indexedDbAccessor.GetValueAsync<Association[]>(CollectionsHelper.AssociationsCollection);
+        var associations =  await _indexedDbAccessor.GetValueAsync<Association[]>(CollectionsHelper.AssociationsCollection);
+        return associations
+            .OrderBy(p => p.Name)
+            .ToArray();
     }
 }

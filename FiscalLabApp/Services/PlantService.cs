@@ -53,6 +53,9 @@ public class PlantService : IPlantService
 
     public async Task<Plant[]> GetAllAsync()
     {
-        return await _indexedDbAccessor.GetValueAsync<Plant[]>(CollectionsHelper.PlantsCollection);
+        var plants = await _indexedDbAccessor.GetValueAsync<Plant[]>(CollectionsHelper.PlantsCollection);
+        return plants
+            .OrderBy(p => p.Name)
+            .ToArray();
     }
 }

@@ -80,3 +80,16 @@ window.clearIndexedDB = async function () {
 
     window.location.reload();
 }
+
+window.checkDivScrollEnd = function (elementId, functionName, dotnetReference)
+{
+    let div = document.getElementById(elementId);
+    div.addEventListener('scroll', function () {
+        let isScrolledToBottom = div.scrollHeight - div.clientHeight <= div.scrollTop + 1;
+        if (isScrolledToBottom) {
+            dotnetReference.invokeMethodAsync(functionName);
+        }
+    });
+}
+
+

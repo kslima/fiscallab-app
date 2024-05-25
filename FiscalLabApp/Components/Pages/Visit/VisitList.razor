@@ -1,0 +1,17 @@
+﻿<Virtualize Items="Visits">
+    <ItemContent>
+        <VisitCard OnVisitDeleted="@(OnVisitDeletedAsync)" Visit="@context"></VisitCard>
+    </ItemContent>
+</Virtualize>
+
+@code {
+    [Parameter]
+    public VisitViewModel[] Visits { get; set; } = [];
+    [Parameter]
+    public EventCallback OnVisitDeleted { get; set; }
+
+    private async Task OnVisitDeletedAsync()
+    {
+        await OnVisitDeleted.InvokeAsync();
+    }
+}

@@ -1,7 +1,7 @@
 @import url('bootstrap/bootstrap.min.css');
 
 :root {
-    --bs-danger: #c74634; /* Defina a cor "danger" como vermelho */
+    --bs-danger: #c74634; 
 }
 
 .btn.btn-primary {
@@ -131,3 +131,18 @@ code {
     height: auto;
 }
 
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.text-truncate-multiline {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* Número de linhas antes de truncar */
+    overflow: hidden;
+}
+
+.default-text {
+    font-size: 12px;
+}

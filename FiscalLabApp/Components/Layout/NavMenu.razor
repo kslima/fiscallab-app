@@ -1,5 +1,4 @@
-﻿@using System.Text
-@using System.Text.Json
+﻿@using System.Text.Json
 @using FiscalLabApp.Services
 @using FiscalLabApp.Enums
 @inject NavigationManager NavigationManager
@@ -15,43 +14,10 @@
     <div class="container-fluid">
         <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
             <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
-            Grupo Esdra - v1.1.2
+            Grupo Esdra - v1.1.8
         </a>
-        <div class="row">
-            <form class="col">
-                <button class="btn btn-sm btn-outline-danger" type="button" @onclick="ClearDataBase" disabled="@(ApplicationContextAccessor.IsOffline())">Limpar App</button>
-            </form>
-            <form class="col">
-                <button class="btn btn-sm btn-outline-success" type="button" @onclick="BackupData">Backup</button>
-            </form>
-            <form class="col">
-                <button class="btn btn-sm btn-outline-success" type="button" @onclick="OpenModal" disabled="@(ApplicationContextAccessor.IsOffline())">Sincronizar</button>
-            </form>
-        </div>
-        
     </div>
-
-    <ModalDialog @ref="@ModalDialog" Title="Sincronizar Dados">
-        <div class="p-1">
-            <button class="btn btn-primary" type="button" disabled="@ShowSpinner" @onclick="SynAsync">
-                @if (ShowSpinner)
-                {
-                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                }
-                @($"  {Status}")
-            </button>
-
-            @if (!string.IsNullOrWhiteSpace(Error))
-            {
-                <div class="row p-4 rounded mt-2" style="background-color: #ffb2b2">
-                    <small class="fw-semibold">@Error</small>
-                    <button class="btn btn-danger" type="button" @onclick="CopyError">
-                        Copiar Erro
-                    </button>
-                </div>
-            }
-        </div>
-    </ModalDialog>
+    
 </nav>
 
 @code {
@@ -59,12 +25,7 @@
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
-    private ModalDialog ModalDialog { get; set; } = null!;
-
-    private bool ShowSpinner { get; set; }
-    private string Status { get; set; } = "Sincronizar";
-    private string? Error { get; set; }
-
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -78,65 +39,7 @@
     {
         NavigationManager.NavigateTo("/visits");
     }
-
-    private void OpenModal()
-    {
-        Error = string.Empty;
-        ModalDialog.Open();
-    }
-
-    private async Task CopyError()
-    {
-        await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
-    }
-
-    private async Task SynAsync()
-    {
-        try
-        {
-            Status = "Sincronizando....";
-            ShowSpinner = true;
-            StateHasChanged();
-            await SyncService.SyncAsync();
-
-            Status = "Sincronizar";
-            StateHasChanged();
-            ModalDialog.Close();
-            await SyncEventNotifier.NotifyAsync();
-        }
-        catch (Exception e)
-        {
-            Error = e.ToString();
-            StateHasChanged();
-        }
-        finally
-        {
-            ShowSpinner = false;
-        }
-    }
     
-    private async Task BackupData()
-    {
-        var syncData = await SyncService.GetSyncDataAsync();
-        var currentDate = DateTime.Now.ToString("ddMMyyyyHHmmss");
-        var fileName = $"backup_{currentDate}.json";
-        
-        var jsonOptions = new JsonSerializerOptions
-        {
-            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
-            WriteIndented = true 
-        };
-        await JsRuntime.InvokeAsync<object>("shareJsonFile", JsonSerializer.Serialize(syncData, jsonOptions),fileName);
-    }
-    
-    private async Task ClearDataBase()
-    {
-        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Limpar Aplicativo ?");
-        if (!confirmed) return;
-        
-        await JsRuntime.InvokeVoidAsync("clearIndexedDB");
-    }
-
     [JSInvokable]
     public Task SetOnlineStatus(bool isOnline, bool isWiFi)
     {

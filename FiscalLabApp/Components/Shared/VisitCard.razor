@@ -1,0 +1,144 @@
+@using FiscalLabApp.Helpers
+@using FiscalLabApp.Services
+@inject IVisitService VisitService
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject ApplicationContextAccessor ApplicationContextAccessor
+@inject IToastService ToastService
+@inject IApiService ApiService
+
+<div class="card mb-3 rounded shadow p-2"
+     style="@GetBorderStyle()">
+
+    <div class="d-flex flex-column justify-content-start">
+        <div class="d-flex flex-row justify-content-end mb-2">
+            <span class="badge default-text" style="@GetBadgeStyle()">
+                @($"Pendências: {_pendingItemsCount}")
+            </span>
+        </div>
+
+        <small class="text-muted fw-bold default-text text-truncate"> @($"{Visit.BasicInformation.Plant?.Name} ({Visit.BasicInformation.Plant?.Address.City} - {Visit.BasicInformation.Plant?.Address.State})")</small>
+        <small class="text-muted default-text text-truncate"> @($"{Visit.BasicInformation.Association?.Name} ({Visit.BasicInformation.Association?.Address.City} - {Visit.BasicInformation.Association?.Address.State})")</small>
+
+        <div class="d-flex flex-row justify-content-start mb-1">
+            <span class="badge " style="background-color: #c7d7cc;; color: #312d2a">
+                <small class="text-muted fw-semibold">@($"Criado em: {Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+            </span>
+        </div>
+
+        <div class="d-flex flex-row justify-content-start mb-1">
+            <span class="badge " style="background-color: #c7d7cc; color: #312d2a">
+                @if (Visit.SyncedAt.HasValue)
+                {
+                    <small class="text-muted fw-semibold">@($"Sincronizado em: {Visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                }
+                else
+                {
+                    <small class="text-muted fw-semibold">@("Sincronizado em: - ")</small>
+                }
+            </span>
+
+        </div>
+
+        @if (Visit.NotifiedByEmailAt is not null)
+        {
+            <div class="d-flex flex-row justify-content-start mb-2">
+                <span class="badge " style="background-color: #c7d7cc; color: #312d2a">
+                    <small class="text-muted fw-semibold">@($"Enviado por e-mail em: {Visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                </span>
+            </div>
+        }
+        else
+        {
+            <div class="form-check">
+                <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="Visit.NotifyByEmail" id="flexCheckDefault" @oninput="MarkAsNotifyByEmail" style="width: 16px; height: 16px;" disabled="@(Visit.NotifiedByEmailAt != null)"/>
+                <small class="text-muted fw-semibold" style="font-size: 0.700em;">Enviar por e-mail</small>
+            </div>
+        }
+
+    </div>
+
+    <div class="mt-2 d-flex flex-row p-0">
+        <button class="btn card" type="button" @onclick="EditVisit">
+            <EditIcon/>
+        </button>
+        <button class="btn card ms-2" type="button" @onclick="DeleteVisitAsync" disabled="@(Visit.NotifiedByEmailAt != null)">
+            <DeleteIcon/>
+        </button>
+        <button class="btn card ms-2" type="button" @onclick="GetPdf">
+            <PdfIcon/>
+        </button>
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter] public EventCallback<string> OnVisitDeleted { get; set; }
+    [Parameter] public VisitViewModel Visit { get; set; } = new();
+    private int _pendingItemsCount;
+    private string PdfContent { get; set; } = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        _pendingItemsCount = Visit.GetMetadata().PendingItems;
+    }
+
+    private string GetBorderStyle()
+    {
+        return Visit.NotifiedByEmailAt is null
+            ? "border-left: 0.750rem solid #b9b0ab;;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;"
+            : "border-left: 0.750rem solid #467b56;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;";
+    }
+
+    private string GetBadgeStyle()
+    {
+        return _pendingItemsCount == 0 ? "background-color: #467b56;" : "background-color: #c74634;";
+    }
+
+    private async Task MarkAsNotifyByEmail()
+    {
+        var visit = await VisitService.GetByIdAsync(Visit.Id);
+        visit.NotifyByEmail = Visit.NotifyByEmail;
+        visit.FinishedAt = Visit.NotifyByEmail ? DateTime.UtcNow : null;
+        await VisitService.UpdateAsync(visit);
+    }
+
+    private void EditVisit()
+    {
+        NavigationManager.NavigateTo($"/visits/{Visit.Id}/main");
+    }
+
+    private async Task DeleteVisitAsync()
+    {
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Remover visita ?");
+        if (!confirmed) return;
+
+        await VisitService.DeleteAsync(Visit.Id);
+        await JsRuntime.InvokeVoidAsync("removeFocusFromAllElements");
+        await OnVisitDeleted.InvokeAsync(Visit.Id);
+    }
+
+    private async Task GetPdf()
+    {
+        if (ApplicationContextAccessor.IsOffline())
+        {
+            ToastService.ShowError(MessageHelper.NoInternetConnection);
+            return;
+        }
+
+        var visit = await VisitService.GetByIdAsync(Visit.Id);
+        if (visit.SyncedAt is null)
+        {
+            ToastService.ShowError(MessageHelper.UnSynchronizedData);
+            return;
+        }
+
+        var bytes = await ApiService.GenerateVisitPdf(Visit.Id);
+        PdfContent = Convert.ToBase64String(bytes);
+
+        await JsRuntime.InvokeVoidAsync("savePdf", PdfContent, "visita.pdf");
+    }
+
+}

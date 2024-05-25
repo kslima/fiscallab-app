@@ -4,19 +4,21 @@
 
 @if (_authenticationState?.User.Identity is { IsAuthenticated: false })
 {
-    <div class="main">
-        <div class="content px-4">
+    <main>
+        <article class="content px-4">
             @Body
-        </div>
-    </div>
+        </article>
+    </main>
 }
 else
 {
     <NavMenu/>
-    <main class="container">
-        @Body
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
     </main>
-    <BlazoredToasts Position="ToastPosition.TopRight" Timeout="10" ShowCloseButton="true" ShowProgressBar="true"/>
+    <BlazoredToasts Position="ToastPosition.TopCenter" Timeout="8" ShowCloseButton="true" ShowProgressBar="true" />
 }
 
 
@@ -27,4 +29,5 @@ else
     {
         _authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
     }
+
 }

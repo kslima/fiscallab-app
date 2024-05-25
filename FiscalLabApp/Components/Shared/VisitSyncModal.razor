@@ -1,0 +1,75 @@
+@using FiscalLabApp.Services
+@inject IJSRuntime JsRuntime
+@inject SyncEventNotifier SyncEventNotifier
+@inject SyncService SyncService
+
+<ModalDialog @ref="@ModalDialog" Title="Sincronizar Dados">
+    <div class="p-1">
+        <button class="btn btn-primary" type="button" disabled="@ShowSpinner" @onclick="SynAsync">
+            @if (ShowSpinner)
+            {
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            }
+            @($"  {Status}")
+        </button>
+
+        @if (!string.IsNullOrWhiteSpace(Error))
+        {
+            <div class="row p-4 rounded mt-2" style="background-color: #ffb2b2">
+                <small class="fw-semibold">@Error</small>
+                <button class="btn btn-danger" type="button" @onclick="CopyError">
+                    Copiar Erro
+                </button>
+            </div>
+        }
+    </div>
+</ModalDialog>
+
+
+@code {
+    private ModalDialog ModalDialog { get; set; } = null!;
+    private bool ShowSpinner { get; set; }
+    private string Status { get; set; } = "Sincronizar";
+    private string? Error { get; set; }
+    
+    private async Task CopyError()
+    {
+        await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+    }
+    
+    private async Task SynAsync()
+    {
+        try
+        {
+            Status = "Sincronizando....";
+            ShowSpinner = true;
+            StateHasChanged();
+            await SyncService.SyncAsync();
+
+            Status = "Sincronizar";
+            StateHasChanged();
+            ModalDialog.Close();
+            await SyncEventNotifier.NotifyAsync();
+        }
+        catch (Exception e)
+        {
+            Error = e.ToString();
+            StateHasChanged();
+        }
+        finally
+        {
+            ShowSpinner = false;
+        }
+    }
+    
+    public void Open()
+    {
+        Console.WriteLine("open");
+        ModalDialog.Open();
+    }
+
+    public void Close()
+    {
+        ModalDialog.Close();
+    }
+}

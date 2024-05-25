@@ -85,6 +85,40 @@ public class ApiService(
         var response = (await result.Content.ReadFromJsonAsync<ApiResponse<Association[]>>())!;
         return response.Data!;
     }
+    
+    private static string ReplaceFirstAmpersand(string input)
+    {
+        var index = input.IndexOf('&');
+        if (index != -1)
+        {
+            input = input.Remove(index, 1).Insert(index, "?");
+        }
+        return input;
+    }
+    
+    public async Task<ApiResponse<Visit[]>> ListVisitsAsync(VisitParameters parameters)
+    {
+        var queryBuilder = new StringBuilder("visits");
+        if (parameters.PageIndex is not null)
+        {
+            queryBuilder.Append($"&PageIndex={parameters.PageIndex}");
+        }
+        
+        if (parameters.PageSize is not null)
+        {
+            queryBuilder.Append($"&PageSize={parameters.PageSize}");
+        }
+        
+        if (parameters.Status is not null)
+        {
+            queryBuilder.Append($"&status={parameters.Status}");
+        }
+        
+        var result = await _httpClient.GetAsync(ReplaceFirstAmpersand(queryBuilder.ToString()));
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<Visit[]>>())!;
+    }
 
     public async Task<bool> CreateManyVisits(Visit[] visits)
     {

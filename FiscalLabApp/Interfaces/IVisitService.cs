@@ -10,4 +10,5 @@ public interface IVisitService
     Task<Visit> GetByIdAsync(string id);
     Task DeleteAsync(string id);
     Task<Visit[]> GetAllAsync();
+    Task<ApiResponse<Visit[]>> ListAsync(VisitParameters parameters);
 }

@@ -12,6 +12,7 @@ public interface IApiService
     Task<Menu[]> ListOptionsAsync();
     Task<Plant[]> ListPlantAsync();
     Task<Association[]> ListAssociationsAsync();
+    Task<ApiResponse<Visit[]>> ListVisitsAsync(VisitParameters parameters);
     Task<bool> CreateManyVisits(Visit[] visits);
     Task<byte[]> GenerateVisitPdf(string visitId);
     Task<SyncResult> SyncDataAsync(SyncModel syncModel);

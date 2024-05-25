@@ -6,7 +6,6 @@ public class ClarificationSaccharimeter
     public string Agitation { get; set; } = string.Empty;
     public string HasDilution { get; set; } = string.Empty;
     public string Clarifier { get; set; } = string.Empty;
-    public string Pressure { get; set; } = string.Empty;
     public string ClarifierAmount { get; set; } = string.Empty;
     public string BottleClarifiedVolume { get; set; } = string.Empty;
     public string BottleAfterClarifiedVolume { get; set; } = string.Empty;

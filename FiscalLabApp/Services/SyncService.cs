@@ -1,4 +1,5 @@
 using System.Text.Json;
+using FiscalLabApp.Enums;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
 
@@ -40,11 +41,17 @@ public class SyncService(
         }
         
         var visits = await visitService.GetAllAsync();
-        if (visits.Length == 0) return;
+        if (visits.Length == 0)
+        {
+            var response = await apiService.ListVisitsAsync(new VisitParameters{Status = VisitStatus.InProgress});
+            visits = response.Data!;
+            await visitService.CreateManyAsync(visits);
+            return;
+        }
         
         var syncModel = new SyncModel
         {
-            Visits = visits
+            Visits = visits.Where(v => v.NotifiedByEmailAt == null).ToArray()
         };
 
         var syncResult = await apiService.SyncDataAsync(syncModel);
@@ -60,6 +67,9 @@ public class SyncService(
         var associations = await associationService.GetAllAsync();
         var menus = await menuService.GetAllAsync();
         var visits = await visitService.GetAllAsync();
+        visits = visits
+            .Where(v => v.Status != VisitStatus.Done)
+            .ToArray();
 
         var syncModel = new SyncModel
         {
