@@ -41,7 +41,7 @@
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-Value="BasicInformation.Consultant" Required="true"/>
+            <VisitTextInput Title="Consultor" Menu="@_menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-Value="BasicInformation.Consultant" Required="true" IsReadyOnly="@IsReadyOnly"/>
         </div>
     </div>
 
@@ -67,11 +67,12 @@
 @code {
 
     [Parameter] public string? VisitId { get; set; }
+    [Parameter] public bool IsReadyOnly { get; set; } = true;
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = null!;
     
     private BasicInformationViewModel BasicInformation { get; set; } = new();
 
-    private Menu[] _menus = Array.Empty<Menu>();
+    private Menu[] _menus = [];
 
     protected override async Task OnInitializedAsync()
     {

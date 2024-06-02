@@ -7,7 +7,7 @@
 
 <CascadingValue Value="this">
     <NavMenu/>
-    <main class="container" style="background-color: #f5f4f2;">
+    <main class="content px-4" style="background-color: #f5f4f2;">
         <VisitPageSelector Pages="@_pages"/>
         @Body
     </main>
@@ -18,7 +18,8 @@
 @code
 {
     public VisitViewModel? SelectedVisit { get; set; }
-    private VisitPage[] _pages = Array.Empty<VisitPage>();
+    public bool IsReadyOnly {get; set;}
+    private VisitPage[] _pages = [];
     
     protected override async Task OnInitializedAsync()
     {

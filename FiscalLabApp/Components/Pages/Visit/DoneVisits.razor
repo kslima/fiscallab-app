@@ -1,0 +1,15 @@
+<PageTitle>Visitas Finalizadas</PageTitle>
+
+<div class="flex-column">
+    <Virtualize Items="Visits">
+        <ItemContent>
+            <VisitCard Visit="@context"></VisitCard>
+        </ItemContent>
+    </Virtualize>
+    @if (_hasNextPage)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <button class="btn btn-success" @onclick="LoadingNextPageAsync">Carregar mais visitas</button>
+        </div>
+    }
+</div>

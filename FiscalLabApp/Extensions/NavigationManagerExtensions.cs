@@ -4,7 +4,7 @@ namespace FiscalLabApp.Extensions;
 
 public static class NavigationManagerExtensions
 {
-    public static string GetCurrentVisitPage(this NavigationManager navigationManager)
+    public static string GetCurrentPath(this NavigationManager navigationManager)
     {
         var routeParameters = navigationManager.Uri
             .Split("/");

@@ -1,50 +1,40 @@
 using FiscalLabApp.Enums;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
-using FiscalLabApp.Services;
 using Mapster;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
-namespace FiscalLabApp.Components.Pages;
+namespace FiscalLabApp.Components.Pages.Visit;
 
-public partial class Scroll : ComponentBase
+public partial class DoneVisits : ComponentBase
 {
-    [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
     [Inject] private IVisitService VisitService { get; set; } = null!;
     private int _currentPage = 1;
+    private const int PageSize = 10;
     private bool _hasNextPage = true;
-
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnInitializedAsync();
         if (firstRender)
         {
-            await JsRuntime.InvokeVoidAsync(
-                "checkDivScrollEnd",
-                "myDiv",
-                "OnDivScrollToEnd",
-                DotNetObjectReference.Create(this)
-            );
-
-            await OnDivScrollToEnd();
+            await LoadingNextPageAsync();
         }
     }
-
     
     protected readonly List<VisitViewModel> Visits = [];
 
-    [JSInvokable]
-    public async Task OnDivScrollToEnd()
+    private async Task LoadingNextPageAsync()
     {
-        Console.WriteLine("Div scrolled to the end!");
         if (!_hasNextPage) return;
+        
+        StateHasChanged();
         
         var parameters = new VisitParameters
         {
             Status = VisitStatus.Done,
             PageIndex = _currentPage,
-            PageSize = 1
+            PageSize = PageSize
         };
         
         var response = await VisitService.ListAsync(parameters);

@@ -2,169 +2,34 @@
 @page "/visits"
 
 @using FiscalLabApp.Enums
-@using FiscalLabApp.Services
-@using Mapster
-
-@inject IJSRuntime JsRuntime
-@inject IVisitService VisitService
-@inject NavigationManager NavigationManager
-@inject SyncEventNotifier SyncEventNotifier
 
 <PageTitle>Visitas</PageTitle>
 
-<div class="mb-5">
+<div>
     <div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
         <button class="btn rounded-pill btn-lg fw-bolder shadow ps-3 pe-3" @onclick="NewVisit" style="background-color: #467b56; color: #ffffff;">
             Nova Visita
         </button>
     </div>
 
-    <div class="btn-group d-flex">
-        <HomeTabButton Title="Em andamento" Type="HomeTabType.InProgress" IsChecked="true" OnTabSelected="OnTabSelectedAsync"></HomeTabButton>
-        <HomeTabButton Title="Finalizadas" Type="HomeTabType.Done" IsChecked="false" OnTabSelected="OnTabSelectedAsync"></HomeTabButton>
-        <HomeTabButton Title="Configurações" Type="HomeTabType.Settings" IsChecked="false" OnTabSelected="OnTabSelectedAsync"></HomeTabButton>
+    <div class="btn-group d-flex mb-3">
+        <HomeTabButton Title="Em andamento" Type="HomeTabType.InProgress" IsChecked="@(HomeTabType == HomeTabType.InProgress)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton>
+        <HomeTabButton Title="Finalizadas" Type="HomeTabType.Done" IsChecked="@(HomeTabType == HomeTabType.Done)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton>
+        <HomeTabButton Title="Configurações" Type="HomeTabType.Settings" IsChecked="@(HomeTabType == HomeTabType.Settings)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton>
     </div>
 
-    <div class="mt-3">
-        @if (_showInProgressTab)
-        {
-            <VisitList Visits="_inProgressVisits" OnVisitDeleted="@(OnVisitDeleted)"/>
-        }
-
-        @if (_showDoneTab)
-        {
-            if (_isLoading)
-            {
-                <p>Carregando...</p>
-            }
-            else
-            {
-                <DoneVisitList Visits="@_doneVisits.ToArray()"/>
-            }
-        }
-        @if (_showSettingsTab)
-        {
-            <VisitSettings/>
-        }
-    </div>
+    @switch (HomeTabType)
+    {
+        case HomeTabType.InProgress:
+            <InProgressVisits />
+            break;
+        case HomeTabType.Done:
+            <DoneVisits />
+            break;
+        case HomeTabType.Settings:
+            <Settings />
+            break;
+        default:
+            throw new ArgumentOutOfRangeException();
+    }
 </div>
-
-@code {
-
-    private VisitViewModel[] _inProgressVisits = [];
-    private List<VisitViewModel> _doneVisits = [];
-    private bool _showInProgressTab;
-    private bool _showSettingsTab;
-    private bool _showDoneTab;
-    private bool _isLoading;
-    private int _currentPage = 1;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            SyncEventNotifier.SyncEvent += async (sender, args) => { await SyncEventHandler(sender, args); };
-
-            _showInProgressTab = true;
-            _showSettingsTab = false;
-            _showDoneTab = false;
-            await SyncVisits();
-        }
-    }
-
-    private async Task SyncEventHandler(object? sender, EventArgs e)
-    {
-        await SyncVisits();
-        StateHasChanged();
-    }
-
-    private async Task OnTabSelectedAsync(HomeTabType type)
-    {
-        switch (type)
-        {
-            case HomeTabType.InProgress:
-                await ActiveInProgressTab();
-                return;
-            case HomeTabType.Done:
-                await ActiveDoneTab();
-                return;
-            case HomeTabType.Settings:
-            default:
-                await ActiveSettingsTab();
-                break;
-        }
-    }
-
-    private async Task OnVisitDeleted()
-    {
-        await SyncVisits();
-    }
-
-    private async Task ActiveInProgressTab()
-    {
-        _showInProgressTab = true;
-        _showSettingsTab = false;
-        _showDoneTab = false;
-        await SyncVisits();
-    }
-
-    private async Task ActiveDoneTab()
-    {
-        _showInProgressTab = false;
-        _showSettingsTab = false;
-        _showDoneTab = true;
-        _isLoading = true;
-        var newsVisits = await ListVisits();
-        if (newsVisits.Count > 0)
-        {
-            _doneVisits.AddRange(newsVisits);
-            _currentPage++;
-        }
-        
-        _isLoading = false;
-        StateHasChanged();
-    }
-
-    private Task ActiveSettingsTab()
-    {
-        _showSettingsTab = true;
-        _showInProgressTab = false;
-        _showDoneTab = false;
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
-
-    private async Task<List<VisitViewModel>> ListVisits()
-    {
-        var parameters = new VisitParameters
-        {
-            Status = VisitStatus.Done,
-            PageIndex = _currentPage,
-            PageSize = 4
-        };
-        var response = await VisitService.ListAsync(parameters);
-        return response.Data!.Adapt<List<VisitViewModel>>();
-    }
-
-    private async Task SyncVisits()
-    {
-        var visits = await VisitService.GetAllAsync();
-        _inProgressVisits = visits
-            .Where(x => x.Status != VisitStatus.Cancelled)
-            .OrderByDescending(x => x.CreatedAt).Adapt<VisitViewModel[]>();
-        StateHasChanged();
-    }
-
-    private void NewVisit()
-    {
-        NavigationManager.NavigateTo("/new-visit");
-    }
-
-    [JSInvokable]
-    public Task SyncCompleted(string message)
-    {
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
-}

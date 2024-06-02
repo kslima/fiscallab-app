@@ -1,7 +1,5 @@
-﻿@using System.Text.Json
-@using FiscalLabApp.Extensions
+﻿@using FiscalLabApp.Extensions
 @using FiscalLabApp.Services
-@using Mapster
 @inject NavigationManager NavigationManager
 @inject IVisitService VisitService
 @inject SelectedPageEventNotifier SelectedPageEventNotifier
@@ -10,7 +8,7 @@
     <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3" aria-label="Large select example" @bind-Value:after="CallVisitPage" style="font-size: 14px;">
         @foreach (var visitPage in Pages)
         {
-            <option value="@visitPage.Name" checked="@(visitPage.Name.Equals(NavigationManager.GetCurrentVisitPage()))" style="font-size: 14px;">
+            <option value="@visitPage.Name" checked="@(visitPage.Name.Equals(NavigationManager.GetCurrentPath()))" style="font-size: 14px;">
                 @($"{visitPage.DisplayName} ({visitPage.TotalItems - visitPage.PendingItems} de {visitPage.TotalItems})")
             </option>
         }
@@ -21,7 +19,7 @@
 {
     [CascadingParameter] public EditVisitLayout Layout { get; set; } = new();
 
-    [Parameter] public VisitPage[] Pages { get; set; } = Array.Empty<VisitPage>();
+    [Parameter] public VisitPage[] Pages { get; set; } = [];
 
     private VisitViewModel _selectedVisit = new();
     private string _selectedPageName = string.Empty;

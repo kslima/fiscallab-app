@@ -1,0 +1,7 @@
+﻿<PageTitle>Visitas em Andamento</PageTitle>
+
+<Virtualize Items="Visits">
+    <ItemContent>
+        <VisitCard OnVisitDeleted="@(OnVisitDeleted)" Visit="@context"></VisitCard>
+    </ItemContent>
+</Virtualize>

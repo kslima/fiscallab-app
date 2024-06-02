@@ -92,4 +92,28 @@ window.checkDivScrollEnd = function (elementId, functionName, dotnetReference)
     });
 }
 
+function adjustHeight() {
+    let availableHeight = window.innerHeight;
+    let parentDiv = document.getElementById('parentDiv');
+    let scrollDiv = document.getElementById('scrollDiv');
+    let scrollDivContent = document.getElementById('scrollDivContent');
+    if (parentDiv && scrollDiv && scrollDivContent) {
+        let parentHeight = availableHeight - 60;
+        let divHeight = parentHeight - 30;
+        let divContentHeight = divHeight + 20;
+        parentDiv.style.height = parentHeight + 'px';
+        scrollDiv.style.height = divHeight + 'px';
+        scrollDivContent.style.height = divContentHeight + 'px';
+    }
+}
+
+function addResizeEvent() {
+    window.addEventListener('resize', adjustHeight);
+}
+
+window.renderedComponent = function() {
+    addResizeEvent();
+    adjustHeight();
+};
+
 
