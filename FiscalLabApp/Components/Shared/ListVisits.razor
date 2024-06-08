@@ -1,0 +1,13 @@
+<div class="flex-column">
+    <Virtualize Items="Visits">
+        <ItemContent>
+            <VisitCard
+                Visit="@context"
+                OnDeleteButtonClicked="DeleteVisitCallback"
+                OnEditButtonClicked="EditVisitCallback"
+                OnPdfButtonClicked="PdfVisitCallback"
+                OnSendToEmailButtonClicked="SendToEmailCallback">
+            </VisitCard>
+        </ItemContent>
+    </Virtualize>
+</div>

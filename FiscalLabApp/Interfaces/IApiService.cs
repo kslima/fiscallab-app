@@ -15,5 +15,6 @@ public interface IApiService
     Task<ApiResponse<Visit[]>> ListVisitsAsync(VisitParameters parameters);
     Task<bool> CreateManyVisits(Visit[] visits);
     Task<byte[]> GenerateVisitPdf(string visitId);
+    Task<bool> DeleteVisitAsync(string visitId);
     Task<SyncResult> SyncDataAsync(SyncModel syncModel);
 }

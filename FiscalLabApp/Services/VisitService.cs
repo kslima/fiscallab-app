@@ -37,16 +37,20 @@ public class VisitService : IVisitService
         return await _indexedDbAccessor.GetValueByIdAsync<Visit>(CollectionsHelper.VisitsCollection, id);
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task<bool> DeleteAsync(string id)
     {
         var visit = await _indexedDbAccessor.GetValueByIdAsync<Visit>(CollectionsHelper.VisitsCollection, id);
         if (visit.SyncedAt is not null)
         {
-            visit.Status = VisitStatus.Cancelled;
-            await UpdateAsync(visit);
-            return;
+            var successOnDelete = await _apiService.DeleteVisitAsync(id);
+            if (!successOnDelete) return false;
+            
+            await _indexedDbAccessor.DeleteAsync(CollectionsHelper.VisitsCollection, id);
+            return true;
         }
+        
         await _indexedDbAccessor.DeleteAsync(CollectionsHelper.VisitsCollection, id);
+        return true;
     }
 
     public async Task<Visit[]> GetAllAsync()

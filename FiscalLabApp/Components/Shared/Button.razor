@@ -1,0 +1,8 @@
+@page "/button"
+@using FiscalLabApp.Enums
+
+<button
+    class="btn @(Style switch { ButtonStyle.Default => "btn-primary", ButtonStyle.Success => "btn-success", ButtonStyle.Danger => "btn-danger", _ => throw new ArgumentOutOfRangeException() })"
+    @onclick="ClickCallback">
+    @Title
+</button>

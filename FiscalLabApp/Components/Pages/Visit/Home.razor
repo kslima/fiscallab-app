@@ -13,23 +13,30 @@
     </div>
 
     <div class="btn-group d-flex mb-3">
-        <HomeTabButton Title="Em andamento" Type="HomeTabType.InProgress" IsChecked="@(HomeTabType == HomeTabType.InProgress)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton>
-        <HomeTabButton Title="Finalizadas" Type="HomeTabType.Done" IsChecked="@(HomeTabType == HomeTabType.Done)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton>
-        <HomeTabButton Title="Configurações" Type="HomeTabType.Settings" IsChecked="@(HomeTabType == HomeTabType.Settings)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton>
+        <HomeTabButton
+            Title="Em andamento"
+            IsSelected="@(IsSelectedTab(OfflineVisitsTabName))"
+            OnTabSelected="@(() => SetSelectedTab(OfflineVisitsTabName))"/>
+
+        <HomeTabButton
+            Title="Finalizadas"
+            IsSelected="@(IsSelectedTab(OnlineVisitsTabName))"
+            OnTabSelected="@(() => SetSelectedTab(OnlineVisitsTabName))"
+            IsDisabled="@ApplicationContextAccessor.IsOffline()"/>
+        @* <HomeTabButton Title="Configurações" Type="HomeTabType.Settings" IsSelected="@(HomeTabType == HomeTabType.Settings)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton> *@
     </div>
 
-    @switch (HomeTabType)
+    <ListVisits
+        Visits="_visits"
+        OnDeleteButtonClicked="DeleteVisitCallback"
+        OnEditButtonClicked="EditVisitCallback"
+        OnPdfButtonClicked="PdfVisitCallback"
+        OnSendToEmailButtonClicked="SendVisitToEmailCallback"/>
+    
+    @if (ActiveTab.Equals(OnlineVisitsTabName) && _hasNextPage)
     {
-        case HomeTabType.InProgress:
-            <InProgressVisits />
-            break;
-        case HomeTabType.Done:
-            <DoneVisits />
-            break;
-        case HomeTabType.Settings:
-            <Settings />
-            break;
-        default:
-            throw new ArgumentOutOfRangeException();
+        <div class="d-flex justify-content-center mb-3">
+            <Button Title="Carregar mais visitas" OnClicked="LoadingOnlineVisitsAsync" Style="ButtonStyle.Success"></Button>
+        </div>
     }
 </div>

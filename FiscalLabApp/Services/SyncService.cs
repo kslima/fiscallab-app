@@ -51,7 +51,9 @@ public class SyncService(
         
         var syncModel = new SyncModel
         {
-            Visits = visits.Where(v => v.NotifiedByEmailAt == null).ToArray()
+            Visits = visits
+                .Where(v => v.Status == VisitStatus.InProgress)
+                .ToArray()
         };
 
         var syncResult = await apiService.SyncDataAsync(syncModel);
@@ -63,9 +65,6 @@ public class SyncService(
     
     public async Task<SyncModel> GetSyncDataAsync()
     {
-        var plants = await plantService.GetAllAsync();
-        var associations = await associationService.GetAllAsync();
-        var menus = await menuService.GetAllAsync();
         var visits = await visitService.GetAllAsync();
         visits = visits
             .Where(v => v.Status != VisitStatus.Done)
@@ -73,9 +72,6 @@ public class SyncService(
 
         var syncModel = new SyncModel
         {
-            Plants = plants,
-            Associations = associations,
-            Menus = menus,
             Visits = visits
         };
 

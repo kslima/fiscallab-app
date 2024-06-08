@@ -1,5 +1,4 @@
-﻿@using System.Text.Json
-@using FiscalLabApp.Services
+﻿@using FiscalLabApp.Services
 @using FiscalLabApp.Enums
 @inject NavigationManager NavigationManager
 @inject ApplicationContextAccessor ApplicationContextAccessor
@@ -7,7 +6,6 @@
 
 @inject SyncService SyncService
 @inject IToastService ToastService
-@inject SyncEventNotifier SyncEventNotifier
 @inject NetworkStatusEventNotifier NetworkStatusEventNotifier
 
 <nav class="navbar shadow" style="background-color: #ffffff;">
@@ -16,9 +14,13 @@
             <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
             Grupo Esdra - v1.1.9
         </a>
+        
+        <button type="button" class="btn btn-link text-secondary">
+            <i class="bi bi-gear" @onclick="OpenSettings"></i>
+        </button>
     </div>
-    
 </nav>
+
 
 @code {
 
@@ -38,6 +40,12 @@
     private void OpenVisits()
     {
         NavigationManager.NavigateTo("/visits");
+    }
+    
+    private async Task OpenSettings()
+    {
+        NavigationManager.NavigateTo("/settings");
+        await JsRuntime.InvokeVoidAsync("removeFocusFromAllElements");
     }
     
     [JSInvokable]

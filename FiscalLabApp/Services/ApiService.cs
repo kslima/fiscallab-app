@@ -138,6 +138,15 @@ public class ApiService(
 
         return await result.Content.ReadAsByteArrayAsync();
     }
+    
+    public async Task<bool> DeleteVisitAsync(string visitId)
+    {
+        var result = await _httpClient.DeleteAsync($"visits/{visitId}");
+        result.EnsureSuccessStatusCode();
+
+        var response = (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>())!;
+        return response.Data!;
+    }
 
     public async Task<SyncResult> SyncDataAsync(SyncModel syncModel)
     {
