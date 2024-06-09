@@ -9,7 +9,7 @@ using Mapster;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace FiscalLabApp.Components.Pages.Visit;
+namespace FiscalLabApp.Components.Pages;
 
 public partial class Home : ComponentBase
 {
@@ -160,7 +160,7 @@ public partial class Home : ComponentBase
             return;
         }
     
-        var visit = await VisitService.GetAsync(visitId);
+        var visit = await VisitService.GetByIdLocalAsync(visitId);
         if (visit.SyncedAt is null)
         {
             ToastService.ShowError(MessageHelper.UnSynchronizedData);
@@ -175,7 +175,7 @@ public partial class Home : ComponentBase
     
     private async Task SendVisitToEmailCallback(string visitId)
     {
-        var visit = await VisitService.GetAsync(visitId);
+        var visit = await VisitService.GetByIdLocalAsync(visitId);
         visit.NotifyByEmail = !visit.NotifyByEmail;
         visit.FinishedAt = visit.NotifyByEmail ? DateTime.UtcNow : null;
         

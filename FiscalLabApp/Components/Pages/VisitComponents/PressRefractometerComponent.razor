@@ -1,0 +1,89 @@
+﻿@using FiscalLabApp.Extensions
+<VisitDataSeparator Title="Prensa">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Manômetro com cert. calibragem" Menu="@Menus.GetMenu(MenuType.PressRefractometerPressureGaugeCertificated)" Id="pressureGaugeCertificated" @bind-value="PressRefractometer.PressureGaugeCertificated"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Uso do Copo Descarte" Menu="@Menus.GetMenu(MenuType.PressRefractometerDiscardCup)" Id="discardCup" @bind-value="PressRefractometer.DiscardCup"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Frasco Coletor" Menu="@Menus.GetMenu(MenuType.PressRefractometerCollectorBottle)" Id="pressRefractometerCollectorBottle" @bind-value="PressRefractometer.CollectorBottle"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Pressão" Menu="@Menus.GetMenu(MenuType.PressRefractometerPressure)" Id="pressRefractometerPressure" @bind-value="PressRefractometer.Pressure"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Temporizador" Menu="@Menus.GetMenu(MenuType.PressRefractometerTimer)" Id="pressRefractometerTimer" @bind-value="PressRefractometer.Timer"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Limpeza da Prensa" Menu="@Menus.GetMenu(MenuType.PressRefractometerPressCleaning)" Id="pressRefractometerPressCleaning" @bind-value="PressRefractometer.PressCleaning"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 7" Menu="@Menus.GetMenu(MenuType.PressRefractometerObservations7)" Id="observations7" @bind-value="PressRefractometer.Observations7"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+
+<VisitDataSeparator Title="Refratômetro">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Hômogênização do Caldo" Menu="@Menus.GetMenu(MenuType.PressRefractometerBrothHomogenization)" Id="pressRefractometerBrothHomogenization" @bind-value="PressRefractometer.BrothHomogenization"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Certificado calibragem" Menu="@Menus.GetMenu(MenuType.PressRefractometerRefractometerCalibrationCertificate)" Id="refractometerCalibrationCertificate" @bind-value="PressRefractometer.RefractometerCalibrationCertificate"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Precisão Leitura" Menu="@Menus.GetMenu(MenuType.PressRefractometerPrecisionReading)" Id="precisionReading" @bind-value="PressRefractometer.PrecisionReading"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Aferição" Menu="@Menus.GetMenu(MenuType.PressRefractometerRefractometerBenchmarking)" Id="refractometerBenchmarking" @bind-value="PressRefractometer.RefractometerBenchmarking"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Limpeza" Menu="@Menus.GetMenu(MenuType.PressRefractometerRefractometerCleaning)" Id="refractometerCleaning" @bind-value="PressRefractometer.RefractometerCleaning"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Temperatura Interna" Menu="@Menus.GetMenu(MenuType.PressRefractometerInternalTemperature)" Id="internalTemperature" @bind-value="PressRefractometer.InternalTemperature"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 8" Menu="@Menus.GetMenu(MenuType.PressRefractometerObservations8)" Id="observations8" @bind-value="PressRefractometer.Observations8"/>
+        </div>
+    </div>
+</VisitDataSeparator>

@@ -1,7 +1,9 @@
 @import url('bootstrap/bootstrap.min.css');
 
 :root {
-    --bs-danger: #c74634; 
+    --bs-primary: #4a96b0; 
+    --bs-secondary: #467b56; 
+    --bs-danger: #c74634;
 }
 
 :root::-webkit-scrollbar {

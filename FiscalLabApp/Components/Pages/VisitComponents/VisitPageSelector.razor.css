@@ -1,0 +1,23 @@
+.custom-select {
+    position: relative;
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.custom-select option {
+    padding: 10px;
+}
+
+.custom-select:hover {
+    border-color: #007bff;
+}
+
+.custom-select option:hover {
+    background-color: #f1f1f1;
+}

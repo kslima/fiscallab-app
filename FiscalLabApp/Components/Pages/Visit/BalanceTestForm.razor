@@ -91,7 +91,7 @@
 
         if (VisitId is not null)
         {
-            _selectedVisit = await VisitService.GetAsync(VisitId);
+            _selectedVisit = await VisitService.GetByIdLocalAsync(VisitId);
             _tests = _selectedVisit.BalanceTests.Adapt<List<BalanceTestViewModel>>();
             _tests.ForEach(UpdateVariationBetweenBalances);
         }

@@ -1,59 +1,15 @@
 ﻿@using Blazored.Toast.Configuration
-@using FiscalLabApp.Features.Visits
-@using FiscalLabApp.Services
-@using Mapster
+@using FiscalLabApp.Components.Pages.VisitComponents
 @inherits LayoutComponentBase
-@inject IVisitService VisitService
-@inject SelectedVisitEventNotifier SelectedVisitEventNotifier
 
 <CascadingValue Value="this">
     <NavMenu/>
     <main class="content px-4" style="background-color: #f5f4f2;">
         <VisitPageSelector Pages="@_pages"/>
-        @Body
+        <span class="@GetDisabledCssClass()">
+            @Body
+        </span>
     </main>
 </CascadingValue>
 
 <BlazoredToasts Position="ToastPosition.TopRight" Timeout="5"/>
-
-@code
-{
-    public VisitViewModel? SelectedVisit { get; set; }
-    public bool IsReadyOnly {get; set;}
-    private VisitPage[] _pages = [];
-    
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        SelectedVisitEventNotifier.SelectedVisit += HandlerVisitPages;
-    }
-    
-    public Task UpdateVisitAsync()
-    {
-        var visit = SelectedVisit.Adapt<Visit>();
-        return VisitService.UpdateAsync(visit);
-    }
-    
-    public async Task<VisitViewModel> SyncVisit(string visitId)
-    {
-        if (SelectedVisit is not null)
-        {
-            return SelectedVisit;
-        }
-        
-        var visit = await VisitService.GetAsync(visitId);
-        SelectedVisit = visit.Adapt<VisitViewModel>();
-        HandlerVisitPages();
-
-        return SelectedVisit;
-    }
-    
-    private void HandlerVisitPages()
-    {
-        if (SelectedVisit is null) return;
-        var metadata = SelectedVisit.GetMetadata();
-        _pages = metadata.Pages.OrderBy(v => v.Id).ToArray();
-        StateHasChanged();
-    }
-    
-}

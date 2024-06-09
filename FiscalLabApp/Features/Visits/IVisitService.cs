@@ -8,7 +8,8 @@ public interface IVisitService
     Task CreateManyAsync(Visit[] visits);
     Task<bool> UpsertAsync(Visit[] visits);
     Task<Visit> UpdateAsync(Visit visit);
-    Task<Visit> GetAsync(string id);
+    Task<Visit> GetByIdLocalAsync(string id);
+    Task<Visit> GetByIdOnlineAsync(string id);
     Task<bool> DeleteAsync(string id);
     Task<Visit[]> GetAllLocalAsync();
     Task<ApiResponse<Visit[]>> ListAsync(VisitParameters parameters);

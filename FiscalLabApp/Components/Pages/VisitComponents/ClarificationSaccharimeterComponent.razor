@@ -1,0 +1,108 @@
+﻿@using FiscalLabApp.Extensions
+
+<VisitDataSeparator Title="Clarificação">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Frasco" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottle)" Id="clarificationSaccharimeterBottle" @bind-value="ClarificationSaccharimeter.Bottle"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Agitação" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterAgitation)" Id="clarificationSaccharimeterAgitation" @bind-value="ClarificationSaccharimeter.Agitation"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Houve Diluição" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterHasDilution)" Id="clarificationSaccharimeterHasDilution" @bind-value="ClarificationSaccharimeter.HasDilution"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Clarificante" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClarifier)" Id="clarificationSaccharimeterClarifier" @bind-value="ClarificationSaccharimeter.Clarifier"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Quatidade Clarificante(200ml)" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClarifierAmount)" Id="clarificationSaccharimeterClarifierAmount" @bind-value="ClarificationSaccharimeter.ClarifierAmount"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Volume Clarificado" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottleClarifiedVolume)" Id="clarificationSaccharimeterBottleClarifiedVolume" @bind-value="ClarificationSaccharimeter.BottleClarifiedVolume"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="100ml Após Volume Clarificado" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottleAfterClarifiedVolume)" Id="clarificationSaccharimeterBottleAfterClarifiedVolume" @bind-value="ClarificationSaccharimeter.BottleAfterClarifiedVolume"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 9" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterObservations9)" Id="clarificationSaccharimeterObservations9" @bind-value="ClarificationSaccharimeter.Observations9"/>
+        </div>
+    </div>
+</VisitDataSeparator>
+
+
+<VisitDataSeparator Title="Sacarímetro">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Estababilização" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterStabilization)" Id="clarificationSaccharimeterStabilization" @bind-value="ClarificationSaccharimeter.Stabilization"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Aferição" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBenchmarking)" Id="clarificationSaccharimeterBenchmarking" @bind-value="ClarificationSaccharimeter.Benchmarking"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Padrão Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzPattern)" Id="clarificationSaccharimeterQuartzPattern" @bind-value="ClarificationSaccharimeter.QuartzPattern"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Resultado Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzResult)" Id="clarificationSaccharimeterQuartzResult" @bind-value="ClarificationSaccharimeter.QuartzResult"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Leitura do Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzReading)" Id="clarificationSaccharimeterQuartzReading" @bind-value="ClarificationSaccharimeter.QuartzReading"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Certificado Calibração" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterCalibrationCertificate)" Id="clarificationSaccharimeterCalibrationCertificate" @bind-value="ClarificationSaccharimeter.CalibrationCertificate"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Limpeza Tubo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterTubeCleaning)" Id="clarificationSaccharimeterTubeCleaning" @bind-value="ClarificationSaccharimeter.TubeCleaning"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Cooler de Resfriamento Limpo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClearCollingCooler)" Id="clarificationSaccharimeterClearCollingCooler" @bind-value="ClarificationSaccharimeter.ClearCollingCooler"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 10" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterObservations10)" Id="clarificationSaccharimeterObservations10" @bind-value="ClarificationSaccharimeter.Observations10"/>
+        </div>
+    </div>
+</VisitDataSeparator>

@@ -11,7 +11,6 @@ public class DesintegratorProbe
     public string LoadPosition { get; set; } = string.Empty;
     public string ToothedCrown { get; set; } = string.Empty;
     public string ToothedCrownType { get; set; } = string.Empty;
-    public string LastCrownChange { get; set; } = string.Empty;
     public string Observations3 { get; set; } = string.Empty;
     public string HomogeneousSamples { get; set; } = string.Empty;
     public string KnifeConservation { get; set; } = string.Empty;

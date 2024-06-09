@@ -1,0 +1,10 @@
+﻿<div class="content">
+    <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3 custom-select" @bind-Value:after="OnPageChangeHandler">
+        @foreach (var visitPage in Pages)
+        {
+        <option value="@visitPage.Name" selected="@(visitPage.Name.Equals(InitialPage))">
+            @($"{visitPage.DisplayName} ({visitPage.TotalItems - visitPage.PendingItems} de {visitPage.TotalItems})")
+        </option>
+        }
+    </InputSelect>
+</div>

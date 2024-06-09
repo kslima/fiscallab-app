@@ -37,9 +37,14 @@ public class VisitService : IVisitService
         return await CreateAsync(visit);
     }
 
-    public async Task<Visit> GetAsync(string id)
+    public async Task<Visit> GetByIdLocalAsync(string id)
     {
         return await _indexedDbAccessor.GetValueByIdAsync<Visit>(CollectionsHelper.VisitsCollection, id);
+    }
+    
+    public async Task<Visit> GetByIdOnlineAsync(string id)
+    {
+        return await _apiService.GetVisitByIdAsync(id);
     }
 
     public async Task<bool> DeleteAsync(string id)
