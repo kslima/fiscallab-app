@@ -4,21 +4,32 @@ using FiscalLabApp.Models;
 
 namespace FiscalLabApp.Services;
 
-public class MenuService(IndexedDbAccessor indexedDbAccessor) : IMenuService
+public class MenuService : IMenuService
 {
+    private readonly IndexedDbAccessor _indexedDbAccessor;
+    private readonly IApiService _apiService;
+
+    public MenuService(
+        IndexedDbAccessor indexedDbAccessor,
+        IApiService apiService)
+    {
+        _indexedDbAccessor = indexedDbAccessor;
+        _apiService = apiService;
+    }
+
     public async Task CreateManyAsync(Menu[] menus)
     {
-        await indexedDbAccessor.SetAllValuesAsync(CollectionsHelper.MenusCollection, menus);
+        await _indexedDbAccessor.SetAllValuesAsync(CollectionsHelper.MenusCollection, menus);
     }
     
     public Task<Menu> GetById(string id)
     {
-        return indexedDbAccessor.GetValueByIdAsync<Menu>(CollectionsHelper.MenusCollection, id);
+        return _indexedDbAccessor.GetValueByIdAsync<Menu>(CollectionsHelper.MenusCollection, id);
     }
 
     public async Task<Menu[]> GetMenuOptions(PageType pageType)
     {
-        var options = await indexedDbAccessor.GetValueAsync<Menu[]>(CollectionsHelper.MenusCollection);
+        var options = await _indexedDbAccessor.GetValueAsync<Menu[]>(CollectionsHelper.MenusCollection);
         return options
             .Where(p => p.Page.Equals(pageType.ToString()))
             .ToArray();
@@ -26,13 +37,19 @@ public class MenuService(IndexedDbAccessor indexedDbAccessor) : IMenuService
 
     public async Task<Menu[]> GetAllAsync()
     {
-        return await indexedDbAccessor.GetValueAsync<Menu[]>(CollectionsHelper.MenusCollection);
+        return await _indexedDbAccessor.GetValueAsync<Menu[]>(CollectionsHelper.MenusCollection);
     }
 
     public async Task SetOptionAsync(string code, List<Option> options)
     {
         var menu = await GetById(code);
         menu.Options = options;
-        await indexedDbAccessor.SetValueAsync(CollectionsHelper.MenusCollection, menu);
+        await _indexedDbAccessor.SetValueAsync(CollectionsHelper.MenusCollection, menu);
+    }
+    
+    public async Task RestoreAsync()
+    {
+        var menus = await _apiService.ListOptionsAsync();
+        await CreateManyAsync(menus);
     }
 }

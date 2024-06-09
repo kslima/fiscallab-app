@@ -10,11 +10,11 @@ public interface IApiService
     Task<ApiResponse<Association>> UpdateAssociationAsync(string associationId, Association association);
     Task<VisitPage[]> GetAllVisitPagesAsync();
     Task<Menu[]> ListOptionsAsync();
-    Task<Plant[]> ListPlantAsync();
+    Task<Plant[]> ListPlantsAsync();
     Task<Association[]> ListAssociationsAsync();
     Task<ApiResponse<Visit[]>> ListVisitsAsync(VisitParameters parameters);
     Task<bool> CreateManyVisits(Visit[] visits);
     Task<byte[]> GenerateVisitPdf(string visitId);
     Task<bool> DeleteVisitAsync(string visitId);
-    Task<SyncResult> SyncDataAsync(SyncModel syncModel);
+    Task<bool> UpsertVisitsAsync(Visit[] visits);
 }

@@ -1,4 +1,5 @@
 ﻿@using Blazored.Toast.Configuration
+@using FiscalLabApp.Features.Visits
 @using FiscalLabApp.Services
 @using Mapster
 @inherits LayoutComponentBase
@@ -40,7 +41,7 @@
             return SelectedVisit;
         }
         
-        var visit = await VisitService.GetByIdAsync(visitId);
+        var visit = await VisitService.GetAsync(visitId);
         SelectedVisit = visit.Adapt<VisitViewModel>();
         HandlerVisitPages();
 

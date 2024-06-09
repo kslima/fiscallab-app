@@ -41,7 +41,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Plants = await PlantService.GetAllAsync();
+        Plants = await PlantService.ListAllLocalAsync();
     }
 
     protected override void OnInitialized()

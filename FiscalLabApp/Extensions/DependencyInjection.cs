@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using Blazored.Toast;
 using FiscalLabApp.Features.Backup;
+using FiscalLabApp.Features.Restore;
+using FiscalLabApp.Features.Visits;
 using FiscalLabApp.Handlers;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Repositories;
@@ -41,7 +43,7 @@ public static class DependencyInjection
         services.AddScoped<IImageRepository, ImageRepository>();
         services.AddScoped<IVisitService, VisitService>();
         services.AddScoped<IBackupService, BackupService>();
-        services.AddScoped<SyncService>();
+        services.AddScoped<IRestoreService, RestoreService>();
         services.AddSingleton<ApplicationContextAccessor>();
         services.AddSingleton<NetworkStatusEventNotifier>();
         services.AddSingleton<SelectedPageEventNotifier>();

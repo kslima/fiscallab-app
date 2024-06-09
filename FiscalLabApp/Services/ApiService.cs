@@ -68,7 +68,7 @@ public class ApiService(
         return response.Data!;
     }
 
-    public async Task<Plant[]> ListPlantAsync()
+    public async Task<Plant[]> ListPlantsAsync()
     {
         var result = await _httpClient.GetAsync("plants");
         result.EnsureSuccessStatusCode();
@@ -148,13 +148,13 @@ public class ApiService(
         return response.Data!;
     }
 
-    public async Task<SyncResult> SyncDataAsync(SyncModel syncModel)
+    public async Task<bool> UpsertVisitsAsync(Visit[] visits)
     {
-        var result = await _httpClient.PostAsJsonAsync("synchronization", syncModel);
+        var result = await _httpClient.PostAsJsonAsync("visits/upsert", visits);
         result.EnsureSuccessStatusCode();
 
-        var response = (await result.Content.ReadFromJsonAsync<ApiResponse<SyncResult>>())!;
-        return response.Data!;
+        var response = (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>())!;
+        return response.Data;
     }
 
     public async Task<Result<LoginResult>> LoginAsync(LoginRequest loginRequest)

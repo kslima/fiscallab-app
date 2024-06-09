@@ -61,4 +61,10 @@ public class AssociationService : IAssociationService
             .OrderBy(p => p.Name)
             .ToArray();
     }
+
+    public async Task RestoreAsync()
+    {
+        var associations = await _apiService.ListAssociationsAsync();
+        await CreateManyAsync(associations);
+    }
 }

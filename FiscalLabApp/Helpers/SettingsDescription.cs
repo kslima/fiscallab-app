@@ -3,7 +3,7 @@ namespace FiscalLabApp.Helpers;
 public static class SettingsDescription
 {
     public const string RestoreDescription =
-        "Restaurar dados do servidor para o aplicativo. Isso inclui Usinas, Associações e Opções de Respostas cadastradas. Todas as visitas não sincronizadas serão removidas.";
+        "Restaurar dados do servidor para o aplicativo. Isso inclui Usinas. Todas as visitas não sincronizadas serão removidas. Será necessário fazer login novamente após a restauração dos dados.";
     public const string SyncVisitsDescription =
         "Envie todas as visitas não sincronizadas para o servidor.";
     public const string BackupDescription =

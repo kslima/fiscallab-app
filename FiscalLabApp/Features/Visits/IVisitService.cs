@@ -1,14 +1,16 @@
 ﻿using FiscalLabApp.Models;
 
-namespace FiscalLabApp.Interfaces;
+namespace FiscalLabApp.Features.Visits;
 
 public interface IVisitService
 {
     Task<Visit> CreateAsync(Visit visit);
     Task CreateManyAsync(Visit[] visits);
+    Task<bool> UpsertAsync(Visit[] visits);
     Task<Visit> UpdateAsync(Visit visit);
-    Task<Visit> GetByIdAsync(string id);
+    Task<Visit> GetAsync(string id);
     Task<bool> DeleteAsync(string id);
-    Task<Visit[]> GetAllAsync();
+    Task<Visit[]> GetAllLocalAsync();
     Task<ApiResponse<Visit[]>> ListAsync(VisitParameters parameters);
+    Task RestoreAsync(VisitParameters parameters);
 }

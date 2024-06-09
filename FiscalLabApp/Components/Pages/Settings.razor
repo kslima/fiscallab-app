@@ -4,7 +4,7 @@
 <PageTitle>Configurações</PageTitle>
 
 <div class="settings-container">
-    <SettingButton @ref="_syncVisitsButton" Icon="bi-cloud-upload" Name="Sincronizar Visitas" Description="@SettingsDescription.SyncVisitsDescription" OnClick="@HandleSyncVisitsClick" />
-    <SettingButton @ref="_backupButton" Icon="bi-save" Name="Backup" Description="@SettingsDescription.BackupDescription" OnClick="@HandleBackupAsync" />
-    <SettingButton @ref="_restoreButton" Icon="bi-arrow-clockwise" Name="Restaurar" Description="@SettingsDescription.RestoreDescription" OnClick="@HandleRestoreClick" />
+    <SettingButton IsLoading="@IsTaskRunning" Icon="bi-cloud-upload" Name="Sincronizar Visitas" Description="@SettingsDescription.SyncVisitsDescription" OnClick="@HandleSyncVisitsAsync" />
+    <SettingButton IsLoading="@IsTaskRunning" Icon="bi-save" Name="Backup" Description="@SettingsDescription.BackupDescription" OnClick="@HandleBackupAsync" />
+    <SettingButton IsLoading="@IsTaskRunning" Icon="bi-arrow-clockwise" Name="Restaurar" Description="@SettingsDescription.RestoreDescription" OnClick="@HandleRestoreAsync" />
 </div>

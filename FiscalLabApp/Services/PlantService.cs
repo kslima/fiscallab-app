@@ -51,11 +51,17 @@ public class PlantService : IPlantService
         return await _indexedDbAccessor.GetValueByIdAsync<Plant>(CollectionsHelper.PlantsCollection, id);
     }
 
-    public async Task<Plant[]> GetAllAsync()
+    public async Task<Plant[]> ListAllLocalAsync()
     {
         var plants = await _indexedDbAccessor.GetValueAsync<Plant[]>(CollectionsHelper.PlantsCollection);
         return plants
             .OrderBy(p => p.Name)
             .ToArray();
+    }
+
+    public async Task RestoreAsync()
+    {
+        var plants = await _apiService.ListPlantsAsync();
+        await CreateManyAsync(plants);
     }
 }

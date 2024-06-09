@@ -1,8 +1,11 @@
 using System.Text.Json;
 using Blazored.Toast.Services;
-using FiscalLabApp.Components.Shared;
+using FiscalLabApp.Enums;
 using FiscalLabApp.Features.Backup;
+using FiscalLabApp.Features.Restore;
+using FiscalLabApp.Features.Visits;
 using FiscalLabApp.Helpers;
+using FiscalLabApp.Models;
 using FiscalLabApp.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -11,103 +14,97 @@ namespace FiscalLabApp.Components.Pages;
 
 public partial class Settings : ComponentBase
 {
-    [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
-    [Inject] private IToastService ToastService { get; set; } = null!;
-    [Inject] private SyncEventNotifier SyncEventNotifier { get; set; } = null!;
-    [Inject] private ApplicationContextAccessor ApplicationContextAccessor { get; set; } = null!;
-    [Inject] private SyncService SyncService { get; set; } = null!;
-    [Inject] private IBackupService BackupService { get; set; } = null!;
-    private SettingButton _restoreButton = null!;
-    private SettingButton _backupButton = null!;
-    private SettingButton _syncVisitsButton = null!;
-    private bool ShowSyncVisitsSpinner { get; set; }
-    private string SyncVisitsStatus { get; set; } = "Sincronizar visitas";
-
-    private bool ShowBackupSpinner { get; set; }
-    private string BackupStatus { get; set; } = "Backup";
-
-    private bool ShowClearDataSpinner { get; set; }
-    private string ClearDataStatus { get; set; } = "Limpar dados";
-    private string? Error { get; set; }
-
-    private async Task SyncVisitsAsync()
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; } = null!;
+    [Inject]
+    private IToastService ToastService { get; set; } = null!;
+    [Inject]
+    private SyncEventNotifier SyncEventNotifier { get; set; } = null!;
+    [Inject]
+    private ApplicationContextAccessor ApplicationContextAccessor { get; set; } = null!;
+    [Inject]
+    private IVisitService VisitService { get; set; } = null!;
+    [Inject]
+    private IBackupService BackupService { get; set; } = null!;
+    [Inject]
+    private IRestoreService RestoreService { get; set; } = null!;
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = null!;
+    private bool IsTaskRunning { get; set; }
+    
+    private async Task HandleSyncVisitsAsync()
     {
         try
         {
-            SyncVisitsStatus = "Sincronizando....";
-            ShowSyncVisitsSpinner = true;
-            StateHasChanged();
-            await SyncService.SyncAsync();
-            StateHasChanged();
-            await SyncEventNotifier.NotifyAsync();
+            IsTaskRunning = true;
+
+            var visits = await VisitService.GetAllLocalAsync();
+            var successOnUpsert = await VisitService.UpsertAsync(visits);
+            if (!successOnUpsert)
+            {
+                ToastService.ShowError(MessageHelper.ErrorOnSyncVisits);
+                return;
+            }
+
+            var parameters = new VisitParameters
+            {
+                Status = VisitStatus.InProgress,
+                PageSize = 100
+            };
+        
+            var response = await VisitService.ListAsync(parameters);
+            if (!response.IsSuccess)
+            {
+                ToastService.ShowError(MessageHelper.ErrorOnSyncVisits);
+                return;
+            }
+
+            visits = response.Data!;
+            await VisitService.CreateManyAsync(visits);
             ToastService.ShowSuccess(MessageHelper.SuccessOnSyncVisits);
         }
         catch (Exception e)
         {
-            Error = e.ToString();
-            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
-            StateHasChanged();
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", e.ToString());
             ToastService.ShowError(MessageHelper.ErrorOnSyncVisits);
         }
         finally
         {
-            SyncVisitsStatus = "Sincronizar";
-            ShowSyncVisitsSpinner = false;
+            IsTaskRunning = false;
         }
     }
 
-    private async Task ClearDataBase()
+    private async Task HandleRestoreAsync()
     {
-        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Limpar Aplicativo ?");
-        if (!confirmed) return;
-
         try
         {
-            ClearDataStatus = "Limpando dados....";
-            ShowClearDataSpinner = true;
-            StateHasChanged();
+            IsTaskRunning = true;
+            var visitParameters = new VisitParameters
+            {
+                Status = VisitStatus.InProgress,
+                PageSize = 100
+            };
+            await RestoreService.RestoreAsync(visitParameters);
+            ToastService.ShowSuccess(MessageHelper.SuccessOnRestoreData);
+            NavigationManager.Refresh();
 
-            await JsRuntime.InvokeVoidAsync("clearIndexedDB");
-            StateHasChanged();
         }
         catch (Exception e)
         {
-            Error = e.ToString();
-            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
-            StateHasChanged();
-            ToastService.ShowError(MessageHelper.ErrorOnClearData);
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", e.ToString());
+            ToastService.ShowError(MessageHelper.ErrorOnRestoreData);
         }
         finally
         {
-            ClearDataStatus = "Limpar dados";
-            ShowClearDataSpinner = false;
+            IsTaskRunning = false;
         }
-    }
-
-    private async Task CopyError()
-    {
-        await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
-    }
-
-    private async Task HandleSyncVisitsClick()
-    {
-        _syncVisitsButton.IsLoading = true;
-        await Task.Delay(5000);
-        _syncVisitsButton.IsLoading = false;
-    }
-
-    private async Task HandleRestoreClick()
-    {
-        _restoreButton.IsLoading = true;
-        await Task.Delay(5000);
-        _restoreButton.IsLoading = false;
     }
 
     private async Task HandleBackupAsync()
     {
         try
         {
-            _backupButton.IsLoading = true;
+            IsTaskRunning = true;
 
             var backup = await BackupService.CreateAsync();
             var currentDate = DateTime.Now.ToString("ddMMyyyyHHmmss");
@@ -120,13 +117,12 @@ public partial class Settings : ComponentBase
         }
         catch (Exception e)
         {
-            Error = e.ToString();
-            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", e.ToString());
             ToastService.ShowError(MessageHelper.ErrorOnBackup);
         }
         finally
         {
-            _backupButton.IsLoading = false;
+            IsTaskRunning = false;
         }
     }
 }

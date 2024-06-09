@@ -3,6 +3,7 @@
 @implements IAsyncDisposable
 @using Mapster
 @using FiscalLabApp.Extensions
+@using FiscalLabApp.Features.Visits
 
 @inject IVisitService VisitService;
 @inject NavigationManager NavigationManager
@@ -90,7 +91,7 @@
 
         if (VisitId is not null)
         {
-            _selectedVisit = await VisitService.GetByIdAsync(VisitId);
+            _selectedVisit = await VisitService.GetAsync(VisitId);
             _tests = _selectedVisit.BalanceTests.Adapt<List<BalanceTestViewModel>>();
             _tests.ForEach(UpdateVariationBetweenBalances);
         }

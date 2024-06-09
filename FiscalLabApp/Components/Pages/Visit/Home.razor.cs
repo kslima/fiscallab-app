@@ -1,5 +1,6 @@
 using Blazored.Toast.Services;
 using FiscalLabApp.Enums;
+using FiscalLabApp.Features.Visits;
 using FiscalLabApp.Helpers;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
@@ -99,7 +100,7 @@ public partial class Home : ComponentBase
     
     private async Task LoadingOfflineVisitsAsync()
     {
-        var visits = await VisitService.GetAllAsync();
+        var visits = await VisitService.GetAllLocalAsync();
         _visits = visits.Adapt<List<VisitViewModel>>();
     }
     
@@ -159,7 +160,7 @@ public partial class Home : ComponentBase
             return;
         }
     
-        var visit = await VisitService.GetByIdAsync(visitId);
+        var visit = await VisitService.GetAsync(visitId);
         if (visit.SyncedAt is null)
         {
             ToastService.ShowError(MessageHelper.UnSynchronizedData);
@@ -174,7 +175,7 @@ public partial class Home : ComponentBase
     
     private async Task SendVisitToEmailCallback(string visitId)
     {
-        var visit = await VisitService.GetByIdAsync(visitId);
+        var visit = await VisitService.GetAsync(visitId);
         visit.NotifyByEmail = !visit.NotifyByEmail;
         visit.FinishedAt = visit.NotifyByEmail ? DateTime.UtcNow : null;
         

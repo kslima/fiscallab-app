@@ -8,5 +8,6 @@ public interface IPlantService
     Task CreateManyAsync(Plant[] plants);
     Task<Plant> UpdateAsync(string id, Plant plant);
     Task<Plant> GetAsync(string id);
-    Task<Plant[]> GetAllAsync();
+    Task<Plant[]> ListAllLocalAsync();
+    Task RestoreAsync();
 }

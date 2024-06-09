@@ -1,9 +1,9 @@
-﻿using FiscalLabApp.Enums;
-using FiscalLabApp.Helpers;
+﻿using FiscalLabApp.Helpers;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
+using FiscalLabApp.Services;
 
-namespace FiscalLabApp.Services;
+namespace FiscalLabApp.Features.Visits;
 
 public class VisitService : IVisitService
 {
@@ -27,12 +27,17 @@ public class VisitService : IVisitService
         await _indexedDbAccessor.SetAllValuesAsync(CollectionsHelper.VisitsCollection, visits);
     }
 
+    public async Task<bool> UpsertAsync(Visit[] visits)
+    {
+        return await _apiService.UpsertVisitsAsync(visits);
+    }
+
     public async Task<Visit> UpdateAsync(Visit visit)
     {
         return await CreateAsync(visit);
     }
 
-    public async Task<Visit> GetByIdAsync(string id)
+    public async Task<Visit> GetAsync(string id)
     {
         return await _indexedDbAccessor.GetValueByIdAsync<Visit>(CollectionsHelper.VisitsCollection, id);
     }
@@ -53,7 +58,7 @@ public class VisitService : IVisitService
         return true;
     }
 
-    public async Task<Visit[]> GetAllAsync()
+    public async Task<Visit[]> GetAllLocalAsync()
     {
         return await _indexedDbAccessor.GetValueAsync<Visit[]>(CollectionsHelper.VisitsCollection);
     }
@@ -61,5 +66,13 @@ public class VisitService : IVisitService
     public async Task<ApiResponse<Visit[]>> ListAsync(VisitParameters parameters)
     {
         return await _apiService.ListVisitsAsync(parameters);
+    }
+
+    public async Task RestoreAsync(VisitParameters parameters)
+    {
+        var visits = await _apiService.ListVisitsAsync(parameters);
+        if (visits.IsFailure()) throw new InvalidOperationException();
+        
+        await CreateManyAsync(visits.Data!);
     }
 }

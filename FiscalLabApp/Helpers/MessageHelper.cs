@@ -20,4 +20,10 @@ public static class MessageHelper
         "Limpeza do app realizado com sucesso.";
     public const string ErrorOnClearData =
         "Ocorreu um erro ao realizar a limpeza do app. As informações sobre o erro foram copiadas para a área de transferência.";
+    
+    public const string SuccessOnRestoreData =
+        "Dados restaurados com sucesso.";
+    
+    public const string ErrorOnRestoreData =
+        "Ocorreu um erro ao restaurar os dados. As informações sobre o erro foram copiadas para a área de transferência.";
 }

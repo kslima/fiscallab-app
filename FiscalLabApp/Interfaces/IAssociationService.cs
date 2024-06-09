@@ -9,4 +9,5 @@ public interface IAssociationService
     Task<Association> UpdateAsync(string id, Association association);
     Task<Association> GetAsync(string id);
     Task<Association[]> GetAllAsync();
+    Task RestoreAsync();
 }
