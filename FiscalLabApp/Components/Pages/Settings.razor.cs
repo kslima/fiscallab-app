@@ -1,5 +1,7 @@
 using System.Text.Json;
 using Blazored.Toast.Services;
+using FiscalLabApp.Components.Shared;
+using FiscalLabApp.Features.Backup;
 using FiscalLabApp.Helpers;
 using FiscalLabApp.Services;
 using Microsoft.AspNetCore.Components;
@@ -14,12 +16,16 @@ public partial class Settings : ComponentBase
     [Inject] private SyncEventNotifier SyncEventNotifier { get; set; } = null!;
     [Inject] private ApplicationContextAccessor ApplicationContextAccessor { get; set; } = null!;
     [Inject] private SyncService SyncService { get; set; } = null!;
+    [Inject] private IBackupService BackupService { get; set; } = null!;
+    private SettingButton _restoreButton = null!;
+    private SettingButton _backupButton = null!;
+    private SettingButton _syncVisitsButton = null!;
     private bool ShowSyncVisitsSpinner { get; set; }
     private string SyncVisitsStatus { get; set; } = "Sincronizar visitas";
-    
+
     private bool ShowBackupSpinner { get; set; }
     private string BackupStatus { get; set; } = "Backup";
-    
+
     private bool ShowClearDataSpinner { get; set; }
     private string ClearDataStatus { get; set; } = "Limpar dados";
     private string? Error { get; set; }
@@ -50,39 +56,6 @@ public partial class Settings : ComponentBase
         }
     }
 
-    private async Task BackupData()
-    {
-        try
-        {
-            BackupStatus = "Realizando backup....";
-            ShowBackupSpinner = true;
-            StateHasChanged();
-            
-            var syncData = await SyncService.GetSyncDataAsync();
-            var currentDate = DateTime.Now.ToString("ddMMyyyyHHmmss");
-            var fileName = $"backup_{currentDate}.json";
-
-            var jsonOptions = new JsonSerializerOptions
-            {
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
-                WriteIndented = true
-            };
-            await JsRuntime.InvokeAsync<object>("shareJsonFile", JsonSerializer.Serialize(syncData, jsonOptions), fileName);
-        }
-        catch (Exception e)
-        {
-            Error = e.ToString();
-            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
-            StateHasChanged();
-            ToastService.ShowError(MessageHelper.ErrorOnBackup);
-        }
-        finally
-        {
-            BackupStatus = "Backup";
-            ShowBackupSpinner = false;
-        }
-    }
-
     private async Task ClearDataBase()
     {
         var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Limpar Aplicativo ?");
@@ -93,7 +66,7 @@ public partial class Settings : ComponentBase
             ClearDataStatus = "Limpando dados....";
             ShowClearDataSpinner = true;
             StateHasChanged();
-            
+
             await JsRuntime.InvokeVoidAsync("clearIndexedDB");
             StateHasChanged();
         }
@@ -114,5 +87,46 @@ public partial class Settings : ComponentBase
     private async Task CopyError()
     {
         await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+    }
+
+    private async Task HandleSyncVisitsClick()
+    {
+        _syncVisitsButton.IsLoading = true;
+        await Task.Delay(5000);
+        _syncVisitsButton.IsLoading = false;
+    }
+
+    private async Task HandleRestoreClick()
+    {
+        _restoreButton.IsLoading = true;
+        await Task.Delay(5000);
+        _restoreButton.IsLoading = false;
+    }
+
+    private async Task HandleBackupAsync()
+    {
+        try
+        {
+            _backupButton.IsLoading = true;
+
+            var backup = await BackupService.CreateAsync();
+            var currentDate = DateTime.Now.ToString("ddMMyyyyHHmmss");
+            var fileName = $"backup_{currentDate}.json";
+            await JsRuntime.InvokeAsync<object>(
+                "shareJsonFile",
+                JsonSerializer.Serialize(backup, JsonHelper.JsonSerializerOptions),
+                fileName
+            );
+        }
+        catch (Exception e)
+        {
+            Error = e.ToString();
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Error);
+            ToastService.ShowError(MessageHelper.ErrorOnBackup);
+        }
+        finally
+        {
+            _backupButton.IsLoading = false;
+        }
     }
 }

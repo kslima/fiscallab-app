@@ -1,5 +1,6 @@
 using System.Text.Json;
 using FiscalLabApp.Enums;
+using FiscalLabApp.Features.Backup;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
 
@@ -76,16 +77,5 @@ public class SyncService(
         };
 
         return syncModel;
-    }
-
-    public async Task<bool> NeedSync()
-    {
-        var lastSyncInfo = await indexedDbAccessor.GetValueByIdAsync<SyncInfoModel?>(LastSyncInfoCollectionName, LastSyncInfoKey);
-        if (lastSyncInfo is null) return false;
-        
-        var lastUpdateInfo = await indexedDbAccessor.GetValueByIdAsync<SyncInfoModel?>(LastUpdateInfoCollectionName, LastUpdateInfoKey);
-        if (lastUpdateInfo is null) return false;
-        
-        return lastUpdateInfo.Value > lastSyncInfo.Value;
     }
 }
