@@ -1,5 +1,6 @@
 using Blazored.Toast.Services;
 using FiscalLabApp.Enums;
+using FiscalLabApp.Extensions;
 using FiscalLabApp.Features.Visits;
 using FiscalLabApp.Helpers;
 using FiscalLabApp.Interfaces;
@@ -141,7 +142,7 @@ public partial class Home : ComponentBase
         if (!confirmed) return;
         
         await VisitService.DeleteAsync(visitId);
-        await JsRuntime.InvokeVoidAsync("removeFocusFromAllElements");
+        await JsRuntime.RemoveFocusFromAllElementsAsync();
         
         await LoadingOfflineVisitsAsync();
         StateHasChanged();
@@ -179,7 +180,7 @@ public partial class Home : ComponentBase
         visit.NotifyByEmail = !visit.NotifyByEmail;
         visit.FinishedAt = visit.NotifyByEmail ? DateTime.UtcNow : null;
         
-        await JsRuntime.InvokeVoidAsync("removeFocusFromAllElements");
+        await JsRuntime.RemoveFocusFromAllElementsAsync();
         await VisitService.UpdateAsync(visit);
     }
 }

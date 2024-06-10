@@ -1,10 +1,15 @@
-﻿<div class="content">
-    <InputSelect @bind-Value="_selectedPageName" class="form-select mb-3 custom-select" @bind-Value:after="OnPageChangeHandler">
+﻿<div class="content d-flex align-items-center mb-3">
+    <InputSelect @bind-Value="_selectedPageName" class="form-select custom-select" @bind-Value:after="OnPageChangeHandler">
         @foreach (var visitPage in Pages)
         {
-        <option value="@visitPage.Name" selected="@(visitPage.Name.Equals(InitialPage))">
-            @($"{visitPage.DisplayName} ({visitPage.TotalItems - visitPage.PendingItems} de {visitPage.TotalItems})")
-        </option>
+            <option value="@visitPage.Name" selected="@(visitPage.Name.Equals(InitialPage) ? "selected" : null)">
+                @($"{visitPage.DisplayName} ({visitPage.TotalItems - visitPage.PendingItems} de {visitPage.TotalItems})")
+            </option>
         }
     </InputSelect>
+    <button class="btn btn-outline-secondary ms-2" style="width: 100px;" @onclick="OnSaveHandler">
+        <i class="bi bi-floppy"></i>
+    </button>
 </div>
+
+

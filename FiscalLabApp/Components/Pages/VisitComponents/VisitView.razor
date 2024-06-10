@@ -4,7 +4,8 @@
 <VisitPageSelector
     InitialPage="@_selectedPage"
     Pages="@_pages"
-    OnPageChange="OnPageChangeHandler"/>
+    OnPageChange="OnPageChangeHandler"
+    OnRefresh="OnRefreshHandlerAsync"/>
 
 @if (_selectedPage.Equals(PageHelper.BasicInformationPageName))
 {
@@ -71,6 +72,3 @@ else if (_selectedPage.Equals(PageHelper.ConclusionPageName))
         Menus="@GetMenuOptions(PageType.Conclusion)">
     </ConclusionComponent>
 }
-
-
-<button class="btn btn-success" @onclick="ShowState">Mostrar dados</button>

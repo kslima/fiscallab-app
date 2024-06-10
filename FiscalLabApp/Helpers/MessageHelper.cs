@@ -26,4 +26,7 @@ public static class MessageHelper
     
     public const string ErrorOnRestoreData =
         "Ocorreu um erro ao restaurar os dados. As informações sobre o erro foram copiadas para a área de transferência.";
+    
+    public const string SuccessOnUpdateVisit =
+        "Visita atualizada com sucesso.";  
 }

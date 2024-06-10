@@ -1,4 +1,3 @@
-using FiscalLabApp.Features.Visits;
 using FiscalLabApp.Models;
 using FiscalLabApp.Services;
 using Microsoft.AspNetCore.Components;
@@ -8,13 +7,11 @@ namespace FiscalLabApp.Components.Pages.VisitComponents;
 public partial class VisitPageSelector : ComponentBase
 {
     [Inject]
-    public NavigationManager NavigationManager { get; set; } = null!;
-    [Inject]
-    public IVisitService VisitService { get; set; } = null!;
-    [Inject]
     public SelectedPageEventNotifier SelectedPageEventNotifier { get; set; } = null!;
     [Parameter]
     public EventCallback<string> OnPageChange { get; set; }
+    [Parameter]
+    public EventCallback OnRefresh { get; set; }
 
     [Parameter]
     public VisitPage[] Pages { get; set; } = [];
@@ -48,5 +45,10 @@ public partial class VisitPageSelector : ComponentBase
     private async Task OnPageChangeHandler()
     {
         await OnPageChange.InvokeAsync(_selectedPageName);
+    }
+    
+    private async Task OnSaveHandler()
+    {
+        await OnRefresh.InvokeAsync();
     }
 }

@@ -49,7 +49,7 @@ public class VisitViewModel
     
     
     private static VisitPage CreatePage(int order, string name, string displayName, object obj)
-    {
+    { 
         var (totalProperties, pendingProperties) = CheckProperties(obj);
         return new VisitPage
         {

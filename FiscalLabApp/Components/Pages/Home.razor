@@ -23,7 +23,6 @@
             IsSelected="@(IsSelectedTab(OnlineVisitsTabName))"
             OnTabSelected="@(() => SetSelectedTab(OnlineVisitsTabName))"
             IsDisabled="@ApplicationContextAccessor.IsOffline()"/>
-        @* <HomeTabButton Title="Configurações" Type="HomeTabType.Settings" IsSelected="@(HomeTabType == HomeTabType.Settings)" OnTabSelected="@OnHomeTabButtonClicked"></HomeTabButton> *@
     </div>
 
     <ListVisits

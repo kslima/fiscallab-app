@@ -1,15 +1,22 @@
 using System.Text.Json;
+using Blazored.Toast.Services;
+using FiscalLabApp.Extensions;
 using FiscalLabApp.Features.Visits;
 using FiscalLabApp.Helpers;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
 using FiscalLabApp.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Components.Pages.VisitComponents;
 
 public partial class VisitView : ComponentBase
 {
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; } = null!;
+    [Inject]
+    private IToastService ToastService { get; set; } = null!;
     [Inject]
     private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private IVisitService VisitService { get; set; } = null!;
@@ -23,7 +30,7 @@ public partial class VisitView : ComponentBase
     private string _selectedPage = PageHelper.BasicInformationPageName;
 
     public Models.Visit Visit { get; set; } = new();
-    private VisitPage[] _pages = PageHelper.GetPages();
+    private VisitPage[] _pages = [];
     
 
     //TODO alterar data para utc antes de salvar visita
@@ -50,21 +57,12 @@ public partial class VisitView : ComponentBase
 
         Visit = IsReadyOnly ? await VisitService.GetByIdOnlineAsync(VisitId) : await VisitService.GetByIdLocalAsync(VisitId);
         _menus = await MenuService.GetAllAsync();
+        _pages = Visit.CreatePages();
     }
 
     public void OnPageChangeHandler(string page)
     {
-        _pages = _pages
-            .Select(x => new VisitPage
-            {
-                Id = x.Id,
-                DisplayName = x.DisplayName,
-                Name = x.Name,
-                TotalItems = x.TotalItems,
-                PendingItems = x.PendingItems - 1
-            })
-            .ToArray();
-        
+        _pages = Visit.CreatePages();
         _selectedPage = page;
         
         var uri = new Uri(NavigationManager.Uri);
@@ -81,15 +79,18 @@ public partial class VisitView : ComponentBase
             .ToArray();
     }
     
-    private void ShowState()
-    {
-        Console.WriteLine(JsonSerializer.Serialize(Visit.BasicInformation));
-    }
-    
     private void OnBalanceTestsClickHandler()
     {
         Console.WriteLine("abrindo testes de balanca");
         // if (Layout.SelectedVisit is null) return;
         // NavigationManager.NavigateTo($"visits/{Layout.SelectedVisit.Id}/balance-tests");
+    }
+
+    private async Task OnRefreshHandlerAsync()
+    {
+        Visit = await VisitService.CreateAsync(Visit);
+        _pages = Visit.CreatePages();
+        await JsRuntime.RemoveFocusFromAllElementsAsync();
+        ToastService.ShowSuccess(MessageHelper.SuccessOnUpdateVisit);
     }
 }
