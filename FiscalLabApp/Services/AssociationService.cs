@@ -44,6 +44,18 @@ public class AssociationService : IAssociationService
         return association;
     }
     
+    public async Task<bool> DeleteAsync(string id)
+    {
+        var response = await _apiService.DeleteAssociationAsync(id);
+        if (response.IsFailure())
+        {
+            throw new ApiErrorException(response.Error);
+        }
+        
+        await _indexedDbAccessor.DeleteAsync(CollectionsHelper.AssociationsCollection, id);
+        return true;
+    }
+    
     public async Task CreateManyAsync(Association[] associations)
     {
         await _indexedDbAccessor.SetAllValuesAsync(CollectionsHelper.AssociationsCollection, associations);
@@ -54,7 +66,7 @@ public class AssociationService : IAssociationService
         return _indexedDbAccessor.GetValueByIdAsync<Association>(CollectionsHelper.AssociationsCollection, id);
     }
 
-    public async Task<Association[]> GetAllAsync()
+    public async Task<Association[]> ListAllLocalAsync()
     {
         var associations =  await _indexedDbAccessor.GetValueAsync<Association[]>(CollectionsHelper.AssociationsCollection);
         return associations

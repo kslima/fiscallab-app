@@ -86,6 +86,22 @@ public class ApiService(
         return response.Data!;
     }
     
+    public async Task<ApiResponse<bool>> DeleteAssociationAsync(string associationId)
+    {
+        var result = await _httpClient.DeleteAsync($"associations/{associationId}");
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>())!;
+    }
+    
+    public async Task<ApiResponse<bool>> DeletePlantAsync(string plantId)
+    {
+        var result = await _httpClient.DeleteAsync($"plants/{plantId}");
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>())!;
+    }
+    
     private static string ReplaceFirstAmpersand(string input)
     {
         var index = input.IndexOf('&');

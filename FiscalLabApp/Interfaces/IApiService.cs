@@ -11,6 +11,8 @@ public interface IApiService
     Task<VisitPage[]> GetAllVisitPagesAsync();
     Task<Menu[]> ListOptionsAsync();
     Task<Plant[]> ListPlantsAsync();
+    Task<ApiResponse<bool>> DeleteAssociationAsync(string associationId);
+    Task<ApiResponse<bool>> DeletePlantAsync(string plantId);
     Task<Association[]> ListAssociationsAsync();
     Task<ApiResponse<Visit[]>> ListVisitsAsync(VisitParameters parameters);
     Task<bool> CreateManyVisits(Visit[] visits);

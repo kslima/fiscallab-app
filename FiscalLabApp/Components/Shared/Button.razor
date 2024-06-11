@@ -1,7 +1,9 @@
 @using FiscalLabApp.Enums
 
 <button
+    type="button"
     class="btn @(Style switch { ButtonStyle.Default => "btn-primary", ButtonStyle.Success => "btn-success", ButtonStyle.Danger => "btn-danger", _ => throw new ArgumentOutOfRangeException() })"
+    disabled="@IsDisabled"
     @onclick="ClickCallback">
     @Title
 </button>

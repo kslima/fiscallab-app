@@ -50,6 +50,18 @@ public class PlantService : IPlantService
     {
         return await _indexedDbAccessor.GetValueByIdAsync<Plant>(CollectionsHelper.PlantsCollection, id);
     }
+    
+    public async Task<bool> DeleteAsync(string id)
+    {
+        var response = await _apiService.DeletePlantAsync(id);
+        if (response.IsFailure())
+        {
+            throw new ApiErrorException(response.Error);
+        }
+        
+        await _indexedDbAccessor.DeleteAsync(CollectionsHelper.PlantsCollection, id);
+        return true;
+    }
 
     public async Task<Plant[]> ListAllLocalAsync()
     {

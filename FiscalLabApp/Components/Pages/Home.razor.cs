@@ -21,6 +21,7 @@ public partial class Home : ComponentBase
     private IJSRuntime JsRuntime { get; set; } = null!;
     [Inject]
     private ApplicationContextAccessor ApplicationContextAccessor { get; set; } = null!;
+    [Inject] private IVisitContextAccessor VisitContextAccessor { get; set; } = null!;
     [Inject]
     private IToastService ToastService { get; set; } = null!;
     [Inject]
@@ -35,7 +36,7 @@ public partial class Home : ComponentBase
     [Parameter]
     public string ActiveTab { get; set; } = OfflineVisitsTabName;
     
-    private List<VisitViewModel> _visits = [];
+    private List<Models.Visit> _visits = [];
     
     private int _currentPage = 1;
     private const int PageSize = 10;
@@ -96,13 +97,14 @@ public partial class Home : ComponentBase
     
     private void NewVisit()
     {
-        NavigationManager.NavigateTo("/new-visit");
+        VisitContextAccessor.SelectedVisit = null;
+        NavigationManager.NavigateTo("/visit-view");
     }
     
     private async Task LoadingOfflineVisitsAsync()
     {
         var visits = await VisitService.GetAllLocalAsync();
-        _visits = visits.Adapt<List<VisitViewModel>>();
+        _visits = visits.ToList();
     }
     
     private async Task LoadingOnlineVisitsAsync()
@@ -126,8 +128,7 @@ public partial class Home : ComponentBase
         _hasNextPage = response.Metadata?.HasNextPage == true;
         _currentPage = _hasNextPage ? _currentPage + 1 : _currentPage;
         
-        var visits =  response.Data!.Adapt<List<VisitViewModel>>();
-        _visits.AddRange(visits);
+        _visits.AddRange(response.Data!);
     }
     
     public async Task DeleteVisitCallback(string visitId)
@@ -148,9 +149,10 @@ public partial class Home : ComponentBase
         StateHasChanged();
     }
     
-    public void EditVisitCallback(string visitId)
+    public void EditVisitCallback(Models.Visit visit)
     {
-        NavigationManager.NavigateTo($"/visits/{visitId}/main");
+        VisitContextAccessor.SelectedVisit = visit;
+        NavigationManager.NavigateTo("/visit-view");
     }
     
     private async Task PdfVisitCallback(string visitId)

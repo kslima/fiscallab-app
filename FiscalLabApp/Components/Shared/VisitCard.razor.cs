@@ -1,3 +1,4 @@
+using FiscalLabApp.Extensions;
 using FiscalLabApp.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -6,16 +7,16 @@ namespace FiscalLabApp.Components.Shared;
 public partial class VisitCard : ComponentBase
 {
     [Parameter] public EventCallback<string> OnDeleteButtonClicked { get; set; }
-    [Parameter] public EventCallback<string> OnEditButtonClicked { get; set; }
+    [Parameter] public EventCallback<Visit> OnEditButtonClicked { get; set; }
     [Parameter] public EventCallback<string> OnPdfButtonClicked { get; set; }
     [Parameter] public EventCallback<string> OnSendToEmailButtonClicked { get; set; }
-    [Parameter] public VisitViewModel Visit { get; set; } = new();
+    [Parameter] public Visit Visit { get; set; } = new();
     private int _pendingItemsCount;
     
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        _pendingItemsCount = Visit.GetMetadata().PendingItems;
+        _pendingItemsCount = Visit.CreatePages().Select(x => x.PendingItems).Sum();
     }
 
     private string GetBorderStyle()
@@ -32,7 +33,7 @@ public partial class VisitCard : ComponentBase
     
     private async Task EditCallback()
     {
-        await OnEditButtonClicked.InvokeAsync(Visit.Id);
+        await OnEditButtonClicked.InvokeAsync(Visit);
     }
 
     private async Task DeleteCallback()

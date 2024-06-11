@@ -2,6 +2,12 @@ namespace FiscalLabApp.Helpers;
 
 public static class MessageHelper
 {
+    public const string RequiredPlant =
+        "Usina é obrigatorio.";  
+    public const string RequiredAssociation =
+        "Associação é obrigatorio."; 
+    public const string SuccessOnCreateVisita =
+        "Visita criada com sucesso.";  
     public const string UnSynchronizedData =
         "Visita não sincronizada.";
     public const string NoInternetConnection =
@@ -29,4 +35,17 @@ public static class MessageHelper
     
     public const string SuccessOnUpdateVisit =
         "Visita atualizada com sucesso.";  
+    
+    public const string SuccessOnCreateAssociation =
+        "Associação criada com sucesso.";  
+    
+    public const string SuccessOnUpdateAssociation =
+        "Associação atualizada com sucesso.";  
+    
+    public const string SuccessOnCreatePlant =
+        "Usina criada com sucesso.";  
+    
+    public const string SuccessOnUpdatePlant =
+        "Usina atualizada com sucesso.";  
+    
 }

@@ -1,0 +1,54 @@
+﻿@using FiscalLabApp.Extensions
+
+<DataSeparator Title="Balança Analítica">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Peso Homogenio Apos" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceHomogeneousWeight)" Id="homogeneousWeight" @bind-value="AnalyticalBalance.HomogeneousWeight"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Peso Amostra Final" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceFinalWeight)" Id="finalWeight" @bind-value="AnalyticalBalance.FinalWeight"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Balança Aferida" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceCalibratedBalance)" Id="calibratedBalance" @bind-value="AnalyticalBalance.CalibratedBalance"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Balança Nivelada" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceLeveledBalance)" Id="leveledBalance" @bind-value="AnalyticalBalance.LeveledBalance"/>
+        </div>
+    </div>
+    
+    <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Balança Com Certificado de Calibragem" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceCalibrationCertificateBalance)" Id="calibrationCertificateBalance" @bind-value="AnalyticalBalance.CalibrationCertificateBalance"/>
+            </div>
+        </div>
+    
+    <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Observações 5" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceObservations5)" Id="observations5" @bind-value="AnalyticalBalance.Observations5"/>
+            </div>
+        </div>
+</DataSeparator>
+
+
+<DataSeparator Title="Temperatura Ambiente">
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Média temperatura ambiente(20ºC±3)" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceAverageAmbientTemperature)" Id="averageAmbientTemperature" @bind-value="AnalyticalBalance.AverageAmbientTemperature"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <VisitTextInput Title="Observações 6" Menu="@Menus.GetMenu(MenuType.AnalyticalBalanceObservations6)" Id="observations6" @bind-value="AnalyticalBalance.Observations6"/>
+        </div>
+    </div>
+</DataSeparator>

@@ -6,10 +6,10 @@ namespace FiscalLabApp.Components.Shared;
 public partial class ListVisits : ComponentBase
 {
     [Parameter]
-    public List<VisitViewModel> Visits { get; set; } = [];
+    public List<Visit> Visits { get; set; } = [];
     
     [Parameter] public EventCallback<string> OnDeleteButtonClicked { get; set; }
-    [Parameter] public EventCallback<string> OnEditButtonClicked { get; set; }
+    [Parameter] public EventCallback<Visit> OnEditButtonClicked { get; set; }
     [Parameter] public EventCallback<string> OnPdfButtonClicked { get; set; }
     [Parameter] public EventCallback<string> OnSendToEmailButtonClicked { get; set; }
 
@@ -18,9 +18,9 @@ public partial class ListVisits : ComponentBase
         OnDeleteButtonClicked.InvokeAsync(visitId);
     }
     
-    public void EditVisitCallback(string visitId)
+    public void EditVisitCallback(Visit visit)
     {
-        OnEditButtonClicked.InvokeAsync(visitId);
+        OnEditButtonClicked.InvokeAsync(visit);
     }
     
     public void PdfVisitCallback(string visitId)

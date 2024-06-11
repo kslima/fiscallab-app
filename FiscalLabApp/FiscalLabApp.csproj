@@ -27,5 +27,27 @@
       <_ContentIncludedByDefault Remove="Components\Pages\Menu\AddOption.razor" />
       <_ContentIncludedByDefault Remove="wwwroot\sample-data\associations.json" />
     </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Shared\VisitComponents\AnalyticalBalanceComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\AssociationComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\BasicInformationComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\BenchmarkingEquipmentComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\ClarificationSaccharimeterComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\ConclusionComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\DataSeparator.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\DesintegratorProbeComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\MenuOption.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\PlantComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\PressRefractometerComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\SugarcaneBalanceComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\SystemConsistencyComponent.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\VisitDateInput.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\VisitNumberInput.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\VisitPageSelector.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\VisitSelect.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\VisitTextInput.razor" />
+      <AdditionalFiles Include="Components\Shared\VisitComponents\VisitView.razor" />
+    </ItemGroup>
     
 </Project>

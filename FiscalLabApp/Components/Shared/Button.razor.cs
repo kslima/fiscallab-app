@@ -8,11 +8,13 @@ public partial class Button : ComponentBase
     [Parameter]
     public string Title { get; set; } = "Button";
     [Parameter]
+    public bool IsDisabled { get; set; }
+    [Parameter]
     public ButtonStyle Style { get; set; } = ButtonStyle.Default;
-    [Parameter] public EventCallback<string> OnClicked { get; set; }
+    [Parameter] public EventCallback<string> OnClick { get; set; }
     private async Task ClickCallback()
     {
-        await OnClicked.InvokeAsync();
+        await OnClick.InvokeAsync();
     }
     
 }

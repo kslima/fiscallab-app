@@ -8,6 +8,7 @@ public interface IAssociationService
     Task CreateManyAsync(Association[] associations);
     Task<Association> UpdateAsync(string id, Association association);
     Task<Association> GetAsync(string id);
-    Task<Association[]> GetAllAsync();
+    Task<bool> DeleteAsync(string id);
+    Task<Association[]> ListAllLocalAsync();
     Task RestoreAsync();
 }

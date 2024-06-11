@@ -44,6 +44,8 @@ public static class DependencyInjection
         services.AddScoped<IVisitService, VisitService>();
         services.AddScoped<IBackupService, BackupService>();
         services.AddScoped<IRestoreService, RestoreService>();
+        
+        services.AddSingleton<IVisitContextAccessor, VisitContextAccessor>();
         services.AddSingleton<ApplicationContextAccessor>();
         services.AddSingleton<NetworkStatusEventNotifier>();
         services.AddSingleton<SelectedPageEventNotifier>();
