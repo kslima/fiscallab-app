@@ -46,6 +46,8 @@ public static class MessageHelper
         "Usina criada com sucesso.";  
     
     public const string SuccessOnUpdatePlant =
-        "Usina atualizada com sucesso.";  
+        "Usina atualizada com sucesso."; 
     
+    public const string SuccessOnUpdateOptions =
+        "Opções  atualizadas com sucesso."; 
 }

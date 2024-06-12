@@ -40,10 +40,8 @@ public class MenuService : IMenuService
         return await _indexedDbAccessor.GetValueAsync<Menu[]>(CollectionsHelper.MenusCollection);
     }
 
-    public async Task SetOptionAsync(string code, List<Option> options)
+    public async Task UpdateAsync(Menu menu)
     {
-        var menu = await GetById(code);
-        menu.Options = options;
         await _indexedDbAccessor.SetValueAsync(CollectionsHelper.MenusCollection, menu);
     }
     

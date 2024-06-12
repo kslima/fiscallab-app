@@ -11,6 +11,7 @@ public partial class BenchmarkingEquipmentComponent : ComponentBase
     
     [Parameter]
     public BenchmarkingEquipment BenchmarkingEquipment { get; set; } = new();
+    [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }
     
     public void ExpectedCropChanged(decimal value)
     {
@@ -37,5 +38,10 @@ public partial class BenchmarkingEquipmentComponent : ComponentBase
     private void CalculateAtrVariation()
     {
         BenchmarkingEquipment.AtrVariation = BenchmarkingEquipment.CurrentAtr - BenchmarkingEquipment.PreviousAtr;
+    }
+    
+    private async Task OnEditOptionsButtonClickHandler(Menu menu)
+    {
+        await OnEditOptionsButtonClick.InvokeAsync(menu);
     }
 }

@@ -3,25 +3,25 @@
 <DataSeparator Title="Prensa/Desintegrador/Temperatura">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Célula Carga" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentLoadCell)" Id="benchmarkingEquipmentLoadCell" @bind-value="BenchmarkingEquipment.LoadCell"/>
+            <VisitTextInput Title="Célula Carga" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentLoadCell)" Id="benchmarkingEquipmentLoadCell" @bind-value="BenchmarkingEquipment.LoadCell" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Termômetro" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentThermometer)" Id="=benchmarkingEquipmentThermometer" @bind-value="BenchmarkingEquipment.Thermometer"/>
+            <VisitTextInput Title="Termômetro" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentThermometer)" Id="=benchmarkingEquipmentThermometer" @bind-value="BenchmarkingEquipment.Thermometer" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Tacômetro" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentTachometer)" Id="benchmarkingEquipmentTachometer" @bind-value="BenchmarkingEquipment.Tachometer"/>
+            <VisitTextInput Title="Tacômetro" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentTachometer)" Id="benchmarkingEquipmentTachometer" @bind-value="BenchmarkingEquipment.Tachometer" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Paquímetro" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentPachymeter)" Id="benchmarkingEquipmentPachymeter" @bind-value="BenchmarkingEquipment.Pachymeter"/>
+            <VisitTextInput Title="Paquímetro" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentPachymeter)" Id="benchmarkingEquipmentPachymeter" @bind-value="BenchmarkingEquipment.Pachymeter" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>
@@ -29,19 +29,19 @@
 <DataSeparator Title="Pesos Padrões">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="500gm" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipment500Gm)" Id="benchmarkingEquipment500Gm" @bind-value="BenchmarkingEquipment.Gm500"/>
+            <VisitTextInput Title="500gm" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipment500Gm)" Id="benchmarkingEquipment500Gm" @bind-value="BenchmarkingEquipment.Gm500" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="100gm" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipment100Gm)" Id="=cenchmarkingEquipment100Gm" @bind-value="BenchmarkingEquipment.Gm100"/>
+            <VisitTextInput Title="100gm" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipment100Gm)" Id="=cenchmarkingEquipment100Gm" @bind-value="BenchmarkingEquipment.Gm100" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="1gm" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipment1Gm)" Id="benchmarkingEquipment1Gm" @bind-value="BenchmarkingEquipment.Gm1"/>
+            <VisitTextInput Title="1gm" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipment1Gm)" Id="benchmarkingEquipment1Gm" @bind-value="BenchmarkingEquipment.Gm1" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>
@@ -49,7 +49,7 @@
 <DataSeparator Title="Linearidade/Repetitividade-Sacarose(PA)">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Teste de Sacarose" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentSucroseTest)" Id="benchmarkingEquipmentSucroseTest" @bind-value="BenchmarkingEquipment.SucroseTest"/>
+            <VisitTextInput Title="Teste de Sacarose" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentSucroseTest)" Id="benchmarkingEquipmentSucroseTest" @bind-value="BenchmarkingEquipment.SucroseTest" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>
@@ -57,19 +57,19 @@
 <DataSeparator Title="Refratômetro(Faixa)">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="10º" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentRange10)" Id="benchmarkingEquipmentRange10" @bind-value="BenchmarkingEquipment.Range10"/>
+            <VisitTextInput Title="10º" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentRange10)" Id="benchmarkingEquipmentRange10" @bind-value="BenchmarkingEquipment.Range10" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="20º" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentRange20)" Id="=benchmarkingEquipmentRange20" @bind-value="BenchmarkingEquipment.Range20"/>
+            <VisitTextInput Title="20º" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentRange20)" Id="=benchmarkingEquipmentRange20" @bind-value="BenchmarkingEquipment.Range20" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="30º" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentRange30)" Id="benchmarkingEquipmentRange30" @bind-value="BenchmarkingEquipment.Range30"/>
+            <VisitTextInput Title="30º" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentRange30)" Id="benchmarkingEquipmentRange30" @bind-value="BenchmarkingEquipment.Range30" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>
@@ -77,31 +77,31 @@
 <DataSeparator Title="Sacarímetro(Solução)">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="25ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ25)" Id="benchmarkingEquipmentZ25" @bind-value="BenchmarkingEquipment.Z25"/>
+            <VisitTextInput Title="25ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ25)" Id="benchmarkingEquipmentZ25" @bind-value="BenchmarkingEquipment.Z25" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="50ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ50)" Id="=benchmarkingEquipmentZ50" @bind-value="BenchmarkingEquipment.Z50"/>
+            <VisitTextInput Title="50ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ50)" Id="=benchmarkingEquipmentZ50" @bind-value="BenchmarkingEquipment.Z50" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="75ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ75)" Id="benchmarkingEquipmentZ75" @bind-value="BenchmarkingEquipment.Z75"/>
+            <VisitTextInput Title="75ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ75)" Id="benchmarkingEquipmentZ75" @bind-value="BenchmarkingEquipment.Z75" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="100ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ100)" Id="benchmarkingEquipmentZ100" @bind-value="BenchmarkingEquipment.Z100"/>
+            <VisitTextInput Title="100ºZ" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentZ100)" Id="benchmarkingEquipmentZ100" @bind-value="BenchmarkingEquipment.Z100" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 11" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentObservations11)" Id="benchmarkingEquipmentObservations11" @bind-value="BenchmarkingEquipment.Observations11"/>
+            <VisitTextInput Title="Observações 11" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentObservations11)" Id="benchmarkingEquipmentObservations11" @bind-value="BenchmarkingEquipment.Observations11" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>
@@ -110,7 +110,7 @@
 <DataSeparator Title="Moagem">
     <div class="row">
         <div class="col">
-            <VisitNumberInput Title="Previsto Safra" Id="benchmarkingEquipmentExpectedCrop" @bind-value="BenchmarkingEquipment.ExpectedCrop" ValueUpdated="ExpectedCropChanged"/>
+            <VisitNumberInput Title="Previsto Safra" Id="benchmarkingEquipmentExpectedCrop" @bind-value="BenchmarkingEquipment.ExpectedCrop" ValueUpdated="ExpectedCropChanged" />
         </div>
     </div>
     
@@ -179,7 +179,7 @@
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 12" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentObservations12)" Id="benchmarkingEquipmentObservations12" @bind-value="BenchmarkingEquipment.Observations12"/>
+            <VisitTextInput Title="Observações 12" Menu="@Menus.GetMenu(MenuType.BenchmarkingEquipmentObservations12)" Id="benchmarkingEquipmentObservations12" @bind-value="BenchmarkingEquipment.Observations12" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>

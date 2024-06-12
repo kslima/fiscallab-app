@@ -1,0 +1,9 @@
+@using FiscalLabApp.Enums
+<div class="form-floating mb-3">
+    <InputTextArea @bind-Value="RawOptions" class="form-control h-100 mb-3" id="inputOption" rows="@Rows"/>
+    <label for="inputOption">Opções</label>
+</div>
+
+<div class="d-flex justify-content-end gap-3">
+    <Button Title="Salvar" Style="ButtonStyle.Success" OnClick="OnSaveButtonClickHandler"></Button>
+</div>

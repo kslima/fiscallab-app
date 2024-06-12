@@ -9,4 +9,10 @@ public partial class ClarificationSaccharimeterComponent : ComponentBase
     public Menu[] Menus { get; set; } = [];
     [Parameter]
     public ClarificationSaccharimeter ClarificationSaccharimeter { get; set; } = new();
+    [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }
+    
+    private async Task OnEditOptionsButtonClickHandler(Menu menu)
+    {
+        await OnEditOptionsButtonClick.InvokeAsync(menu);
+    }
 }

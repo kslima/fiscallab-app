@@ -27,6 +27,15 @@
     </PlantComponent>
 </ModalDialog>
 
+<ModalDialog
+    @ref="_optionsModalDialog"
+    Title="Opções">
+    <OptionsComponent
+        Menu="_selectedMenu"
+        OnSaveButtonClick="OnSaveOptionsButtonClickHandler">
+    </OptionsComponent>
+</ModalDialog>
+
 <DisableContainer IsDisabled="_isReadyOnly">
     @switch (_selectedPage)
     {
@@ -39,57 +48,66 @@
                 OnAddPlantButtonClick="OnAddPlantClickHandler"
                 OnEditPlantButtonClick="OnEditPlantClickHandler"
                 OnAddAssociationButtonClick="OnAddAssociationClickHandler"
-                OnEditAssociationButtonClick="OnEditAssociationClickHandler">
+                OnEditAssociationButtonClick="OnEditAssociationClickHandler"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </BasicInformationComponent>
             break;
         case PageHelper.SugarcaneBalancePageName:
             <SugarcaneBalanceComponent
                 SugarcaneBalance="Visit.SugarcaneBalance"
                 OnBalanceTestsClick="OnBalanceTestsClickHandler"
-                Menus="@GetMenuOptions(PageType.SugarcaneBalance)">
+                Menus="@GetMenuOptions(PageType.SugarcaneBalance)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </SugarcaneBalanceComponent>
             break;
         case PageHelper.DesintegratorProbePageName:
             <DesintegratorProbeComponent
                 DesintegratorProbe="Visit.DesintegratorProbe"
-                Menus="@GetMenuOptions(PageType.DesintegratorProbe)">
+                Menus="@GetMenuOptions(PageType.DesintegratorProbe)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </DesintegratorProbeComponent>
             break;
         case PageHelper.AnalyticalBalancePageName:
             <AnalyticalBalanceComponent
                 AnalyticalBalance="Visit.AnalyticalBalance"
-                Menus="@GetMenuOptions(PageType.AnalyticalBalance)">
+                Menus="@GetMenuOptions(PageType.AnalyticalBalance)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </AnalyticalBalanceComponent>
             break;
         case PageHelper.PressRefractometerPageName:
             <PressRefractometerComponent
                 PressRefractometer="Visit.PressRefractometer"
-                Menus="@GetMenuOptions(PageType.PressRefractometer)">
+                Menus="@GetMenuOptions(PageType.PressRefractometer)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </PressRefractometerComponent>
             break;
         case PageHelper.ClarificationSaccharimeterPageName:
             <ClarificationSaccharimeterComponent
                 ClarificationSaccharimeter="Visit.ClarificationSaccharimeter"
-                Menus="@GetMenuOptions(PageType.ClarificationSaccharimeter)">
+                Menus="@GetMenuOptions(PageType.ClarificationSaccharimeter)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </ClarificationSaccharimeterComponent>
             break;
         case PageHelper.BenchmarkingEquipmentPageName:
             <BenchmarkingEquipmentComponent
                 BenchmarkingEquipment="Visit.BenchmarkingEquipment"
-                Menus="@GetMenuOptions(PageType.BenchmarkingEquipment)">
+                Menus="@GetMenuOptions(PageType.BenchmarkingEquipment)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </BenchmarkingEquipmentComponent>
             break;
         case PageHelper.SystemConsistencyPageName:
             <SystemConsistencyComponent
                 SystemConsistency="Visit.SystemConsistency"
-                Menus="@GetMenuOptions(PageType.SystemConsistency)">
+                Menus="@GetMenuOptions(PageType.SystemConsistency)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </SystemConsistencyComponent>
             break;
         case PageHelper.ConclusionPageName:
             <ConclusionComponent
                 Conclusion="Visit.Conclusion"
                 Images="Visit.Images"
-                Menus="@GetMenuOptions(PageType.Conclusion)">
+                Menus="@GetMenuOptions(PageType.Conclusion)"
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
             </ConclusionComponent>
             break;
     }

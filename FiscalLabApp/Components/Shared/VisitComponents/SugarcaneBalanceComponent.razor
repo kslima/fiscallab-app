@@ -3,25 +3,25 @@
 <DataSeparator Title="Balanças">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança de Entrada" Menu="@Menus.GetMenu(MenuType.CaneBalancePageInScale)" Id="inScale" @bind-value="SugarcaneBalance.InScale"/>
+            <VisitTextInput Title="Balança de Entrada" Menu="@Menus.GetMenu(MenuType.CaneBalancePageInScale)" Id="inScale" @bind-value="SugarcaneBalance.InScale" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Balança de Saída" Menu="@Menus.GetMenu(MenuType.CaneBalancePageOutScale)" Id="outScale" @bind-value="SugarcaneBalance.OutScale"/>
+            <VisitTextInput Title="Balança de Saída" Menu="@Menus.GetMenu(MenuType.CaneBalancePageOutScale)" Id="outScale" @bind-value="SugarcaneBalance.OutScale" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Sorteio de Cargas" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCargoDraw)" Id="cargoDraw" @bind-value="SugarcaneBalance.CargoDraw"/>
+            <VisitTextInput Title="Sorteio de Cargas" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCargoDraw)" Id="cargoDraw" @bind-value="SugarcaneBalance.CargoDraw" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações(Teste de Balança)" Menu="@Menus.GetMenu(MenuType.CaneBalancePageScaleObservations)" Id="scaleObservations" @bind-value="SugarcaneBalance.ScaleObservations"/>
+            <VisitTextInput Title="Observações(Teste de Balança)" Menu="@Menus.GetMenu(MenuType.CaneBalancePageScaleObservations)" Id="scaleObservations" @bind-value="SugarcaneBalance.ScaleObservations" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
@@ -35,31 +35,31 @@
 <DataSeparator Title="Calibragens">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="1ª calibração" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCalibration1)" Id="calibration1" @bind-value="SugarcaneBalance.Calibration1"/>
+            <VisitTextInput Title="1ª calibração" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCalibration1)" Id="calibration1" @bind-value="SugarcaneBalance.Calibration1" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="2ª calibração" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCalibration2)" Id="calibration2" @bind-value="SugarcaneBalance.Calibration2"/>
+            <VisitTextInput Title="2ª calibração" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCalibration2)" Id="calibration2" @bind-value="SugarcaneBalance.Calibration2" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Órgão Responsável" Menu="@Menus.GetMenu(MenuType.CaneBalancePageResponsibleBody)" Id="responsibleBody" @bind-value="SugarcaneBalance.ResponsibleBody"/>
+            <VisitTextInput Title="Órgão Responsável" Menu="@Menus.GetMenu(MenuType.CaneBalancePageResponsibleBody)" Id="responsibleBody" @bind-value="SugarcaneBalance.ResponsibleBody" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Certificado de Calibração" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCalibrationCertificate)" Id="calibrationCertificate" @bind-value="SugarcaneBalance.CalibrationCertificate"/>
+            <VisitTextInput Title="Certificado de Calibração" Menu="@Menus.GetMenu(MenuType.CaneBalancePageCalibrationCertificate)" Id="calibrationCertificate" @bind-value="SugarcaneBalance.CalibrationCertificate" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 1" Menu="@Menus.GetMenu(MenuType.CaneBalancePageObservations1)" Id="observations1" @bind-value="SugarcaneBalance.Observations1"/>
+            <VisitTextInput Title="Observações 1" Menu="@Menus.GetMenu(MenuType.CaneBalancePageObservations1)" Id="observations1" @bind-value="SugarcaneBalance.Observations1" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>
@@ -68,31 +68,31 @@
 <DataSeparator Title="Porcentagens Analisadas">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Usina" Menu="@Menus.GetMenu(MenuType.CaneBalancePagePlantPercentage)" Id="plant" @bind-value="SugarcaneBalance.PlantPercentage"/>
+            <VisitTextInput Title="Porcentagem Usina" Menu="@Menus.GetMenu(MenuType.CaneBalancePagePlantPercentage)" Id="plant" @bind-value="SugarcaneBalance.PlantPercentage" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Fornecedor" Menu="@Menus.GetMenu(MenuType.CaneBalancePageProviderPercentage)" Id="provider" @bind-value="SugarcaneBalance.ProviderPercentage"/>
+            <VisitTextInput Title="Porcentagem Fornecedor" Menu="@Menus.GetMenu(MenuType.CaneBalancePageProviderPercentage)" Id="provider" @bind-value="SugarcaneBalance.ProviderPercentage" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Usina/Fazenda" Menu="@Menus.GetMenu(MenuType.CaneBalancePagePlantFarmPercentage)" Id="percentPlantFarm" @bind-value="SugarcaneBalance.PlantFarmPercentage"/>
+            <VisitTextInput Title="Porcentagem Usina/Fazenda" Menu="@Menus.GetMenu(MenuType.CaneBalancePagePlantFarmPercentage)" Id="percentPlantFarm" @bind-value="SugarcaneBalance.PlantFarmPercentage" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Porcentagem Fazenda/Fornecedor" Menu="@Menus.GetMenu(MenuType.CaneBalancePageFarmProviderPercentage)" Id="percentFarmProvider" @bind-value="SugarcaneBalance.FarmProviderPercentage"/>
+            <VisitTextInput Title="Porcentagem Fazenda/Fornecedor" Menu="@Menus.GetMenu(MenuType.CaneBalancePageFarmProviderPercentage)" Id="percentFarmProvider" @bind-value="SugarcaneBalance.FarmProviderPercentage" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 2" Menu="@Menus.GetMenu(MenuType.CaneBalancePageObservations2)" Id="observations2" @bind-value="SugarcaneBalance.Observations2"/>
+            <VisitTextInput Title="Observações 2" Menu="@Menus.GetMenu(MenuType.CaneBalancePageObservations2)" Id="observations2" @bind-value="SugarcaneBalance.Observations2" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>

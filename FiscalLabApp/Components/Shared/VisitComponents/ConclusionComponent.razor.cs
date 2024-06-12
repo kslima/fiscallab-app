@@ -14,6 +14,7 @@ public partial class ConclusionComponent : ComponentBase
 
     [Parameter]
     public List<Image> Images { get; set; } = [];
+    [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }
     private const int MaxAllowedSize = 10 * 1024 * 1024;
 
     private string _modalDisplay = "none;";
@@ -71,5 +72,10 @@ public partial class ConclusionComponent : ComponentBase
         }
 
         StateHasChanged();
+    }
+    
+    private async Task OnEditOptionsButtonClickHandler(Menu menu)
+    {
+        await OnEditOptionsButtonClick.InvokeAsync(menu);
     }
 }

@@ -3,25 +3,25 @@
 <DataSeparator Title="Amostra">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="O.C" Id="pressureGaugeCertificated" Menu="@Menus.GetMenu(MenuType.SystemConsistencyOc)" @bind-value="SystemConsistency.Oc"/>
+            <VisitTextInput Title="O.C" Id="pressureGaugeCertificated" Menu="@Menus.GetMenu(MenuType.SystemConsistencyOc)" @bind-value="SystemConsistency.Oc" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Fazenda" Id="systemConsistencyFarm" Menu="@Menus.GetMenu(MenuType.SystemConsistencyFarm)" @bind-value="SystemConsistency.Farm"/>
+            <VisitTextInput Title="Fazenda" Id="systemConsistencyFarm" Menu="@Menus.GetMenu(MenuType.SystemConsistencyFarm)" @bind-value="SystemConsistency.Farm" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Propietário" Id="systemConsistencyOwner" Menu="@Menus.GetMenu(MenuType.SystemConsistencyOwner)" @bind-value="SystemConsistency.Owner"/>
+            <VisitTextInput Title="Propietário" Id="systemConsistencyOwner" Menu="@Menus.GetMenu(MenuType.SystemConsistencyOwner)" @bind-value="SystemConsistency.Owner" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações" Id="systemConsistencyObservations" Menu="@Menus.GetMenu(MenuType.SystemConsistencyObservations)" @bind-value="SystemConsistency.Observations"/>
+            <VisitTextInput Title="Observações" Id="systemConsistencyObservations" Menu="@Menus.GetMenu(MenuType.SystemConsistencyObservations)" @bind-value="SystemConsistency.Observations" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>

@@ -24,6 +24,8 @@ public partial class VisitView : ComponentBase
     [Inject] private IVisitContextAccessor VisitContextAccessor { get; set; } = null!;
     private ModalDialog _associationModalDialog = null!;
     private ModalDialog _plantModalDialog = null!;
+    private ModalDialog _optionsModalDialog = null!;
+    private Menu _selectedMenu = new();
     private bool _isReadyOnly;
     private Menu[] _menus = [];
     private string _selectedPage = PageHelper.BasicInformationPageName;
@@ -158,5 +160,18 @@ public partial class VisitView : ComponentBase
         _pages = Visit.CreatePages();
         await JsRuntime.RemoveFocusFromAllElementsAsync();
         ToastService.ShowSuccess(MessageHelper.SuccessOnUpdateVisit);
+    }
+    
+    private void OnEditOptionsClickHandler(Menu menu)
+    {
+        _selectedMenu = menu;
+        _optionsModalDialog.Open();
+    }
+    
+    private async Task OnSaveOptionsButtonClickHandler(Menu menu)
+    {
+        await MenuService.UpdateAsync(menu);
+        ToastService.ShowSuccess(MessageHelper.SuccessOnUpdateOptions);
+        _optionsModalDialog.Close();
     }
 }

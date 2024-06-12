@@ -1,15 +1,5 @@
-﻿@using FiscalLabApp.Enums
-@using FiscalLabApp.Extensions
-@using FiscalLabApp.Services
-@inject NavigationManager NavigationManager
-@inject IMenuService MenuService
-@inject SelectedVisitEventNotifier SelectedVisitEventNotifier
-@inject NetworkStatusEventNotifier NetworkStatusEventNotifier
-@inject ApplicationContextAccessor ApplicationContextAccessor
-@inject IJSRuntime JsRuntime
-
-<div class="form-floating input-group mb-3">
-   <InputTextArea class="form-control" id="@Id" @oninput="UpdateParent" @onchange="UpdateParent" @onblur="OnBlur" @bind-Value="@Value" style="font-size: 12px; height: fit-content" rows="@Rows" disabled="@IsReadyOnly"/>
+﻿<div class="form-floating input-group mb-3">
+    <InputTextArea class="form-control" id="@Id" @oninput="UpdateParent" @onchange="UpdateParent" @onblur="OnBlur" @bind-Value="@Value" style="font-size: 12px; height: fit-content" rows="@Rows" disabled="@IsReadyOnly"/>
 
     <button class="btn btn-outline-secondary" type="button" @onclick="OpenOptions" disabled="@IsReadyOnly">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right-circle" viewBox="0 0 16 16">
@@ -27,7 +17,7 @@
     {
         <label for="@Id" style="font-size: 14px;">@Title</label>
     }
-    <button class="btn btn-outline-secondary" type="button" @onclick="EditOptionsAsync" disabled="@(ApplicationContextAccessor.IsOffline() || IsReadyOnly)">
+    <button class="btn btn-outline-secondary" type="button" @onclick="EditButtonHandler" disabled="@(ApplicationContextAccessor.IsOffline() || IsReadyOnly)">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
@@ -63,100 +53,3 @@
         <div class="modal-backdrop fade show"></div>
     }
 </div >
-
-@code {
-
-    [Parameter] public Menu? Menu { get; set; }
-
-    private string _menuId = string.Empty;
-    
-    private int Rows { get; set; }
-    
-    [Parameter] public string Id { get; set; } = string.Empty;
-    [Parameter] public bool IsReadyOnly { get; set; }
-
-    [Parameter] public string Title { get; set; } = string.Empty;
-
-    [Parameter] public string Value { get; set; } = string.Empty;
-    [Parameter] public bool Required { get; set; }
-
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
-    [Parameter] public EventCallback ValueUpdated { get; set; }
-    
-    [CascadingParameter] public string Callback { get; set; } = "/";
-    
-    private string _modalDisplay = "none;";
-    private string _modalClass = string.Empty;
-    private bool _showBackdrop = false;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        NetworkStatusEventNotifier.NetworkStatusChangedEvent += OnNetworkStatusChanged;
-    }
-    
-    private void OnNetworkStatusChanged(object? sender, NetworkStatus status)
-    {
-        StateHasChanged();
-    }
-    
-    private void OpenOptions()
-    {
-        _modalDisplay = "block";
-        _modalClass = "show";
-        _showBackdrop = true;
-    }
-
-    private void CloseOptions()
-    {
-        _modalDisplay = "none";
-        _modalClass = string.Empty;
-        _showBackdrop = false;
-    }
-
-    private async Task UpdateParent(ChangeEventArgs e)
-    {
-        await ValueChanged.InvokeAsync(e.Value?.ToString());
-    }
-
-    private void OnBlur(FocusEventArgs e)
-    {
-        SelectedVisitEventNotifier.NotifyFill();
-    }
-
-    protected override void OnParametersSet()
-    {
-        if (Menu is null) return;
-
-        Menu.Options.Sort((a, b) => string.Compare(a.Description, b.Description, StringComparison.Ordinal));
-
-        if (Menu.HasPercentageOptions)
-        {
-            foreach (var value in Enumerable.Range(1, 100))
-            {
-                Menu.Options.Add(new Option { Description = $"{value}%" });
-            }
-        }
-
-        _menuId = Menu.Id;
-        CalculateSize();
-    }
-    
-    private async Task OptionSelected(Option opt)
-    {
-        Value = opt.Description;
-        await ValueChanged.InvokeAsync(opt.Description);
-        CloseOptions();
-    }
-
-    private void EditOptionsAsync()
-    {
-        NavigationManager.NavigateTo($"/menus/{_menuId}?Callback={NavigationManager.GetCurrentVisitUrl()}");
-    }
-    
-    private void CalculateSize()
-    {
-        Rows = (Value.Length / 30) + 1;
-    }
-
-}

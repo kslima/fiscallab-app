@@ -12,6 +12,7 @@ public partial class SystemConsistencyComponent : ComponentBase
     
     [Parameter]
     public SystemConsistency SystemConsistency { get; set; } = new();
+    [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }
     private void OnClarifierSelected(ChangeEventArgs e)
     {
         if (e.Value is null) return;
@@ -76,5 +77,10 @@ public partial class SystemConsistencyComponent : ComponentBase
     private void CalculateArDifference()
     {
         SystemConsistency.DifferenceAr = SystemConsistency.PlantSugarcaneAnalysis.Ar - SystemConsistency.ConsecanaSugarcaneAnalysis.Ar;
+    }
+    
+    private async Task OnEditOptionsButtonClickHandler(Menu menu)
+    {
+        await OnEditOptionsButtonClick.InvokeAsync(menu);
     }
 }

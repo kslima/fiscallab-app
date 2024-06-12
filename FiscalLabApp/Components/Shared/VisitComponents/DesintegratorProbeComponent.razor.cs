@@ -10,4 +10,10 @@ public partial class DesintegratorProbeComponent : ComponentBase
 
     [Parameter]
     public Menu[] Menus { get; set; } = [];
+    [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }
+    
+    private async Task OnEditOptionsButtonClickHandler(Menu menu)
+    {
+        await OnEditOptionsButtonClick.InvokeAsync(menu);
+    }
 }

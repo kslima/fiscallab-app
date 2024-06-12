@@ -3,49 +3,49 @@
 <DataSeparator Title="Clarificação">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Frasco" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottle)" Id="clarificationSaccharimeterBottle" @bind-value="ClarificationSaccharimeter.Bottle"/>
+            <VisitTextInput Title="Frasco" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottle)" Id="clarificationSaccharimeterBottle" @bind-value="ClarificationSaccharimeter.Bottle" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Agitação" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterAgitation)" Id="clarificationSaccharimeterAgitation" @bind-value="ClarificationSaccharimeter.Agitation"/>
+            <VisitTextInput Title="Agitação" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterAgitation)" Id="clarificationSaccharimeterAgitation" @bind-value="ClarificationSaccharimeter.Agitation" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Houve Diluição" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterHasDilution)" Id="clarificationSaccharimeterHasDilution" @bind-value="ClarificationSaccharimeter.HasDilution"/>
+            <VisitTextInput Title="Houve Diluição" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterHasDilution)" Id="clarificationSaccharimeterHasDilution" @bind-value="ClarificationSaccharimeter.HasDilution" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Clarificante" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClarifier)" Id="clarificationSaccharimeterClarifier" @bind-value="ClarificationSaccharimeter.Clarifier"/>
+            <VisitTextInput Title="Clarificante" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClarifier)" Id="clarificationSaccharimeterClarifier" @bind-value="ClarificationSaccharimeter.Clarifier" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
     
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Quatidade Clarificante(200ml)" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClarifierAmount)" Id="clarificationSaccharimeterClarifierAmount" @bind-value="ClarificationSaccharimeter.ClarifierAmount"/>
+            <VisitTextInput Title="Quatidade Clarificante(200ml)" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClarifierAmount)" Id="clarificationSaccharimeterClarifierAmount" @bind-value="ClarificationSaccharimeter.ClarifierAmount" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Volume Clarificado" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottleClarifiedVolume)" Id="clarificationSaccharimeterBottleClarifiedVolume" @bind-value="ClarificationSaccharimeter.BottleClarifiedVolume"/>
+            <VisitTextInput Title="Volume Clarificado" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottleClarifiedVolume)" Id="clarificationSaccharimeterBottleClarifiedVolume" @bind-value="ClarificationSaccharimeter.BottleClarifiedVolume" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="100ml Após Volume Clarificado" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottleAfterClarifiedVolume)" Id="clarificationSaccharimeterBottleAfterClarifiedVolume" @bind-value="ClarificationSaccharimeter.BottleAfterClarifiedVolume"/>
+            <VisitTextInput Title="100ml Após Volume Clarificado" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBottleAfterClarifiedVolume)" Id="clarificationSaccharimeterBottleAfterClarifiedVolume" @bind-value="ClarificationSaccharimeter.BottleAfterClarifiedVolume" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 9" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterObservations9)" Id="clarificationSaccharimeterObservations9" @bind-value="ClarificationSaccharimeter.Observations9"/>
+            <VisitTextInput Title="Observações 9" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterObservations9)" Id="clarificationSaccharimeterObservations9" @bind-value="ClarificationSaccharimeter.Observations9" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>
@@ -54,55 +54,55 @@
 <DataSeparator Title="Sacarímetro">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Estababilização" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterStabilization)" Id="clarificationSaccharimeterStabilization" @bind-value="ClarificationSaccharimeter.Stabilization"/>
+            <VisitTextInput Title="Estababilização" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterStabilization)" Id="clarificationSaccharimeterStabilization" @bind-value="ClarificationSaccharimeter.Stabilization" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Aferição" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBenchmarking)" Id="clarificationSaccharimeterBenchmarking" @bind-value="ClarificationSaccharimeter.Benchmarking"/>
+            <VisitTextInput Title="Aferição" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterBenchmarking)" Id="clarificationSaccharimeterBenchmarking" @bind-value="ClarificationSaccharimeter.Benchmarking" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Padrão Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzPattern)" Id="clarificationSaccharimeterQuartzPattern" @bind-value="ClarificationSaccharimeter.QuartzPattern"/>
+            <VisitTextInput Title="Padrão Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzPattern)" Id="clarificationSaccharimeterQuartzPattern" @bind-value="ClarificationSaccharimeter.QuartzPattern" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Resultado Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzResult)" Id="clarificationSaccharimeterQuartzResult" @bind-value="ClarificationSaccharimeter.QuartzResult"/>
+            <VisitTextInput Title="Resultado Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzResult)" Id="clarificationSaccharimeterQuartzResult" @bind-value="ClarificationSaccharimeter.QuartzResult" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Leitura do Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzReading)" Id="clarificationSaccharimeterQuartzReading" @bind-value="ClarificationSaccharimeter.QuartzReading"/>
+            <VisitTextInput Title="Leitura do Quartzo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterQuartzReading)" Id="clarificationSaccharimeterQuartzReading" @bind-value="ClarificationSaccharimeter.QuartzReading" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Certificado Calibração" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterCalibrationCertificate)" Id="clarificationSaccharimeterCalibrationCertificate" @bind-value="ClarificationSaccharimeter.CalibrationCertificate"/>
+            <VisitTextInput Title="Certificado Calibração" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterCalibrationCertificate)" Id="clarificationSaccharimeterCalibrationCertificate" @bind-value="ClarificationSaccharimeter.CalibrationCertificate" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Limpeza Tubo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterTubeCleaning)" Id="clarificationSaccharimeterTubeCleaning" @bind-value="ClarificationSaccharimeter.TubeCleaning"/>
+            <VisitTextInput Title="Limpeza Tubo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterTubeCleaning)" Id="clarificationSaccharimeterTubeCleaning" @bind-value="ClarificationSaccharimeter.TubeCleaning" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Cooler de Resfriamento Limpo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClearCollingCooler)" Id="clarificationSaccharimeterClearCollingCooler" @bind-value="ClarificationSaccharimeter.ClearCollingCooler"/>
+            <VisitTextInput Title="Cooler de Resfriamento Limpo" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterClearCollingCooler)" Id="clarificationSaccharimeterClearCollingCooler" @bind-value="ClarificationSaccharimeter.ClearCollingCooler" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações 10" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterObservations10)" Id="clarificationSaccharimeterObservations10" @bind-value="ClarificationSaccharimeter.Observations10"/>
+            <VisitTextInput Title="Observações 10" Menu="@Menus.GetMenu(MenuType.ClarificationSaccharimeterObservations10)" Id="clarificationSaccharimeterObservations10" @bind-value="ClarificationSaccharimeter.Observations10" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 </DataSeparator>

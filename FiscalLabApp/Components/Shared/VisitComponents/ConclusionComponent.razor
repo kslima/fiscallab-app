@@ -2,25 +2,25 @@
 <DataSeparator Title="Conclusao">
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Desempenho do fiscal" Menu="@Menus.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="Conclusion.InspectorPerformance"/>
+            <VisitTextInput Title="Desempenho do fiscal" Menu="@Menus.GetMenu(MenuType.ConclusionInspectorPerformance)" Id="conclusionInspectorPerformance" @bind-value="Conclusion.InspectorPerformance"  OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Desempenho Laboratório" Menu="@Menus.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="Conclusion.LaboratoryReceptivity"/>
+            <VisitTextInput Title="Desempenho Laboratório" Menu="@Menus.GetMenu(MenuType.ConclusionLaboratoryPerformance)" Id="conclusionLaboratoryReceptivity" @bind-value="Conclusion.LaboratoryReceptivity"  OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Pendências" Menu="@Menus.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="Conclusion.Pendencies"/>
+            <VisitTextInput Title="Pendências" Menu="@Menus.GetMenu(MenuType.ConclusionPendencies)" Id="conclusionPendencies" @bind-Value="Conclusion.Pendencies"  OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <VisitTextInput Title="Observações sobre a visita" Menu="@Menus.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="Conclusion.Observations"/>
+            <VisitTextInput Title="Observações sobre a visita" Menu="@Menus.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="Conclusion.Observations"  OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
     <div class="d-grid">

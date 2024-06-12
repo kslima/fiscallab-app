@@ -1,12 +1,11 @@
+using System.Text.Json;
 using FiscalLabApp.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace FiscalLabApp.Components.Shared.VisitComponents;
 
-public partial class BasicInformationComponent : ComponentBase, IDisableComponent
+public partial class BasicInformationComponent : ComponentBase
 {
-    [Parameter]
-    public bool IsDisabled { get; set; }
     [Parameter]
     public BasicInformation BasicInformation { get; set; } = null!;
     [Parameter]
@@ -22,9 +21,10 @@ public partial class BasicInformationComponent : ComponentBase, IDisableComponen
     [Parameter]
     public Menu[] Menus { get; set; }= [];
     [Parameter]
-    public Models.Plant[] Plants { get; set; }= [];
+    public Plant[] Plants { get; set; }= [];
     [Parameter]
-    public Models.Association[] Associations { get; set; }= [];
+    public Association[] Associations { get; set; }= [];
+    [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }
 
     private List<VisitSelect.SelectModel> GetAssociations()
     {
@@ -74,5 +74,10 @@ public partial class BasicInformationComponent : ComponentBase, IDisableComponen
     private async Task OnEditPlantHandler()
     {
         await OnEditPlantButtonClick.InvokeAsync();
+    }
+    
+    private async Task OnEditOptionsButtonClickHandler(Menu menu)
+    {
+        await OnEditOptionsButtonClick.InvokeAsync(menu);
     }
 }
