@@ -149,7 +149,7 @@ public partial class Home : ComponentBase
         StateHasChanged();
     }
     
-    public void EditVisitCallback(Models.Visit visit)
+    public void EditVisitCallback(Visit visit)
     {
         VisitContextAccessor.SelectedVisit = visit;
         NavigationManager.NavigateTo("/visit-view");

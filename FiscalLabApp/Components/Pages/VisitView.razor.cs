@@ -27,7 +27,7 @@ public partial class VisitView : ComponentBase
     private bool _isReadyOnly;
     private Menu[] _menus = [];
     private string _selectedPage = PageHelper.BasicInformationPageName;
-    public Models.Visit Visit { get; set; } = new();
+    public Visit Visit { get; set; } = new();
     private VisitPage[] _pages = [];
 
     private Association[] _associations = [];
@@ -47,7 +47,7 @@ public partial class VisitView : ComponentBase
         await base.OnInitializedAsync();
         if (VisitContextAccessor.SelectedVisit is null)
         {
-            Visit = new Models.Visit
+            Visit = new Visit
             {
                 BasicInformation =
                 {

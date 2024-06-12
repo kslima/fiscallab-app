@@ -47,7 +47,6 @@
       <AdditionalFiles Include="Components\Shared\VisitComponents\VisitPageSelector.razor" />
       <AdditionalFiles Include="Components\Shared\VisitComponents\VisitSelect.razor" />
       <AdditionalFiles Include="Components\Shared\VisitComponents\VisitTextInput.razor" />
-      <AdditionalFiles Include="Components\Shared\VisitComponents\VisitView.razor" />
     </ItemGroup>
     
 </Project>

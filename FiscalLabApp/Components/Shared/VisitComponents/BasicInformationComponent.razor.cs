@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace FiscalLabApp.Components.Shared.VisitComponents;
 
-public partial class BasicInformationComponent : ComponentBase
+public partial class BasicInformationComponent : ComponentBase, IDisableComponent
 {
+    [Parameter]
+    public bool IsDisabled { get; set; }
     [Parameter]
     public BasicInformation BasicInformation { get; set; } = null!;
     [Parameter]

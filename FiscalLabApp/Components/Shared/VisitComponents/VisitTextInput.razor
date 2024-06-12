@@ -82,9 +82,7 @@
 
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
     [Parameter] public EventCallback ValueUpdated { get; set; }
-
-    [CascadingParameter] EditVisitLayout Layout { get; set; } = new();
-
+    
     [CascadingParameter] public string Callback { get; set; } = "/";
     
     private string _modalDisplay = "none;";

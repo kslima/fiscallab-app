@@ -1,71 +1,73 @@
 ﻿@using FiscalLabApp.Extensions
 
-<DataSeparator Title="Dados Básicos">
-    <div class="row">
-        <div class="col">
-            <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtDateInput" type="date" @bind-value="BasicInformation.VisitDate" style="font-size: 12px;"/>
-                <label for="createdAtDateInput" style="font-size: 14px;">Data</label>
-            </div >
+<DisableContainer IsDisabled="IsDisabled">
+    <DataSeparator Title="Dados Básicos">
+        <div class="row">
+            <div class="col">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="createdAtDateInput" type="date" @bind-value="BasicInformation.VisitDate" style="font-size: 12px;"/>
+                    <label for="createdAtDateInput" style="font-size: 14px;">Data</label>
+                </div >
 
+            </div>
+            <div class="col">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="BasicInformation.VisitTime" style="font-size: 12px;"/>
+                    <label for="createdAtTimeInput" style="font-size: 14px;">Hora</label>
+                </div >
+            </div>
         </div>
-        <div class="col">
-            <div class="form-floating mb-3">
-                <input class="form-control" id="createdAtTimeInput" type="time" @bind-value="BasicInformation.VisitTime" style="font-size: 12px;"/>
-                <label for="createdAtTimeInput" style="font-size: 14px;">Hora</label>
-            </div >
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitSelect
-                Label="Usina"
-                Title="Selecione uma usina.."
-                SelectedId="@BasicInformation.Plant.Id"
-                OnItemSelected="OnPlantChangeHandler"
-                OnAddButtonClick="OnAddPlantHandler"
-                OnEditButtonClick="OnEditPlantHandler"
-                Items="@GetPlants()">
-            </VisitSelect>
+        <div class="row">
+            <div class="col">
+                <VisitSelect
+                    Label="Usina"
+                    Title="Selecione uma usina.."
+                    SelectedId="@BasicInformation.Plant.Id"
+                    OnItemSelected="OnPlantChangeHandler"
+                    OnAddButtonClick="OnAddPlantHandler"
+                    OnEditButtonClick="OnEditPlantHandler"
+                    Items="@GetPlants()">
+                </VisitSelect>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitSelect
-                Label="Associação"
-                Title="Selecione uma associação.."
-                SelectedId="@BasicInformation.Association.Id"
-                OnItemSelected="OnAssociationChangeHandler"
-                OnAddButtonClick="OnAddAssociationHandler"
-                OnEditButtonClick="OnEditAssociationHandler"
-                Items="@GetAssociations()">
-            </VisitSelect>
+        <div class="row">
+            <div class="col">
+                <VisitSelect
+                    Label="Associação"
+                    Title="Selecione uma associação.."
+                    SelectedId="@BasicInformation.Association.Id"
+                    OnItemSelected="OnAssociationChangeHandler"
+                    OnAddButtonClick="OnAddAssociationHandler"
+                    OnEditButtonClick="OnEditAssociationHandler"
+                    Items="@GetAssociations()">
+                </VisitSelect>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Consultor" Menu="@Menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-Value="BasicInformation.Consultant" Required="true"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Consultor" Menu="@Menus.GetMenu(MenuType.MainPageConsultant)" Id="consultantInput" @bind-Value="BasicInformation.Consultant" Required="true"/>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Fiscal de Turno" Menu="@Menus.GetMenu(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="BasicInformation.Inspector"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Fiscal de Turno" Menu="@Menus.GetMenu(MenuType.MainPageInspector)" Id="inspectorInput" @bind-value="BasicInformation.Inspector"/>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Líder de Turno" Menu="@Menus.GetMenu(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="BasicInformation.Leader"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Líder de Turno" Menu="@Menus.GetMenu(MenuType.MainPageLeader)" Id="leaderInput" @bind-value="BasicInformation.Leader"/>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Menu="@Menus.GetMenu(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="BasicInformation.LaboratoryLeader"/>
+        <div class="row">
+            <div class="col">
+                <VisitTextInput Title="Encarregado(a) Laboratório de Sacarose" Menu="@Menus.GetMenu(MenuType.MainPageLaboratoryLeader)" Id="laboratoryLeaderInput" @bind-value="BasicInformation.LaboratoryLeader"/>
+            </div>
         </div>
-    </div>
-</DataSeparator>
+    </DataSeparator>
+</DisableContainer>

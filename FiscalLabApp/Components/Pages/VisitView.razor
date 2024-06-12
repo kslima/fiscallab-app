@@ -1,5 +1,6 @@
 @page "/visit-view"
 @using FiscalLabApp.Helpers
+@using FiscalLabApp.Components.Shared.VisitComponents
 
 <VisitPageSelector
     InitialPage="@_selectedPage"
@@ -26,68 +27,70 @@
     </PlantComponent>
 </ModalDialog>
 
-@switch (_selectedPage)
-{
-    case PageHelper.BasicInformationPageName:
-        <BasicInformationComponent
-            BasicInformation="Visit.BasicInformation"
-            Menus="@GetMenuOptions(PageType.Main)"
-            Associations="@_associations"
-            Plants="@_plants"
-            OnAddPlantButtonClick="OnAddPlantClickHandler"
-            OnEditPlantButtonClick="OnEditPlantClickHandler"
-            OnAddAssociationButtonClick="OnAddAssociationClickHandler"
-            OnEditAssociationButtonClick="OnEditAssociationClickHandler">
-        </BasicInformationComponent>
-        break;
-    case PageHelper.SugarcaneBalancePageName:
-        <SugarcaneBalanceComponent
-            SugarcaneBalance="Visit.SugarcaneBalance"
-            OnBalanceTestsClick="OnBalanceTestsClickHandler"
-            Menus="@GetMenuOptions(PageType.SugarcaneBalance)">
-        </SugarcaneBalanceComponent>
-        break;
-    case PageHelper.DesintegratorProbePageName:
-        <DesintegratorProbeComponent
-            DesintegratorProbe="Visit.DesintegratorProbe"
-            Menus="@GetMenuOptions(PageType.DesintegratorProbe)">
-        </DesintegratorProbeComponent>
-        break;
-    case PageHelper.AnalyticalBalancePageName:
-        <AnalyticalBalanceComponent
-            AnalyticalBalance="Visit.AnalyticalBalance"
-            Menus="@GetMenuOptions(PageType.AnalyticalBalance)">
-        </AnalyticalBalanceComponent>
-        break;
-    case PageHelper.PressRefractometerPageName:
-        <PressRefractometerComponent
-            PressRefractometer="Visit.PressRefractometer"
-            Menus="@GetMenuOptions(PageType.PressRefractometer)">
-        </PressRefractometerComponent>
-        break;
-    case PageHelper.ClarificationSaccharimeterPageName:
-        <ClarificationSaccharimeterComponent
-            ClarificationSaccharimeter="Visit.ClarificationSaccharimeter"
-            Menus="@GetMenuOptions(PageType.ClarificationSaccharimeter)">
-        </ClarificationSaccharimeterComponent>
-        break;
-    case PageHelper.BenchmarkingEquipmentPageName:
-        <BenchmarkingEquipmentComponent
-            BenchmarkingEquipment="Visit.BenchmarkingEquipment"
-            Menus="@GetMenuOptions(PageType.BenchmarkingEquipment)">
-        </BenchmarkingEquipmentComponent>
-        break;
-    case PageHelper.SystemConsistencyPageName:
-        <SystemConsistencyComponent
-            SystemConsistency="Visit.SystemConsistency"
-            Menus="@GetMenuOptions(PageType.SystemConsistency)">
-        </SystemConsistencyComponent>
-        break;
-    case PageHelper.ConclusionPageName:
-        <ConclusionComponent
-            Conclusion="Visit.Conclusion"
-            Images="Visit.Images"
-            Menus="@GetMenuOptions(PageType.Conclusion)">
-        </ConclusionComponent>
-        break;
-}
+<DisableContainer IsDisabled="_isReadyOnly">
+    @switch (_selectedPage)
+    {
+        case PageHelper.BasicInformationPageName:
+            <BasicInformationComponent
+                BasicInformation="Visit.BasicInformation"
+                Menus="@GetMenuOptions(PageType.Main)"
+                Associations="@_associations"
+                Plants="@_plants"
+                OnAddPlantButtonClick="OnAddPlantClickHandler"
+                OnEditPlantButtonClick="OnEditPlantClickHandler"
+                OnAddAssociationButtonClick="OnAddAssociationClickHandler"
+                OnEditAssociationButtonClick="OnEditAssociationClickHandler">
+            </BasicInformationComponent>
+            break;
+        case PageHelper.SugarcaneBalancePageName:
+            <SugarcaneBalanceComponent
+                SugarcaneBalance="Visit.SugarcaneBalance"
+                OnBalanceTestsClick="OnBalanceTestsClickHandler"
+                Menus="@GetMenuOptions(PageType.SugarcaneBalance)">
+            </SugarcaneBalanceComponent>
+            break;
+        case PageHelper.DesintegratorProbePageName:
+            <DesintegratorProbeComponent
+                DesintegratorProbe="Visit.DesintegratorProbe"
+                Menus="@GetMenuOptions(PageType.DesintegratorProbe)">
+            </DesintegratorProbeComponent>
+            break;
+        case PageHelper.AnalyticalBalancePageName:
+            <AnalyticalBalanceComponent
+                AnalyticalBalance="Visit.AnalyticalBalance"
+                Menus="@GetMenuOptions(PageType.AnalyticalBalance)">
+            </AnalyticalBalanceComponent>
+            break;
+        case PageHelper.PressRefractometerPageName:
+            <PressRefractometerComponent
+                PressRefractometer="Visit.PressRefractometer"
+                Menus="@GetMenuOptions(PageType.PressRefractometer)">
+            </PressRefractometerComponent>
+            break;
+        case PageHelper.ClarificationSaccharimeterPageName:
+            <ClarificationSaccharimeterComponent
+                ClarificationSaccharimeter="Visit.ClarificationSaccharimeter"
+                Menus="@GetMenuOptions(PageType.ClarificationSaccharimeter)">
+            </ClarificationSaccharimeterComponent>
+            break;
+        case PageHelper.BenchmarkingEquipmentPageName:
+            <BenchmarkingEquipmentComponent
+                BenchmarkingEquipment="Visit.BenchmarkingEquipment"
+                Menus="@GetMenuOptions(PageType.BenchmarkingEquipment)">
+            </BenchmarkingEquipmentComponent>
+            break;
+        case PageHelper.SystemConsistencyPageName:
+            <SystemConsistencyComponent
+                SystemConsistency="Visit.SystemConsistency"
+                Menus="@GetMenuOptions(PageType.SystemConsistency)">
+            </SystemConsistencyComponent>
+            break;
+        case PageHelper.ConclusionPageName:
+            <ConclusionComponent
+                Conclusion="Visit.Conclusion"
+                Images="Visit.Images"
+                Menus="@GetMenuOptions(PageType.Conclusion)">
+            </ConclusionComponent>
+            break;
+    }
+</DisableContainer>
