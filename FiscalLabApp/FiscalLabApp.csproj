@@ -37,7 +37,6 @@
       <AdditionalFiles Include="Components\Shared\VisitComponents\ConclusionComponent.razor" />
       <AdditionalFiles Include="Components\Shared\VisitComponents\DataSeparator.razor" />
       <AdditionalFiles Include="Components\Shared\VisitComponents\DesintegratorProbeComponent.razor" />
-      <AdditionalFiles Include="Components\Shared\VisitComponents\MenuOption.razor" />
       <AdditionalFiles Include="Components\Shared\VisitComponents\PlantComponent.razor" />
       <AdditionalFiles Include="Components\Shared\VisitComponents\PressRefractometerComponent.razor" />
       <AdditionalFiles Include="Components\Shared\VisitComponents\SugarcaneBalanceComponent.razor" />

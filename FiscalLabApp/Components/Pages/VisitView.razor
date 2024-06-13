@@ -17,7 +17,6 @@
     </AssociationComponent>
 </ModalDialog>
 
-
 <ModalDialog
     @ref="_plantModalDialog"
     Title="Usina">
@@ -34,6 +33,13 @@
         Menu="_selectedMenu"
         OnSaveButtonClick="OnSaveOptionsButtonClickHandler">
     </OptionsComponent>
+</ModalDialog>
+
+<ModalDialog
+    @ref="_balanceTestsModalDialog"
+    Title="Testes de Balança">
+    <BalanceTestsComponent Tests="Visit.BalanceTests">
+    </BalanceTestsComponent>
 </ModalDialog>
 
 <DisableContainer IsDisabled="_isReadyOnly">

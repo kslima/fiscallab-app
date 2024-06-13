@@ -1,0 +1,70 @@
+@using FiscalLabApp.Enums
+@using FiscalLabApp.Extensions
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Identificação</th>
+        <th>Entrada</th>
+        <th>Saída</th>
+        <th>Diferença</th>
+        <th>Editar</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    @foreach (var test in Tests)
+    {
+        <tr>
+            <td>@test.Identification</td>
+            <td>@test.InputBalanceWeight.FormatToBrazil()</td>
+            <td>@test.OutputBalanceWeight.FormatToBrazil()</td>
+            <td>@test.VariationBetweenBalances.FormatToBrazil()</td>
+            <td>
+                <button type="button" class="btn btn-sm" @onclick="@(() => Edit(test))">
+                    <EditIcon/>
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<EditForm EditContext="@_editContext" OnValidSubmit="@OnSaveButtonClickHandler">
+    <DataAnnotationsValidator/>
+    <div class="form-floating mb-3">
+        <InputText class="form-control" id="identificationInput" @bind-Value="_selectedTest!.Identification"/>
+        <label for="identificationInput">Identificação <strong class="text-danger">*</strong></label>
+        <ValidationMessage For="() => _selectedTest.Identification"/>
+    </div >
+
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputNumber class="form-control" id="inputBalanceWeight" @bind-Value="_selectedTest.InputBalanceWeight" @onblur="() => UpdateVariationBetweenBalances(_selectedTest)" />
+                <label for="inputBalanceWeight">Entrada<strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => _selectedTest.InputBalanceWeight"/>
+            </div >
+        </div>
+
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputNumber class="form-control" id="outputBalanceWeight" @bind-Value="_selectedTest.OutputBalanceWeight" @onblur="() => UpdateVariationBetweenBalances(_selectedTest)"/>
+                <label for="outputBalanceWeight">Saída<strong class="text-danger">*</strong></label>
+                <ValidationMessage For="() => _selectedTest.OutputBalanceWeight"/>
+            </div >
+        </div>
+
+        <div class="col">
+            <div class="form-floating mb-3">
+                <InputNumber class="form-control" id="differenceBalanceWeight" @bind-Value="_selectedTest.VariationBetweenBalances" disabled/>
+                <label for="differenceBalanceWeight">Diferença</label>
+            </div >
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-3">
+        <Button Title="Salvar" Style="ButtonStyle.Success" OnClick="OnSubmitHandler"></Button>
+        <Button Title="Excluir" Style="ButtonStyle.Danger" OnClick="OnDeleteButtonClickHandler" IsDisabled="@DisableDeleteButton()"></Button>
+    </div>
+</EditForm >

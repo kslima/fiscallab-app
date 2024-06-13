@@ -25,6 +25,7 @@ public partial class VisitView : ComponentBase
     private ModalDialog _associationModalDialog = null!;
     private ModalDialog _plantModalDialog = null!;
     private ModalDialog _optionsModalDialog = null!;
+    private ModalDialog _balanceTestsModalDialog = null!;
     private Menu _selectedMenu = new();
     private bool _isReadyOnly;
     private Menu[] _menus = [];
@@ -101,9 +102,7 @@ public partial class VisitView : ComponentBase
 
     private void OnBalanceTestsClickHandler()
     {
-        Console.WriteLine("abrindo testes de balanca");
-        // if (Layout.SelectedVisit is null) return;
-        // NavigationManager.NavigateTo($"visits/{Layout.SelectedVisit.Id}/balance-tests");
+        _balanceTestsModalDialog.Open();
     }
 
     private void OnAddPlantClickHandler()
