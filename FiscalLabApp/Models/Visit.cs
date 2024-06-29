@@ -20,6 +20,5 @@ public class Visit
     public DateTime? FinishedAt { get; set; }
     public DateTime? SyncedAt { get; set; }
     public DateTime? NotifiedByEmailAt { get; set; }
-    public List<Image> Images { get; set; } = [];
     public List<BalanceTest> BalanceTests { get; set; } = [];
 }

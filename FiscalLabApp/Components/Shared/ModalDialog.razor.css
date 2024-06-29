@@ -1,0 +1,5 @@
+.modal-dialog-container {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}

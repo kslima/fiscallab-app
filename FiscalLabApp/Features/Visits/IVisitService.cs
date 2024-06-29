@@ -11,6 +11,9 @@ public interface IVisitService
     Task<Visit> GetByIdLocalAsync(string id);
     Task<Visit> GetByIdOnlineAsync(string id);
     Task<bool> DeleteAsync(string id);
+    Task<bool> DeleteImageAsync(string id, string imageId);
+    Task<bool> ReplaceImagesAsync(string id, List<Image> images);
+    Task<Image[]> ListImagesAsync(string id);
     Task<Visit[]> GetAllLocalAsync();
     Task<ApiResponse<Visit[]>> ListAsync(VisitParameters parameters);
     Task RestoreAsync(VisitParameters parameters);

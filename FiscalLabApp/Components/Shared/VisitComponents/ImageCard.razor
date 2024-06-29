@@ -1,0 +1,9 @@
+@page "/ImageCard"
+
+<div class="image-card-container">
+    <div class="image-card">
+        <img src="@ImageSrc" alt="Image">
+        <textarea id="descriptionInput" rows="3" @bind="Description" placeholder="Descrição"></textarea>
+        <button class="btn btn-delete w-100" @onclick="OnDeleteButtonClickHandler">Excluir</button>
+    </div>
+</div>

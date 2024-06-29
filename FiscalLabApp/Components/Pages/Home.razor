@@ -2,40 +2,56 @@
 @page "/visits"
 
 @using FiscalLabApp.Enums
+@using FiscalLabApp.Components.Shared.VisitComponents
 
 <PageTitle>Visitas</PageTitle>
 
-<div>
-    <div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
-        <button class="btn rounded-pill btn-lg fw-bolder shadow ps-3 pe-3" @onclick="NewVisit" style="background-color: #467b56; color: #ffffff;">
-            Nova Visita
-        </button>
-    </div>
-
-    <div class="btn-group d-flex mb-3">
-        <HomeTabButton
-            Title="Em andamento"
-            IsSelected="@(IsSelectedTab(OfflineVisitsTabName))"
-            OnTabSelected="@(() => SetSelectedTab(OfflineVisitsTabName))"/>
-
-        <HomeTabButton
-            Title="Finalizadas"
-            IsSelected="@(IsSelectedTab(OnlineVisitsTabName))"
-            OnTabSelected="@(() => SetSelectedTab(OnlineVisitsTabName))"
-            IsDisabled="@ApplicationContextAccessor.IsOffline()"/>
-    </div>
-
-    <ListVisits
-        Visits="_visits"
-        OnDeleteButtonClicked="DeleteVisitCallback"
-        OnEditButtonClicked="EditVisitCallback"
-        OnPdfButtonClicked="PdfVisitCallback"
-        OnSendToEmailButtonClicked="SendVisitToEmailCallback"/>
-    
-    @if (ActiveTab.Equals(OnlineVisitsTabName) && _hasNextPage)
-    {
-        <div class="d-flex justify-content-center mb-3">
-            <Button Title="Carregar mais visitas" OnClick="LoadingOnlineVisitsAsync" Style="ButtonStyle.Success"></Button>
-        </div>
-    }
+<div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
+    <button class="new-visit-button" @onclick="NewVisit">
+        Nova Visita
+    </button>
 </div>
+
+<div class="btn-group d-flex mb-3">
+    <HomeTabButton
+        Title="Em andamento"
+        IsSelected="@(IsSelectedTab(OfflineVisitsTabName))"
+        OnTabSelected="@(() => SetSelectedTab(OfflineVisitsTabName))"/>
+
+    <HomeTabButton
+        Title="Finalizadas"
+        IsSelected="@(IsSelectedTab(OnlineVisitsTabName))"
+        OnTabSelected="@(() => SetSelectedTab(OnlineVisitsTabName))"
+        IsDisabled="@ApplicationContextAccessor.IsOffline()"/>
+</div>
+
+<ModalDialog
+    @ref="_imagesModalDialog"
+    Title="Imagens">
+    <ImageSelectorComponent
+        Images="@_selectedVisitImages"
+        OnSaveButtonClick="OnSaveImagesButtonClickHandler">
+    </ImageSelectorComponent>
+</ModalDialog>
+
+<div class="visit-cards-container">
+    <Virtualize Items="_visits">
+        <ItemContent>
+            <VisitCard
+                Visit="@context"
+                OnDeleteButtonClick="OnDeleteButtonClickHandler"
+                OnEditButtonClick="OpenVisitButtonClickHandler"
+                OnPdfButtonClick="OnPdfButtonClickHandler"
+                OnSendToEmailButtonClick="OnSendToEmailButtonClickHandler"
+                OnImagensButtonClicked="OpenImagesClickHandler">
+            </VisitCard>
+        </ItemContent>
+    </Virtualize>
+</div>
+
+@if (ActiveTab.Equals(OnlineVisitsTabName) && _hasNextPage)
+{
+    <div class="d-flex justify-content-center mb-3">
+        <Button Title="Carregar mais visitas" OnClick="LoadingOnlineVisitsAsync" StyleType="ButtonStyle.Success"></Button>
+    </div>
+}

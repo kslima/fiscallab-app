@@ -6,17 +6,27 @@ namespace FiscalLabApp.Components.Shared;
 
 public partial class VisitCard : ComponentBase
 {
-    [Parameter] public EventCallback<string> OnDeleteButtonClicked { get; set; }
-    [Parameter] public EventCallback<Visit> OnEditButtonClicked { get; set; }
-    [Parameter] public EventCallback<string> OnPdfButtonClicked { get; set; }
-    [Parameter] public EventCallback<string> OnSendToEmailButtonClicked { get; set; }
+    [Parameter] public EventCallback<string> OnDeleteButtonClick { get; set; }
+    [Parameter] public EventCallback<Visit> OnEditButtonClick { get; set; }
+    [Parameter] public EventCallback<string> OnPdfButtonClick { get; set; }
+    [Parameter] public EventCallback<string> OnSendToEmailButtonClick { get; set; }
+    [Parameter] public EventCallback<Visit> OnImagensButtonClicked { get; set; }
     [Parameter] public Visit Visit { get; set; } = new();
     private int _pendingItemsCount;
+    private int _totalItemsCount;
     
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        _pendingItemsCount = Visit.CreatePages().Select(x => x.PendingItems).Sum();
+        _pendingItemsCount = Visit
+            .CreatePages()
+            .Select(x => x.PendingItems)
+            .Sum();
+        
+        _totalItemsCount = Visit
+            .CreatePages()
+            .Select(x => x.TotalItems)
+            .Sum();
     }
 
     private string GetBorderStyle()
@@ -31,23 +41,28 @@ public partial class VisitCard : ComponentBase
         return _pendingItemsCount == 0 ? "background-color: #467b56;" : "background-color: #c74634;";
     }
     
-    private async Task EditCallback()
+    private async Task OnOpenButtonClickHandler()
     {
-        await OnEditButtonClicked.InvokeAsync(Visit);
+        await OnEditButtonClick.InvokeAsync(Visit);
     }
 
-    private async Task DeleteCallback()
+    private async Task OnDeleteButtonClickHandler()
     {
-        await OnDeleteButtonClicked.InvokeAsync(Visit.Id);
+        await OnDeleteButtonClick.InvokeAsync(Visit.Id);
     }
 
-    private async Task GeneratePdfCallback()
+    private async Task OnGeneratePdfButtonClickHandler()
     {
-        await OnPdfButtonClicked.InvokeAsync(Visit.Id);
+        await OnPdfButtonClick.InvokeAsync(Visit.Id);
+    }
+    
+    private async Task OnImagensButtonClickHandler()
+    {
+        await OnImagensButtonClicked.InvokeAsync(Visit);
     }
     
     private async Task SendToEmailCallback()
     {
-        await OnSendToEmailButtonClicked.InvokeAsync(Visit.Id);
+        await OnSendToEmailButtonClick.InvokeAsync(Visit.Id);
     }
 }

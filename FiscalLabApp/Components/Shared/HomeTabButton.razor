@@ -1,27 +1,9 @@
 @if (IsSelected)
 {
-    <input type="radio" class="btn-check flex-fill" name="btnTab" id="@GetId()" checked @onchange="@(OnTabSelectedAsync)" disabled="@IsDisabled">
+<input type="radio" class="btn-check flex-fill" name="btnTab" id="@GetId()" checked @onchange="@(OnTabSelectedAsync)" disabled="@IsDisabled">
 }
 else
 {
-    <input type="radio" class="btn-check flex-fill" name="btnTab" id="@GetId()" @onchange="@(OnTabSelectedAsync)" disabled="@IsDisabled">
+<input type="radio" class="btn-check flex-fill" name="btnTab" id="@GetId()" @onchange="@(OnTabSelectedAsync)" disabled="@IsDisabled">
 }
 <label class="btn btn-outline-secondary text-truncate default-text" for="@GetId()" disabled="@IsDisabled">@Title</label>
-
-@code {
-    [Parameter] public string Title { get; set; } = string.Empty;
-    [Parameter] public bool IsSelected { get; set; }
-    [Parameter] public bool IsDisabled { get; set; }
-    [Parameter]
-    public EventCallback OnTabSelected { get; set; }
-     
-    private async Task OnTabSelectedAsync()
-    {
-        await OnTabSelected.InvokeAsync();
-    }
-
-    private string GetId()
-    {
-        return Title.GetHashCode().ToString();
-    }
-}

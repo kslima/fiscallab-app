@@ -8,7 +8,7 @@
     border-radius: 5px;
     text-align: left;
     background-color: #f8f9fa;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .settings-button:hover {
@@ -36,30 +36,6 @@
 .setting-description {
     font-size: 10px;
     color: #999;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loading-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Adicionado transform na transição */
-    animation: spin 1s linear infinite; /* Adicionada a animação de rotação */
-}
-
-.show-loading {
-    opacity: 1;
-}
-
-.hide-loading {
-    opacity: 0;
-    pointer-events: none; /* Desabilita cliques enquanto o loading está ativo */
 }
 
 

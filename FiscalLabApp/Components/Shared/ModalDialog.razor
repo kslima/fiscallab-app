@@ -1,4 +1,4 @@
-<div class="modal @_modalClass" style="display:@_modalDisplay; overflow-y: auto;">
+<div class="modal modal-dialog-container @_modalClass" style="display:@_modalDisplay; overflow-y: auto;">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,11 +6,19 @@
                 {
                     <h5 class="modal-title">@Title</h5>
                 }
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="Close">
-                </button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="Close"></button>
             </div>
             <div class="modal-body">
-                @ChildContent
+                @if (_isLoading)
+                {
+                    <div class="skeleton skeleton-rect" style="height: 250px; width: 100%;"></div>
+                    <div class="skeleton skeleton-rect" style="height: 100px; width: 100%;"></div>
+                    <div class="skeleton skeleton-rect" style="height: 50px; width: 100%;"></div>
+                }
+                else
+                {
+                    @ChildContent
+                }
             </div>
         </div>
     </div>

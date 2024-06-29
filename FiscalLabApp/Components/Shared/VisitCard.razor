@@ -1,64 +1,103 @@
-<div class="card mb-3 rounded shadow p-2"
-     style="@GetBorderStyle()">
+<div class="visit-card-component">
 
-    <div class="d-flex flex-column justify-content-start">
-        <div class="d-flex flex-row justify-content-end mb-2">
-            <span class="badge default-text" style="@GetBadgeStyle()">
-                @($"Pendências: {_pendingItemsCount}")
-            </span>
-        </div>
-        
-        <small class="text-muted fw-bold default-text text-truncate"> @($"{Visit.BasicInformation.Plant?.Name} ({Visit.BasicInformation.Plant?.Address.City} - {Visit.BasicInformation.Plant?.Address.State})")</small>
-        <small class="text-muted default-text text-truncate"> @($"{Visit.BasicInformation.Association?.Name} ({Visit.BasicInformation.Association?.Address.City} - {Visit.BasicInformation.Association?.Address.State})")</small>
+    <div class="visit-card-container">
+        <div class="visit-card-left">
+            <div class="title-text">
+                @($"{Visit.BasicInformation.Plant?.Name} ({Visit.BasicInformation.Plant?.Address.City} - {Visit.BasicInformation.Plant?.Address.State})")
+            </div>
 
-        <div class="d-flex flex-row justify-content-start mb-1">
-            <span class="badge " style="background-color: #c7d7cc;; color: #312d2a">
-                <small class="text-muted fw-semibold">@($"Criado em: {Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
-            </span>
-        </div>
+            <div class="subtitle-text">
+                @($"{Visit.BasicInformation.Association?.Name} ({Visit.BasicInformation.Association?.Address.City} - {Visit.BasicInformation.Association?.Address.State})")
+            </div>
 
-        <div class="d-flex flex-row justify-content-start mb-1">
-            <span class="badge " style="background-color: #c7d7cc; color: #312d2a">
-                @if (Visit.SyncedAt.HasValue)
+            <div class="subtitle-text">
+                @($"Criado em: {Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
+            </div>
+
+            <div class="subtitle-text">
+                @if (Visit.SyncedAt != null)
                 {
-                    <small class="text-muted fw-semibold">@($"Sincronizado em: {Visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+                    @($"Sincronizado em: {Visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
                 }
                 else
                 {
-                    <small class="text-muted fw-semibold">@("Sincronizado em: - ")</small>
+                    @("Sincronizado em: - ")
                 }
-            </span>
+            </div>
+
+            @if (Visit.NotifiedByEmailAt != null)
+            {
+                <div class="subtitle-text">
+                    @($"Enviado por e-mail em: {Visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
+                </div>
+            }
 
         </div>
-
-        @if (Visit.NotifiedByEmailAt is not null)
-        {
-            <div class="d-flex flex-row justify-content-start mb-2">
-                <span class="badge " style="background-color: #c7d7cc; color: #312d2a">
-                    <small class="text-muted fw-semibold">@($"Enviado por e-mail em: {Visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small>
+        <div class="visit-card-right">
+            <div class="visit-card-right">
+                <span class="badge">
+                    @($"{_pendingItemsCount} de {_totalItemsCount}")
                 </span>
+
             </div>
-        }
-        else
-        {
-            <div class="form-check">
-                <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="Visit.NotifyByEmail" id="flexCheckDefault" @oninput="SendToEmailCallback" style="width: 16px; height: 16px;" disabled="@(Visit.NotifiedByEmailAt != null)"/>
-                <small class="text-muted fw-semibold" style="font-size: 0.700em;">Enviar por e-mail</small>
-            </div>
-        }
 
+        </div>
     </div>
-
-    <div class="mt-2 d-flex flex-row p-0">
-        <button class="btn card" type="button" @onclick="EditCallback">
-            <EditIcon/>
-        </button>
-        <button class="btn card ms-2" type="button" @onclick="DeleteCallback" disabled="@(Visit.NotifiedByEmailAt != null)">
-            <DeleteIcon/>
-        </button>
-        <button class="btn card ms-2" type="button" @onclick="GeneratePdfCallback" disabled="@(Visit.SyncedAt == null)">
-            <PdfIcon/>
-        </button>
-    </div>
-
+    @* <div class="d-flex flex-column justify-content-start"> *@
+    @*     <div class="d-flex flex-row justify-content-end mb-2"> *@
+    @*         <span class="badge default-text" style="@GetBadgeStyle()"> *@
+    @*             @($"Pendências: {_pendingItemsCount}") *@
+    @*         </span> *@
+    @*     </div> *@
+    @*      *@
+    @*     <small class="text-muted fw-bold default-text text-truncate"> @($"{Visit.BasicInformation.Plant?.Name} ({Visit.BasicInformation.Plant?.Address.City} - {Visit.BasicInformation.Plant?.Address.State})")</small> *@
+    @*     <small class="text-muted default-text text-truncate"> @($"{Visit.BasicInformation.Association?.Name} ({Visit.BasicInformation.Association?.Address.City} - {Visit.BasicInformation.Association?.Address.State})")</small> *@
+    @* *@
+    @*     <div class="d-flex flex-row justify-content-start mb-1"> *@
+    @*         <span class="badge " style="background-color: #c7d7cc;; color: #312d2a"> *@
+    @*             <small class="text-muted fw-semibold">@($"Criado em: {Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small> *@
+    @*         </span> *@
+    @*     </div> *@
+    @* *@
+    @*     <div class="d-flex flex-row justify-content-start mb-1"> *@
+    @*         <span class="badge " style="background-color: #c7d7cc; color: #312d2a"> *@
+    @*             @if (Visit.SyncedAt.HasValue) *@
+    @*             { *@
+    @*                 <small class="text-muted fw-semibold">@($"Sincronizado em: {Visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small> *@
+    @*             } *@
+    @*             else *@
+    @*             { *@
+    @*                 <small class="text-muted fw-semibold">@("Sincronizado em: - ")</small> *@
+    @*             } *@
+    @*         </span> *@
+    @* *@
+    @*     </div> *@
+    @* *@
+    @*     @if (Visit.NotifiedByEmailAt is not null) *@
+    @*     { *@
+    @*         <div class="d-flex flex-row justify-content-start mb-2"> *@
+    @*             <span class="badge " style="background-color: #c7d7cc; color: #312d2a"> *@
+    @*                 <small class="text-muted fw-semibold">@($"Enviado por e-mail em: {Visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small> *@
+    @*             </span> *@
+    @*         </div> *@
+    @*     } *@
+    @*     else *@
+    @*     { *@
+    @*         <div class="form-check"> *@
+    @*             <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="Visit.NotifyByEmail" id="flexCheckDefault" @oninput="SendToEmailCallback" style="width: 16px; height: 16px;" disabled="@(Visit.NotifiedByEmailAt != null)"/> *@
+    @*             <small class="text-muted fw-semibold" style="font-size: 0.700em;">Enviar por e-mail</small> *@
+    @*         </div> *@
+    @*     } *@
+    @* </div> *@
+    @* *@
+    @* <div class="d-flex justify-content-between gap-1 pt-2 pb-2"> *@
+    @*     <div class="d-flex justify-content-start gap-1"> *@
+    @*         <VisitCardButton CssClass="visit-card-button default-button" OnClick="OnOpenButtonClickHandler">Abrir</VisitCardButton> *@
+    @*         <VisitCardButton CssClass="visit-card-button default-button"  OnClick="OnImagensButtonClickHandler">Imagens</VisitCardButton> *@
+    @*         <VisitCardButton CssClass="visit-card-button default-button" IsDisabled="@(Visit.SyncedAt == null)" OnClick="OnGeneratePdfButtonClickHandler">Gerar Pdf</VisitCardButton> *@
+    @*     </div> *@
+    @*     <div class="d-flex justify-content-end"> *@
+    @*         <VisitCardButton CssClass="visit-card-button delete-button" OnClick="OnDeleteButtonClickHandler" IsDisabled="@(Visit.NotifiedByEmailAt != null)">Excluir</VisitCardButton> *@
+    @*     </div> *@
+    @* </div> *@
 </div>

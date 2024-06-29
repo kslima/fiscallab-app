@@ -36,6 +36,15 @@ public static class MessageHelper
     public const string SuccessOnUpdateVisit =
         "Visita atualizada com sucesso.";  
     
+    public const string VisitAlreadyEndedError =
+        "Visita ajá finalizada.";  
+    
+    public const string SuccessOnUpsertImagens =
+        "Imagens criadas/atualizadas com sucesso.";  
+    
+    public const string ErrorOnUpsertImagens =
+        "Ocorreu um erro ao salvar as imagens.";  
+    
     public const string SuccessOnCreateAssociation =
         "Associação criada com sucesso.";  
     
@@ -50,4 +59,7 @@ public static class MessageHelper
     
     public const string SuccessOnUpdateOptions =
         "Opções  atualizadas com sucesso."; 
+    
+    public const string ErrorOnDeleteImage =
+        "Erro ao deletar imagem."; 
 }

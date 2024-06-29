@@ -1,0 +1,21 @@
+.new-visit-button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.new-visit-button:hover {
+    background-color: var(--primary-dark);
+}
+
+.visit-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

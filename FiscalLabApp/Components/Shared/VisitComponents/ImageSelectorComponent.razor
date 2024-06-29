@@ -1,0 +1,25 @@
+﻿<div class="image-selector-container">
+    @if (_images.Any())
+    {
+        <Virtualize Items="_images">
+            <ItemContent>
+                <ImageCard
+                    ImageSrc="@($"data:image/png;base64,{Convert.ToBase64String(context.Data)}")"
+                    ImageName="@context.Name"
+                    Description="@context.Description"
+                    OnDelete="OnDeleteButtonClickHandler">
+                </ImageCard>
+            </ItemContent>
+        </Virtualize>
+    }
+
+    <div class="input-file-container">
+        <InputFile class="input-file" id="fileInput" OnChange="@OnChangeHandler" multiple style="display: none;"></InputFile>
+        <div class="button-container">
+            <label class="input-file-label" for="fileInput">Selecionar Imagens</label>
+            <button class="btn-success" @onclick="OnSaveButtonClickHandler">
+                Salvar
+            </button>
+        </div>
+    </div>
+</div>

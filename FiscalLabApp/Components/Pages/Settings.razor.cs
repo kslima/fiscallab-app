@@ -14,24 +14,16 @@ namespace FiscalLabApp.Components.Pages;
 
 public partial class Settings : ComponentBase
 {
-    [Inject]
-    private IJSRuntime JsRuntime { get; set; } = null!;
-    [Inject]
-    private IToastService ToastService { get; set; } = null!;
-    [Inject]
-    private SyncEventNotifier SyncEventNotifier { get; set; } = null!;
-    [Inject]
-    private ApplicationContextAccessor ApplicationContextAccessor { get; set; } = null!;
-    [Inject]
-    private IVisitService VisitService { get; set; } = null!;
-    [Inject]
-    private IBackupService BackupService { get; set; } = null!;
-    [Inject]
-    private IRestoreService RestoreService { get; set; } = null!;
-    [Inject]
-    private NavigationManager NavigationManager { get; set; } = null!;
+    [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
+    [Inject] private IToastService ToastService { get; set; } = null!;
+    [Inject] private SyncEventNotifier SyncEventNotifier { get; set; } = null!;
+    [Inject] private ApplicationContextAccessor ApplicationContextAccessor { get; set; } = null!;
+    [Inject] private IVisitService VisitService { get; set; } = null!;
+    [Inject] private IBackupService BackupService { get; set; } = null!;
+    [Inject] private IRestoreService RestoreService { get; set; } = null!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     private bool IsTaskRunning { get; set; }
-    
+
     private async Task HandleSyncVisitsAsync()
     {
         try
@@ -39,6 +31,7 @@ public partial class Settings : ComponentBase
             IsTaskRunning = true;
 
             var visits = await VisitService.GetAllLocalAsync();
+
             var successOnUpsert = await VisitService.UpsertAsync(visits);
             if (!successOnUpsert)
             {
@@ -51,7 +44,7 @@ public partial class Settings : ComponentBase
                 Status = VisitStatus.InProgress,
                 PageSize = 100
             };
-        
+
             var response = await VisitService.ListAsync(parameters);
             if (!response.IsSuccess)
             {
@@ -61,10 +54,13 @@ public partial class Settings : ComponentBase
 
             visits = response.Data!;
             await VisitService.CreateManyAsync(visits);
+
+            IsTaskRunning = false;
             ToastService.ShowSuccess(MessageHelper.SuccessOnSyncVisits);
         }
         catch (Exception e)
         {
+            IsTaskRunning = false;
             await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", e.ToString());
             ToastService.ShowError(MessageHelper.ErrorOnSyncVisits);
         }
@@ -87,7 +83,6 @@ public partial class Settings : ComponentBase
             await RestoreService.RestoreAsync(visitParameters);
             ToastService.ShowSuccess(MessageHelper.SuccessOnRestoreData);
             NavigationManager.Refresh();
-
         }
         catch (Exception e)
         {

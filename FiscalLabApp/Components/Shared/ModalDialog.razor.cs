@@ -11,12 +11,26 @@ public partial class ModalDialog : ComponentBase
     private string _modalDisplay = "none;";
     private string _modalClass = string.Empty;
     private bool _showBackdrop;
+    private bool _isLoading = false;
 
     public void Open()
     {
         _modalDisplay = "block";
         _modalClass = "show";
         _showBackdrop = true;
+    }
+    
+    public async Task Open(Func<Task> loadingCallback)
+    {
+        _isLoading = true;
+        _modalDisplay = "block";
+        _modalClass = "show";
+        _showBackdrop = true;
+        
+        await loadingCallback.Invoke();
+        
+        _isLoading = false;
+        StateHasChanged();
     }
 
     public void Close()

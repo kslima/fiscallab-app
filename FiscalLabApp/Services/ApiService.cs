@@ -136,6 +136,77 @@ public class ApiService(
         return (await result.Content.ReadFromJsonAsync<ApiResponse<Visit[]>>())!;
     }
 
+    public async Task<ApiResponse<bool>> DeleteVisitImageAsync(string visitId, string imageId)
+    {
+        var result = await _httpClient.DeleteAsync($"visits/{visitId}/images/{imageId}");
+        result.EnsureSuccessStatusCode();
+
+        return (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>())!;
+    }
+    
+    public async Task<ApiResponse<bool>> UpsertImagesAsync(string id, List<Image> images)
+    {
+        var content = new MultipartFormDataContent();
+        foreach (var image in images)
+        {
+            var byteContent = new ByteArrayContent(image.Data);
+            var contentType = GetContentType(image.Name);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            
+            content.Add(byteContent, $"file_{image.Id}", image.Name);
+            content.Add(new StringContent(image.Name), $"name_{image.Id}");
+            content.Add(new StringContent(image.Description), $"description_{image.Id}");
+        }
+
+        try
+        {
+            var result = await _httpClient.PostAsync($"visits/{id}/images", content);
+            result.EnsureSuccessStatusCode();
+
+            return (await result.Content.ReadFromJsonAsync<ApiResponse<bool>>())!;
+        }
+        catch (Exception)
+        {
+            return new ApiResponse<bool>
+            {
+                Data = false
+            };
+        }
+    }
+
+    public async Task<ApiResponse<Image[]>> ListImagesAsync(string id)
+    {
+        try
+        {
+            var result = await _httpClient.GetAsync($"visits/{id}/images");
+            result.EnsureSuccessStatusCode();
+
+            return (await result.Content.ReadFromJsonAsync<ApiResponse<Image[]>>())!;
+        }
+        catch (Exception)
+        {
+            return new ApiResponse<Image[]>
+            {
+                Data = []
+            };
+        }
+    }
+
+    private static string GetContentType(string fileName)
+    {
+        var extension = Path.GetExtension(fileName).ToLowerInvariant();
+        return extension switch
+        {
+            ".jpg" or ".jpeg" => "image/jpeg",
+            ".png" => "image/png",
+            ".gif" => "image/gif",
+            ".bmp" => "image/bmp",
+            ".tiff" => "image/tiff",
+            ".webp" => "image/webp",
+            _ => "application/octet-stream", 
+        };
+    }
+
     public async Task<bool> CreateManyVisits(Visit[] visits)
     {
         var body = JsonSerializer.Serialize(visits);

@@ -26,6 +26,7 @@ public partial class VisitView : ComponentBase
     private ModalDialog _plantModalDialog = null!;
     private ModalDialog _optionsModalDialog = null!;
     private ModalDialog _balanceTestsModalDialog = null!;
+    
     private Menu _selectedMenu = new();
     private bool _isReadyOnly;
     private Menu[] _menus = [];
@@ -37,14 +38,7 @@ public partial class VisitView : ComponentBase
     private Association? _selectedAssociation;
     private Plant? _selectedPlant;
     private Plant[] _plants = [];
-
-
-    //TODO alterar data para utc antes de salvar visita
-    // if (DesintegratorProbe.SharpenedOrReplacedKnifeAt.HasValue)
-    // {
-    //     DesintegratorProbe.SharpenedOrReplacedKnifeAt = DesintegratorProbe.SharpenedOrReplacedKnifeAt.Value.ToUniversalTime();
-    // }
-
+    
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

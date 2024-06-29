@@ -1,4 +1,5 @@
 using Blazored.Toast.Services;
+using FiscalLabApp.Components.Shared;
 using FiscalLabApp.Enums;
 using FiscalLabApp.Extensions;
 using FiscalLabApp.Features.Visits;
@@ -6,7 +7,6 @@ using FiscalLabApp.Helpers;
 using FiscalLabApp.Interfaces;
 using FiscalLabApp.Models;
 using FiscalLabApp.Services;
-using Mapster;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -32,11 +32,13 @@ public partial class Home : ComponentBase
     private IApiService ApiService { get; set; } = null!;
     [Inject] 
     private NetworkStatusEventNotifier NetworkStatusEventNotifier { get; set; } = null!;
+    private ModalDialog _imagesModalDialog = null!;
 
     [Parameter]
     public string ActiveTab { get; set; } = OfflineVisitsTabName;
-    
-    private List<Models.Visit> _visits = [];
+    private List<Visit> _visits = [];
+    private Visit _selectedVisit = new();
+    private  IReadOnlyList<Image> _selectedVisitImages = [];
     
     private int _currentPage = 1;
     private const int PageSize = 10;
@@ -131,7 +133,7 @@ public partial class Home : ComponentBase
         _visits.AddRange(response.Data!);
     }
     
-    public async Task DeleteVisitCallback(string visitId)
+    public async Task OnDeleteButtonClickHandler(string visitId)
     {
         if (ApplicationContextAccessor.IsOffline())
         {
@@ -149,13 +151,14 @@ public partial class Home : ComponentBase
         StateHasChanged();
     }
     
-    public void EditVisitCallback(Visit visit)
+    public void OpenVisitButtonClickHandler(Visit visit)
     {
+        _selectedVisit = visit;
         VisitContextAccessor.SelectedVisit = visit;
         NavigationManager.NavigateTo("/visit-view");
     }
     
-    private async Task PdfVisitCallback(string visitId)
+    private async Task OnPdfButtonClickHandler(string visitId)
     {
         if (ApplicationContextAccessor.IsOffline())
         {
@@ -176,7 +179,7 @@ public partial class Home : ComponentBase
         await JsRuntime.InvokeVoidAsync("savePdf", content, $"{visitId}.pdf");
     }
     
-    private async Task SendVisitToEmailCallback(string visitId)
+    private async Task OnSendToEmailButtonClickHandler(string visitId)
     {
         var visit = await VisitService.GetByIdLocalAsync(visitId);
         visit.NotifyByEmail = !visit.NotifyByEmail;
@@ -184,5 +187,44 @@ public partial class Home : ComponentBase
         
         await JsRuntime.RemoveFocusFromAllElementsAsync();
         await VisitService.UpdateAsync(visit);
+    }
+    
+    private async Task OpenImagesClickHandler(Visit visit)
+    {
+        if (visit.NotifiedByEmailAt is not null)
+        {
+            ToastService.ShowError(MessageHelper.VisitAlreadyEndedError);
+            return;
+        }
+
+        if (ApplicationContextAccessor.IsOffline())
+        {
+            ToastService.ShowError(MessageHelper.NoInternetConnection);
+            return;
+        }
+        _selectedVisit = visit;
+        await _imagesModalDialog.Open(LoadingImagesCallback);
+    }
+    
+    private async Task LoadingImagesCallback()
+    {
+        var images = await VisitService.ListImagesAsync(_selectedVisit.Id);
+        _selectedVisitImages = images.ToList();
+    }
+    
+    private async Task OnSaveImagesButtonClickHandler(List<Image> images)
+    {
+        if (images.Count == 0) return;
+        var successOnUpsertImages = await VisitService.ReplaceImagesAsync(_selectedVisit.Id, images);
+        if (successOnUpsertImages)
+        {
+            ToastService.ShowSuccess(MessageHelper.SuccessOnUpsertImagens);
+        }
+        else
+        {
+            ToastService.ShowError(MessageHelper.ErrorOnUpsertImagens);
+        }
+        
+        _imagesModalDialog.Close();
     }
 }

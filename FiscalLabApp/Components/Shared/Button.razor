@@ -2,8 +2,8 @@
 
 <button
     type="button"
-    class="btn @(Style switch { ButtonStyle.Default => "btn-primary", ButtonStyle.Success => "btn-success", ButtonStyle.Danger => "btn-danger", _ => throw new ArgumentOutOfRangeException() })"
+    class="btn @(StyleType switch { ButtonStyle.Default => "btn-primary", ButtonStyle.Success => "btn-success", ButtonStyle.Danger => "btn-danger", _ => throw new ArgumentOutOfRangeException() }) @CssClass"
     disabled="@IsDisabled"
-    @onclick="ClickCallback">
+    @onclick="OnClickHandler">
     @Title
 </button>

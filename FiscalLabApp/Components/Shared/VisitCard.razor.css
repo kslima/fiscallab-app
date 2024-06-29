@@ -1,0 +1,56 @@
+.visit-card-component {
+    background-color: var(--background-color-dark);
+    border-left: 0.750rem solid #467b56;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.visit-card-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.visit-card-left {
+    width: 80%;
+}
+
+.visit-card-right {
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: var(--dark-color); 
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 20px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    font-size: 0.6rem;
+}
+
+.title-text {
+    font-family: 'Roboto', sans-serif;
+    color: var(--dark-color); ;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.subtitle-text {
+    font-family: 'Roboto', sans-serif;
+    color: #878787;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+
+
+
