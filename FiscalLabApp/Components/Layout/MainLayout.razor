@@ -5,7 +5,7 @@
 @if (_authenticationState?.User.Identity is { IsAuthenticated: false })
 {
     <main>
-        <article class="content px-4">
+        <article class="content px-2">
             @Body
         </article>
     </main>
@@ -14,7 +14,7 @@ else
 {
     <NavMenu/>
     <main>
-        <article class="content px-4">
+        <article class="content px-2">
             @Body
         </article>
     </main>

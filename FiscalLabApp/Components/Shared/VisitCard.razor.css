@@ -1,56 +1,101 @@
 .visit-card-component {
-    background-color: var(--background-color-dark);
-    border-left: 0.750rem solid #467b56;
-    border-right: 0;
-    border-top: 0;
-    border-bottom: 0;
-    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    border-left: 10px solid var(--primary-color);
+    padding: 5px;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, border-color 0.3s;
+}
+
+.visit-card-component:active {
+    background-color: #f0f0f0;
+    transform: scale(0.98);
+    border-color: var(--secondary-color);
 }
 
 .visit-card-container {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.card-head-container {
+    background-color: var(--background-color);
+    color: var(--dark-color);
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8rem;
+    display: flex;
     flex-direction: row;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+
+.plant-container {
+    width: 70%;
+}
+
+.creation-date-container {
+    width: 30%;
+    display: flex;
+    justify-content: end;
+}
+
+.card-body-container {
+    background-color: var(--background-color);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.card-body-container-item {
+    display: flex;
     justify-content: space-between;
 }
 
-.visit-card-left {
-    width: 80%;
-}
-
-.visit-card-right {
-    width: 20%;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.badge {
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: var(--dark-color); 
-    color: #ffffff;
-    font-weight: bold;
-    border-radius: 20px; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    font-size: 0.6rem;
-}
-
-.title-text {
-    font-family: 'Roboto', sans-serif;
-    color: var(--dark-color); ;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.subtitle-text {
-    font-family: 'Roboto', sans-serif;
-    color: #878787;
-    font-weight: bold;
+.card-body-container-item-text {
+    font-weight: 500;
     font-size: 0.8rem;
+    padding: 2px;
+    color: #878787;
 }
 
+.card-body-container-item-text-warning {
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    background-color: #FAF1B8;
+    color: #9B870C;
+    border-radius: 5px;
+}
 
+.card-body-container-item-text-success {
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    background-color: var(--primary-extra-light);
+    color: var(--primary-color);
+    border-radius: 5px;
+}
 
+.card-body-container-item-text-neutral {
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    background-color: #cdcdcd;
+    color: var(--dark-color);
+    border-radius: 5px;
+}
 
+.divider {
+    height: 1px;
+    background-color: var(--background-color-dark);
+    margin: 5px 0;
+}

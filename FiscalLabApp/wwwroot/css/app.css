@@ -13,7 +13,7 @@
     --warning-color: #ffc107;
     --info-color: #17a2b8;
     --light-color: #f8f9fa;
-    --dark-color: #5c5c5c;
+    --dark-color: #757575;
     --background-color: #F2F2F2;
     --background-color-dark: #e8e8e8;
     
@@ -89,7 +89,7 @@ textarea:focus {
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: var(--background-color);
+    background-color: #fff;
 }
 
 h1:focus {

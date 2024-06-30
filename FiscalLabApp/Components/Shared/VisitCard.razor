@@ -1,48 +1,67 @@
-<div class="visit-card-component">
+<div class="visit-card-component" @onclick="ClickHandler">
+    <div class="card-head-container" >
+        <div class="plant-container">
+            @Visit.BasicInformation.Plant.Name
+            <br>
+            @($"{Visit.BasicInformation.Plant.Address.City} - {Visit.BasicInformation.Plant.Address.State}")
+        </div>
+        <div class="creation-date-container">
+            @($"{Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm}")
+        </div>
+    </div>
 
-    <div class="visit-card-container">
-        <div class="visit-card-left">
-            <div class="title-text">
-                @($"{Visit.BasicInformation.Plant?.Name} ({Visit.BasicInformation.Plant?.Address.City} - {Visit.BasicInformation.Plant?.Address.State})")
+    <div class="card-body-container">
+        <div class="card-body-container-item">
+            <div class="card-body-container-item-text">
+                Pendencias:
             </div>
-
-            <div class="subtitle-text">
-                @($"{Visit.BasicInformation.Association?.Name} ({Visit.BasicInformation.Association?.Address.City} - {Visit.BasicInformation.Association?.Address.State})")
+            <div class="@GetPendingItemsStyle()">
+                @($"{_pendingItemsCount} de {_totalItemsCount}")
             </div>
+        </div>
+        <div class="divider"></div>
 
-            <div class="subtitle-text">
-                @($"Criado em: {Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
+        <div class="card-body-container-item">
+            <div class="card-body-container-item-text">
+                Sincronizado em:
             </div>
-
-            <div class="subtitle-text">
-                @if (Visit.SyncedAt != null)
+            <div class="@GetSyncAtStyle()">
+                @if (Visit.SyncedAt.HasValue)
                 {
-                    @($"Sincronizado em: {Visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
+                    @($"{Visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
                 }
                 else
                 {
-                    @("Sincronizado em: - ")
+                    @("Não sincronizado.")
                 }
             </div>
-
-            @if (Visit.NotifiedByEmailAt != null)
-            {
-                <div class="subtitle-text">
-                    @($"Enviado por e-mail em: {Visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
-                </div>
-            }
-
         </div>
-        <div class="visit-card-right">
-            <div class="visit-card-right">
-                <span class="badge">
-                    @($"{_pendingItemsCount} de {_totalItemsCount}")
-                </span>
+        <div class="divider"></div>
 
+        <div class="card-body-container-item">
+            <div class="card-body-container-item-text">
+                Enviado em:
             </div>
-
+            <div class="@GetNotifiedByEmailAtStyle()">
+                @if (Visit.NotifiedByEmailAt.HasValue)
+                {
+                    @($"{Visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")
+                }
+                else if (Visit.NotifyByEmail)
+                {
+                    @("Aguardando envio.")
+                }
+                else
+                {
+                    @("Não marcado para envio.")
+                }
+            </div>
         </div>
+
+        @* <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="Visit.NotifyByEmail" id="flexCheckDefault" @oninput="SendToEmailCallback" style="width: 16px; height: 16px;" disabled="@(Visit.NotifiedByEmailAt != null)"/> *@
+        @* <small class="text-muted fw-semibold" style="font-size: 0.700em;">Enviar por e-mail</small> *@
     </div>
+    
     @* <div class="d-flex flex-column justify-content-start"> *@
     @*     <div class="d-flex flex-row justify-content-end mb-2"> *@
     @*         <span class="badge default-text" style="@GetBadgeStyle()"> *@
@@ -92,7 +111,7 @@
     @* *@
     @* <div class="d-flex justify-content-between gap-1 pt-2 pb-2"> *@
     @*     <div class="d-flex justify-content-start gap-1"> *@
-    @*         <VisitCardButton CssClass="visit-card-button default-button" OnClick="OnOpenButtonClickHandler">Abrir</VisitCardButton> *@
+    @*   
     @*         <VisitCardButton CssClass="visit-card-button default-button"  OnClick="OnImagensButtonClickHandler">Imagens</VisitCardButton> *@
     @*         <VisitCardButton CssClass="visit-card-button default-button" IsDisabled="@(Visit.SyncedAt == null)" OnClick="OnGeneratePdfButtonClickHandler">Gerar Pdf</VisitCardButton> *@
     @*     </div> *@

@@ -106,7 +106,9 @@ public partial class Home : ComponentBase
     private async Task LoadingOfflineVisitsAsync()
     {
         var visits = await VisitService.GetAllLocalAsync();
-        _visits = visits.ToList();
+        _visits = visits
+            .OrderByDescending(x => x.CreatedAt)
+            .ToList();
     }
     
     private async Task LoadingOnlineVisitsAsync()

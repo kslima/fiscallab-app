@@ -28,12 +28,35 @@ public partial class VisitCard : ComponentBase
             .Select(x => x.TotalItems)
             .Sum();
     }
-
+    
     private string GetBorderStyle()
     {
         return Visit.NotifiedByEmailAt is null
             ? "border-left: 0.750rem solid #b9b0ab;;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;"
             : "border-left: 0.750rem solid #467b56;border-right: 0;border-top: 0;border-bottom: 0; background-color: #ffffff;";
+    }
+    
+    private string GetPendingItemsStyle()
+    {
+        return _pendingItemsCount == _totalItemsCount
+            ? "card-body-container-item-text-success"
+            : "card-body-container-item-text-warning";
+    }
+    
+    private string GetSyncAtStyle()
+    {
+        return Visit.SyncedAt.HasValue
+            ? "card-body-container-item-text-success"
+            : "card-body-container-item-text-neutral";
+    }
+    
+    private string GetNotifiedByEmailAtStyle()
+    {
+        if (!Visit.NotifyByEmail) return "card-body-container-item-text-neutral";
+        
+        return Visit.NotifiedByEmailAt.HasValue
+            ? "card-body-container-item-text-success"
+            : "card-body-container-item-text-warning";
     }
 
     private string GetBadgeStyle()
@@ -41,7 +64,7 @@ public partial class VisitCard : ComponentBase
         return _pendingItemsCount == 0 ? "background-color: #467b56;" : "background-color: #c74634;";
     }
     
-    private async Task OnOpenButtonClickHandler()
+    private async Task ClickHandler()
     {
         await OnEditButtonClick.InvokeAsync(Visit);
     }
