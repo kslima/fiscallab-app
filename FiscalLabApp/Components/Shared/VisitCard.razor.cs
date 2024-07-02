@@ -39,24 +39,24 @@ public partial class VisitCard : ComponentBase
     private string GetPendingItemsStyle()
     {
         return _pendingItemsCount == _totalItemsCount
-            ? "card-body-container-item-text-success"
-            : "card-body-container-item-text-warning";
+            ? "badge-success"
+            : "badge-warning";
     }
     
     private string GetSyncAtStyle()
     {
         return Visit.SyncedAt.HasValue
-            ? "card-body-container-item-text-success"
-            : "card-body-container-item-text-neutral";
+            ? "badge-success"
+            : "badge-neutral";
     }
     
     private string GetNotifiedByEmailAtStyle()
     {
-        if (!Visit.NotifyByEmail) return "card-body-container-item-text-neutral";
+        if (!Visit.NotifyByEmail) return "badge-neutral";
         
         return Visit.NotifiedByEmailAt.HasValue
-            ? "card-body-container-item-text-success"
-            : "card-body-container-item-text-warning";
+            ? "badge-success"
+            : "badge-warning";
     }
 
     private string GetBadgeStyle()

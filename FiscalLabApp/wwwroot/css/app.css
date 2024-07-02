@@ -10,11 +10,12 @@
     --danger-color: #B04A4A;
     --danger-light: #e7c8c8;
     --danger-extra-light: #efdada;
-    --warning-color: #ffc107;
+    --warning-color: #9B870C;
+    --warning-color-light: #FAF1B8;
     --info-color: #17a2b8;
     --light-color: #f8f9fa;
     --dark-color: #757575;
-    --background-color: #F2F2F2;
+    --background-color: #f7f8fe;
     --background-color-dark: #e8e8e8;
     
     --border-color: #dee2e6;
@@ -29,6 +30,11 @@
 :root::-webkit-scrollbar {
     width: 0;
     background: transparent;
+}
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
 }
 
 textarea {
@@ -85,11 +91,6 @@ textarea:focus {
     background-color: #c74634 !important;
     border-color: #c74634 !important;
     color: #fff !important;
-}
-
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: #fff;
 }
 
 h1:focus {
