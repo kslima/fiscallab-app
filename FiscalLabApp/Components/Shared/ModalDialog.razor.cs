@@ -39,4 +39,13 @@ public partial class ModalDialog : ComponentBase
         _modalClass = string.Empty;
         _showBackdrop = false;
     }
+    
+    public void ShowProcessing()
+    {
+        _isLoading = true;
+        _modalDisplay = "block";
+        _modalClass = "show";
+        _showBackdrop = true;
+        StateHasChanged();
+    }
 }

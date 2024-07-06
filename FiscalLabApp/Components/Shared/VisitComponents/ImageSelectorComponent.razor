@@ -7,7 +7,8 @@
                     ImageSrc="@($"data:image/png;base64,{Convert.ToBase64String(context.Data)}")"
                     ImageName="@context.Name"
                     Description="@context.Description"
-                    OnDelete="OnDeleteButtonClickHandler">
+                    OnDelete="OnDeleteButtonClickHandler"
+                    OnDescriptionChange="OnDescriptionChangeHandler">
                 </ImageCard>
             </ItemContent>
         </Virtualize>
@@ -17,7 +18,7 @@
         <InputFile class="input-file" id="fileInput" OnChange="@OnChangeHandler" multiple style="display: none;"></InputFile>
         <div class="button-container">
             <label class="input-file-label" for="fileInput">Selecionar Imagens</label>
-            <button class="btn-success" @onclick="OnSaveButtonClickHandler">
+            <button class="btn-success" @onclick="OnSaveHandlerAsync">
                 Salvar
             </button>
         </div>

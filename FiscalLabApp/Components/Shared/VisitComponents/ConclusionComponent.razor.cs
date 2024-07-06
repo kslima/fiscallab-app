@@ -14,6 +14,8 @@ public partial class ConclusionComponent : ComponentBase
     private ModalDialog _modalDialog = null!;
     [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }
     [Parameter] public EventCallback OnOpenImagesButtonClick { get; set; }
+    [Parameter] public EventCallback<bool> OnNotifyByEmail { get; set; }
+    [Parameter] public bool NotifyByEmail { get; set; }
     
     private async Task OnOpenImagesButtonClickHandler()
     {
@@ -23,5 +25,10 @@ public partial class ConclusionComponent : ComponentBase
     private async Task OnEditOptionsButtonClickHandler(Menu menu)
     {
         await OnEditOptionsButtonClick.InvokeAsync(menu);
+    }
+    
+    private async Task OnSendByEmailHandler(ChangeEventArgs args)
+    {
+        await OnNotifyByEmail.InvokeAsync(bool.TrueString.Equals(args.Value?.ToString()));
     }
 }

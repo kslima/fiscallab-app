@@ -1,5 +1,5 @@
-<div class="visit-card-component" @onclick="ClickHandler">
-    <div class="card-head-container" >
+<div class="visit-card-component">
+    <div class="card-head-container">
         <div class="plant-container">
             @Visit.BasicInformation.Plant.Name
             <br>
@@ -57,75 +57,17 @@
                 }
             </div>
         </div>
-        
-        @* <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="Visit.NotifyByEmail" id="flexCheckDefault" @oninput="SendToEmailCallback" style="width: 16px; height: 16px;" disabled="@(Visit.NotifiedByEmailAt != null)"/> *@
-        @* <small class="text-muted fw-semibold" style="font-size: 0.700em;">Enviar por e-mail</small> *@
     </div>
 
     <div class="visit-card-button-container">
-        <button class="" @onclick="OnImagensButtonClickHandler">
+        <button class="visit-card-button-neutral" @onclick="OnOpenEditVisitPageHandlerAsync">
             <i class="bi bi-pencil-square"></i>
         </button>
-        <button class="" @onclick="OnImagensButtonClickHandler">
+        <button class="visit-card-button-neutral" @onclick="OnOpenAddImageModalHandlerAsync">
             <i class="bi bi-images"></i>
         </button>
+        <button class="visit-card-button-danger" @onclick="OnDeleteHandlerAsync">
+            <i class="bi bi-trash3"></i>
+        </button>
     </div>
-    
-    @* <div class="d-flex flex-column justify-content-start"> *@
-    @*     <div class="d-flex flex-row justify-content-end mb-2"> *@
-    @*         <span class="badge default-text" style="@GetBadgeStyle()"> *@
-    @*             @($"Pendências: {_pendingItemsCount}") *@
-    @*         </span> *@
-    @*     </div> *@
-    @*      *@
-    @*     <small class="text-muted fw-bold default-text text-truncate"> @($"{Visit.BasicInformation.Plant?.Name} ({Visit.BasicInformation.Plant?.Address.City} - {Visit.BasicInformation.Plant?.Address.State})")</small> *@
-    @*     <small class="text-muted default-text text-truncate"> @($"{Visit.BasicInformation.Association?.Name} ({Visit.BasicInformation.Association?.Address.City} - {Visit.BasicInformation.Association?.Address.State})")</small> *@
-    @* *@
-    @*     <div class="d-flex flex-row justify-content-start mb-1"> *@
-    @*         <span class="badge " style="background-color: #c7d7cc;; color: #312d2a"> *@
-    @*             <small class="text-muted fw-semibold">@($"Criado em: {Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small> *@
-    @*         </span> *@
-    @*     </div> *@
-    @* *@
-    @*     <div class="d-flex flex-row justify-content-start mb-1"> *@
-    @*         <span class="badge " style="background-color: #c7d7cc; color: #312d2a"> *@
-    @*             @if (Visit.SyncedAt.HasValue) *@
-    @*             { *@
-    @*                 <small class="text-muted fw-semibold">@($"Sincronizado em: {Visit.SyncedAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small> *@
-    @*             } *@
-    @*             else *@
-    @*             { *@
-    @*                 <small class="text-muted fw-semibold">@("Sincronizado em: - ")</small> *@
-    @*             } *@
-    @*         </span> *@
-    @* *@
-    @*     </div> *@
-    @* *@
-    @*     @if (Visit.NotifiedByEmailAt is not null) *@
-    @*     { *@
-    @*         <div class="d-flex flex-row justify-content-start mb-2"> *@
-    @*             <span class="badge " style="background-color: #c7d7cc; color: #312d2a"> *@
-    @*                 <small class="text-muted fw-semibold">@($"Enviado por e-mail em: {Visit.NotifiedByEmailAt.Value.ToLocalTime():dd/MM/yyyy HH:mm:ss}")</small> *@
-    @*             </span> *@
-    @*         </div> *@
-    @*     } *@
-    @*     else *@
-    @*     { *@
-    @*         <div class="form-check"> *@
-    @*             <InputCheckbox class="form-check-input" type="checkbox" @bind-Value="Visit.NotifyByEmail" id="flexCheckDefault" @oninput="SendToEmailCallback" style="width: 16px; height: 16px;" disabled="@(Visit.NotifiedByEmailAt != null)"/> *@
-    @*             <small class="text-muted fw-semibold" style="font-size: 0.700em;">Enviar por e-mail</small> *@
-    @*         </div> *@
-    @*     } *@
-    @* </div> *@
-    @* *@
-    @* <div class="d-flex justify-content-between gap-1 pt-2 pb-2"> *@
-    @*     <div class="d-flex justify-content-start gap-1"> *@
-    @*   
-    @*         <VisitCardButton CssClass="visit-card-button default-button"  OnClick="OnImagensButtonClickHandler">Imagens</VisitCardButton> *@
-    @*         <VisitCardButton CssClass="visit-card-button default-button" IsDisabled="@(Visit.SyncedAt == null)" OnClick="OnGeneratePdfButtonClickHandler">Gerar Pdf</VisitCardButton> *@
-    @*     </div> *@
-    @*     <div class="d-flex justify-content-end"> *@
-    @*         <VisitCardButton CssClass="visit-card-button delete-button" OnClick="OnDeleteButtonClickHandler" IsDisabled="@(Visit.NotifiedByEmailAt != null)">Excluir</VisitCardButton> *@
-    @*     </div> *@
-    @* </div> *@
 </div>

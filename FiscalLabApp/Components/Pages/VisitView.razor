@@ -112,7 +112,9 @@
             <ConclusionComponent
                 Conclusion="Visit.Conclusion"
                 Menus="@GetMenuOptions(PageType.Conclusion)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                OnEditOptionsButtonClick="OnEditOptionsClickHandler"
+                NotifyByEmail="Visit.NotifyByEmail"
+                OnNotifyByEmail="OnNotifyByEmailHandler">
             </ConclusionComponent>
             break;
     }

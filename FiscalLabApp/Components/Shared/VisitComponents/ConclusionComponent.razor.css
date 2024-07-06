@@ -1,7 +1,45 @@
-.visit-image {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
+.send-by-email-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 5px;
+    align-items: center;
+    padding: 15px 0;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    background-color: var(--background-color-dark);
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+label {
+    color: var(--dark-color);
+    font-size: 16px;
+}
+
+input[type="checkbox"]:after {
+    font-weight: 900;
+    content: '\2714';
+    font-size: 16px;
+    color: white;
+    display: none;
+}
+
+input[type="checkbox"]:hover {
+    background-color: var(--primary-extra-light);
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+}
+
+input[type="checkbox"]:checked:after {
+    display: block;
 }

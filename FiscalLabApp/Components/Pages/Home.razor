@@ -6,52 +6,55 @@
 
 <PageTitle>Visitas</PageTitle>
 
-<div class="d-flex justify-content-end fixed-bottom mb-4 me-3">
-    <button class="new-visit-button" @onclick="NewVisit">
-        Nova Visita
-    </button>
-</div>
+<div class="home-container">
+    <div class="btn-group d-flex mb-3">
+        <HomeTabButton
+            Title="Em andamento"
+            IsSelected="@(IsSelectedTab(OfflineVisitsTabName))"
+            OnTabSelected="@(() => SetSelectedTab(OfflineVisitsTabName))"/>
 
-<div class="btn-group d-flex mb-3">
-    <HomeTabButton
-        Title="Em andamento"
-        IsSelected="@(IsSelectedTab(OfflineVisitsTabName))"
-        OnTabSelected="@(() => SetSelectedTab(OfflineVisitsTabName))"/>
-
-    <HomeTabButton
-        Title="Finalizadas"
-        IsSelected="@(IsSelectedTab(OnlineVisitsTabName))"
-        OnTabSelected="@(() => SetSelectedTab(OnlineVisitsTabName))"
-        IsDisabled="@ApplicationContextAccessor.IsOffline()"/>
-</div>
-
-<ModalDialog
-    @ref="_imagesModalDialog"
-    Title="Imagens">
-    <ImageSelectorComponent
-        Images="@_selectedVisitImages"
-        OnSaveButtonClick="OnSaveImagesButtonClickHandler">
-    </ImageSelectorComponent>
-</ModalDialog>
-
-<div class="visit-cards-container">
-    <Virtualize Items="_visits">
-        <ItemContent>
-            <VisitCard
-                Visit="@context"
-                OnDeleteButtonClick="OnDeleteButtonClickHandler"
-                OnEditButtonClick="OpenVisitButtonClickHandler"
-                OnPdfButtonClick="OnPdfButtonClickHandler"
-                OnSendToEmailButtonClick="OnSendToEmailButtonClickHandler"
-                OnImagensButtonClicked="OpenImagesClickHandler">
-            </VisitCard>
-        </ItemContent>
-    </Virtualize>
-</div>
-
-@if (ActiveTab.Equals(OnlineVisitsTabName) && _hasNextPage)
-{
-    <div class="d-flex justify-content-center mb-3">
-        <Button Title="Carregar mais visitas" OnClick="LoadingOnlineVisitsAsync" StyleType="ButtonStyle.Success"></Button>
+        <HomeTabButton
+            Title="Finalizadas"
+            IsSelected="@(IsSelectedTab(OnlineVisitsTabName))"
+            OnTabSelected="@(() => SetSelectedTab(OnlineVisitsTabName))"
+            IsDisabled="@ApplicationContextAccessor.IsOffline()"/>
     </div>
-}
+
+    <ModalDialog
+        @ref="_imagesModalDialog"
+        Title="Imagens">
+        <ImageSelectorComponent
+            Images="@_selectedVisitImages"
+            OnSaveButtonClick="OnSaveImagesButtonClickHandler">
+        </ImageSelectorComponent>
+    </ModalDialog>
+
+    <div class="visit-cards-container">
+        <Virtualize Items="_visits">
+            <ItemContent>
+                <VisitCard
+                    Visit="@context"
+                    OnDelete="OnDeleteButtonClickHandler"
+                    OnOpenEditVisitPage="OpenVisitButtonClickHandler"
+                    OnGeneratePdf="OnPdfButtonClickHandler"
+                    OnSendByEmail="OnSendToEmailButtonClickHandler"
+                    OnOpenAddImageModal="OpenImagesClickHandler"
+                    AddImageButtonDisabled="@ApplicationContextAccessor.IsOffline()">
+                </VisitCard>
+            </ItemContent>
+        </Virtualize>
+    </div>
+
+    @if (ActiveTab.Equals(OnlineVisitsTabName) && _hasNextPage)
+    {
+        <div class="d-flex justify-content-center mb-3">
+            <Button Title="Carregar mais visitas" OnClick="LoadingOnlineVisitsAsync" StyleType="ButtonStyle.Success"></Button>
+        </div>
+    }
+    
+    <div class="new-visit-container">
+        <button class="new-visit-button" @onclick="NewVisit">
+            Nova Visita
+        </button>
+    </div>
+</div>

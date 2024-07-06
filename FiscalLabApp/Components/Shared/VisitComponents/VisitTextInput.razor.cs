@@ -108,6 +108,6 @@ public partial class VisitTextInput : ComponentBase
     
     private void CalculateSize()
     {
-        Rows = (Value.Length / 30) + 1;
+        Rows = Value.Length / 30 + 1;
     }
 }

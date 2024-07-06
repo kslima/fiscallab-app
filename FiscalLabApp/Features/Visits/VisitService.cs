@@ -62,7 +62,13 @@ public class VisitService : IVisitService
         await _indexedDbAccessor.DeleteAsync(CollectionsHelper.VisitsCollection, id);
         return true;
     }
-    
+
+    public async Task<bool> DeleteLocalAsync(string id)
+    {
+        await _indexedDbAccessor.DeleteAsync(CollectionsHelper.VisitsCollection, id);
+        return true;
+    }
+
     public async Task<bool> DeleteImageAsync(string id, string imageId)
     {
         var result = await _apiService.DeleteVisitImageAsync(id, imageId);

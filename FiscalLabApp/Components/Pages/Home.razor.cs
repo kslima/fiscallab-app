@@ -135,20 +135,26 @@ public partial class Home : ComponentBase
         _visits.AddRange(response.Data!);
     }
     
-    public async Task OnDeleteButtonClickHandler(string visitId)
+    public async Task OnDeleteButtonClickHandler(Visit visit)
     {
-        if (ApplicationContextAccessor.IsOffline())
-        {
-            ToastService.ShowError(MessageHelper.NoInternetConnection);
-            return;
-        }
-        
         var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Remover visita ?");
         if (!confirmed) return;
         
-        await VisitService.DeleteAsync(visitId);
-        await JsRuntime.RemoveFocusFromAllElementsAsync();
+        if (visit.SyncedAt is null)
+        {
+            await VisitService.DeleteLocalAsync(visit.Id);
+        }
+        else
+        {
+            if (ApplicationContextAccessor.IsOffline())
+            {
+                ToastService.ShowError(MessageHelper.NoInternetConnection);
+                return;
+            }
+            await VisitService.DeleteAsync(visit.Id);
+        }
         
+        await JsRuntime.RemoveFocusFromAllElementsAsync();
         await LoadingOfflineVisitsAsync();
         StateHasChanged();
     }
@@ -228,5 +234,6 @@ public partial class Home : ComponentBase
         }
         
         _imagesModalDialog.Close();
+        throw new InvalidCastException();
     }
 }

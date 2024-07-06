@@ -51,7 +51,7 @@ public partial class ImageSelectorComponent : ComponentBase
         }
     }
 
-    private async Task OnSaveButtonClickHandler()
+    private async Task OnSaveHandlerAsync()
     {
         await OnSaveButtonClick.InvokeAsync(_images);
     }
@@ -61,5 +61,17 @@ public partial class ImageSelectorComponent : ComponentBase
         _images = _images
             .Where(x => !x.Name.Equals(imageName))
             .ToList();
+    }
+    
+    private void OnDescriptionChangeHandler(Tuple<string, string> imageData)
+    {
+        var (name, description) = imageData;
+        _images.ForEach(x =>
+        {
+            if (x.Name.Equals(name))
+            {
+                x.Description = description;
+            }
+        });
     }
 }

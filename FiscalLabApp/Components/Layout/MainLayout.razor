@@ -2,32 +2,31 @@
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-@if (_authenticationState?.User.Identity is { IsAuthenticated: false })
-{
-    <main>
-        <article class="content px-2">
-            @Body
-        </article>
-    </main>
-}
-else
-{
-    <NavMenu/>
-    <main>
-        <article class="content px-2">
-            @Body
-        </article>
-    </main>
-    <BlazoredToasts Position="ToastPosition.BottomRight" Timeout="3" ShowCloseButton="true" ShowProgressBar="true" />
-}
-
-
-@code {
-    private AuthenticationState? _authenticationState;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-    }
-
-}
+<ErrorBoundary @ref="_errorBoundary">
+    <ChildContent>
+        @if (_authenticationState?.User.Identity is { IsAuthenticated: false })
+        {
+            <main>
+                <article class="content px-2">
+                    @Body
+                </article>
+            </main>
+        }
+        else
+        {
+            <NavMenu/>
+            <main>
+                <article class="content px-2">
+                    @Body
+                </article>
+            </main>
+            <BlazoredToasts Position="ToastPosition.BottomRight" Timeout="3" ShowCloseButton="true" ShowProgressBar="true"/>
+        }
+    </ChildContent>
+    <ErrorContent>
+        <div class="error-container">
+            <p class="error-message">"Ops! Algo deu errado."</p>
+            <button class="restart-button" @onclick="ResetError">Reiniciar</button>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>

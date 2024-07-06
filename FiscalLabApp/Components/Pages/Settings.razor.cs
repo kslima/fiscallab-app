@@ -31,7 +31,6 @@ public partial class Settings : ComponentBase
             IsTaskRunning = true;
 
             var visits = await VisitService.GetAllLocalAsync();
-
             var successOnUpsert = await VisitService.UpsertAsync(visits);
             if (!successOnUpsert)
             {

@@ -167,4 +167,9 @@ public partial class VisitView : ComponentBase
         ToastService.ShowSuccess(MessageHelper.SuccessOnUpdateOptions);
         _optionsModalDialog.Close();
     }
+    
+    private void OnNotifyByEmailHandler(bool notifyByEmail)
+    {
+        Visit.NotifyByEmail = notifyByEmail;
+    }
 }

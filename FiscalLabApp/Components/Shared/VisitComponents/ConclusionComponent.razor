@@ -24,4 +24,16 @@
             <VisitTextInput Title="Observações sobre a visita" Menu="@Menus.GetMenu(MenuType.ConclusionObservations)" Id="conclusionObservations" @bind-Value="Conclusion.Observations" OnEditButtonClick="OnEditOptionsButtonClickHandler"/>
         </div>
     </div>
+
+    <div class="send-by-email-container">
+        @if (NotifyByEmail)
+        {
+            <input type="checkbox" id="check" @oninput="OnSendByEmailHandler" checked>
+        }
+        else
+        {
+            <input type="checkbox" id="check" @oninput="OnSendByEmailHandler">
+        }
+        <label for="check">Enviar por e-mail</label>
+    </div>
 </DataSeparator>

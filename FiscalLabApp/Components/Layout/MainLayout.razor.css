@@ -1,0 +1,29 @@
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 20px;
+}
+
+.error-message {
+    background-color: var(--danger-color);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: start;
+}
+
+.restart-button {
+    background-color: var(--background-color-dark);
+    color: var(--dark-color);
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}

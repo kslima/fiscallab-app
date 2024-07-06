@@ -8,14 +8,6 @@
     flex-direction: column;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     gap: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s, border-color 0.3s;
-}
-
-.visit-card-component:active {
-    background-color: #f0f0f0;
-    transform: scale(0.98);
-    border-color: var(--secondary-color);
 }
 
 .visit-card-container {
@@ -87,7 +79,7 @@
 .divider {
     height: 1px;
     background-color: var(--background-color);
-    margin: 5px 0;
+    margin: 2px 0;
 }
 
 .visit-card-button-container {
@@ -95,11 +87,24 @@
     display: flex;
     justify-content: start;
     gap: 10px;
+    margin-top: 10px;
 }
 
-.visit-card-button-container button {
+.visit-card-button-neutral {
     background-color: var(--background-color-dark);
     color: var(--dark-color);
+    border: none;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    padding: 2px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.visit-card-button-danger {
+    background-color: var(--danger-extra-light);
+    color: var(--danger-color);
     border: none;
     font-weight: bold;
     text-align: center;

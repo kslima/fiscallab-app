@@ -6,11 +6,12 @@ namespace FiscalLabApp.Components.Shared;
 
 public partial class VisitCard : ComponentBase
 {
-    [Parameter] public EventCallback<string> OnDeleteButtonClick { get; set; }
-    [Parameter] public EventCallback<Visit> OnEditButtonClick { get; set; }
-    [Parameter] public EventCallback<string> OnPdfButtonClick { get; set; }
-    [Parameter] public EventCallback<string> OnSendToEmailButtonClick { get; set; }
-    [Parameter] public EventCallback<Visit> OnImagensButtonClicked { get; set; }
+    [Parameter] public EventCallback<Visit> OnDelete { get; set; }
+    [Parameter] public EventCallback<Visit> OnOpenEditVisitPage { get; set; }
+    [Parameter] public EventCallback<string> OnGeneratePdf { get; set; }
+    [Parameter] public EventCallback<string> OnSendByEmail { get; set; }
+    [Parameter] public EventCallback<Visit> OnOpenAddImageModal { get; set; }
+    [Parameter] public bool AddImageButtonDisabled { get; set; }
     [Parameter] public Visit Visit { get; set; } = new();
     private int _pendingItemsCount;
     private int _totalItemsCount;
@@ -64,28 +65,28 @@ public partial class VisitCard : ComponentBase
         return _pendingItemsCount == 0 ? "background-color: #467b56;" : "background-color: #c74634;";
     }
     
-    private async Task ClickHandler()
+    private async Task OnOpenEditVisitPageHandlerAsync()
     {
-        await OnEditButtonClick.InvokeAsync(Visit);
+        await OnOpenEditVisitPage.InvokeAsync(Visit);
     }
 
-    private async Task OnDeleteButtonClickHandler()
+    private async Task OnDeleteHandlerAsync()
     {
-        await OnDeleteButtonClick.InvokeAsync(Visit.Id);
+        await OnDelete.InvokeAsync(Visit);
     }
 
-    private async Task OnGeneratePdfButtonClickHandler()
+    private async Task OnGeneratePdfHandlerAsync()
     {
-        await OnPdfButtonClick.InvokeAsync(Visit.Id);
+        await OnGeneratePdf.InvokeAsync(Visit.Id);
     }
     
-    private async Task OnImagensButtonClickHandler()
+    private async Task OnOpenAddImageModalHandlerAsync()
     {
-        await OnImagensButtonClicked.InvokeAsync(Visit);
+        await OnOpenAddImageModal.InvokeAsync(Visit);
     }
     
-    private async Task SendToEmailCallback()
+    private async Task OnSendByEmailHandlerAsync()
     {
-        await OnSendToEmailButtonClick.InvokeAsync(Visit.Id);
+        await OnSendByEmail.InvokeAsync(Visit.Id);
     }
 }
