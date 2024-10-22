@@ -1,4 +1,4 @@
-﻿<div class="content d-flex align-items-center mb-3">
+﻿<div class="visit-page-selector">
     <InputSelect @bind-Value="_selectedPageName" class="form-select custom-select" @bind-Value:after="OnPageChangeHandler">
         @foreach (var visitPage in Pages)
         {
@@ -7,9 +7,6 @@
             </option>
         }
     </InputSelect>
-    <button class="btn btn-outline-secondary ms-2" style="width: 100px;" @onclick="OnSaveHandler">
-        <i class="bi bi-floppy"></i>
-    </button>
 </div>
 
 

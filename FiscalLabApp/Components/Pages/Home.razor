@@ -25,6 +25,7 @@
         Title="Imagens">
         <ImageSelectorComponent
             Images="@_selectedVisitImages"
+            IsProcessing="_isImagesProcessing"
             OnSaveButtonClick="OnSaveImagesButtonClickHandler">
         </ImageSelectorComponent>
     </ModalDialog>
@@ -45,13 +46,17 @@
         </Virtualize>
     </div>
 
-    @if (ActiveTab.Equals(OnlineVisitsTabName) && _hasNextPage)
+    @if (ActiveTab.Equals(OnlineVisitsTabName)  && _hasNextPage)
     {
-        <div class="d-flex justify-content-center mb-3">
-            <Button Title="Carregar mais visitas" OnClick="LoadingOnlineVisitsAsync" StyleType="ButtonStyle.Success"></Button>
+        <div class="online-visits-loading-button-container">
+            <LoadingButton 
+                Title="Carregar mais visitas"
+                OnClick="LoadingOnlineVisitsAsync"
+                StyleType="ButtonStyle.Success"
+                IsLoading="_isGetOnlineVisitsProcessing"></LoadingButton>
         </div>
     }
-    
+
     <div class="new-visit-container">
         <button class="new-visit-button" @onclick="NewVisit">
             Nova Visita

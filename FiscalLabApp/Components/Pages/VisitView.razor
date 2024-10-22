@@ -2,120 +2,128 @@
 @using FiscalLabApp.Helpers
 @using FiscalLabApp.Components.Shared.VisitComponents
 
-<VisitPageSelector
-    InitialPage="@_selectedPage"
-    Pages="@_pages"
-    OnPageChange="OnPageChangeHandler"
-    OnSaveClick="OnSaveClickHandler"/>
+<div class="visit-view">
+    <div class="visit-view-header">
+        <VisitPageSelector
+            InitialPage="@_selectedPage"
+            Pages="@_pages"
+            OnPageChange="OnPageChangeHandler"/>
+    </div>
 
-<ModalDialog
-    @ref="_associationModalDialog"
-    Title="Associação">
-    <AssociationComponent
-        Association="_selectedAssociation"
-        OnSaveOrUpdate="OnSaveOrUpdateAssociationHandler">
-    </AssociationComponent>
-</ModalDialog>
+    <ModalDialog
+        @ref="_associationModalDialog"
+        Title="Associação">
+        <AssociationComponent
+            Association="_selectedAssociation"
+            OnSaveOrUpdate="OnSaveOrUpdateAssociationHandler">
+        </AssociationComponent>
+    </ModalDialog>
 
-<ModalDialog
-    @ref="_plantModalDialog"
-    Title="Usina">
-    <PlantComponent
-        Plant="_selectedPlant"
-        OnSaveOrUpdate="OnSaveOrUpdatePlantHandler">
-    </PlantComponent>
-</ModalDialog>
+    <ModalDialog
+        @ref="_plantModalDialog"
+        Title="Usina">
+        <PlantComponent
+            Plant="_selectedPlant"
+            OnSaveOrUpdate="OnSaveOrUpdatePlantHandler">
+        </PlantComponent>
+    </ModalDialog>
 
-<ModalDialog
-    @ref="_optionsModalDialog"
-    Title="Opções">
-    <OptionsComponent
-        Menu="_selectedMenu"
-        OnSaveButtonClick="OnSaveOptionsButtonClickHandler">
-    </OptionsComponent>
-</ModalDialog>
+    <ModalDialog
+        @ref="_optionsModalDialog"
+        Title="Opções">
+        <OptionsComponent
+            Menu="_selectedMenu"
+            OnSaveButtonClick="OnSaveOptionsButtonClickHandler">
+        </OptionsComponent>
+    </ModalDialog>
 
-<ModalDialog
-    @ref="_balanceTestsModalDialog"
-    Title="Testes de Balança">
-    <BalanceTestsComponent Tests="Visit.BalanceTests">
-    </BalanceTestsComponent>
-</ModalDialog>
+    <ModalDialog
+        @ref="_balanceTestsModalDialog"
+        Title="Testes de Balança">
+        <BalanceTestsComponent Tests="Visit.BalanceTests">
+        </BalanceTestsComponent>
+    </ModalDialog>
 
-<DisableContainer IsDisabled="_isReadyOnly">
-    @switch (_selectedPage)
-    {
-        case PageHelper.BasicInformationPageName:
-            <BasicInformationComponent
-                BasicInformation="Visit.BasicInformation"
-                Menus="@GetMenuOptions(PageType.Main)"
-                Associations="@_associations"
-                Plants="@_plants"
-                OnAddPlantButtonClick="OnAddPlantClickHandler"
-                OnEditPlantButtonClick="OnEditPlantClickHandler"
-                OnAddAssociationButtonClick="OnAddAssociationClickHandler"
-                OnEditAssociationButtonClick="OnEditAssociationClickHandler"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </BasicInformationComponent>
-            break;
-        case PageHelper.SugarcaneBalancePageName:
-            <SugarcaneBalanceComponent
-                SugarcaneBalance="Visit.SugarcaneBalance"
-                OnBalanceTestsClick="OnBalanceTestsClickHandler"
-                Menus="@GetMenuOptions(PageType.SugarcaneBalance)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </SugarcaneBalanceComponent>
-            break;
-        case PageHelper.DesintegratorProbePageName:
-            <DesintegratorProbeComponent
-                DesintegratorProbe="Visit.DesintegratorProbe"
-                Menus="@GetMenuOptions(PageType.DesintegratorProbe)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </DesintegratorProbeComponent>
-            break;
-        case PageHelper.AnalyticalBalancePageName:
-            <AnalyticalBalanceComponent
-                AnalyticalBalance="Visit.AnalyticalBalance"
-                Menus="@GetMenuOptions(PageType.AnalyticalBalance)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </AnalyticalBalanceComponent>
-            break;
-        case PageHelper.PressRefractometerPageName:
-            <PressRefractometerComponent
-                PressRefractometer="Visit.PressRefractometer"
-                Menus="@GetMenuOptions(PageType.PressRefractometer)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </PressRefractometerComponent>
-            break;
-        case PageHelper.ClarificationSaccharimeterPageName:
-            <ClarificationSaccharimeterComponent
-                ClarificationSaccharimeter="Visit.ClarificationSaccharimeter"
-                Menus="@GetMenuOptions(PageType.ClarificationSaccharimeter)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </ClarificationSaccharimeterComponent>
-            break;
-        case PageHelper.BenchmarkingEquipmentPageName:
-            <BenchmarkingEquipmentComponent
-                BenchmarkingEquipment="Visit.BenchmarkingEquipment"
-                Menus="@GetMenuOptions(PageType.BenchmarkingEquipment)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </BenchmarkingEquipmentComponent>
-            break;
-        case PageHelper.SystemConsistencyPageName:
-            <SystemConsistencyComponent
-                SystemConsistency="Visit.SystemConsistency"
-                Menus="@GetMenuOptions(PageType.SystemConsistency)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler">
-            </SystemConsistencyComponent>
-            break;
-        case PageHelper.ConclusionPageName:
-            <ConclusionComponent
-                Conclusion="Visit.Conclusion"
-                Menus="@GetMenuOptions(PageType.Conclusion)"
-                OnEditOptionsButtonClick="OnEditOptionsClickHandler"
-                NotifyByEmail="Visit.NotifyByEmail"
-                OnNotifyByEmail="OnNotifyByEmailHandler">
-            </ConclusionComponent>
-            break;
-    }
-</DisableContainer>
+    <DisableContainer IsDisabled="_isReadyOnly">
+        @switch (_selectedPage)
+        {
+            case PageHelper.BasicInformationPageName:
+                <BasicInformationComponent
+                    BasicInformation="Visit.BasicInformation"
+                    Menus="@GetMenuOptions(PageType.Main)"
+                    Associations="@_associations"
+                    Plants="@_plants"
+                    OnAddPlantButtonClick="OnAddPlantClickHandler"
+                    OnEditPlantButtonClick="OnEditPlantClickHandler"
+                    OnAddAssociationButtonClick="OnAddAssociationClickHandler"
+                    OnEditAssociationButtonClick="OnEditAssociationClickHandler"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </BasicInformationComponent>
+                break;
+            case PageHelper.SugarcaneBalancePageName:
+                <SugarcaneBalanceComponent
+                    SugarcaneBalance="Visit.SugarcaneBalance"
+                    OnBalanceTestsClick="OnBalanceTestsClickHandler"
+                    Menus="@GetMenuOptions(PageType.SugarcaneBalance)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </SugarcaneBalanceComponent>
+                break;
+            case PageHelper.DesintegratorProbePageName:
+                <DesintegratorProbeComponent
+                    DesintegratorProbe="Visit.DesintegratorProbe"
+                    Menus="@GetMenuOptions(PageType.DesintegratorProbe)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </DesintegratorProbeComponent>
+                break;
+            case PageHelper.AnalyticalBalancePageName:
+                <AnalyticalBalanceComponent
+                    AnalyticalBalance="Visit.AnalyticalBalance"
+                    Menus="@GetMenuOptions(PageType.AnalyticalBalance)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </AnalyticalBalanceComponent>
+                break;
+            case PageHelper.PressRefractometerPageName:
+                <PressRefractometerComponent
+                    PressRefractometer="Visit.PressRefractometer"
+                    Menus="@GetMenuOptions(PageType.PressRefractometer)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </PressRefractometerComponent>
+                break;
+            case PageHelper.ClarificationSaccharimeterPageName:
+                <ClarificationSaccharimeterComponent
+                    ClarificationSaccharimeter="Visit.ClarificationSaccharimeter"
+                    Menus="@GetMenuOptions(PageType.ClarificationSaccharimeter)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </ClarificationSaccharimeterComponent>
+                break;
+            case PageHelper.BenchmarkingEquipmentPageName:
+                <BenchmarkingEquipmentComponent
+                    BenchmarkingEquipment="Visit.BenchmarkingEquipment"
+                    Menus="@GetMenuOptions(PageType.BenchmarkingEquipment)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </BenchmarkingEquipmentComponent>
+                break;
+            case PageHelper.SystemConsistencyPageName:
+                <SystemConsistencyComponent
+                    SystemConsistency="Visit.SystemConsistency"
+                    Menus="@GetMenuOptions(PageType.SystemConsistency)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler">
+                </SystemConsistencyComponent>
+                break;
+            case PageHelper.ConclusionPageName:
+                <ConclusionComponent
+                    Conclusion="Visit.Conclusion"
+                    Menus="@GetMenuOptions(PageType.Conclusion)"
+                    OnEditOptionsButtonClick="OnEditOptionsClickHandler"
+                    NotifyByEmail="Visit.NotifyByEmail"
+                    OnNotifyByEmail="OnNotifyByEmailHandler">
+                </ConclusionComponent>
+                break;
+        }
+
+        <button class="visit-view-header-save-button" @onclick="OnSaveHandler">
+            SALVAR
+        </button>
+    </DisableContainer>
+
+</div>

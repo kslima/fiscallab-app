@@ -11,6 +11,8 @@ public partial class ImageSelectorComponent : ComponentBase
     
     [Parameter]
     public IReadOnlyList<Image> Images { get; set; } = [];
+    [Parameter]
+    public bool IsProcessing { get; set; }
     private List<Image> _images = [];
     
     [Parameter] public EventCallback<Menu> OnEditOptionsButtonClick { get; set; }

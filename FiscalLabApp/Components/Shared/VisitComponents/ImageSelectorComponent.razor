@@ -14,13 +14,14 @@
         </Virtualize>
     }
 
-    <div class="input-file-container">
-        <InputFile class="input-file" id="fileInput" OnChange="@OnChangeHandler" multiple style="display: none;"></InputFile>
-        <div class="button-container">
-            <label class="input-file-label" for="fileInput">Selecionar Imagens</label>
-            <button class="btn-success" @onclick="OnSaveHandlerAsync">
-                Salvar
-            </button>
+    <div class="image-selector-buttons-container">
+        <div class="image-selector-buttons-left">
+            <label class="image-selector-buttons-left-text" for="fileInput">Selecionar Imagens</label>
+            <InputFile class="input-file" id="fileInput" OnChange="@OnChangeHandler" multiple style="display: none;"></InputFile>
+        </div>
+
+        <div class="image-selector-buttons-right">
+            <LoadingButton OnClick="OnSaveHandlerAsync" Title="Salvar" IsLoading="IsProcessing"></LoadingButton>
         </div>
     </div>
 </div>

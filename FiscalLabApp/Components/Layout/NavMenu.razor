@@ -11,22 +11,24 @@
     <div class="container-fluid">
         <a class="navbar-brand text-secondary fw-bold" @onclick="OpenVisits">
             <img src="icon-192.png" alt="Fiscal Lab" width="48" height="48">
-            Grupo Esdra - v1.1.9
+            <div class="brand-name">
+                Grupo Esdra
+                <span class="version-text">v1.2.1</span>
+            </div>
         </a>
-        
+
         <button type="button" class="btn btn-link text-secondary">
             <i class="bi bi-gear" @onclick="OpenSettings"></i>
         </button>
     </div>
 </nav>
 
-
 @code {
 
     private bool _collapseNavMenu = true;
     private string? NavBarCssClass => _collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => _collapseNavMenu ? "collapsed" : null;
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -38,15 +40,15 @@
 
     private void OpenVisits()
     {
-        NavigationManager.NavigateTo("/visits");
+        NavigationManager.NavigateTo("/");
     }
-    
+
     private async Task OpenSettings()
     {
         NavigationManager.NavigateTo("/settings");
         await JsRuntime.InvokeVoidAsync("removeFocusFromAllElements");
     }
-    
+
     [JSInvokable]
     public Task SetOnlineStatus(bool isOnline, bool isWiFi)
     {

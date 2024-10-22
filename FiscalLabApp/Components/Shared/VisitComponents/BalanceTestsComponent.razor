@@ -1,20 +1,21 @@
 @using FiscalLabApp.Enums
 @using FiscalLabApp.Extensions
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Identificação</th>
-        <th>Entrada</th>
-        <th>Saída</th>
-        <th>Diferença</th>
-        <th>Editar</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-    @foreach (var test in Tests)
-    {
+<div class="table-container">
+    <table class="table table-striped table-small">
+        <thead>
+        <tr>
+            <th>Identificação</th>
+            <th>Entrada</th>
+            <th>Saída</th>
+            <th>Diferença</th>
+            <th>Editar</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @foreach (var test in Tests)
+        {
         <tr>
             <td>@test.Identification</td>
             <td>@test.InputBalanceWeight.FormatToBrazil()</td>
@@ -26,9 +27,10 @@
                 </button>
             </td>
         </tr>
-    }
-    </tbody>
-</table>
+        }
+        </tbody>
+    </table>
+</div>
 
 <EditForm EditContext="@_editContext" OnValidSubmit="@OnSaveButtonClickHandler">
     <DataAnnotationsValidator/>
@@ -63,8 +65,8 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-end gap-3">
-        <Button Title="Salvar" StyleType="ButtonStyle.Success" OnClick="OnSubmitHandler"></Button>
-        <Button Title="Excluir" StyleType="ButtonStyle.Danger" OnClick="OnDeleteButtonClickHandler" IsDisabled="@DisableDeleteButton()"></Button>
+    <div class="d-flex justify-content-between gap-3">
+        <button class="balance-test-button-success" @onclick="OnSubmitHandler">Salvar</button>
+        <button class="balance-test-button-danger" @onclick="OnDeleteButtonClickHandler">Excluir</button>
     </div>
 </EditForm >

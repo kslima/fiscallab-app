@@ -1,0 +1,29 @@
+.visit-view {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+.visit-view-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.visit-view-header-save-button {
+    background-color: #588157FF;
+    color: white;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px 15px;
+}
+
+.visit-view-header-save-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

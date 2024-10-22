@@ -1,0 +1,14 @@
+<button
+    type="button"
+    class="button"
+    disabled="@(IsDisabled || IsLoading)"
+    @onclick="OnClickHandler">
+    @if (IsLoading)
+    {
+        <div class="spinner"></div>
+    }
+    else
+    {
+        @Title
+    }
+</button>

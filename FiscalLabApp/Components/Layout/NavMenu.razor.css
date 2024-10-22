@@ -1,0 +1,10 @@
+.brand-name {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.version-text {
+    display: block;
+    font-size: 0.75rem;
+    color: gray;
+}

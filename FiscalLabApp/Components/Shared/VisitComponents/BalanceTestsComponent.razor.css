@@ -1,0 +1,43 @@
+.table-container {
+    overflow-x: auto;
+}
+
+.table-small {
+    font-size: 0.875rem; /* Tamanho da fonte ajustado */
+}
+
+@media (max-width: 768px) {
+    .table-small {
+        font-size: 0.75rem; /* Reduz ainda mais o tamanho em dispositivos menores */
+    }
+}
+
+.balance-test-button-success {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 5px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.balance-test-button-danger {
+    background-color: var(--danger-extra-light);
+    color: var(--danger-color);
+    border: none;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    padding: 5px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}

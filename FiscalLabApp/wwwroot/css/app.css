@@ -4,7 +4,9 @@
     --primary-color: #588157;
     --primary-light: #6ba77c;
     --primary-extra-light: #bcd5c9;
+    --primary-extra-light-hover: #afc7bc;
     --primary-dark: #3a5a40;
+    --primary-color-hover: #466145;
     --secondary-color: #6c757d;
     --success-color: #28a745;
     --danger-color: #B04A4A;
@@ -17,6 +19,9 @@
     --dark-color: #757575;
     --background-color: #f7f8fe;
     --background-color-dark: #e8e8e8;
+    --disabled-color: #cccccc;
+    --disabled-background: #666666;
+    --disabled-opacity: 0.6;
     
     --border-color: #dee2e6;
     --focus-border-color: #6c757d;
@@ -34,7 +39,7 @@
 }
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
     background-color: var(--background-color);
 }
 

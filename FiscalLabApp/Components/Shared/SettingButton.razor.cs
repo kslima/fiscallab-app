@@ -12,8 +12,6 @@ public partial class SettingButton : ComponentBase
     [Parameter]
     public string Description { get; set; } = string.Empty;
     
-    [Parameter]
-    public string ButtonColor { get; set; } = "#f8f9fa";
     [Parameter] public EventCallback OnClick { get; set; }
     [Parameter]
     public bool IsLoading { get; set; }

@@ -11,7 +11,7 @@ using Microsoft.JSInterop;
 
 namespace FiscalLabApp.Components.Pages;
 
-public partial class VisitView : ComponentBase
+public partial class VisitView : ComponentBase, IAsyncDisposable
 {
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
     [Inject] private IToastService ToastService { get; set; } = null!;
@@ -44,20 +44,15 @@ public partial class VisitView : ComponentBase
         await base.OnInitializedAsync();
         if (VisitContextAccessor.SelectedVisit is null)
         {
-            Visit = new Visit
-            {
-                BasicInformation =
-                {
-                    VisitDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                    VisitTime = TimeOnly.FromDateTime(DateTime.UtcNow)
-                }
-            };
-            _selectedAssociation = null;
-            _selectedPlant = null;
+            NavigationManager.NavigateTo("/");
+            return;
         }
-        else
+        
+        Visit = VisitContextAccessor.SelectedVisit;
+        
+        if (!string.IsNullOrWhiteSpace(Visit.BasicInformation.Plant.Id) &&
+            !string.IsNullOrWhiteSpace(Visit.BasicInformation.Association.Id))
         {
-            Visit = VisitContextAccessor.SelectedVisit;
             _selectedAssociation = Visit.BasicInformation.Association;
             _selectedPlant = Visit.BasicInformation.Plant;
         }
@@ -135,7 +130,7 @@ public partial class VisitView : ComponentBase
         _associationModalDialog.Close();
     }
 
-    private async Task OnSaveClickHandler()
+    private async Task OnSaveHandler()
     {
         if (string.IsNullOrWhiteSpace(Visit.BasicInformation.Plant.Id))
         {
@@ -171,5 +166,16 @@ public partial class VisitView : ComponentBase
     private void OnNotifyByEmailHandler(bool notifyByEmail)
     {
         Visit.NotifyByEmail = notifyByEmail;
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        if (!_isReadyOnly &&
+            !string.IsNullOrWhiteSpace(Visit.BasicInformation.Plant.Id) &&
+            !string.IsNullOrWhiteSpace(Visit.BasicInformation.Association.Id))
+        {
+            await VisitService.CreateAsync(Visit);
+        }
+        GC.SuppressFinalize(this);
     }
 }

@@ -33,6 +33,8 @@ public partial class Home : ComponentBase
     [Inject] 
     private NetworkStatusEventNotifier NetworkStatusEventNotifier { get; set; } = null!;
     private ModalDialog _imagesModalDialog = null!;
+    private bool _isImagesProcessing;
+    private bool _isGetOnlineVisitsProcessing;
 
     [Parameter]
     public string ActiveTab { get; set; } = OfflineVisitsTabName;
@@ -99,7 +101,14 @@ public partial class Home : ComponentBase
     
     private void NewVisit()
     {
-        VisitContextAccessor.SelectedVisit = null;
+        VisitContextAccessor.SelectedVisit = new Visit
+        {
+            BasicInformation =
+            {
+                VisitDate = DateOnly.FromDateTime(DateTime.UtcNow),
+                VisitTime = TimeOnly.FromDateTime(DateTime.UtcNow)
+            }
+        };
         NavigationManager.NavigateTo("/visit-view");
     }
     
@@ -114,9 +123,12 @@ public partial class Home : ComponentBase
     private async Task LoadingOnlineVisitsAsync()
     {
         if (!_hasNextPage) return;
+
+        _isGetOnlineVisitsProcessing = true;
         
         await ListVisitsAsync();
-        StateHasChanged();
+        
+        _isGetOnlineVisitsProcessing = false;
     }
     
     private async Task ListVisitsAsync()
@@ -223,6 +235,8 @@ public partial class Home : ComponentBase
     private async Task OnSaveImagesButtonClickHandler(List<Image> images)
     {
         if (images.Count == 0) return;
+        _isImagesProcessing = true;
+        
         var successOnUpsertImages = await VisitService.ReplaceImagesAsync(_selectedVisit.Id, images);
         if (successOnUpsertImages)
         {
@@ -233,7 +247,7 @@ public partial class Home : ComponentBase
             ToastService.ShowError(MessageHelper.ErrorOnUpsertImagens);
         }
         
+        _isImagesProcessing = false;
         _imagesModalDialog.Close();
-        throw new InvalidCastException();
     }
 }

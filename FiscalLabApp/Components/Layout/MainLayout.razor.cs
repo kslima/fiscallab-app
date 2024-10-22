@@ -7,6 +7,7 @@ namespace FiscalLabApp.Components.Layout;
 public partial class MainLayout : LayoutComponentBase
 {
     private AuthenticationState? _authenticationState;
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
     private ErrorBoundary? _errorBoundary;
 
@@ -22,6 +23,7 @@ public partial class MainLayout : LayoutComponentBase
     
     private void ResetError() 
     { 
+        NavigationManager.NavigateTo("/");
         _errorBoundary?.Recover(); 
     }
 }

@@ -16,7 +16,7 @@ public partial class PlantComponent : ComponentBase
     [Inject] private ApplicationContextAccessor ApplicationContextAccessor { get; set; } = null!;
     
     [Parameter] public EventCallback OnSaveOrUpdate { get; set; }
-    [Parameter] public Models.Plant? Plant { get; set; }
+    [Parameter] public Plant? Plant { get; set; }
     public PlantViewModel? PlantViewModel;
     private string SelectedState { get; set; } = string.Empty;
     private EditContext? _editContext;

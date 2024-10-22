@@ -10,9 +10,7 @@ public partial class VisitPageSelector : ComponentBase
     public SelectedPageEventNotifier SelectedPageEventNotifier { get; set; } = null!;
     [Parameter]
     public EventCallback<string> OnPageChange { get; set; }
-    [Parameter]
-    public EventCallback OnSaveClick { get; set; }
-
+    
     [Parameter]
     public VisitPage[] Pages { get; set; } = [];
 
@@ -45,10 +43,5 @@ public partial class VisitPageSelector : ComponentBase
     private async Task OnPageChangeHandler()
     {
         await OnPageChange.InvokeAsync(_selectedPageName);
-    }
-    
-    private async Task OnSaveHandler()
-    {
-        await OnSaveClick.InvokeAsync();
     }
 }

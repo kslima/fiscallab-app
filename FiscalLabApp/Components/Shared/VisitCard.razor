@@ -1,9 +1,9 @@
-<div class="visit-card-component">
+<div class="visit-card-component @(Visit.NotifiedByEmailAt == null ? "visit-card-component-pending" : "visit-card-component-done")">
     <div class="card-head-container">
         <div class="plant-container">
-            @Visit.BasicInformation.Plant.Name
+            @($"{Visit.BasicInformation.Plant.Name} ({Visit.BasicInformation.Plant.Address.City} - {Visit.BasicInformation.Plant.Address.State})")
             <br>
-            @($"{Visit.BasicInformation.Plant.Address.City} - {Visit.BasicInformation.Plant.Address.State}")
+            <span class="plant-container-address">@($"{Visit.BasicInformation.Association.Name}")</span>
         </div>
         <div class="creation-date-container">
             @($"{Visit.CreatedAt.ToLocalTime():dd/MM/yyyy HH:mm}")
@@ -63,10 +63,10 @@
         <button class="visit-card-button-neutral" @onclick="OnOpenEditVisitPageHandlerAsync">
             <i class="bi bi-pencil-square"></i>
         </button>
-        <button class="visit-card-button-neutral" @onclick="OnOpenAddImageModalHandlerAsync">
+        <button class="visit-card-button-neutral" @onclick="OnOpenAddImageModalHandlerAsync" disabled="@(Visit.NotifiedByEmailAt != null)">
             <i class="bi bi-images"></i>
         </button>
-        <button class="visit-card-button-danger" @onclick="OnDeleteHandlerAsync">
+        <button class="visit-card-button-danger" @onclick="OnDeleteHandlerAsync" disabled="@(Visit.NotifiedByEmailAt != null)">
             <i class="bi bi-trash3"></i>
         </button>
     </div>

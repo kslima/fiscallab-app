@@ -1,13 +1,20 @@
 .visit-card-component {
     font-family: 'Roboto', sans-serif;
     background-color: #fff;
-    border-left: 10px solid var(--primary-color);
     padding: 10px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     gap: 5px;
+}
+
+.visit-card-component-pending {
+    border-left: 10px solid var(--dark-color);
+}
+
+.visit-card-component-done {
+    border-left: 10px solid var(--primary-color);
 }
 
 .visit-card-container {
@@ -50,13 +57,13 @@
 
 .card-body-container-item-text {
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #878787;
 }
 
 .card-badge {
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     border-radius: 5px;
     padding: 0 5px;
 }
@@ -90,16 +97,31 @@
     margin-top: 10px;
 }
 
+.plant-container-address {
+    color: var(--dark-color);
+    opacity: 0.8;
+    font-size: 0.7rem;
+}
+
 .visit-card-button-neutral {
     background-color: var(--background-color-dark);
     color: var(--dark-color);
     border: none;
     font-weight: bold;
     text-align: center;
-    display: inline-block;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
     padding: 2px 30px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.visit-card-button-neutral:disabled {
+    cursor: not-allowed; 
+    opacity: 0.5; 
 }
 
 .visit-card-button-danger {
@@ -112,4 +134,9 @@
     padding: 2px 30px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.visit-card-button-danger:disabled {
+    cursor: not-allowed; 
+    opacity: 0.5;
 }
