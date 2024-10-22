@@ -1,8 +1,9 @@
-﻿@using FiscalLabApp.Services
+﻿@using System.Globalization
+@using FiscalLabApp.Services
 @inject SelectedVisitEventNotifier SelectedVisitEventNotifier
 
 <div class="form-floating mb-3">
-    <InputNumber class="form-control" id="@Id" @oninput="UpdateParent"  @onblur="OnBlur" @bind-Value="Value" readonly="@Readonly" style="font-size: 12px; height: fit-content"/>
+    <InputText class="form-control" id="@Id" @onblur="OnBlur" @bind-Value="ValueString" readonly="@Readonly" style="font-size: 12px; height: fit-content"/>
   <label for="@Id" style="font-size: 14px;">@Title</label>
 </div >
 
@@ -20,6 +21,24 @@
     public EventCallback<decimal> ValueUpdated { get; set; }
     [Parameter]
     public bool Readonly { get; set; }
+    
+    private string ValueString
+    {
+        get => Value.ToString("0.##", CultureInfo.InvariantCulture).Replace('.', ',');
+        set
+        {
+            if (decimal.TryParse(value.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out var result))
+            {
+                // Apenas atualiza o valor se ele for diferente do atual
+                if (Value != result)
+                {
+                    Value = result;
+                    ValueChanged.InvokeAsync(Value);
+                    ValueUpdated.InvokeAsync(Value); // Chama ValueUpdated aqui
+                }
+            }
+        }
+    }
     
     private async Task UpdateParent(ChangeEventArgs e)
     {

@@ -7,7 +7,7 @@ public class SystemConsistency
     public string Oc { get; set; } = string.Empty;
     public string Farm { get; set; } = string.Empty;
     public string Owner { get; set; } = string.Empty;
-    public Clarify? Clarifier { get; set; }
+    public Clarify? Clarifier { get; set; } = Clarify.Octapol;
     public SugarcaneAnalysis PlantSugarcaneAnalysis { get; set; } = new(); 
     public SugarcaneAnalysis ConsecanaSugarcaneAnalysis { get; set; } = new(); 
     public decimal DifferencePurity { get; set; }
